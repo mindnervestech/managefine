@@ -1,0 +1,6 @@
+@(_pageContext:com.mnt.core.helper.UIModel,_menuContext: dto.MenuBar,user : models.user.User) 
+@main("Welcome to Timesheet") {
+	@menuContext(_menuContext,user)
+	
+	@UIPageGenerator(_pageContext,false)
+}

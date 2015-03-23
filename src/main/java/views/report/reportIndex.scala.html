@@ -1,0 +1,6 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User)
+@main("Welcome to Reports") {
+    @menuContext(_menuContext,user)
+	<h4><b style=" width: 1051px; margin-left: 20px;"><i>Reports</i></b></h4>
+    @searchContext(context,null,"add")
+}

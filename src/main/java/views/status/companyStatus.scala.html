@@ -1,0 +1,58 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User)
+@main("Welcome to Time") {
+    @menuContext(_menuContext,user)
+    <h4 class="container"><b><i>Company Status</i></b></h4>
+    @searchContext(context,null,"add")
+}
+<script type="text/javascript">
+ $(document).ready(function(){
+	 
+	
+	$("#CompanyaddcompanyApproveButton").show();
+	$("#CompanyaddcompanyDisapproveButton").show();
+	
+		$("#Companyaddstatus").change(function(){
+			if($("#Companyaddstatus :selected").val() =='Approved'){
+				$("#CompanyaddcompanyDisapproveButton").show();
+				$("#CompanyaddcompanyApproveButton").hide();
+			}
+			if($("#Companyaddstatus :selected").val() =='Disapproved'){
+				$("#CompanyaddcompanyApproveButton").show();
+				$("#CompanyaddcompanyDisapproveButton").hide();
+			}	
+			if($("#Companyaddstatus :selected").val() =='PendingApproval'){
+				$("#CompanyaddcompanyApproveButton").show();
+				$("#CompanyaddcompanyDisapproveButton").show();
+			}	
+		});
+ });
+ 
+ function Companyadd_gridAction_isToBeHidden(_action){
+	 if(_action == 'Cross' && $("#Companyaddstatus :selected").val() == 'Approved'){
+		return false; 
+	 }
+	 
+	if(_action == 'Tick' && $("#Companyaddstatus :selected").val() == 'Disapproved'){
+		return false; 
+	 }
+	if($("#Companyaddstatus :selected").val() == 'PendingApproval'){
+		return false; 
+	 }
+	 return true;
+ }
+ 
+ function Company_confimationDialog(_url)
+ {
+	 if(_url == '/companyStatusApprove'){
+		 return true;
+	 }
+	 
+	 if(_url == '/companyStatusDisapprove'){
+		 return true;
+	 }
+	 return false;
+	
+ }
+ </script>
+ 
+ 

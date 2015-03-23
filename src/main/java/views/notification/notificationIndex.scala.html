@@ -1,0 +1,45 @@
+@(_menuContext: dto.MenuBar,user : models.user.User , notifyForm : Form[org.codehaus.jackson.JsonNode])
+@import helper._
+@import helper.twitterBootstrap._ 
+
+
+
+@main("Welcome to Timesheet Notification Setting") {
+
+
+@menuContext(_menuContext,user)
+  <h3><b><i>TimeSheet Notification</i></b></h3>
+  		@helper.form(routes.Notifications.save, 'id -> "notificationSettings") {
+			@for(_node<-notifyForm.get.iterator){
+			<div class="container">
+				<div class="row-fluid">
+				<div class="span2">
+					<input type="checkbox" name="d[]" @(_node.get("f").getTextValue) class="input-medium"> @_node.get("d").getTextValue
+				</div>
+				
+				@if(!_node.get("f").getTextValue.equals("checked")){
+					<div class="span1 ">
+						<input type="number" name="h[]" min="0" max="23" style="height:23px;width:50px" placeholder="hr" maxlength="2">
+					</div>
+					<div class="span2 ">
+						<input type="number" name="m[]" min="0" max="59" style="height:23px;width:50px" placeholder="min" maxlength="2">
+					</div>
+				}else{
+					<div class="span1">
+						<input type="number" name="h[]" min="0" max="23" value='@(_node.get("h").getIntValue)' placeholder="hr" maxlength="2" style="height:23px;width:50px">
+					</div>
+					<div class="span2">
+						<input type="number" name="m[]" min="0" max="59" value='@(_node.get("m").getIntValue)' placeholder="min" maxlength="2" style="height:23px;;width:50px"">
+					</div>
+				}
+				<div class="span7"></div>
+			</div>	
+			</div>	
+			}
+			
+			<input type="submit" name="Submit" class="btn">
+		}  	
+					
+ }
+  
+  

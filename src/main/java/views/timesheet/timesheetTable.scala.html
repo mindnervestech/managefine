@@ -1,0 +1,206 @@
+@(user : models.user.User, timesheetForm : Form[models.timesheet.Timesheet], projectsList : List[String]) 
+
+@import helper._
+@import helper.twitterBootstrap._ 
+
+@timesheetRowDetails(field: Field, className: String="timesheetRow")={
+	<div class="twipsies well @className">
+		<div class="innerInputDiv">
+			<div class="innerChainSelect">
+				@select(
+					field("projectCode"),
+					options(projectsList),
+					args = '_label -> "",
+					'class -> "largeInput largeInputFirst required",
+					'_default -> "-select-" 
+				)
+				
+				@if(timesheetForm != null && field("projectCode").value.toString != "None"){
+					@select(
+						field("taskCode"),
+						options(controllers.Timesheets.getTaskByProject(user.id,field("projectCode").value.get)),
+						args = '_label -> "", 
+						'class -> "largeInput  taskInput",
+						'_default -> "-select-" 
+					)
+				}else{
+					@select(
+						field("taskCode"),
+						options(),
+						args = '_label -> "", 
+						'class -> "largeInput taskInput",
+						'_default -> "-select-"
+					)
+				}
+			</div>
+			
+		</div>
+		
+		<div class="innerHrsDiv">
+			 
+			@inputText(
+				field("mon"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("tue"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("wed"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("thu"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("fri"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("sat"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+			
+			@inputText(
+				field("sun"),
+				args = '_label -> "",
+				'placeholder -> "0:00",
+				'class -> "smallInput"
+			)
+		</div>
+		<div class="totalHrsDiv">
+		@inputText(
+				field("totalHrs"),
+				'_label -> "",
+				'placeholder -> "",
+				'class -> "smallInput totalHRSInput readonlycls"
+			)
+		</div>	
+		@checkbox(   
+				field("overTime"),
+				'_label -> "",
+				'class -> "checkBox checkBoxInput"
+			)
+		<a class="remove btn danger pull-right" id="remove">X</a>
+	</div>
+}
+
+<script src="@routes.Assets.at("javascripts/jquery.chainedSelects.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("customScripts/timesheetRow.js")" type="text/javascript"></script>
+
+<div id="timeSheetTable">
+	
+	<div class="worksheetHeader">
+		<h5>Work/Absence Hours Reporting</h5>
+		<div id="statusInfo">
+			<h6>With :</h6>
+			<label style="margin: 4px 10px 0 0; padding:4px 0; float:left;">${timesheetForm.model.timesheetWith.firstName} @timesheetForm("timesheetWith.lastName").value</label>
+			<label style="margin: 4px 0px 0 0; padding:4px 0; float:left;">/</label>
+			<h6>Status :</h6>
+			<label style="margin: 4px 0; padding:4px 0; float:left;" id="outputStatus"></label>
+			<p>
+			@select(
+					timesheetForm("status"),
+					options(controllers.Timesheets.getTimesheetStatus()),
+					args = '_label -> "", 
+					'class -> "mediumInput hidden inputStatus"
+				)	
+			</p>
+		</div>
+	</div>
+	
+	<div class="reportingTable">
+		<div class="tableCss">
+			<div class="innerLabelDiv">
+				<div class="largeInputLabel largeInputLabel_First clearfix">Project Codes</div>
+				<div class="largeInputLabel clearfix">Task Codes</div>
+			</div>
+			<div class="innerDaysDiv">
+				<div class="smallInputLabel clearfix">
+					M<br>
+					<span id="dayLabel_0"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					T<br>
+					<span id="dayLabel_1"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					W<br>
+					<span id="dayLabel_2"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					Th<br>
+					<span id="dayLabel_3"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					F<br>
+					<span id="dayLabel_4"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					S<br>
+					<span id="dayLabel_5"></span>
+				</div>
+				<div class="smallInputLabel clearfix">
+					S<br>
+					<span id="dayLabel_6"></span>
+				</div>
+				<div class="smallInputLabel totalHRSLabel clearfix">T</div>
+				<div class="smallInputLabel clearfix">Overtime</div>
+				<a class="btn" id="addMore" style="margin-left: 18px; float: right;"><b>+</b></a>
+			</div>
+		</div>
+		
+		@repeat(timesheetForm("timesheetRows"), min = 1){timesheetRow =>
+			@timesheetRowDetails(timesheetRow)
+		}
+					
+		@timesheetRowDetails(
+			timesheetForm("timesheetRows[x]"),
+			className = "timesheetRow_template"
+		)	
+	</div>
+	
+	<div class="actions">
+		<input type="button" id="copyFromLastWeek" class="btn btn-warning" Value="Copy from last week">
+		<input type="button" id="saveTimesheetForm" class="btn btn-warning"  value="Save">
+		<input type="button" id="submitTimesheetForm" class="btn btn-warning" value="Submit">
+		<input type="button" id="retractTimesheetForm" class="btn btn-warning" value="Retract">
+		<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning" Value="Cancel">
+	</div>
+		
+		@if(timesheetForm != null){
+			@inputText(
+				timesheetForm("id"),
+				args = '_label -> "",
+				'type -> "hidden",
+				'class -> "TIMEID"
+			)
+		}	
+	
+		@select(
+			timesheetForm("status"),
+			options(controllers.Timesheets.getTimesheetStatus()),
+			args = '_label -> "", 
+			'class -> "mediumInput hidden inputStatus",
+			'type -> "hidden"
+		)	
+</div>

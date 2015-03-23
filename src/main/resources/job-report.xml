@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.2.xsd
+	">
+
+	<context:component-scan base-package="com.mnt.time" />
+
+	
+
+	<bean id="runScheduler" class="com.mnt.time.controller.RunScheduler" />
+
+	<!-- Run every 5 seconds -->
+	<task:scheduled-tasks>
+		<!-- <task:scheduled ref="runScheduler" method="run" fixed-delay="5000" 
+			/> -->
+		<task:scheduled ref="runScheduler" method="run"
+			cron="*/5 * * * * *" />
+			<!-- "* * 1 1 * 1 2014" -->
+	</task:scheduled-tasks>
+
+<!-- Run every 10 seconds -->
+	<task:scheduled-tasks>
+		<!-- <task:scheduled ref="runScheduler" method="run" fixed-delay="5000" 
+			/> -->
+		<task:scheduled ref="runScheduler" method="run1"
+			cron="*/10 * * * * *" />
+			<!-- "* * 1 1 * 1 2014" -->
+	</task:scheduled-tasks>
+</beans>

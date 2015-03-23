@@ -1,0 +1,74 @@
+@(menuContext: dto.MenuBar,user: models.user.User)
+<div class="tabbable container">
+<ul class="nav nav-tabs" style="background:#5c5c5c;">
+	@for(items<-menuContext.items){
+		
+		 @if(items.isSubMenu()){
+		  	
+		  		@if(items.name == "Logout"){
+		  		<li style="float:right;">
+		 			 <a href="@routes.Application.index" style="padding-top: 8px; float:left;"> @user.firstName |</a>
+		 			 <a style="float:left;" href='@items.url'>@items.name</a>
+		 		</li>
+		 		}else{
+		 		<li>
+		 			<a href='@items.url'>@items.name</a>
+		 		</li>
+		 		}
+		 	
+		 }else{
+		 	<li class="dropdown">
+		 		@if(items.name == "Action Items"){
+		 			@if(controllers.Application.count != 0){
+		 			<div class="noti_bubble">@controllers.Application.count</div>
+		 			}
+		 		}	
+		 			<a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">@items.name <b class="caret"></b></a>
+		 			<ul class="dropdown-menu">
+                  	@for(subMenu<-items.subMenu){
+                 	 <li><a href='@subMenu.url' >@subMenu.name</a></li>
+                 	 }
+                </ul>
+		 	</li>
+		 }
+		 
+	}
+</ul>
+<div class="tab-content">
+	<div class="tab-pane active" id="tab-panel-holder-contents">
+		
+	</div>
+</div>
+</div>
+
+<script>
+	function loadTabContent(_url){
+		$.post(_url,'',function(data){
+			$('#tab-panel-holder-contents').empty();
+			$('#tab-panel-holder-contents').html(data);			
+		});
+	}
+	
+	$('ul.nav li.dropdown').hover(function() {
+		  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(5);
+		}, function() {
+		  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(5);
+		});
+
+</script>
+
+<style>
+.noti_bubble {
+    position:absolute;
+    top: -18px;
+    right:14px;
+    padding:4px 8px 2px 8px;
+    background-color:orange;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    
+    border-radius:30px;
+    box-shadow:1px 1px 1px gray;
+}
+</style>

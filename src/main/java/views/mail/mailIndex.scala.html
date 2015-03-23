@@ -1,0 +1,82 @@
+@(_menuContext: dto.MenuBar,user : models.user.User, mailForm : Form[models.mail.MailSetting])
+@import helper._
+@import helper.twitterBootstrap._ 
+	
+
+<style>
+	.mailDiv{
+		width: 25%;
+		float: left;
+		padding: 20px 40px;
+		margin-top :5%;
+	}
+	
+	.mailDiv input
+	{
+		padding: 5% !important;
+		margin-bottom : 10% !important;
+	}
+</style>
+
+
+@main("Welcome to Mail Setting") {
+@menuContext(_menuContext,user)
+  <h3><b><i>Mail Settings</i></b></h3>
+		@helper.form(routes.Mail.settingSave, 'id -> "emailSettings") {
+				<div class="mailDiv">
+							@inputText(
+								mailForm("hostName"),
+								args = '_label -> "Host Name",
+								'id -> "hostName",
+								'placeholder -> "Host Name",
+								'required -> true
+							)
+							@inputText(
+								mailForm("portNumber"),
+								args = '_label -> "Port Number",
+								'id -> "portNumber",
+								'placeholder -> "Port Number",
+								'required -> true
+							)
+				</div>
+				
+				<div class="mailDiv">	
+							@inputText(
+								mailForm("userName"),
+								args = '_label -> "User Name",
+								'id -> "userName",
+								'placeholder -> "User Name",
+								'type -> "email",
+								'required -> true
+							)
+							@inputText(
+								mailForm("password"),
+								args = '_label -> "Password",
+								'id -> "password",
+								'placeholder -> "Password",
+								'type -> "password",
+								'required -> true
+							)
+				</div>
+				
+				<div class="mailDiv">	
+							@checkbox(
+								mailForm("sslPort"),
+								args = '_label -> "SSL",
+								'id -> "ssl",
+								'placeholder -> "SSL"
+							)
+							@checkbox(
+								mailForm("tlsPort"),
+								args = '_label -> "TLS",
+								'id -> "tls",
+								'placeholder -> "TLS"
+							)
+				</div>
+				<div style="margin-right: 27%;">
+					<button type="submit" id="updateButton" style="margin-left: 5%;" class="btn btn-success">Submit</button>
+					<a href="@routes.Application.index" style="margin-left: 1.5%;" class="btn btn-info">Back</a>
+					
+				</div>
+		}
+}

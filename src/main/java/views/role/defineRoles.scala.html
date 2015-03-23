@@ -1,0 +1,125 @@
+@(_menuContext: dto.MenuBar,user : models.user.User, rolexForm : Form[models.role.RoleX])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@roleGroup(field: Field, className: String = "roleLevel") = {
+    <div class="twipsies well @className">
+        
+        @select(
+			field("role_level"),
+			options(controllers.Roles.getRoleLevels()),
+			args = '_label -> "Role Level",
+			'class -> "roleDivs"
+		)
+		
+		@inputText(
+			field("role_name"),
+			args = '_label -> "Role Name",
+			'placeholder -> "Role Name",
+			'class -> "roleDivs roleDivsInput"
+		)
+		
+		<a class="removeRole btn danger pull-right">Remove</a>
+		
+		@select(
+			field("reporting_to"),
+			options(controllers.Roles.getAllRoles()),
+			args = '_label -> "",
+			'class -> "roleDivs hidden"
+		)
+		
+		@select(
+			field("final_approval"),
+			options(controllers.Roles.getAllRoles()),
+			args = '_label -> "",
+			'class -> "roleDivs hidden"
+		)
+		
+		@inputText(
+			field("permissions"),
+			args = '_label -> "",
+			'type -> "hidden" 
+		)
+		
+		@inputText(
+			field("id"),
+			args = '_label -> "",
+			'type -> "hidden"
+		)
+		
+    </div>
+}
+
+
+@main("Define Roles") {
+
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/customRoleX.css")">
+	<script src="@routes.Assets.at("customScripts/roleScript.js")" type="text/javascript"></script>
+
+    @menuContext(_menuContext,user)
+    <h4><b style=" width: 1051px; margin-left: 20px;"><i>Define Roles</i></b></h4>
+    
+    @helper.form(action = routes.Roles.saveRole(), 'id -> "form") {
+        
+        <fieldset>
+            <div id="rolex">
+            
+            	@if(rolexForm != null){
+					@inputText(
+						rolexForm("id"),
+						args = '_label -> "",
+						'type -> "hidden"
+					)
+				}
+            
+                @repeat(rolexForm("roleLevels")) { roleLevel =>
+                    @roleGroup(roleLevel)
+                }
+                
+                @roleGroup(
+                    rolexForm("roleLevels[x]"),
+                    className = "roleLevel_template"
+                )
+                
+            </div>
+        </fieldset>
+        
+        <div class="actions buttonPosition">
+        	<a class="addMore btn btn-success">Add More</a>
+            <input type="button" class="btn btn-info" id="submitButton" value="Submit" style="width: 9%;">
+        </div>
+        
+    }
+    
+}
+
+<script>
+$(document).ready(function(){
+
+	$("#submitButton").click(function(){
+		$('.roleLevel_template').remove()
+		$.ajax({
+			type: "POST",
+			data : $("#form").serialize(),
+			url: "/saveRole",
+			success: function(data){
+				$.pnotify({
+					history:false,
+			        text: data
+			    });
+			}
+		});
+	});
+});
+
+
+</script>
+
+<style>
+.buttonPosition
+{
+margin-left: 18%;
+margin-top: 1%;
+}
+</style>

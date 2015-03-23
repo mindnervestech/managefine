@@ -1,0 +1,175 @@
+@(fieldType:com.mnt.core.ui.component.FieldType,_namespace:String,_fieldClass:String)
+@fieldType.ctype.name match{
+		     		case "INPUT" => {
+		     			@if(!fieldType.hidden){
+		     			@if(!fieldType.autocomplete && !fieldType.multiselect){
+		     			 <div class="control-group" >
+				     			<label class="control-label" for="selectbasic">@fieldType.label
+				     				@if(fieldType.validation !=null && fieldType.validation.required){
+										  	<sup style="color: red"> *</sup>
+									  }
+								</label>
+								<div class="controls">
+									  @if(fieldType.validation !=null && fieldType.validation.required){
+									  	<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' required  type="text" rel="popover" >
+									  }else{
+									    <input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' type="text">
+									  }
+								</div>	  
+							}else{
+								<div class="control-group" >
+				     			<label class="control-label" for="selectbasic">@fieldType.label
+				     				@if(fieldType.validation !=null && fieldType.validation.required){
+										  	<sup style="color: red"> *</sup>
+									  }
+								</label>
+								<div class="controls">
+									  @if(fieldType.validation !=null && fieldType.validation.required){
+									  	<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' required  type="text" rel="popover" >
+									  }else{
+									    <input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' type="text">
+									  }
+									   <input id='@(_namespace + fieldType.name +"_hidden")' value='@(fieldType.value.id)' name='@(fieldType.name + "_id")'  type="hidden">
+								</div>
+								
+								<script>
+											$('#@(_namespace + fieldType.name)').select2({
+												placeholder: "Search",
+												minimumInputLength: 2,
+												multiple:@fieldType.multiselect,
+											    ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+											        url: "/findDelegatedTo",
+											        dataType: 'json',
+											        data: function (term, page) {
+											            return {
+											                query: term, // search term
+											                page_limit: 10
+											            };
+											        },
+											        results: function (data, page) { // parse the results into the format expected by Select2.
+											            // since we are using custom formatting functions we do not need to alter remote JSON data
+											            return {results: data.results};
+											        }
+											    },
+											    formatResult: function(exercise) { 
+											        return "<div class='select2-user-result'>" + exercise._1 + "</div>"; 
+											    },
+											    formatSelection: function(result) { 
+											    	return result._1; 
+											    },
+											    initSelection: function(element, callback) {
+											    	var _id=$(element).val();
+											    	var data = [];
+											    	@if(fieldType.multiselect){
+											    		@if(fieldType.value.li!=null){
+											    			@for(mo<-fieldType.value.li){
+											    				data.push({id: @mo.id, _1:'@mo.o' });	
+											    			}
+											    		}
+											    	}else{
+											    		 data = {_1:_id,id:$('#@(_namespace + fieldType.name)').val()};
+											    	}
+											    	callback(data);
+											    }
+											}).on('change',function(ev){
+												$('#'+'@(_namespace + fieldType.name )').val(ev.val);
+											});
+											
+											</script>							
+							}
+				     	}else{
+							<input id="@(_namespace + fieldType.name)" value='@(fieldType.value.o)' name='@(fieldType.name + "_hidden")' type="hidden">
+						}
+						</div>
+			     	}
+			     	case "CHECKBOX" => {
+		     			@if(!fieldType.hidden){
+		     			 <div class="control-group" >
+				     			<label class="control-label" for="selectbasic">@fieldType.label
+				     				@if(fieldType.validation !=null && fieldType.validation.required){
+										  	<sup style="color: red"> *</sup>
+									  }
+								</label>
+								<div class="controls">
+									  @if(fieldType.validation !=null && fieldType.validation.required){
+									  	@if(fieldType.value.o == true){
+									  		<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' required  type="checkbox" checked="checked" rel="popover" >
+									  	}else{
+									  		<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' required  type="checkbox" rel="popover" >
+									  	}
+									  }else{
+									  	@if(fieldType.value.o == true){
+									  		<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' type="checkbox" checked="checked">
+									  	}else{
+									  		<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib class='@_fieldClass' type="checkbox">
+									  	}
+									  }
+								</div>	  
+				     	}else{
+							<input id="@(_namespace + fieldType.name)" name='@(fieldType.name + "_hidden")' type="hidden">
+						}
+						</div>
+			     	}
+			     	case "SEARCH" => {
+			     		<div class="control-group" >
+			     			<label class="control-label" for="selectbasic">@fieldType.label
+				     				@if(fieldType.validation !=null && fieldType.validation.required){
+										  	<sup style="color: red"> *</sup>
+									  }
+									  <img id='@(_namespace + fieldType.name +"_browse")' alt="" src="@routes.Assets.at("images/browse.jpg")" >
+							</label>
+							<div class="controls">
+									  @if(fieldType.validation !=null && fieldType.validation.required){
+									  	<input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib readonly class='@_fieldClass' required  type="text" rel="popover" >
+									  }else{
+									    <input id="@(_namespace + fieldType.name)" name="@fieldType.name" value='@(fieldType.value.o)' @fieldType.htmlAttrib readonly class='@_fieldClass' type="text">
+									  }
+									  <input type="hidden" id='@(_namespace + fieldType.name +"_hidden")' name='@(fieldType.name + "_id")' value='@(fieldType.value.o)' >
+							</div>
+			     		</div>
+	
+			     		<script>
+			     			$('#@(_namespace + fieldType.name +"_browse")').click(function(){
+			     				var _url = '@((fieldType.value.o.asInstanceOf[com.mnt.core.helper.SearchUI]).triggerUrl)';
+			     				_url = _url + "?id=" + "@(_namespace + fieldType.name)" + "_hidden&name=" + "@(_namespace + fieldType.name)";
+			     				win = window.open(_url,'Search', 'width=940, height=600');
+			     				
+			     			});
+						</script>
+			     	}
+			     	case "SELECT_OPTION" => {
+		     			  <div class="control-group" >
+							  <label class="control-label" for="selectbasic">@fieldType.label</label>
+							  <div class="controls">
+							    <select id="@(_namespace + fieldType.name)" name="@fieldType.name" class='@_fieldClass'>
+								    @for(option<-fieldType.options){
+								    	<option value='@option'>@option.getName</option>
+								    }	
+							      
+							    </select>
+							  </div>
+						</div>
+						
+					}
+			
+					case "DATE" => {
+							<div class="control-group">
+						  	<label class="control-label" for="selectbasic">@fieldType.label
+						  	 @if(fieldType.validation !=null && fieldType.validation.required){
+									  	<sup style="color: red"> *</sup>
+							 }
+							</label>
+						  
+							<div id="@(fieldType.name)" data-provide="datepicker" class='input-append date datepicker' data-date="" data-date-format="dd-mm-yyyy">
+											<span class="add-on"><i class="icon-calendar"></i></span>
+											@if(fieldType.value.dt!=null){
+												<input size="16" type="text" value='@(fieldType.value.dt.format("dd-MM-yyyy"))' readonly name="@(fieldType.name)" class='@_fieldClass'>
+											}else{
+												<input size="16" type="text" value='' name='@(fieldType.name)' readonly class="add-on">
+											}
+							</div>
+						</div>
+					}
+			
+	     		}
+	     		

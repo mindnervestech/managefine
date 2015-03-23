@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">  
+<tiles-definitions>  
+    <definition name="base.definition" template="/WEB-INF/jsp/Layout.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/jsp/Header.jsp" />
+        <put-attribute name="coreController" value="/WEB-INF/jsp/coreController.jsp" />  
+        <put-attribute name="menu" value="/WEB-INF/jsp/Menu.jsp" />  
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/jsp/Footer.jsp" />  
+    </definition>  
+  
+    <definition name="hello" extends="base.definition">  
+        <put-attribute name="title"  
+            value="Being Java Guys | Tiles Integration" />  
+        <put-attribute name="body" value="/WEB-INF/jsp/Hello.jsp" />  
+    </definition>  
+    
+      	<definition name="login/login" template="/WEB-INF/jsp/login/login.jsp">
+  	</definition>
+  	 
+  	<!--  <definition name="login/login" extends="base.definition">
+    	<put-attribute name="title" value="Login" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/login/login.jsp" />
+  	</definition> 
+  	 -->
+  	<definition name="login/registration" template="/WEB-INF/jsp/login/registration.jsp">
+  	</definition>
+  	
+  	<definition name="login/setPassword" template="/WEB-INF/jsp/login/setPassword.jsp">
+  	</definition>
+  	
+  	<definition name="forgotpassword/emailvalidate" template="/WEB-INF/jsp/forgotpassword/emailvalidate.jsp">
+  	</definition>
+  	
+  	<definition name="forgotpassword/displaypassword" template="/WEB-INF/jsp/forgotpassword/displaypassword.jsp">
+  	</definition>
+  	
+  	<definition name="company/companyRegister" template="/WEB-INF/jsp/company/companyRegister.jsp">
+  	</definition>
+
+  	<definition name="viewUserDetails" template="/WEB-INF/jsp/viewUserDetails.jsp">
+  	</definition>
+  	
+  	<definition name="viewUsageByHrs" template="/WEB-INF/jsp/viewUsageByHrs.jsp">
+  	</definition>
+  	
+  	<definition name="index" extends="base.definition">
+    	<put-attribute name="title" value="Dashboard" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/index.jsp" />
+  	</definition>  
+  	
+  	<definition name="home" extends="base.definition">
+    	<put-attribute name="title" value="Dashboard" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/home.jsp" />
+  	</definition>  
+  	
+    <definition name="clientIndex" extends="base.definition">
+    	<put-attribute name="title" value="Manage Clients" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/clientIndex.jsp" />
+  	</definition>  
+
+  	<definition name="userIndex" extends="base.definition">
+    	<put-attribute name="title" value="Manage Users" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/userIndex.jsp" />
+  	</definition>  
+
+	<definition name="projectIndex" extends="base.definition">
+    	<put-attribute name="title" value="Manage Projects" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/projectIndex.jsp" />
+  	</definition>  
+
+	<definition name="taskIndex" extends="base.definition">
+    	<put-attribute name="title" value="Manage Tasks" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/taskIndex.jsp" />
+  	</definition> 
+  	
+  	<definition name="mainPermission" extends="base.definition">
+    	<put-attribute name="title" value="Manage User Permissions" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/mainPermission.jsp" />
+  	</definition> 
+  	
+  	<definition name="roleMainPermission" extends="base.definition">
+    	<put-attribute name="title" value="Manage Role Permissions" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/roleMainPermission.jsp" />
+  	</definition> 
+  	
+  	<definition name="userStatus" extends="base.definition">
+    	<put-attribute name="title" value="Manage User Status" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/userStatus.jsp" />
+  	</definition> 
+  	
+  	<definition name="companyStatus" extends="base.definition">
+    	<put-attribute name="title" value="Company Status" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/companyStatus.jsp" />
+  	</definition>
+  	
+  	<definition name="defineRoles" extends="base.definition">
+    	<put-attribute name="title" value="Define Roles" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/defineRoles.jsp" />
+  	</definition>
+  	
+  	<definition name="defineDepartments" extends="base.definition">
+    	<put-attribute name="title" value="Define Department" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/defineDepartments.jsp" />
+  	</definition> 
+
+ 	<definition name="defineLeaves" extends="base.definition">
+    	<put-attribute name="title" value="Define Leaves" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/defineLeaves.jsp" />
+  	</definition> 
+
+	<definition name="leaveSettings" extends="base.definition">
+    	<put-attribute name="title" value="Leaves Settings" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/leaveSettings.jsp" />
+  	</definition>
+
+  	<definition name="defineRoleHierarchy" extends="base.definition">
+    	<put-attribute name="title" value="Define Roles" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/defineRoleHierarchy.jsp" />
+  	</definition> 
+  	
+  	<definition name="timesheetIndex" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/timesheetIndex.jsp" />
+  	</definition> 
+  	
+  	<definition name="searchTimesheet" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/searchTimesheet.jsp" />
+  	</definition> 
+
+  	<definition name="timesheetsBucket" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/timesheetsBucket.jsp" />
+  	</definition> 
+  	
+ 	<definition name="reportIndex" extends="base.definition">
+    	<put-attribute name="title" value="Report" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/reportIndex.jsp" />
+  	</definition> 
+  	   	<definition name="mailIndex" extends="base.definition">
+    	<put-attribute name="title" value="Mail Settings" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/mailIndex.jsp" />
+  	</definition>
+
+  	<definition name="leaveIndex" extends="base.definition">
+    	<put-attribute name="title" value="My Leaves" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/leaveIndex.jsp" />
+  	</definition>
+
+  	<definition name="leaveBucket" extends="base.definition">
+    	<put-attribute name="title" value="Leaves Request" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/leaveBucket.jsp" />
+  	</definition>
+  	
+  	<definition name="feedbackIndex" extends="base.definition">
+    	<put-attribute name="title" value="Create Feedbacks" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/feedbackIndex.jsp" />
+  	</definition>
+  	
+  	
+  	<definition name="delegateIndex" extends="base.definition">
+    	<put-attribute name="title" value="Delegate TO" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/delegateIndex.jsp" />
+  	</definition>
+
+  	<definition name="notificationIndex" extends="base.definition">
+    	<put-attribute name="title" value="TimeSheet Notification" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/notificationIndex.jsp" />
+  	</definition>
+  	
+ 	<definition name="timesheetTable" template="/WEB-INF/jsp/timesheetTable.jsp">
+  	</definition> 
+
+ 	<definition name="viewTimesheet" template="/WEB-INF/jsp/viewTimesheet.jsp">
+  	</definition> 
+
+  	<definition name="editWizard" template="/WEB-INF/jsp/editWizard.jsp">
+  	</definition> 
+
+  	<definition name="createFeedback" template="/WEB-INF/jsp/createFeedback.jsp">
+  	</definition>
+	
+	<definition name="viewFeedback" template="/WEB-INF/jsp/viewFeedback.jsp">
+  	</definition>
+  	
+  	<definition name="orgHierarchy" extends="base.definition">
+    	<put-attribute name="title" value="Organization Hierarchy" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/org-hierarchy.jsp" />
+  	</definition>
+  	<definition name="addOrganization" template="/WEB-INF/jsp/addOrganization.jsp"/> 
+  		<definition name="editOrganization" template="/WEB-INF/jsp/editOrganization.jsp"/> 
+</tiles-definitions>

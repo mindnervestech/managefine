@@ -1,0 +1,98 @@
+package com.mnt.orghierarchy.model;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import play.db.ebean.Model;
+
+@Entity
+public class Organization extends Model {
+
+	@Id
+	private Long id;
+	@Column(length=255)
+	private String organizationName;
+	@Column(length=255)
+	private String organizationType;
+	@Column(length=255)
+	private String organizationLocation;
+	@Column(length=255)
+	private String organizationProfileUrl;
+	private Long companyId;
+	private Long parent;
+	
+	public static Finder<Long,Organization> find = new Finder<Long,Organization>(Long.class,Organization.class);
+	
+	public static Organization getOrganizationById(Long id) {
+		return find.byId(id);
+	}
+	
+	public static List<Organization> getOrganizationsByParentId(Long parentId) {
+		return find.where().eq("parent", parentId).findList();
+	}
+
+	public static List<Organization> getOrganizationsByCompanyId(Long companyId) {
+		return find.where().eq("companyId", companyId).findList();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public String getOrganizationType() {
+		return organizationType;
+	}
+
+	public void setOrganizationType(String organizationType) {
+		this.organizationType = organizationType;
+	}
+
+	public String getOrganizationLocation() {
+		return organizationLocation;
+	}
+
+	public void setOrganizationLocation(String organizationLocation) {
+		this.organizationLocation = organizationLocation;
+	}
+
+	public String getOrganizationProfileUrl() {
+		return organizationProfileUrl;
+	}
+
+	public void setOrganizationProfileUrl(String organizationProfileUrl) {
+		this.organizationProfileUrl = organizationProfileUrl;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	public Long getParent() {
+		return parent;
+	}
+
+	public void setParent(Long parent) {
+		this.parent = parent;
+	}
+	
+	
+}

@@ -1,0 +1,90 @@
+.nav {
+	margin-bottom: 5px !important;
+}
+
+ul, ol {
+	padding: 0px 10px 0 !important;
+}
+
+ul ul, ol ol {
+	padding: 0px 0px 0 !important;
+}
+
+.dropdown-menu > li > a {
+	padding: 7px 15px !important;
+}
+
+input{
+	font-size: 12px !important;
+}
+
+h1{
+	font-size: 24px !important;
+}
+
+h5{
+	font-size: 12px !important;
+}
+
+form{
+	margin-bottom: 15px !important;
+}
+
+.heading{
+	margin-bottom: 10px;
+}
+
+.footer{
+	margin-top: 10px;
+	padding-top: 20px;
+	border-top: 1px solid #d5d5d5;
+	text-align: right;
+}
+
+.well{
+	padding: 10px 19px !important;
+}
+
+.row-fluid {
+	margin-top: 0px !important;
+}
+
+.nav-tabs > li > a {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	line-height: 20px;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+}
+
+.row-fluid {
+	margin-top: 15px;	
+}
+
+.ui-jqgrid .ui-jqgrid-htable th div{
+	height: 20px !important;
+}
+
+.ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+	border-left: 0px solid #fa9f61 !important;
+}
+
+.addDisplayNoneClass{
+	display: none !important;
+}
+
+ .bootbox.modal.fade.in{
+       width: 25% !important;
+       top:30% !important;
+       margin-left: -14% !important;
+}
+
+
+@media all and (max-width: 860px) {
+	
+	.btn, input.search-query{
+		margin-bottom: 10px !important;
+	}
+	
+}

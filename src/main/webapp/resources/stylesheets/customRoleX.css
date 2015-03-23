@@ -1,0 +1,30 @@
+.clearfix {
+	float: left;
+}
+
+.well {
+  	float: left;	
+  	padding: 0 5px 5px;
+  	margin-bottom: 0px;
+  	background: none;
+	border: 0;
+	box-shadow: none;
+	width: 100%;
+}
+
+.pull-right{
+	float: left !important;
+	margin: 25px 0 0;
+}
+
+.roleDivs{
+	float: left;
+}
+
+.roleLevel_template{
+	display: none;	
+}
+
+.hidden{
+	display: none;
+}

@@ -1,0 +1,62 @@
+@(_menuContext: dto.MenuBar,user : models.user.User, timesheetForm : Form[models.timesheet.Timesheet]) 
+
+@import helper._
+@import helper.twitterBootstrap._ 
+	
+@main("Welcome to Timesheet") {
+	
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("customCSS/customTimesheet.css")">
+	<script src="@routes.Assets.at("customScripts/timesheet.js")" type="text/javascript"></script>
+	
+	@menuContext(_menuContext,user)
+	
+	@helper.form(action = routes.Timesheets.create, 'id -> "createTimesheet", 'enctype -> "multipart/form-data") {
+		<div class="tsMainDiv">
+			<div class="timesheetInfoDiv">
+				<div id="empInfo">
+					<!-- <h5 id="selectedWeekRange"></h5> -->
+					<h5>Employee Name : @user.firstName @user.lastName</h5>
+					<h6>Employee ID : @user.employeeId</h6>
+				    <input type="hidden" id="employeeID" value="@user.id">
+				</div>
+				<div id="weekInfo">
+				 	<div class="right_section">
+					 	<!-- <div class="button-toggle">
+						 	<a class="button button-toggle-arrow jump-one-week-back" id="previousWeek" title="Previous Week">
+						 		<span class="ss-icon"><img src="/assets/images/previous_arrow.png" /></span>
+						 	</a>
+						 	<a class="button thisWeekButton" title="This Week" id="thisWeek">This Week</a>
+							<a class="button button-toggle-arrow jump-one-week-forward" id="nextWeek" title="Next Week">				 
+								<span class="ss-icon"><img src="/assets/images/next_arrow.png" /></span>
+						 	</a>
+						</div> -->
+										 
+							<input class="week-picker" type="text" value="" readonly>
+							<!-- <span class="button button-toggle-arrow jump-one-week-back" title="Select Week">
+								<i class="icon-calendar"></i>
+							</span> -->
+							<input type="button" style="display: none;" id="getEmployeeTimesheet" value="Go" class="btn">
+					</div>
+					
+					<input type="button" style="display: none;" value="Go" class="goButton btn">
+					@inputText(
+						timesheetForm("weekOfYear"),
+						args = '_label -> "",
+						'type -> "hidden",
+						'id -> "weekValue"
+					)
+					@inputText(
+						timesheetForm("year"),
+						args = '_label -> "",
+						'type -> "hidden",
+						'id -> "yearValue"
+					)
+					
+				</div>
+			</div>
+			<div class="worksheetDiv">
+						
+			</div>
+		</div>
+	} 
+}

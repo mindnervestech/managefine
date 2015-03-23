@@ -1,0 +1,42 @@
+@main("Welcome to Timesheet") {
+	<div class="container">
+		<div class="heading">
+		
+			
+			@helper.form(routes.Application.finduser){	
+					<br>
+					<br>
+					<br>
+					@if(flash.contains("success")){
+	                <p class="success" style="color:red;">
+	                    @flash.get("success")
+	                </p>
+	            	}
+	            	@if(flash.contains("fail")){
+	                <p class="fail" style="color:red;">
+	                    @flash.get("fail")
+	                </p>
+	            	}
+								<fieldset id="registerHere">
+									<div class="well" style="width: 60%;">
+										<p>
+						                <input type="email" id="inputemail" name="inputemail" placeholder="Email"  >
+						            	</p>
+						            	<p>
+						            	<button  type="submit" class="btn btn-info" >Submit</button>
+						            	<a href="@routes.Application.login" class="btn btn-warning">Back</a>
+						            	</p>
+						            </div>
+						       </fieldset>
+						}
+			</div>
+		</div>
+}
+
+
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
+
+
+</html>
+

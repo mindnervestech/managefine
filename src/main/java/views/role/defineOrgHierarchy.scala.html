@@ -1,0 +1,130 @@
+@(_menuContext: dto.MenuBar,user : models.user.User, rolexForm : Form[models.role.RoleX])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@roleGroup(field: Field, className: String = "roleLevel") = {
+    <div class="twipsies well @className">
+        
+       @inputText(
+			field("role_name"),
+			args = '_label -> "Role Name",
+			'placeholder -> "Role Name",
+			'class -> "roleDivs roleDivsInput readonlycls"
+		)
+		
+		@select(
+			field("reporting_to"),
+			options(controllers.Roles.getAllRoles()),
+			args = '_label -> "Reporting To",
+			'class -> "roleDivs"
+		)
+		
+		@select(
+			field("final_approval"),
+			options(controllers.Roles.getAllRoles()),
+			args = '_label -> "Final Approval To",
+			'class -> "roleDivs"
+		)
+		
+		 @select(
+			field("role_level"),
+			options(controllers.Roles.getRoleLevels()),
+			args = '_label -> "",
+			'class -> "roleDivs hidden"
+		)
+		
+		@inputText(
+			field("id"),
+			args = '_label -> "",
+			'type -> "hidden"
+		)		
+		
+		@inputText(
+			field("permissions"),
+			args = '_label -> "",
+			'type -> "hidden" 
+		)
+    </div>
+}
+
+
+@main("Define Roles") {
+
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/customRoleX.css")">
+	<script src="@routes.Assets.at("customScripts/roleScript.js")" type="text/javascript"></script>
+	
+	<script>
+		$(document).ready(function(){
+			$(".readonlycls").attr("readonly","readonly");
+		});
+	</script>
+    @menuContext(_menuContext,user)
+    <h4><b style=" width: 1051px; margin-left: 20px;"><i>Define Roles</i></b></h4>
+    
+    @helper.form(action = routes.Roles.saveRole, 'id -> "form") {
+        
+        <fieldset>
+            <div id="rolex">
+            
+            	@inputText(
+					rolexForm("id"),
+					args = '_label -> "",
+					'type -> "hidden"
+				)
+				
+				@repeat(rolexForm("roleLevels")) { roleLevel =>
+                    @roleGroup(roleLevel)
+                }
+                
+                @roleGroup(
+                    rolexForm("roleLevels[x]"),
+                    className = "roleLevel_template"
+                )
+                
+            </div>
+        </fieldset>
+        
+        <div class="actions" style="margin-top: 1%;">
+            <input type="button" class="btn btn-info" id="submitButton" value="Submit" style="margin:1% 2%;width: 8%;"">
+        </div>
+        
+    }
+    
+}
+
+<script>
+$(document).ready(function(){
+
+	$("#submitButton").click(function(){
+		if(customValidation()){
+			$('.roleLevel_template').remove()
+			$.ajax({
+				type: "POST",
+				data : $("#form").serialize(),
+				url: "/saveOrg",
+				success: function(data){
+					$.pnotify({
+						history:false,
+				        text: data
+				    });
+				}
+			});
+		}else{
+			bootbox.alert("Please define roles first.");
+		}
+	});
+});
+
+function customValidation(){
+	if($('div.roleLevel').length == 0){
+		return false;	
+	}else if($('div.roleLevel').length == 1 ){
+		if($(".readonlycls").val() == ""){
+			return false;
+		}
+	}
+	return true;
+}
+
+</script>

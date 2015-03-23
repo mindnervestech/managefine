@@ -1,0 +1,200 @@
+@(timesheet: models.timesheet.Timesheet,user : models.user.User)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+<style>
+	#custom-modal-container{
+		width: 1000px !important;
+		left: 30% !important;
+	}
+
+	.formClass{
+		padding: 0 30px;
+	}
+	
+	.timesheetFirstRow{
+		padding: 2% 5% 4%;
+		margin-bottom: 2%;
+	}
+	
+	.timesheetFirstRow p{
+		float: left;
+		margin-right: 8%;
+	}
+	
+	.timesheetSecondRow{
+		margin: 2% 0%;
+		width: 100%;
+	}
+	
+	.timesheetSecondRow td{
+		padding: 1% 2% !important;
+		border-right: 1px solid #d5d5d5;
+		text-align: center; 
+	}
+	
+	.timesheetSecondRow td:LAST-CHILD{
+		border-right: none;
+	}
+	
+	.action{
+		margin: 2% 0;
+		float: right;
+	}
+	
+	.modal-footer{
+		padding: 15px 15px 5px !important;
+		text-align: left;
+		background-color: none !important;
+		margin-top: 15px;
+	}
+	
+	.modal-header .close{
+		margin-right: -25px;
+	}
+</style>
+
+<div class="formClass">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4>Timesheet of @user.firstName @user.lastName</h4>
+	</div>
+
+	<div class="timesheetFirstRow"> 
+		<p style="display:none;"><b>Timesheet ID :</b> <span id="timesheetID">@timesheet.id</span></p> 
+	
+		<p><b>Week Of Year :</b> @timesheet.weekOfYear</p>
+		
+		<p><b>Status :</b> @timesheet.status</p>
+		
+		<p><b>Timesheet With</b> : @timesheet.timesheetWith.firstName @timesheet.timesheetWith.lastName</p>
+	</div>
+
+	<table class="timesheetSecondRow">
+		<thead>
+			<tr>
+				<td style="width:15%">Project Code</td>
+				<td style="width:15%">Task Code</td>
+				<td style="width:10%">Mon</td>
+				<td style="width:10%">Tue</td>
+				<td style="width:10%">Wed</td>
+				<td style="width:10%">Thu</td>
+				<td style="width:10%">Fri</td>
+				<td style="width:10%">Sat</td>
+				<td style="width:10%">Sun</td>
+				<td style="width:10%">Total Hrs</td>
+				<td style="width:10%">is Overtime</td>
+			</tr>
+		</thead>
+		<tbody>
+			@for(row <- timesheet.timesheetRows){
+				<tr>
+					<td>@row.projectCode</td>
+					<td>@row.taskCode</td>
+					<td>
+						@if(row.mon == null){
+							0
+						}else{
+							@row.mon
+						}
+					</td>
+					<td>
+						@if(row.tue == null){
+							0
+						}else{
+							@row.tue
+						}
+					</td>
+					<td>
+						@if(row.wed == null){
+							0
+						}else{
+							@row.wed
+						}
+					</td>
+					<td>
+						@if(row.thu == null){
+							0
+						}else{
+							@row.thu
+						}
+					</td>
+					<td>
+						@if(row.fri == null){
+							0
+						}else{
+							@row.fri
+						}
+					</td>
+					<td>
+						@if(row.sat == null){
+							0
+						}else{
+							@row.sat
+						}
+					</td>
+					<td>
+						@if(row.sun == null){
+							0
+						}else{
+							@row.sun
+						}
+					</td>
+					<td>
+						@if(row.totalHrs == null){
+							0
+						}else{
+							@row.totalHrs
+						}
+					</td>
+					<td>
+						@if(row.overTime == null){
+							No
+						}else{
+							@if(row.overTime == true){
+								Yes
+							}else{
+								No
+							}
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<div class="action">
+		<input class="btn" type="button" id="approveTimeSheet" value="Approve">
+		<input class="btn" type="button" id="rejectTimeSheet" value="Reject">
+	</div>	
+</div>
+
+<script>
+	$("#approveTimeSheet").click(function(){
+		$.get('/timesheet/approveTimesheetsOk', {id: $('#timesheetID').html()}, 
+				function(response) {
+					_dataType = JSON.parse(response);
+					$("#custom-modal-container").modal('hide');
+					$.pnotify({
+						history:false,
+				        text: _dataType.message
+				    });
+					My_TimeSheet_Approval_Bucketadd_SearchGrid.doSearch();
+		});
+	});
+
+	$("#rejectTimeSheet").click(function(){
+		$.get('/timesheet/rejectTimesheetsOk', {id: $('#timesheetID').html()}, 
+				function(response) {
+			_dataType = JSON.parse(response);
+			$("#custom-modal-container").modal('hide');
+			$.pnotify({
+				history:false,
+		        text: _dataType.message
+		    });
+			My_TimeSheet_Approval_Bucketadd_SearchGrid.doSearch();
+		});
+	});
+</script>
+

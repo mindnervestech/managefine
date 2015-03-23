@@ -1,0 +1,62 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User) 
+@main("Welcome to Timesheet") {
+	@menuContext(_menuContext,user)
+	<h4><b style=" width: 1051px; margin-left: 20px;"><i>Timesheets Bucket</i></b></h4>
+	@searchContext(context,null,"add")
+}
+<h5 id="My_TimeSheet_Approval_Bucket_caution" style="display:none;"> WILL YOU LIKE TO CONTINUE AND DISAPPROVE ??</h5>
+
+<script type="text/javascript">
+ 	     
+	function My_TimeSheet_Approval_Bucket_confimationDialog(_url)
+	 {
+		 if(_url == '/timesheet/approveTimesheets'){
+			 return false;
+		 }
+		 
+		 if(_url == '/timesheet/rejectTimesheets'){
+			 return true;
+		 }
+		 return false;
+		
+	 }
+	
+	$(document).ready(function(){
+
+		$("#My_TimeSheet_Approval_BucketaddtimesheetApproveButton").show();
+		$("#My_TimeSheet_Approval_BucketaddtimesheetRejectButton").show();
+		
+		$("#My_TimeSheet_Approval_Bucketaddstatus").change(function(){
+			if($("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() =='Approved'){
+				$("#My_TimeSheet_Approval_BucketaddtimesheetRejectButton").show();
+				$("#My_TimeSheet_Approval_BucketaddtimesheetApproveButton").hide();
+			}
+			if($("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() =='Submitted'){
+				$("#My_TimeSheet_Approval_BucketaddtimesheetApproveButton").show();
+				$("#My_TimeSheet_Approval_BucketaddtimesheetRejectButton").show();
+			}
+			if($("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() =='Rejected'){
+				$("#My_TimeSheet_Approval_BucketaddtimesheetApproveButton").show();
+				$("#My_TimeSheet_Approval_BucketaddtimesheetRejectButton").hide();
+			}	
+		});
+		
+	});
+	
+	function My_TimeSheet_Approval_Bucketadd_gridAction_isToBeHidden(_action){
+		 if(_action == 'Cross' && $("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() == 'Approved'){
+			return false; 
+		 }
+		 
+		if(_action == 'Tick' && $("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() == 'Rejected'){
+			return false; 
+		 }
+		
+		if($("#My_TimeSheet_Approval_Bucketaddstatus :selected").val() == 'Submitted'){
+			return false; 
+		 }
+		
+		 return true;
+	 }
+ 
+ </script>

@@ -1,0 +1,23 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User)
+@main("Leave") {
+    @menuContext(_menuContext,user)
+    <h4><b style=" width: 1051px; margin-left: 20px;"><i>My Leaves</i></b></h4>
+    @searchContext(context,null,"add")
+}
+
+
+<h5 id="Leave_caution" style="display:none;"> WILL YOU LIKE TO CONTINUE AND RETRACT ??</h5>
+
+<script>
+
+	function Leave_confimationDialog(_url)
+	{
+		 if(_url == '/leave/retractLeave'){
+			 return true;
+		 }
+		 return false;
+		
+	}
+	
+</script>
+

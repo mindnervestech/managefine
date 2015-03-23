@@ -1,0 +1,5 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User)
+@main("Feedback") {
+    @menuContext(_menuContext,user)
+    @searchContext(context,null,"add")
+}

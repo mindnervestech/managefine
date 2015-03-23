@@ -1,0 +1,26 @@
+@(_menuContext: dto.MenuBar,user : models.user.User)
+
+@main("User Permissions") {
+
+	<div id="permission_search_accordion">
+	@menuContext(_menuContext,user)
+	<h4 class="heading"><i>Manage User Permissions :</i></h4>
+	<div class="searchContainer">
+		<div id="searchPermission" class="well form-inline" >
+	
+			<table>
+				<tr>
+					<td><input type="text" id="user_first_name" placeholder="First Name" class="input-medium search-query" /></td>
+					<td><input type="text" id="user_last_name" placeholder="Last Name" class="input-medium search-query"/></td>
+					
+					<td><button name="Search" class="btn" id="permission_search" >Search</button></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="permissionSearchResult">
+				@views.html.userPermission.searchPermission()
+		</div>
+	</div>
+	</div>
+}

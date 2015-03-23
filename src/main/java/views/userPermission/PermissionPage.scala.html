@@ -1,0 +1,31 @@
+@(_menuContext: dto.MenuBar,user : models.user.User)
+
+@main("User Permissions") {
+@menuContext(_menuContext,user)
+	<div class="permissionRadio">
+		<input id="user" type="radio" name="somevalue" value="user" checked>User
+		<input id="role" type="radio" name="somevalue" value="role">Role<br>
+	</div>
+	<div id="userPermission">
+		@views.html.userPermission.mainPermission(_menuContext,user)
+	</div>
+
+	<div id="rolePermission" style="display:none;">
+		@views.html.userPermission.roleMainPermission(_menuContext,user)
+	</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() { 
+	$('input[id=user]').change(function(){
+		$("#rolePermission").css("display","none");
+		$("#userPermission").css("display","block");
+	});
+	
+	$('input[id=role]').change(function(){
+		$("#userPermission").css("display","none");
+		$("#rolePermission").css("display","block");
+	});
+});
+</script>
+}

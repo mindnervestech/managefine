@@ -1,0 +1,45 @@
+@(context:com.mnt.core.helper.SearchContext,_menuContext: dto.MenuBar,user : models.user.User, timesheetForm : Form[models.timesheet.Timesheet]) 
+
+@import helper._
+@import helper.twitterBootstrap._ 
+	
+@main("Welcome to Timesheet") {
+	
+	
+	@menuContext(_menuContext,user)
+	
+		<!--<div class="tsMainDiv">
+			<div class="timesheetInfoDiv">
+				<div id="empInfo">
+					<h5>Employee Name : @user.firstName @user.lastName</h5>
+					<h6>Employee ID : @user.employeeId</h6>
+					<input type="hidden" id="employeeID" value="@user.id">
+					<input type="button" id="getEmployeeTimesheet" value="Go" class="btn">
+				</div>
+			</div>
+			<div class="searchDiv">
+				
+			</div>
+		</div> -->
+	 @searchContext(context,null,"add")
+}
+<h5 id="My_TimeSheet_Approval_Bucket_caution" style="display:none;"> WILL YOU LIKE TO CONTINUE AND DISAPPROVE ??</h5>
+<script type="text/javascript">
+ $(document).ready(function(){
+	 $("#Timesheetadd_editButton").show();
+	 $("#Timesheetaddstatus").change(function(){
+			if($("#Timesheetaddstatus :selected").val() =='Approved'){
+				$("#Timesheetadd_editButton").hide();
+			}
+			else
+			if($("#Timesheetaddstatus :selected").val() =='Submitted'){
+				$("#Timesheetadd_editButton").hide();
+			}
+			else
+				$("#Timesheetadd_editButton").show();
+		});
+	 
+	 
+  });
+  
+  </script>
