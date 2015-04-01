@@ -45,6 +45,7 @@ public enum Permissions {
 	DefineRoles(routes.Roles.defineRoles.url,Setting,"Define Roles"),
 	DefineDepartments(routes.Roles.defineDepartment.url,Setting,"Define Department"),
 	DefineLeaves(routes.Leaves.defineLeaves.url,Setting,"Define Leaves"),
+	DefineFlexiAttribute(routes.FlexiAttribute.defineFlexiAttribute.url,Setting,"Define Flexi Attribute"),
 	LeaveSettings(routes.Leaves.leaveSettings.url,Setting,"Leave Settings"),
 	OrgHierarchy(routes.Roles.OrgHierarchy.url,Setting,"Org Hierarchy"),
 	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy");

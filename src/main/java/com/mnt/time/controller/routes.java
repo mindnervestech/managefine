@@ -564,6 +564,14 @@ public interface Notifications {
 	}
 }
 
+public interface FlexiAttribute {
+	
+	public interface defineFlexiAttribute {
+		public static String url="/defineFlexiAttribute";
+	}
+
+}
+
 public interface Roles {
 	public interface defineRoles {
 		public static String url="/defineRoles";

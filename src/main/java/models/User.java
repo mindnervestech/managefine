@@ -51,16 +51,6 @@ public class User extends Model {
 	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
 	
-	
-	@WizardCardUI(name="Flexi Attribute",step=1)
-	@UIFields(order=1,label="flexiAttributes")
-	@OneToMany(cascade=CascadeType.PERSIST)
-	//@JoinTable(name="user_flexi",
-	//		joinColumns=@JoinColumn(name="user_id"))
-	public List<UserFlexi> flexiAttributes;
-	
-	
-	
 	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=1,label="Salutation")
 	@Enumerated(EnumType.STRING)
@@ -134,7 +124,10 @@ public class User extends Model {
 	@Validation(required = true)
 	public static List<DomainEnum> rolex;
 	
-	
+	@WizardCardUI(name="Flexi Attribute",step=3)
+	@UIFields(order=1,label="flexiAttributes")
+	@OneToMany(cascade=CascadeType.PERSIST)
+	public List<UserFlexi> flexiAttributes;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	public Company companyobject;

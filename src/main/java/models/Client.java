@@ -1,11 +1,13 @@
 package models;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
@@ -94,6 +96,11 @@ public class Client extends Model {
 	@SearchColumnOnUI(rank=5,colName="Contact Email")
 	@Validation(required=true,email=true)
 	public String contactEmail;
+	
+	@WizardCardUI(name="Flexi Attribute",step=3)
+	@UIFields(order=1,label="flexiAttributes")
+	@OneToMany(cascade=CascadeType.PERSIST)
+	public List<ClientFlexi> flexiAttributes;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	public Company company;
@@ -211,6 +218,14 @@ public class Client extends Model {
 
 	public String getContactEmail() {
 		return contactEmail;
+	}
+
+	public List<ClientFlexi> getFlexiAttributes() {
+		return flexiAttributes;
+	}
+
+	public void setFlexiAttributes(List<ClientFlexi> flexiAttributes) {
+		this.flexiAttributes = flexiAttributes;
 	}
 
 	public void setContactEmail(String contactEmail) {

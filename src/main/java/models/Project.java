@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import play.data.format.Formats.DateTime;
@@ -101,6 +102,10 @@ public class Project extends Model{
 	@Validation(required=true)
 	public User projectManager;
 	
+	@WizardCardUI(name="Flexi Attribute",step=3)
+	@UIFields(order=1,label="flexiAttributes")
+	@OneToMany(cascade=CascadeType.PERSIST)
+	public List<ProjectFlexi> flexiAttributes;
 	
 	@WizardCardUI(name="Assign Members",step=3)
 	@UIFields(order=1,label=CHOOSE_MEMBERS,multiselect=true)

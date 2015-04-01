@@ -25,6 +25,8 @@ public class FlexiAttribute extends Model{
 	
 	private String type;
 	
+	private Long uniqueid;
+	
 	@Transient
 	private Object value;
 	
@@ -36,6 +38,9 @@ public class FlexiAttribute extends Model{
 		return find.where().eq("model", model.getName()).findList();
 	}
 
+	public static List<FlexiAttribute> getFieldsByUniqueId(Long uniqueid) {
+		return find.where().eq("uniqueid", uniqueid).findList();
+	}
 	
 	public Long getId() {
 		return id;
@@ -96,6 +101,17 @@ public class FlexiAttribute extends Model{
 	}
 	
 	public String getValueAsJson() {
+		if(value == null) return "";
 		return Json.toJson(value).toString();
+	}
+
+
+	public Long getUniqueid() {
+		return uniqueid;
+	}
+
+
+	public void setUniqueid(Long uniqueid) {
+		this.uniqueid = uniqueid;
 	}
 }

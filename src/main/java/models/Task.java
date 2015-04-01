@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -80,6 +81,11 @@ public class Task extends Model {
 	@UIFields(order=1,label=ATTACH_TO_PROJECT,multiselect=true)
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Project> projects;
+	
+	@WizardCardUI(name="Flexi Attribute",step=3)
+	@UIFields(order=1,label="flexiAttributes")
+	@OneToMany(cascade=CascadeType.PERSIST)
+	public List<TaskFlexi> flexiAttributes;
 	
 	@Transient
 	@SearchColumnOnUI(colName="Start Date", rank=3)
@@ -160,6 +166,12 @@ public class Task extends Model {
 	}
 	public void setEndDateGrid(String endDateGrid) {
 		this.endDateGrid = endDateGrid;
+	}
+	public List<TaskFlexi> getFlexiAttributes() {
+		return flexiAttributes;
+	}
+	public void setFlexiAttributes(List<TaskFlexi> flexiAttributes) {
+		this.flexiAttributes = flexiAttributes;
 	}
 	
 	/*@Override
