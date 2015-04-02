@@ -5189,8 +5189,8 @@ primitives.orgdiagram.BaseController.prototype._redraw = function () {
 	this.m_calloutShape = new primitives.common.Callout(this.graphics);
 
 	this._readTemplates();
-
-	this._createCheckBoxTemplate();
+	/* hide checkBox code */
+	 this._createCheckBoxTemplate();
 	this._createButtonsTemplate();
 	this._createGroupTitleTemplate();
 	this._createAnnotationLabelTemplate();
@@ -7498,11 +7498,11 @@ primitives.orgdiagram.BaseController.prototype._onDefaultTemplateRender = functi
 };
 
 primitives.orgdiagram.BaseController.prototype._createCheckBoxTemplate = function () {
-	var template = jQuery('<div></div>');
+	var template = jQuery('<div style="height:0px !important;"></div>');
 	template.addClass("bp-item bp-selectioncheckbox-frame");
 
-	template.append(jQuery('<label><nobr><input type="checkbox" name="checkbox" class="bp-selectioncheckbox" />&nbsp;<span name="selectiontext" class="bp-selectiontext">'
-		+ this.options.selectCheckBoxLabel + '</span></nobr></label>'));
+/*template.append(jQuery('<label><nobr><input type="checkbox" name="checkbox" class="bp-selectioncheckbox" />&nbsp;<span name="selectiontext" class="bp-selectiontext">'
+		+ this.options.selectCheckBoxLabel + '</span></nobr></label>'));*/
 
 	this._checkBoxTemplate = template.wrap('<div>').parent().html();
 	this._checkBoxTemplateHashCode = primitives.common.hashCode(this._checkBoxTemplate);
@@ -7567,7 +7567,7 @@ primitives.orgdiagram.BaseController.prototype._onButtonsTemplateRender = functi
 	        buttons = data.template.buttons != null ? data.template.buttons : this.options.buttons;
 			for (index = 0; index < buttons.length; index += 1) {
 				buttonConfig = buttons[index];
-				button = jQuery('<li data-buttonname="' + buttonConfig.name + '"></li>')
+				button = jQuery('<div data-buttonname="' + buttonConfig.name + '"><span class="ui-button-icon-primary ui-icon ui-icon-person"></span></div>')
 					.css({
 						position: "absolute",
 						top: topOffset + "px",
@@ -7575,8 +7575,9 @@ primitives.orgdiagram.BaseController.prototype._onButtonsTemplateRender = functi
 						width: buttonConfig.size.width + "px",
 						height: buttonConfig.size.height + "px",
 						padding: "3px"
+									
 					})
-					.addClass(this.widgetEventPrefix + "button");
+					.addClass(this.widgetEventPrefix + "button "+"bt-item-frame " + buttonConfig.name  );//.appendClass("bt-item-frame");
 				data.element.append(button);
 				button.button({
 					icons: { primary: buttonConfig.icon },
@@ -15630,7 +15631,7 @@ primitives.orgdiagram.Template.prototype._getDefaultItemTemplate = function () {
 			top: "2px",
 			left: "2px",
 			width: (contentSize.width - 4) + "px",
-			height: "18px"
+			height: "27px"
         }).addClass("bp-item bp-corner-all bp-title-frame");
 
 	itemTemplate.append(titleBackground);
@@ -15647,7 +15648,7 @@ primitives.orgdiagram.Template.prototype._getDefaultItemTemplate = function () {
 
 	photoborder = jQuery("<div></div>")
 		.css({
-			top: "24px",
+			top: "40px",
 			left: "2px",
 			width: "50px",
 			height: "60px"

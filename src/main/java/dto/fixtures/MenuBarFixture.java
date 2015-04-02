@@ -35,10 +35,13 @@ public class MenuBarFixture {
 			map.put("Logout",new MenuItem("Logout","Logout", null, routes.Application.logout.url, null,null));
 		}
 		
+		
 		List<MenuItem> resultMenu = new ArrayList<MenuItem>();
+		map.get("Setting");
 		User user = User.findByEmail(username);
 		List<String> listedPermissions = new ArrayList<String>(Arrays.asList(user.getPermissions().split("[|]")));
 		if(user.getRole() != null) {
+			
 			List<String> rolePermissions = 
 					new ArrayList<String>(Arrays.asList(user.getRole().getPermissions().split("[|]")));
 			for(String rolePerm: rolePermissions) {
@@ -48,6 +51,7 @@ public class MenuBarFixture {
 			}
 		}
 		
+		map.get("Setting");
 		for(MenuItem mi : map.values()){
 			if(!mi.isSubMenu()){
 				List<MenuItem> resultSubMenus = new ArrayList<MenuItem>();

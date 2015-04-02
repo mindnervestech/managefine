@@ -10,6 +10,7 @@ public enum Permissions {
 	ManageClient(routes.Clients.index.url,Manage,"Clients"),
 	ManageProject(routes.Projects.index.url,Manage,"Projects"),
 	ManageTask(routes.Tasks.index.url,Manage,"Tasks"),
+	CreateProject(routes.Projects.createProject.url,Manage,"Create Project"),
 	
 	
 	Leaves("#",null,"Leaves"),
@@ -43,6 +44,7 @@ public enum Permissions {
 	Mail(routes.Mail.index.url,Setting,"Mail Setting"),
 	Notification(routes.Notifications.index.url,Setting,"TimeSheet Notification"),
 	DefineRoles(routes.Roles.defineRoles.url,Setting,"Define Roles"),
+	DefineProjects(routes.Roles.defineProjects.url,Setting,"Define Projects"),
 	DefineDepartments(routes.Roles.defineDepartment.url,Setting,"Define Department"),
 	DefineLeaves(routes.Leaves.defineLeaves.url,Setting,"Define Leaves"),
 	DefineFlexiAttribute(routes.FlexiAttribute.defineFlexiAttribute.url,Setting,"Define Flexi Attribute"),

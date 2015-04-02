@@ -30,6 +30,10 @@ public class Organization extends Model {
 		return find.byId(id);
 	}
 	
+	public static Organization getOrganizationByName(String name) {
+		return find.where().eq("organizationName", name).findUnique();
+	}
+	
 	public static List<Organization> getOrganizationsByParentId(Long parentId) {
 		return find.where().eq("parent", parentId).findList();
 	}

@@ -1,3 +1,31 @@
+
+.add{
+   background-position: center center;
+background-repeat: no-repeat ! important ;
+background-image: url(http://localhost:8080/time/resources/images/icon/add.png) ! important;
+background-size:13px 13px  ! important;
+background-position-y: 3px ! important;
+}
+
+.delete{
+   background-position: center center;
+
+background-image: url(http://localhost:8080/time/resources/images//icon/delete.png) ! important;
+background-size:13px 13px  ! important;
+background-repeat: no-repeat ! important;
+background-position-y: 3px ! important;
+}
+
+.edit{
+   background-position: center center;
+
+background-image: url(http://localhost:8080/time/resources/images//icon/edit.png) ! important;
+background-size:13px 13px  ! important;
+background-repeat: no-repeat ! important;
+background-position-y: 3px ! important;
+
+}
+
 .bp-item {
     position: absolute;
     overflow: hidden;
@@ -33,6 +61,7 @@
     line-height: 16px;
     color: white;
     padding: 0;
+    text-align: center;
 }
 
 .bp-title-frame {
@@ -46,6 +75,7 @@
     border: 1px solid #cccccc;
     background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
     color: #1c94c4;
+    top :40px ! important;
 }
 
 .bp-description {
@@ -79,8 +109,10 @@
 }
 
 .bp-selectioncheckbox-frame {
-    font-size: 12px;
+    font-size: 22px;
     line-height: 14px;
+    height: 0px! important;
+    
 }
 
 .bp-selectioncheckbox {

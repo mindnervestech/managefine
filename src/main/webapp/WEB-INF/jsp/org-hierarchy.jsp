@@ -7,6 +7,7 @@
 </div> -->
 <div ng-app="OrgHierarchyApp" ng-controller="OrgHierarchyController" ng-init='loadData(${data})'>
     <div id="centerpanel"  style="overflow: hidden; padding: 0px; margin: 0px; border: 0px;">
+    
         <div bp-org-diagram data-options="myOptions" data-on-highlight-changed="onMyHighlightChanged()"  data-on-cursor-changed="onMyCursorChanged()" style="width: 100%; height: 600px; border-style: dotted; border-width: 1px;"></div>
     </div>
 </div>

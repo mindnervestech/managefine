@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +33,6 @@ import com.custom.helpers.CustomRoleSearchContext;
 import com.custom.helpers.RoleSave;
 import com.custom.helpers.TaskSearchContext;
 import com.google.common.collect.Sets;
-import com.mnt.time.controller.Department.DepartmentVM;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -96,33 +94,34 @@ public class Roles {
 		return "Not able to show Results, Check Logs";
 	}
 	
-	@RequestMapping(value="/defineRoles " ,method=RequestMethod.GET)		
-	public  String defineRoles(ModelMap model,@CookieValue("username") String username){
-		User user = User.findByEmail(username);
-		RoleX roleX = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
-		Form<RoleX> roleXForm;
-		if(roleX != null){
-			roleXForm = form(RoleX.class).fill(roleX);
-		}else{
-			RoleX object = new RoleX();
-			List<RoleLevel> roleLevels = new ArrayList<RoleLevel>();
-			roleLevels.add(new RoleLevel());
-			object.setRoleLevels(roleLevels);
-			roleXForm = form(RoleX.class).fill(object);
-				
-		}
-		model.addAttribute("user",user);
-		model.addAttribute("_menuContext",MenuBarFixture.build(username));
-		model.addAttribute("rolexForm",roleXForm);
-		model.addAttribute("roleLevels",getRoleLevels());
-		model.addAttribute("levels",getAllRoles(username));
-		return "defineRoles";
-	}
+//	@RequestMapping(value="/defineRoles " ,method=RequestMethod.GET)		
+//	public  String defineRoles(ModelMap model,@CookieValue("username") String username){
+//		User user = User.findByEmail(username);
+//		RoleX roleX = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
+//		Form<RoleX> roleXForm;
+//		if(roleX != null){
+//			roleXForm = form(RoleX.class).fill(roleX);
+//		}else{
+//			RoleX object = new RoleX();
+//			List<RoleLevel> roleLevels = new ArrayList<RoleLevel>();
+//			roleLevels.add(new RoleLevel());
+//			object.setRoleLevels(roleLevels);
+//			roleXForm = form(RoleX.class).fill(object);
+//				
+//		}
+//		model.addAttribute("user",user);
+//		model.addAttribute("_menuContext",MenuBarFixture.build(username));
+//		model.addAttribute("rolexForm",roleXForm);
+//		model.addAttribute("roleLevels",getRoleLevels());
+//		model.addAttribute("levels",getAllRoles(username));
+//		return "defineRoles";
+//	}
 	
 	@RequestMapping(value="/saveRole " ,method=RequestMethod.POST)		
 	public @ResponseBody String saveRole(@CookieValue("username")String username,HttpServletRequest request){
 		User user = User.findByEmail(username);
 		Form<RoleX> roleXForm = form(RoleX.class).bindFromRequest(request);
+		
 		RoleX roleX = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		
 		if(roleX != null){

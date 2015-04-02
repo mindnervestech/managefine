@@ -229,6 +229,16 @@
 
 		<!-- Test -->
 		<dependency>
+			<groupId>crud-ebean</groupId>
+			<artifactId>crud-ebean</artifactId>
+			<version>0.0.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/crud-ebean-0.0.2.jar</systemPath>
+		</dependency>
+		
+
+		<!-- Test -->
+		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>1.8.6</version>

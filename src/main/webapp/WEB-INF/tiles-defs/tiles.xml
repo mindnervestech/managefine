@@ -99,10 +99,30 @@
   	
   	<definition name="defineRoles" extends="base.definition">
     	<put-attribute name="title" value="Define Roles" />
-    	<put-attribute name="content" value="/WEB-INF/jsp/defineRoles.jsp" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/roleHierarchy.jsp" />
   	</definition>
   	
-  	<definition name="defineFlexiAttribute" extends="base.definition">
+  	<definition name="defineProjects" extends="base.definition">
+    	<put-attribute name="title" value="Define Projects" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/project-hierarchy.jsp" />
+  	</definition>
+    
+    <definition name="createProject" extends="base.definition">
+    	<put-attribute name="title" value="Create Projects" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/create-project.jsp" />
+  	</definition>
+  	
+  	<definition name="nodeMetaData" extends="base.definition">
+    	<put-attribute name="title" value="Create Projects" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/nodeMetaData.jsp" />
+  	</definition> 
+  	
+  	<definition name="editNodeMetaData" extends="base.definition">
+    	<put-attribute name="title" value="Create Projects" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/editNodeMetaData.jsp" />
+  	</definition> 
+	
+		<definition name="defineFlexiAttribute" extends="base.definition">
     	<put-attribute name="title" value="Define Fexi Attribute" />
     	<put-attribute name="content" value="/WEB-INF/jsp/defineFlexiAttribute.jsp" />
   	</definition>
@@ -197,5 +217,11 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/org-hierarchy.jsp" />
   	</definition>
   	<definition name="addOrganization" template="/WEB-INF/jsp/addOrganization.jsp"/> 
-  		<definition name="editOrganization" template="/WEB-INF/jsp/editOrganization.jsp"/> 
+  		<definition name="editOrganization" template="/WEB-INF/jsp/editOrganization.jsp"/>
+  		<definition name="addRoleOrganization" template="/WEB-INF/jsp/addRoleOrganization.jsp"/>
+  		<definition name="addProjectType" template="/WEB-INF/jsp/addProjectType.jsp"/> 
+  		<definition name="editRoleOrganization" template="/WEB-INF/jsp/editRoleOrganization.jsp"/>
+  		<definition name="addProjectTypeValue" template="/WEB-INF/jsp/addProjectTypeValue.jsp"/>
+  		<definition name="editProjectTypeValue" template="/WEB-INF/jsp/editProjectTypeValue.jsp"/> 
+  		 
 </tiles-definitions>

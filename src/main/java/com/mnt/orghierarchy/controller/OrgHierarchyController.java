@@ -1,5 +1,7 @@
 package com.mnt.orghierarchy.controller;
 
+import java.util.List;
+
 import models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +43,11 @@ public class OrgHierarchyController {
 		return orgHierarchyService.deleteOrgChild(id);
 	} 
 	
+	@RequestMapping(value="/loadAllData",method=RequestMethod.GET)
+	public @ResponseBody List loadAllData(@CookieValue("username")String username) {
+		return orgHierarchyService.getOrgHierarchy(username);
+	}
+
 	@RequestMapping(value="/addOrganization",method=RequestMethod.GET)
 	public String addOrganization(Model model) {
 		return "addOrganization";
@@ -58,6 +66,12 @@ public class OrgHierarchyController {
 	@RequestMapping(value="/editOrgChild",method=RequestMethod.POST) 
 	public @ResponseBody Long editOrgChild(@RequestParam("file")MultipartFile file,OrganizationVM organizationVM,@CookieValue("username")String username) {
 		return orgHierarchyService.editOrgChild(file, organizationVM,username);
+	}
+	
+	
+	@RequestMapping(value="/editOrgNotImgChild",method=RequestMethod.POST) 
+	public @ResponseBody Long editOrgNotImgChild(@RequestBody OrganizationVM organizationVM) {
+		return orgHierarchyService.editOrgNotImgChild(organizationVM);
 	}
 	
 	@RequestMapping(value="/orgProfile/{id}",method=RequestMethod.GET)

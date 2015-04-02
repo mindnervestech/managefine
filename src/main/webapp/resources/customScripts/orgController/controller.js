@@ -8,6 +8,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
     ];
 
     $scope.loadData = function(data) {
+    	
     	if(data.length>0) {
     		angular.forEach(data,function(value,key) {
     			items.push(new primitives.orgdiagram.ItemConfig({
@@ -52,10 +53,40 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             			if(confirm("Are you sure you want to remove "+data.context.organizationName+"?")) {
             				$http({method:'GET',url:'deleteOrgChild',params:{id:data.context.id}}).success(function(response) {
             					if(response) {
-            						angular.forEach($scope.myOptions.items,function(value,key) {
-            							if(value.id == data.context.id || value.parent == data.context.id) {
+            						/*angular.forEach($scope.myOptions.items,function(value,key) {
+            							if(value.id == data.context.id) { //|| value.parent == data.context.id
             								$scope.myOptions.items.splice(key,1);
             							}
+            						});*/
+            						
+            						$http({method:'GET',url:'loadAllData',params:{id:data.context.id}}).success(function(response) {
+            							console.log("--------------------");
+            							console.log(response);
+            							console.log($scope.myOptions.items);
+            							$scope.myOptions.items = [];
+            							if(response.length>0) {
+            					    		angular.forEach(response,function(value,key) {
+            					    			$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
+            					    				id: value.id,
+            					    				parent: value.parent,
+            					    				organizationName: value.organizationName,
+            					    				organizationLocation: value.organizationLocation,
+            					    				organizationType: value.organizationType,
+            					    				image: "orgProfile/"+value.id,
+            					    				itemTitleColor: primitives.common.Colors.RoyalBlue
+            					    			}));
+            					    		});
+            					    	} else {
+            					    		$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
+            									id: 0,
+            									parent: null,
+            									organizationName: "Root",
+            									organizationLocation: "Pune",
+            									organizationType: "User",
+            									image: "orgProfile/",
+            									itemTitleColor: primitives.common.Colors.RoyalBlue
+            								}));
+            					    	}
             						});
             						console.log($scope.myOptions.items);
             					}
@@ -72,7 +103,12 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             		});
             		break;
             	case "edit":
+            
+            		console.log(data);
             		$scope.currentParentId = data.context.id;
+            		$scope.org.organizationName = data.context.organizationName;
+            		$scope.org.organizationType = data.context.organizationType;
+            		$scope.org.organizationLocation = data.context.organizationLocation;
             		ngDialog.open({
             			template:'editOrganization',
             			scope:$scope,
@@ -91,6 +127,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
     	console.log(file);
     };
     
+    $scope.overWrite = 0;
     $scope.saveOrgChild = function() {
     	
     	$scope.org.parent = $scope.currentParentId;
@@ -105,6 +142,8 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
             console.log(data);
+            if(data != null && data != ""){
+            	$scope.overWrite = 0;
         	$scope.org.id = data;
         	$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
                 id: data,
@@ -116,13 +155,53 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
                 
             }));
         	ngDialog.close();
+            }else{
+            	$scope.overWrite = 1;
+            }
         });
     };
-    
+
+    $scope.orgEdit = [];
     $scope.editOrgChild = function() {
+    	//console.log($scope.org);
     	
     	$scope.org.parent = $scope.currentParentId;
+    	
+    	console.log(file);
     	console.log($scope.org);
+    	if(file == null){
+
+    		$scope.orgEdit.push({
+				id:$scope.org.parent,
+				organizationName:$scope.org.organizationName,
+				organizationType:$scope.org.organizationType,
+				organizationLocation:$scope.org.organizationLocation,
+				parent:$scope.org.parent
+				
+			});
+    		
+    		console.log($scope.orgEdit[0]);  
+    		$http({method:'POST',url:'editOrgNotImgChild',data:$scope.orgEdit[0]}).success(function(response) {
+    			console.log(response);
+    			
+    			/*  if(response != null && response != ""){
+    				  $scope.overWrite = 0;*/
+    			console.log($scope.myOptions.items);
+
+    			angular.forEach($scope.myOptions.items,function(value,key) {
+            		if(response == value.id){
+            			value.organizationName = $scope.org.organizationName;
+            			value.organizationLocation = $scope.org.organizationLocation;
+            			value.organizationType = $scope.org.organizationType;
+          		}
+            	});
+    			 /* }else{
+    				  $scope.overWrite = 1;
+    			  }*/
+    			
+    		});
+    		ngDialog.close();
+    	}else{
     	$upload.upload({
             url: 'editOrgChild',
             data: $scope.org,
@@ -133,46 +212,31 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
             console.log(data);
+            
+           /* if(data != null && data != ""){
+				  $scope.overWrite = 0;*/
         	$scope.org.id = data;
-        	$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
-                id: data,
-                parent: $scope.org.parent,
-                organizationName: $scope.org.organizationName,
-                organizationLocation: $scope.org.organizationLocation,
-                image: "orgProfile/"+data,
-                organizationType:$scope.org.organizaationType
-                
-            }));
-        	ngDialog.close();
-        });
-    };
-    
-    
-    $scope.editOrgChild = function() {
-    	console.log($scope.org);
-    	$scope.org.parent = $scope.currentParentId;
-    	$upload.upload({
-            url: 'editOrgChild',
-            data: $scope.org,
-            file: file,
-            method:'post'
-        }).progress(function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-        }).success(function (data, status, headers, config) {
-            console.log(data);
+        	console.log($scope.myOptions.items);
         	$scope.org.id = data;
-        	$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
-                id: data,
-                parent: $scope.org.parent,
-                organizationName: $scope.org.organizationName,
-                organizationLocation: $scope.org.organizationLocation,
-                image: "orgProfile/"+data,
-                organizationType:$scope.org.organizaationType
-                
-            }));
+        	console.log($scope.org);
+        	angular.forEach($scope.myOptions.items,function(value,key) {
+        		if(data == value.id){
+        			value.organizationName = $scope.org.organizationName;
+        			value.organizationLocation = $scope.org.organizationLocation;
+        			//value.image = "orgProfile/"+data;
+        			value.image = "orgProfile/"+data+"?q="+new Date();
+        			value.organizationType = $scope.org.organizationType;
+        		
+      		}
+        	});
+        	
+        	
         	ngDialog.close();
+         /*   }else{
+            	 $scope.overWrite = 1;
+            }*/
         });
+    	}
     };
     
     $scope.setCursorItem = function (item) {
@@ -211,7 +275,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
         var result = new primitives.orgdiagram.TemplateConfig();
         result.name = "contactTemplate";
 
-        result.itemSize = new primitives.common.Size(220, 120);
+        result.itemSize = new primitives.common.Size(200, 100);
         result.minimizedItemSize = new primitives.common.Size(5, 5);
         result.minimizedItemCornerRadius = 5;
         result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);

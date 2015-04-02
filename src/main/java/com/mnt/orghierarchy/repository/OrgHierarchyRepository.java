@@ -10,6 +10,7 @@ import com.mnt.orghierarchy.vm.OrganizationVM;
 public interface OrgHierarchyRepository {
 	Long saveOrgChild(MultipartFile file,OrganizationVM organizationVM,String username);
 	Long editOrgChild(MultipartFile file,OrganizationVM organizationVM,String username);
+	Long editOrgNotImgChild(OrganizationVM organizationVM);
 	File orgProfile(Long id);
 	List<OrganizationVM> getOrgHierarchy(String username);
 	Boolean deleteOrgChild(Long id);

@@ -198,6 +198,16 @@ public interface Clients {
 	}
 }
 
+public interface CreateProject{
+	public interface index {
+		public static String url="/createProject";
+	}
+	
+	public interface saveCreateProjectAttributes{
+		public static String url="/saveCreateProjectAttributes";
+	}
+}
+
 public interface Tasks {
 	public interface index {
 		public static String url="/taskIndex";
@@ -264,7 +274,11 @@ public interface Projects {
 	public interface excelReport{
 		public static String url="/projectExcelReport";
 	}
-
+	
+	public interface createProject{
+		public static String url="/createProject";
+	}
+	
 }
 
 public interface TimesheetBuckets {
@@ -575,6 +589,10 @@ public interface FlexiAttribute {
 public interface Roles {
 	public interface defineRoles {
 		public static String url="/defineRoles";
+	}
+	
+	public interface defineProjects {
+		public static String url="/defineProjects";
 	}
 
 	public interface OrgHierarchy {

@@ -2,40 +2,50 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header" style="background: blue;color: white;margin: 2px;border-bottom: 4px gray;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel">Add Organization</h4>
 			</div>
-			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label for="org-name">Organization name</label> <input type="text"
+			
+				<form method="post" data-ng-submit="saveOrgChild()" role="form" class="form-horizontal">
+				<div class="modal-body">
+					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
+						<label for="org-name" style="width: 40%;">Organization name</label> <input type="text"
 							class="form-control" id="org-name" ng-model="org.organizationName"
-							placeholder="Enter organization name.">
+							placeholder="Enter organization name." style="height:33px;" required>
 					</div>
-					<div class="form-group">
-						<label for="org-type">Organization type</label> <input type="text"
+					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
+						<label for="org-type" style="width: 40%;">Organization type</label> <input type="text"
 							class="form-control" id="org-type" ng-model="org.organizationType"
-							placeholder="Enter organization type.">
+							placeholder="Enter organization type." style="height:33px;" required>
 					</div>
-					<div class="form-group">
-						<label for="org-type">Organization location</label> <input
+					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
+						<label for="org-type" style="width: 40%;">Organization Address</label> <!-- <input
 							type="text" class="form-control" id="org-type" ng-model="org.organizationLocation"
-							placeholder="Enter organization type.">
+							placeholder="Enter organization type." style="height:33px;" required> -->
+							
+							<textarea  class="form-control" id="org-type" ng-model="org.organizationLocation" rows="3"
+						 placeholder="Enter organization type." required></textarea>
+							
 					</div>
-					<div class="form-group">
-						<label for="org-profile">Organization profile picture</label> <input
-							type="file" ng-file-select="selectFile($files)" id="org-profile">
+					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;">
+						<label for="org-profile" style="width: 40%;">Organization profile picture</label> <input
+							type="file" ng-file-select="selectFile($files)" id="org-profile" required>
 					</div>
-				</form>
-			</div>
+					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;" ng-if="overWrite == 1">
+						<label for="org-profile" style="width: 40%;color:red;">Organization Name already exists</label>
+					</div>
+					</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
-				<button type="button" class="btn btn-primary" ng-click="saveOrgChild()">Add Organization</button>
+				<button type="submit" class="btn btn-primary">Add Organization</button>
 			</div>
+				
+				</form>
+			
 		</div>
 	</div>
 </div>

@@ -15,6 +15,7 @@ import net.coobird.thumbnailator.Thumbnails;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import scala.collection.script.Remove;
@@ -26,38 +27,69 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 
 	@Value("${imageRootDir}")
 	String imageRootDir;
-	
 	@Override
 	public Long saveOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
+		
+		Organization organization1= Organization.getOrganizationByName(organizationVM.getOrganizationName());
 		Organization organization = new Organization();
+		if(organization1 == null){
+			
+			organization.setOrganizationLocation(organizationVM.getOrganizationLocation());
+			organization.setOrganizationName(organizationVM.getOrganizationName());
+			organization.setOrganizationType(organizationVM.getOrganizationType());
+			organization.setParent(organizationVM.getParent());
+			User user = User.findByEmail(username);
+			organization.setCompanyId(user.getCompanyobject().getId());
+			organization.save();
+			try {
+				String[] filenames = file.getOriginalFilename().split("\\.");
+				String filename = imageRootDir+File.separator+"org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1];
+				BufferedImage originalImage = ImageIO.read(file.getInputStream());
+				File f = new File(filename);
+				if(originalImage.getWidth()>120) {
+					Thumbnails.of(originalImage).size(124, 124).toFile(f);
+				} else {
+					Thumbnails.of(originalImage).scale(1.0).toFile(f);
+				}
+				organization.setOrganizationProfileUrl("org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1]);
+				organization.update();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			return null;
+		}
+		
+		
+		return organization.getId();
+	}
+		
+	
+	@Override
+	public Long editOrgNotImgChild(OrganizationVM organizationVM) {
+	
+	
+		Organization organization = Organization.getOrganizationById(organizationVM.getParent());
+		//Organization organization1= Organization.getOrganizationByName(organization.getOrganizationName());
+		//if(organization1 == null){
 		organization.setOrganizationLocation(organizationVM.getOrganizationLocation());
 		organization.setOrganizationName(organizationVM.getOrganizationName());
 		organization.setOrganizationType(organizationVM.getOrganizationType());
-		organization.setParent(organizationVM.getParent());
-		User user = User.findByEmail(username);
-		organization.setCompanyId(user.getCompanyobject().getId());
-		organization.save();
-		try {
-			String[] filenames = file.getOriginalFilename().split("\\.");
-			String filename = imageRootDir+File.separator+"org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1];
-			BufferedImage originalImage = ImageIO.read(file.getInputStream());
-			File f = new File(filename);
-			if(originalImage.getWidth()>120) {
-				Thumbnails.of(originalImage).size(124, 124).toFile(f);
-			} else {
-				Thumbnails.of(originalImage).scale(1.0).toFile(f);
-			}
-			organization.setOrganizationProfileUrl("org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1]);
-			organization.update();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		organization.update();
+		//}else{
+		//	return  null;
+		//}
 		return organization.getId();
 	}
+	
 	
 	@Override
 	public Long editOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
 		Organization organization = Organization.getOrganizationById(organizationVM.getParent());
+		
+		//Organization organization1= Organization.getOrganizationByName(organization.getOrganizationName());
+		//if(organization1 == null){
+		
 		organization.setOrganizationLocation(organizationVM.getOrganizationLocation());
 		organization.setOrganizationName(organizationVM.getOrganizationName());
 		organization.setOrganizationType(organizationVM.getOrganizationType());
@@ -80,6 +112,9 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//}else{
+	//		return null;
+		//}
 		return organization.getId();
 	}
 
@@ -120,9 +155,10 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 			
 			List<Organization> childList = Organization.getOrganizationsByParentId(id);
 			for(Organization child:childList) {
-				File f = new File(imageRootDir+File.separator+child.getOrganizationProfileUrl());
-				f.delete();
-				child.delete();
+				//File f = new File(imageRootDir+File.separator+child.getOrganizationProfileUrl());
+				//f.delete();
+				child.setParent(organization.getParent());
+				child.update();
 				
 			}
 			File f1 = new File(imageRootDir+File.separator+organization.getOrganizationProfileUrl());

@@ -23,6 +23,12 @@ public class OrgHierarchyServiceImpl implements OrgHierarchyService {
 	public Long editOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
 		return orgHierarchyRepository.editOrgChild(file, organizationVM,username);
 	}
+	
+	@Override
+	public Long editOrgNotImgChild(OrganizationVM organizationVM) {
+		return orgHierarchyRepository.editOrgNotImgChild(organizationVM);
+	}
+	
 	@Override
 	public File orgProfile(Long id) {
 		return orgHierarchyRepository.orgProfile(id);
@@ -35,5 +41,6 @@ public class OrgHierarchyServiceImpl implements OrgHierarchyService {
 	public Boolean deleteOrgChild(Long id) {
 		return orgHierarchyRepository.deleteOrgChild(id);
 	}
+	
 
 }
