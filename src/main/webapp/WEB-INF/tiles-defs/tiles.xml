@@ -58,8 +58,13 @@
   	</definition>  
   	
     <definition name="clientIndex" extends="base.definition">
-    	<put-attribute name="title" value="Manage Clients" />
+    	<put-attribute name="title" value="Manage Customers" />
     	<put-attribute name="content" value="/WEB-INF/jsp/clientIndex.jsp" />
+  	</definition> 
+  	
+  	<definition name="supplierIndex" extends="base.definition">
+    	<put-attribute name="title" value="Manage Suppliers" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/supplierIndex.jsp" />
   	</definition>  
 
   	<definition name="userIndex" extends="base.definition">

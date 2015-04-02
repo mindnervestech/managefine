@@ -67,7 +67,7 @@ public class Project extends Model{
 	
 	//TODO
 	@SearchColumnOnUI(rank=4,colName="Start Date",width=30)
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=1,label="Start Date")
 	@DateTime(pattern="dd-MM-yyyy")
 	@Validation(required=true)
@@ -75,28 +75,28 @@ public class Project extends Model{
 	
 	//TODO
 	@SearchColumnOnUI(rank=5,colName="End Date",width=30)
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="End Date")
 	@DateTime(pattern="dd-MM-yyyy")
 	@Validation(required=true)
 	public Date	endDate;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=3,label="Budget")
 	@Validation(required=true,number=true)
 	public Double	budget;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=4,label="Currency")
 	@Enumerated(EnumType.STRING)
 	public Currency currency;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=5,label="Effort")
 	public Integer efforts;
 	
 	@SearchColumnOnUI(rank=3,colName="Project Manager",width=60)
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=6,label=PROJECT_MANAGER, autocomplete=true)
 	@OneToOne(cascade = CascadeType.ALL)
 	@Validation(required=true)
@@ -107,7 +107,7 @@ public class Project extends Model{
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<ProjectFlexi> flexiAttributes;
 	
-	@WizardCardUI(name="Assign Members",step=3)
+	@WizardCardUI(name="Assign Members",step=2)
 	@UIFields(order=1,label=CHOOSE_MEMBERS,multiselect=true)
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<User> users;

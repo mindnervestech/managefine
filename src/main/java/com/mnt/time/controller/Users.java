@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Company;
+import models.Department;
 import models.LeaveBalance;
 import models.LeaveLevel;
 import models.MailSetting;
@@ -48,6 +49,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.ui.component.AutoComplete;
+import com.mnt.roleHierarchy.model.Role;
 import com.mnt.time.controller.Application.Login;
 import com.mnt.time.controller.routes.Application.login;
 import com.mnt.time.controller.routes.Status.companyIndex;
@@ -208,14 +210,23 @@ public class Users {
 	@RequestMapping(value="/userIndex", method = RequestMethod.GET)
 	public String index(ModelMap model,@CookieValue("username") String username) {
 		User user = User.findByEmail(username);
-		RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
+		List<Role> role = Role.getRoleList();
+		List<Department> deptr = Department.findAll();
+		//RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		List<DomainEnum> roleX = new ArrayList<DomainEnum>();
+		List<DomainEnum> dept = new ArrayList<DomainEnum>();
 		if(role != null){
-			for(int i=0; i<role.roleLevels.size(); i++){
-				roleX.add(new RoleDomain(role.roleLevels.get(i).id+"",role.roleLevels.get(i).role_name,false));
+			for(int i=0; i<role.size(); i++){
+				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRoleName(),false));
+			}
+		}
+		if(deptr != null){
+			for(int i=0; i<deptr.size(); i++){
+				dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
 			}
 		}
 		user.rolex = roleX;
+		user.dept = dept;
 		
 		model.addAttribute("context", UserSearchContext.getInstance().build());
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
@@ -388,6 +399,8 @@ public class Users {
 			form.data().put("email", userEmail);
 			String password = Application.generatePassword();
 			RoleLevel roleLevel = RoleLevel.findById(Long.parseLong(form.get("rolex")));
+			Role role = Role.getRoleById(Long.parseLong(form.get("rolex")));
+			Department deptr = Department.departmentById(Long.parseLong(form.get("dept")));
 	    	Map<String, Object> extra = new HashMap<String, Object>();
 	    	extra.put("email", userEmail);
 			extra.put("companyobject", User.findByEmail(username).companyobject);
@@ -395,7 +408,8 @@ public class Users {
 			extra.put("password", password);
 			extra.put("tempPassword", 1);
 			extra.put("role", roleLevel);
-			extra.put("designation", roleLevel.role_name);
+			extra.put("designation", role.getRoleName());
+			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());
 			
 			UserSave saveUtils = new UserSave(extra);

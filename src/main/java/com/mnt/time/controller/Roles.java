@@ -121,7 +121,6 @@ public class Roles {
 	public @ResponseBody String saveRole(@CookieValue("username")String username,HttpServletRequest request){
 		User user = User.findByEmail(username);
 		Form<RoleX> roleXForm = form(RoleX.class).bindFromRequest(request);
-		
 		RoleX roleX = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		
 		if(roleX != null){

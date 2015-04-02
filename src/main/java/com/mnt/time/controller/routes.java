@@ -163,6 +163,43 @@ public interface userSearch {
 
 }
 
+public interface Suppliers {
+	public interface index {
+		public static String url="/supplierIndex";
+	}
+
+	public interface search {
+		public static String url="/supplierSearch";
+	}
+
+	public interface delete {
+		public static String url="/supplierDelete";
+	}
+
+
+	public interface create {
+		public static String url="/supplierCreate";
+	}
+
+	public interface edit {
+		public static String url="/supplierEdit";
+	}
+
+	public interface showEdit {
+		public static String url="/supplierShowEdit ";
+	}
+
+	public interface excelReport {
+		public static String url="/supplierExcelReport";
+	}
+
+	public interface findSupplier {
+		public static String url="/findsupplier";
+	}
+}
+
+
+
 public interface Clients {
 	public interface index {
 		public static String url="/clientIndex";

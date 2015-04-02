@@ -124,6 +124,12 @@ public class User extends Model {
 	@Validation(required = true)
 	public static List<DomainEnum> rolex;
 	
+	@Transient
+	@WizardCardUI(name="Other Info",step=2)
+	@UIFields(order=9,label="Department")
+	@Validation(required = true)
+	public static List<DomainEnum> dept;
+	
 	@WizardCardUI(name="Flexi Attribute",step=3)
 	@UIFields(order=1,label="flexiAttributes")
 	@OneToMany(cascade=CascadeType.PERSIST)
@@ -134,6 +140,9 @@ public class User extends Model {
 	
 	@SearchColumnOnUI(rank=5,colName="Designation")
 	public String designation;
+	
+	@SearchColumnOnUI(rank=6,colName="Department")
+	public String department;
 	
 	@OneToOne
 	public RoleLevel role;
@@ -235,6 +244,14 @@ public class User extends Model {
 	// Note from Dev: I want this code to be in model, dont move it to some other place in name of refactoring.
 	// This field is more coupled with field level, may be it not Best to put the code here.
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	static {
 		autoCompleteAction.put(HR_MANAGER, routes.Users.findHRUser.url);
 		autoCompleteAction.put(REPORTING_MANAGER, routes.Users.findProjectManagers.url);

@@ -7,7 +7,8 @@ public enum Permissions {
 	
 	Manage("#",null,"Manage"),
 	ManageUser(routes.Users.index.url,Manage,"Users"),
-	ManageClient(routes.Clients.index.url,Manage,"Clients"),
+	ManageClient(routes.Clients.index.url,Manage,"Customers"),
+	ManageSupplier(routes.Suppliers.index.url,Manage,"Suppliers"),
 	ManageProject(routes.Projects.index.url,Manage,"Projects"),
 	ManageTask(routes.Tasks.index.url,Manage,"Tasks"),
 	CreateProject(routes.Projects.createProject.url,Manage,"Create Project"),
