@@ -1,8 +1,13 @@
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import play.db.ebean.Model;
 
@@ -19,26 +24,26 @@ public class TimesheetRow extends Model{
     
     public String taskCode;
     
-    public Integer totalHrs;
+    public boolean overTime;
     
-    public Integer sun;
-    
-    public Integer mon;
-    
-    public Integer tue;
-    
-    public Integer wed;
-    
-    public Integer thu;
-    
-    public Integer fri;
-    
-    public Integer sat;
-    
-    public Boolean overTime;
+    @OneToMany
+    public List<TimesheetDays> timesheetDays;
+     
     
     public static Model.Finder<Long, TimesheetRow> find = new Model.Finder<Long,TimesheetRow>(Long.class, TimesheetRow.class);
 
+
+	public List<TimesheetDays> getTimesheetDays() {
+		return timesheetDays;
+	}
+
+	public void setTimesheetDays(List<TimesheetDays> timesheetDays) {
+		this.timesheetDays = timesheetDays;
+	}
+
+	public static TimesheetRow findById(Long id) {
+		return find.byId(id);
+	}
 	public Long getId() {
 		return id;
 	}
@@ -71,75 +76,17 @@ public class TimesheetRow extends Model{
 		this.taskCode = taskCode;
 	}
 
-	public Integer getTotalHrs() {
-		return totalHrs;
-	}
-
-	public void setTotalHrs(Integer totalHrs) {
-		this.totalHrs = totalHrs;
-	}
-
-	public Integer getSun() {
-		return sun;
-	}
-
-	public void setSun(Integer sun) {
-		this.sun = sun;
-	}
-
-	public Integer getMon() {
-		return mon;
-	}
-
-	public void setMon(Integer mon) {
-		this.mon = mon;
-	}
-
-	public Integer getTue() {
-		return tue;
-	}
-
-	public void setTue(Integer tue) {
-		this.tue = tue;
-	}
-
-	public Integer getWed() {
-		return wed;
-	}
-
-	public void setWed(Integer wed) {
-		this.wed = wed;
-	}
-
-	public Integer getThu() {
-		return thu;
-	}
-
-	public void setThu(Integer thu) {
-		this.thu = thu;
-	}
-
-	public Integer getFri() {
-		return fri;
-	}
-
-	public void setFri(Integer fri) {
-		this.fri = fri;
-	}
-
-	public Integer getSat() {
-		return sat;
-	}
-
-	public void setSat(Integer sat) {
-		this.sat = sat;
-	}
-
-	public Boolean getOverTime() {
+	public boolean isOverTime() {
 		return overTime;
 	}
 
-	public void setOverTime(Boolean overTime) {
+	public void setOverTime(boolean overTime) {
 		this.overTime = overTime;
 	}
+
+	public static List<TimesheetRow> getByTimesheet(Timesheet timesheet) {
+		return find.where().eq("timesheet", timesheet).findList();
+	}
+	
+	
 }

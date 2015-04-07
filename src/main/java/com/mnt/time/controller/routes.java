@@ -434,7 +434,31 @@ public interface Leaves {
 	}
 }
 
-public interface Timesheets {
+public interface Schedule {
+	public interface schedularToday {
+		public static String url="/schedularToday";
+	}
+	
+	public interface schedularWeek {
+		public static String url="/schedularWeek";
+	}
+	
+	public interface schedularMonth {
+		public static String url="/schedularMonth";
+	}
+	
+	public interface setupHoliday {
+		public static String url="/setupHoliday";
+	}
+}
+
+public interface Timesheet {
+	public interface timesheetCreate {
+		public static String url="/timesheetNew";
+	}
+}
+
+public interface Calendar {
 	public interface index {
 		public static String url="/timesheetIndex";
 	}
@@ -443,6 +467,7 @@ public interface Timesheets {
 		public static String url="/timesheetSearchIndex";
 	}
 
+	
 	public interface create {
 		public static String url="/timesheetCreate";
 	}

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,49 +12,31 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import play.data.format.Formats;
-import play.db.ebean.Model;
-
 import com.avaje.ebean.Expr;
 import com.custom.domain.TimesheetStatus;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
-import com.mnt.core.ui.annotation.UIFields;
-import com.mnt.core.ui.annotation.WizardCardUI;
+
+import play.data.format.Formats;
+import play.db.ebean.Model;
 
 @Entity
-public class Timesheet extends Model{
-
-    public static final String ENTITY = "Timesheet";
-
-
-	public static String getEntity() {
-		return ENTITY;
-	}
+public class TimesheetActual extends Model {
 
 	@Id
-	@WizardCardUI(name="Timesheet Status Info",step=0)
-	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
     
     @ManyToOne
     public User user;
     
-    
-    @WizardCardUI(name="Timesheet Status Info",step=1)
-    @UIFields(order=1,label="Status")
-    @SearchColumnOnUI(rank=3,colName="Status")
-	@SearchFilterOnUI(label="Status")
     public TimesheetStatus status;
 
-    @SearchColumnOnUI(rank=2,colName="Week")
     public Integer weekOfYear;
     
-    @SearchColumnOnUI(rank=1,colName="Year")
     public Integer year;
     
     @OneToMany
-    public List<TimesheetRow> timesheetRows;
+    public List<TimesheetRowActual> timesheetRowsActual;
     
     @Transient
 	@SearchFilterOnUI(label="From")
@@ -89,17 +70,17 @@ public class Timesheet extends Model{
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public static Model.Finder<Long, Timesheet> find = new Model.Finder<Long,Timesheet>(Long.class, Timesheet.class);
+	public static Model.Finder<Long, TimesheetActual> find = new Model.Finder<Long,TimesheetActual>(Long.class, TimesheetActual.class);
     
-    public static List<Timesheet> byUser_Week_Year(Long id, int week, int year){
-    	return Timesheet.find.where(Expr.and(Expr.eq("user", User.findById(id)), Expr.and(Expr.eq("year", year),Expr.eq("weekOfYear", week)))).findList();
+    public static List<TimesheetActual> byUser_Week_Year(Long id, int week, int year){
+    	return TimesheetActual.find.where(Expr.and(Expr.eq("user", User.findById(id)), Expr.and(Expr.eq("year", year),Expr.eq("weekOfYear", week)))).findList();
     }
     
-    public static Timesheet getByUserWeekAndYear(User user,int week,int year) {
+    public static TimesheetActual getByUserWeekAndYear(User user,int week,int year) {
     	return find.where().eq("user", user).eq("weekOfYear", week).eq("year", year).findUnique();
     }
     
-    public static Timesheet findById(long _id){
+    public static TimesheetActual findById(long _id){
     	return find.byId(_id);
     }
     
@@ -118,6 +99,14 @@ public class Timesheet extends Model{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<TimesheetRowActual> getTimesheetRowsActual() {
+		return timesheetRowsActual;
+	}
+
+	public void setTimesheetRowsActual(List<TimesheetRowActual> timesheetRowsActual) {
+		this.timesheetRowsActual = timesheetRowsActual;
 	}
 
 	public TimesheetStatus getStatus() {
@@ -142,14 +131,6 @@ public class Timesheet extends Model{
 
 	public void setYear(Integer year) {
 		this.year = year;
-	}
-
-	public List<TimesheetRow> getTimesheetRows() {
-		return timesheetRows;
-	}
-
-	public void setTimesheetRows(List<TimesheetRow> timesheetRows) {
-		this.timesheetRows = timesheetRows;
 	}
 
 	public Date getFromWeekWindow() {
@@ -199,5 +180,5 @@ public class Timesheet extends Model{
 	public void setTid(String tid) {
 		this.tid = tid;
 	}
-    
+	
 }

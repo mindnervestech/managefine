@@ -157,6 +157,31 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/timesheetIndex.jsp" />
   	</definition> 
   	
+  	<definition name="timesheetNew" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/newTimesheet.jsp" />
+  	</definition> 
+  	
+  	<definition name="schedularToday" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/schedularToday.jsp" />
+  	</definition> 
+  	
+  	<definition name="schedularWeek" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/schedularWeek.jsp" />
+  	</definition> 
+  	
+  	<definition name="schedularMonth" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/schedularMonth.jsp" />
+  	</definition> 
+  	
+  	<definition name="setupHoliday" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/setup-holiday.jsp" />
+  	</definition>
+  	
   	<definition name="searchTimesheet" extends="base.definition">
     	<put-attribute name="title" value="Timesheet" />
     	<put-attribute name="content" value="/WEB-INF/jsp/searchTimesheet.jsp" />

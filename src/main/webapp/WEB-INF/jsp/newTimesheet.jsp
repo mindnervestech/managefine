@@ -7,19 +7,20 @@
 <link rel="stylesheet" media="screen"
 	href='<c:url value="/resources/customCSS/customTimesheet.css"/>'>
 	<link rel="stylesheet" media="screen"
-	href='<c:url value="/resources/customCSS/jquery.timeentry.css"/>'>
+	href='<c:url value="/resources/customCSS/pnotify.custom.min.css"/>'>
 <%-- <script src='<c:url value="/resources/customScripts/timesheet.js"/>'
 	type="text/javascript"></script> --%>
 <script src='<c:url value="/resources/customScripts/jquery.plugin.js"/>'
 	type="text/javascript"></script>		
 <script src='<c:url value="/resources/customScripts/jquery.timeentry.js"/>'
 	type="text/javascript"></script>	
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/pnotify/pnotify.custom.min.js"/>'></script>	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
-<body ng-controller="TimeSheetController" ng-init="getTimesheetData(${asJson})">
+<body ng-controller="NewTimeSheetController" ng-init="getTimesheetData(${asJson})">
 <jsp:include page="menuContext.jsp" />
 
 	<div class="tsMainDiv">
@@ -91,25 +92,25 @@
 							<div class="largeInputLabel clearfix">Task Codes</div>
 						</div>
 					<div class="innerDaysDiv">
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('monday')">
 							Mon<br> <span id="dayLabel_0"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('tuesday')">
 							Tue<br> <span id="dayLabel_1"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('wednesday')">
 							Wed<br> <span id="dayLabel_2"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('thursday')">
 							Thu<br> <span id="dayLabel_3"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('friday')">
 							Fri<br> <span id="dayLabel_4"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('saturday')">
 							Sat<br> <span id="dayLabel_5"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('sunday')">
 							Sun<br> <span id="dayLabel_6"></span>
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
@@ -288,6 +289,7 @@
 	
 </body>
 </html>
+
 <style>
 .largeInputLabel_First {
 	margin-right: -3px;

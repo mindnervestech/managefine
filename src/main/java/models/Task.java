@@ -101,6 +101,11 @@ public class Task extends Model {
 	public static Task findById(Long id) {
         return find.where().eq("id", id).findUnique();
     }
+	
+	public static Task findByTaskCode(String code) {
+		return find.where().eq("taskCode", code).findUnique();
+	}
+	
 	// Note from Dev: I want this code to be in model, dont move it to some other place in name of refactoring.
 	// This field is more coupled with field level, may be it not Best to put the code here.
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();

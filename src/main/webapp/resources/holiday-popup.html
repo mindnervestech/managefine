@@ -1,0 +1,59 @@
+<section class="jpopup small" id="markHoliday" style="position:absolute;"> <a class="close-jpopup" data-ng-click="closeThisDialog()">X</a>
+  <aside class="jpopup-head"> <span class="phead">Mark Holiday(s)</span>
+  </aside>
+  <aside class="jpopup-content-out">
+    <aside class="jpopup-content" style="width: 450px;">
+      <aside class="pad5">
+        <aside class="markh-top">
+          <table>
+            <tr>
+              <td>Select Type</td>
+              <td><aside class="tab-option"> <a ng-click="selectType('1')" href="javascript:void(0);" ng-class="staffLeaveVM.toDate=='' ? 'active' : ''">Single</a> <a href="javascript:void(0);" ng-click="selectType('2')" ng-class="staffLeaveVM.toDate=='' ? 'callmultiFld' : 'callmultiFld active'">Multiple</a> </aside><section class="error-msg"><span>Error message will come here.</span></section></td>
+            </tr>
+            <tr>
+              <td>Select Date</td>
+              <td><aside class="field w150">
+                  <input type="text" class="textfield clndr" data-date-autoclose="true" data-provide="datepicker" ng-model="staffLeaveVM.fromDate">
+                </aside>
+                <aside class="field w150 right multiFld" ng-show="staffLeaveVM.toDate!=''">
+                  <input type="text" class="textfield clndr" data-date-autoclose="true" data-provide="datepicker" ng-model="staffLeaveVM.toDate">
+                </aside>
+                <section class="error-msg"><span>Error message will come here.</span></section></td>
+            </tr>
+            <tr>
+              <td>Reasons</td>
+              <td><aside class="field">
+                  <input type="text" class="textfield" ng-model="staffLeaveVM.reason" value="">
+                </aside>
+                <section class="error-msg"><span>Error message will come here.</span></section></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><section class="field nomargin-cbox"> <span ng-class="staffLeaveVM.leaveType==8 ? 'cbox-selected' : 'cbox'" ng-click="setleaveType()">
+                  <input name="" type="checkbox" checked id="repeatE" />
+                  </span>
+                  <label for="repeatE" class="checklabel">Repeat Every Year</label>
+                </section></td>
+            </tr>
+          </table>
+        </aside>
+        <aside class="markh-btm">
+          <input type="button" class="bluebtn" value="Save" ng-click="saveLeave();closeThisDialog()">
+        </aside>
+        <aside class="clear"></aside>
+      </aside>
+    </aside>
+  </aside>
+</section>
+<script>
+$("#datepicker1").datepicker();
+$("#datepicker2").datepicker();
+</script>
+<style>
+.jpopup {
+	height: 25em;
+}
+.jpopup .jpopup-content-out {
+	height: 20em;
+}
+</style>

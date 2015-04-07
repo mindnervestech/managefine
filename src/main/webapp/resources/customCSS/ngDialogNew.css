@@ -1,0 +1,87 @@
+.wizard > .steps a, .wizard > .steps a:hover, .wizard > .steps a:active {
+	display: block;
+	width: auto;
+	margin: 0 0.5em 0.5em;
+	padding: 0em 0em;
+	text-decoration: none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+	line-height: normal;
+}
+.jpopup {
+	position: absolute;
+	width: 90%;
+}
+.jpopup .jpopup-content ul li {
+	margin: 0px;
+	float: left;
+	border: solid 0px #ccc;
+	padding: 0px;
+	cursor: pointer;
+	-webkit-transition: box-shadow .5s;
+	-moz-transition: box-shadow .5s;
+	-o-transition: box-shadow .5s;
+	-ms-transition: box-shadow .5s;
+	transition: box-shadow .5s;
+	-webkit-transition-property: border-color, box-shadow;
+}
+.jpopup .jpopup-content-out {
+	padding: 0px !important;
+	width: 100%;
+}
+
+.jpopup .jpopup-content { 
+	width: 100%;
+}
+
+.jpopup .jpopup-content ul li { 
+	width:auto;
+}
+.ShowListing {
+	height: 34px;	
+}
+.dd-text {
+	position: absolute;
+	z-index: 0;
+	overflow: hidden;
+	float: left;
+	width: 275px;
+	background: url(../images/select-arrow.png) no-repeat 97% center #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0 0px 8px rgba(0, 0, 0, .1);
+	-moz-box-shadow: 0 0px 8px rgba(0, 0, 0, .1);
+	-webkit-box-shadow: 0 0px 8px rgba(0, 0, 0, .1);
+	padding: 8px 6px 8px;
+	border-radius: 0;
+	margin: 0;
+	font-size: 12px;
+	color: #666;
+	font-family: 'VarelaRegular';
+	text-indent: 0;
+}
+
+
+.wizard > .content {
+	min-height: 40em;
+	margin: 0.2em;
+}
+.add-table-mid {
+	padding: 2px 0;
+}
+.dummy-select {
+	height: 34px;
+}
+.ngdialog-content {
+	margin-left:  10% !important;
+	width: 90% !important;
+}
+.add-table-mid .add-table-mid-in {
+	width: 100%;
+}
+.ngdialog.ngdialog-theme-default {
+	padding-bottom: 50px;
+	padding-top: 50px;
+}

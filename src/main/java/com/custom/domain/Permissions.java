@@ -17,9 +17,18 @@ public enum Permissions {
 	Leaves("#",null,"Leaves"),
 	ApplyLeave(routes.Leaves.applyIndex.url,Leaves,"My Leaves"),
 	
+	Calendar("#",null,"Calendar"),
+	CreateTimesheet(routes.Calendar.index.url,Calendar,"Create"),
+	SearchTimesheet(routes.Calendar.searchIndex.url,Calendar,"History"),
+	
 	Timesheet("#",null,"Timesheet"),
-	CreateTimesheet(routes.Timesheets.index.url,Timesheet,"Create"),
-	SearchTimesheet(routes.Timesheets.searchIndex.url,Timesheet,"History"),
+	CreateTimesheets(routes.Timesheet.timesheetCreate.url,Timesheet,"Create"),
+	
+	Schedule("#",null,"Schedule"),
+	Today(routes.Schedule.schedularToday.url,Schedule,"Today View"),
+	Week(routes.Schedule.schedularWeek.url,Schedule,"Week View"),
+	Month(routes.Schedule.schedularMonth.url,Schedule,"Month View"),
+	Holiday(routes.Schedule.setupHoliday.url,Schedule,"Setup Holiday"),
 	
 	Delegate(routes.Delegate.index.url,null,"Delegates"),
 	

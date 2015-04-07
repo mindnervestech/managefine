@@ -17,7 +17,10 @@ import javax.persistence.OneToOne;
 import play.data.format.Formats.DateTime;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 import com.custom.domain.Currency;
 import com.custom.helpers.ProjectSearchContext;
 import com.mnt.core.helper.SearchContext;
@@ -136,6 +139,21 @@ public class Project extends Model{
         return find.where().idIn(ids).findList();
     }
 	
+	public static List<SqlRow> getProjectsOfUser(Long id) {
+		String sql = "select project_user.project_id from project_user where project_user.user_id = :id";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("id", id);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
+	
+	public static List<SqlRow> getTasksOfProject(Long id) {
+		String sql = "select project_task.task_id from project_task where project_task.project_id = :id";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("id", id);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
 	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	
