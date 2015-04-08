@@ -373,6 +373,10 @@ public interface Leaves {
 		public static String url="/saveLeaves";
 	}
 	
+	public interface saveLeavesCredit{
+		public static String url="/saveLeavesCredit";
+	}
+	
 	public interface leaveSettings{
 		public static String url="/leaveSettings";
 	}
@@ -467,7 +471,6 @@ public interface Calendar {
 		public static String url="/timesheetSearchIndex";
 	}
 
-	
 	public interface create {
 		public static String url="/timesheetCreate";
 	}

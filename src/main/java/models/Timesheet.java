@@ -102,8 +102,7 @@ public class Timesheet extends Model{
     public static Timesheet findById(long _id){
     	return find.byId(_id);
     }
-    
-    
+
 	public Long getId() {
 		return id;
 	}

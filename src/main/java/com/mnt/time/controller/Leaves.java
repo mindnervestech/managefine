@@ -20,6 +20,7 @@ import models.Company;
 import models.LeaveBalance;
 import models.LeaveLevel;
 import models.LeaveX;
+import models.LeavesCredit;
 import models.RoleLeave;
 import models.RoleLevel;
 import models.RoleX;
@@ -53,6 +54,7 @@ import com.custom.helpers.LeaveSave;
 import com.custom.workflow.vacation.VacationWorkflowUtils;
 import com.google.common.collect.Sets;
 import com.mnt.core.domain.DomainEnum;
+
 
 
 
@@ -378,7 +380,8 @@ public class Leaves {
 			Form<LeaveX> leaveXForm = form(LeaveX.class).bindFromRequest(request);
 			LeaveX leaveX = LeaveX.find.where(Expr.eq("company", user.getCompanyobject())).findUnique();
 			List<RoleLevel> rolelevel=RoleLevel.findListByCompany(user.getCompanyobject().getId());
-			
+			System.out.println("form leavesss==="+leaveXForm.get().getLeaveLevels().get(0).getLeave_type());
+			System.out.println("form ==="+leaveXForm);
 			if(leaveX == null){
 				leaveXForm.get().setCompany(user.getCompanyobject());
 				leaveXForm.get().save();
@@ -439,6 +442,18 @@ public class Leaves {
 		return "leave value saved";
 	}			
 
+	@RequestMapping(value="/saveLeavesCredit " ,method=RequestMethod.POST)		
+	public @ResponseBody String saveLeavesCredit(@CookieValue("username")String username,HttpServletRequest request)
+	{
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		//Form<LeaveCreditBindFromRequest>leaveForm=form(LeaveCreditBindFromRequest.class).bindFromRequest(request);	
+		LeavesCredit lc = new LeavesCredit();
+		lc.setPolicyName(form.data().get("policy"));
+		lc.save();
+		return "leave credit saved";
+	}	
+	
+	
 	private void updateLeaveBalance(LeaveLevel rl, User user){
 		List<User> users = User.find.where().eq("companyobject",user.getCompanyobject()).findList();
 		for(User u:users) {
