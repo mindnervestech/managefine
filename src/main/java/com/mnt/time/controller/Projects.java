@@ -28,6 +28,7 @@ import utils.ExceptionHandler;
 import com.avaje.ebean.Expr;
 import com.custom.helpers.ProjectSave;
 import com.custom.helpers.ProjectSearchContext;
+import com.mnt.createProject.model.Projectinstance;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -100,7 +101,7 @@ public class Projects  {
 		Long id = null;
 		try{
 			id = Long.valueOf(form.get("query"));
-			model.addAttribute("_searchContext",new ProjectSearchContext(Project.findById(id)).build());
+			model.addAttribute("_searchContext",new ProjectSearchContext(Projectinstance.getById(id)));
 			return "editWizard";
 		}catch(NumberFormatException nfe){
 			ExceptionHandler.onError(request.getRequestURI(),nfe);
@@ -113,7 +114,7 @@ public class Projects  {
 	public @ResponseBody String checkProjectCodeAvailability(HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		String q = form.get("q");
-		Project p = Project.find.where().eq("projectCode", q).findUnique();
+		Projectinstance p = Projectinstance.find.where().eq("projectid", q).findUnique();
 		if(p==null){
 			return Json.toJson(true).asText();
 		}

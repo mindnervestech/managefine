@@ -82,6 +82,13 @@ public class ProjectHierarchyController {
 		return projectHierarchyService.selectProjectType(id);
 	}
 	
+	
+	@RequestMapping(value="edit/project/selectProjectType",method=RequestMethod.GET) 
+	public @ResponseBody List selectProjectType1(@RequestParam("id")Long id) {
+		return projectHierarchyService.selectProjectType(id);
+	}
+	
+	
 	@RequestMapping(value="/editProjectTypeInfo",method=RequestMethod.GET)
 	public @ResponseBody List editProjectTypeInfo(@RequestParam("id")Long id) {
 		return projectHierarchyService.editProjectTypeInfo(id);

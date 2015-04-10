@@ -312,8 +312,8 @@ public interface Projects {
 		public static String url="/projectExcelReport";
 	}
 	
-	public interface createProject{
-		public static String url="/createProject";
+	public interface employeeHierarchy{
+		public static String url="/employeeHierarchy";
 	}
 	
 }

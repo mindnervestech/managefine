@@ -3,6 +3,7 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
 	$scope.index = 10;
     $scope.Message = "";
     maximumId = 2;
+    $scope.MainInstance = 0;
     $scope.selectRootNode= null;
     $scope.projectsearch= {
     		projectValue:[],
@@ -14,6 +15,20 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     	};
     
     var buttons = [];
+    
+   
+/*	$scope.addProjectName = function(projectInfo){
+		 console.log("jjjjj");
+		 console.log(projectInfo);
+		$http({method:'POST',url:'saveprojectTypeandName',data:projectInfo}).success(function(response) {
+ 			console.log("Ok"); 
+ 			console.log(response);
+ 			 
+ 			
+ 			});
+	}
+    */
+    
     //buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
     buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
@@ -33,9 +48,12 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
         		
         		break;
         	case "add":
+        		console.log("=-=-=-=-=");
         		console.log(data.context.id);
-        	
-        		$http({method:'GET',url:'AddJspPage',params:{id:data.context.id}}).success(function(data) {
+        		console.log($scope.MainInstance);
+        		console.log("=-=-=-=-=");
+        		
+        		$http({method:'GET',url:'AddJspPage',params:{id:data.context.id,mainInstance:$scope.MainInstance}}).success(function(data) {
         			console.log(data);
         			        			
         			ngDialog.open({
@@ -52,8 +70,11 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
         		
         		break;
         	case "edit":
-        			
-        		$http({method:'GET',url:'EditJspPage',params:{id:data.context.id}}).success(function(data) {
+        		
+        		console.log($scope.MainInstance);
+        		console.log(data.context.id);
+        		
+        		$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$scope.MainInstance}}).success(function(data) {
         			console.log(data);
         			
         			        			
@@ -82,6 +103,20 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     	console.log(response);
     	$scope.projectType = response;
     });
+    
+    $http({method:'GET',url:'findCliect'}).success(function(response) {
+    	console.log(response);
+    	$scope.findCliect = response;
+    });
+    
+    /*ngDialog.open({
+		template:$scope.projectType,
+		plain:true,
+		//controller: 'ProjectHierarchyController',
+		scope:$scope,
+		closeByDocument:false,
+		className: 'ngdialog-theme-plain'
+	});*/
     
     $scope.saveProjectType = function(){
     	console.log("-----------");
@@ -112,13 +147,16 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
 			
 		});
     }
-    
-    $scope.viewHierarchy = function(id){
+   
+    $scope.viewHierarchy = function(id,rootId){
     	console.log(id);
+    	console.log(rootId);
+    	 $scope.MainInstance = rootId;
     	$scope.selectRootNode = id;
     	console.log($scope.selectRootNode);
     	items = [];
     	$http({method:'GET',url:'selectProjectType',params:{id:id}}).success(function(data) {
+    		console.log("---====---");
         	console.log(data);
         	if(data.length>0) {
         		$scope.projectid = data[0].projectId;

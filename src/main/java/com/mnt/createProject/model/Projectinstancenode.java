@@ -1,5 +1,6 @@
 package com.mnt.createProject.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,9 @@ public class Projectinstancenode extends Model{
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Projectclassnode Projectclassnode;
 	private Long projecttypeid;
+	private Long projectinstanceid;
+	private Date startDate;
+	private Date endDate;
 	
 	/*@OneToMany(cascade=CascadeType.ALL)
 	private List<Saveattributes> saveattributes;*/
@@ -58,6 +62,7 @@ public class Projectinstancenode extends Model{
 		this.projecttypeid = projecttypeid;
 	}
 
+	
 	/*public List<Saveattributes> getSaveAttributes() {
 		return saveattributes;
 	}
@@ -66,6 +71,30 @@ public class Projectinstancenode extends Model{
 		this.saveattributes = saveAttributes;
 	}*/
 	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Long getProjectinstanceid() {
+		return projectinstanceid;
+	}
+
+	public void setProjectinstanceid(Long projectinstanceid) {
+		this.projectinstanceid = projectinstanceid;
+	}
 
 	public static Projectinstancenode getById(Long id) {
 		return find.byId(id);
@@ -77,7 +106,7 @@ public class Projectinstancenode extends Model{
 	
 	public static Projectinstancenode getProjectParentId(Long pnodeid,Long ptypeid) {
 		// TODO Auto-generated method stub
-		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid), Expr.eq("projecttypeid", ptypeid))).findUnique();
+		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid), Expr.eq("projectinstanceid", ptypeid))).findUnique();
 		//return find.where().add(Expr.or(Expr.eq("id", id), Expr.eq("parentId", id))).findList();
 	}
 	

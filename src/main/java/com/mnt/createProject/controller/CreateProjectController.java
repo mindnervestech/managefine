@@ -2,6 +2,9 @@ package com.mnt.createProject.controller;
 
 import static play.data.Form.form;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +34,7 @@ import com.google.common.collect.Sets;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
+import com.mnt.createProject.vm.ProjectinstanceVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
 import com.mnt.projectHierarchy.vm.ProjectclassVM;
@@ -65,40 +70,99 @@ public class CreateProjectController {
 	
 	
 	@RequestMapping(value="/AddJspPage",method=RequestMethod.GET)
-	public String AddJspPage(@RequestParam("id")Long id,Model model) {
-		model.addAttribute("nodeMetaData",createProjectService.getAddJspPage(id));
+	public String AddJspPage(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
+		model.addAttribute("nodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
 		return "nodeMetaData";
 	}
 	
 	@RequestMapping(value="/EditJspPage",method=RequestMethod.GET)
-	public String EditJspPage(@RequestParam("id")Long id,Model model) {
-		model.addAttribute("editNodeMetaData",createProjectService.getAddJspPage(id));
+	public String EditJspPage(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
+		model.addAttribute("editNodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
 		return "editNodeMetaData";
 	}
+	
+	@RequestMapping(value="/edit/project/AddJspPage",method=RequestMethod.GET)
+	public String AddJspPageProject(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
+		model.addAttribute("nodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
+		return "nodeMetaData";
+	}
 
+	@RequestMapping(value="/edit/project/EditJspPage",method=RequestMethod.GET)
+	public String EditJspPageProject(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
+		model.addAttribute("editNodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
+		return "editNodeMetaData";
+	}
 		
+	@RequestMapping(value="/saveprojectTypeandName",method=RequestMethod.POST) 
+	public String saveprojectTypeandName(HttpServletRequest request,@CookieValue("username")String username,Model model) {
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+    	model.addAttribute("user", User.findByEmail(username));
+		model.addAttribute("createProject",createProjectService.saveprojectTypeandName(request));
+		return "createProject";
+	}
+	
+	
+	@RequestMapping(value="/findCliect",method=RequestMethod.GET)
+	public @ResponseBody List findCliect() {
+		return createProjectService.getfindCliect();
+	}
+	
+	@RequestMapping(value="/edit/project/{projectId}",method=RequestMethod.GET)
+	public String showEditProject(@PathVariable("projectId")Long projectId,@CookieValue("username")String username,Model model){
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+    	model.addAttribute("user", User.findByEmail(username));
+		model.addAttribute("createProject",createProjectService.editprojectTypeandName(projectId));
+		return "createProject";
+		
+	}
 	
 	@RequestMapping(value="/saveCreateProjectAttributes" ,method=RequestMethod.POST)		
 	public @ResponseBody String saveCreateProjectAttributes(@CookieValue("username")String username,
 			HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+	
+		System.out.println("-=-=-=-=-=-");
+		System.out.println(form.data().get("projectId"));
+		System.out.println(form.data().get("projectInstance"));
+		System.out.println("-=-=-=-=-=-");
+		List<Projectclassnodeattribut> attributesArray = null;
+		Projectinstancenode projectnode = null;
+		if(form.data().get("projectId") != null){
+			attributesArray = Projectclassnodeattribut.getattributByprojectId(Long.parseLong(form.data().get("projectId")));
+			projectnode = Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")), Long.parseLong(form.data().get("projectInstance")));
+		}
 		
-		List<Projectclassnodeattribut> attributesArray = Projectclassnodeattribut.getattributByprojectId(Long.parseLong(form.data().get("projectId")));
-		
-		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")), Long.parseLong(form.data().get("projecttypeId")));
 		if(projectnode == null){
 			
-			Projectinstance projectinstance= new Projectinstance();
-			projectinstance.setProjectTypes(form.data().get("projectT"));
-			projectinstance.setProjectDescription(form.data().get("projectD"));
-			projectinstance.setProjectid(Long.parseLong(form.data().get("projecttypeId")));
+			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
+			if(projectclassnode.getParentId() == null){
+			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
+		   /* try {
+				projectinstance.setStartDate(format.parse(form.data().get("startDate")));
+				projectinstance.setEndDate(format.parse(form.data().get("endDate")));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
+			projectinstance.setStartDate(form.data().get("startDate"));
+			projectinstance.setEndDate(form.data().get("endDate"));
 			
-			projectinstance.save();
-			
+		    projectinstance.update();
+			}
 			Projectinstancenode projectinstancenode= new Projectinstancenode();
 			projectinstancenode.setProjecttypeid(Long.parseLong(form.data().get("projecttypeId")));
 			projectinstancenode.setProjectclassnode(Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId"))));
-		
+			projectinstancenode.setProjectinstanceid(Long.parseLong(form.data().get("projectInstance")));
+			try {
+				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
+				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			projectinstancenode.save();
 		   
 		    for(Projectclassnodeattribut attr : attributesArray){
@@ -129,9 +193,34 @@ public class CreateProjectController {
 			}
 			
 		}else{
+			
+			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
+			if(projectclassnode.getParentId() == null){
+			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
+		   /* try {
+				projectinstance.setStartDate(format.parse(form.data().get("startDate")));
+				projectinstance.setEndDate(format.parse(form.data().get("endDate")));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}*/
+		    projectinstance.setStartDate(form.data().get("startDate"));
+			projectinstance.setEndDate(form.data().get("endDate"));
+		    projectinstance.update();
+			}
+			
+			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
+			try {
+				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
+				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			projectinstancenode.update();
 			for(Projectclassnodeattribut attr : attributesArray){
-		    	
-				Saveattributes saveattri = Saveattributes.getprojectattriById(attr.getId());
+				
+				Saveattributes saveattri = Saveattributes.getProjectAttriId(projectinstancenode.getId(),attr.getId());
 				String checkboxValue = null;
 				checkboxValue = "";
 				if(attr.getType().equalsIgnoreCase("Checkbox")) {
@@ -151,8 +240,6 @@ public class CreateProjectController {
 				
 			}
 		}
-		
-	
 	
 		return null;
 	}

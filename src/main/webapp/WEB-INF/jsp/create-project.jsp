@@ -1,19 +1,24 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="menuContext.jsp" />
-<link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/primitives/primitives.latest.css"/>'>
-<link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
-<div ng-app="ProjectHierarchyApp" ng-controller="createProjectController">
+
+ <jsp:include page="menuContext.jsp"></jsp:include> 
+ 
+
+
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/primitives/primitives.latest.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
+
+<label style="font-size: large;margin-left: 74px;"><b>${createProject.projectName}</b></label>
+<div ng-app="ProjectHierarchyApp" ng-controller="createProjectController" ng-init='viewHierarchy(${createProject.projectid},${createProject.id})'><!--  viewHierarchy -->
 	<div class="form-group">
-						<label class="col-md-12" style="margin-left: 4px;">Choose Project type</label>
+				 <!--  <label class="col-md-12" style="margin-left: 4px;">Choose Project type</label>  -->
 						 	
-							<select class="col-md-3" data-ng-model="projectType.id" ng-change="onProjectTypeChange(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
+							<!--  <select class="col-md-3" data-ng-model="projectType.id" ng-change="onProjectTypeChange(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
 								<option>Select Project Type..</option>
-					        </select>
+					        </select>  -->
 							
 							
-							<button type="button" class="btn btn-default" ng-click="viewHierarchy(projectType.id)">View</button>
+							<!--  <button type="button" class="btn btn-default" ng-click="viewHierarchy(projectType.id)">View</button> --> 
 				       <!-- <button type="submit" class="btn btn-primary" onClick="myFunction()">Add</button> -->
 					</div>
 					<!-- <div class="form-group">
@@ -40,7 +45,7 @@
     				</div> 
 </div>
 
-<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
+<%-- <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script> --%>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular-datepicker.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/primitives/primitives.latest.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/js/ngDialog.min.js"/>'></script>
@@ -67,6 +72,7 @@ function myFunction() {
 		}
 	});
 }
+
 
 </script> 
 

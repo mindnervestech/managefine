@@ -3,20 +3,29 @@ package com.mnt.createProject.repository;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
+import models.Client;
 import models.User;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import play.data.DynamicForm;
+
 import com.custom.helpers.UserSearchContext;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
+import com.mnt.createProject.vm.ClientVM;
+import com.mnt.createProject.vm.ProjectinstanceVM;
 import com.mnt.orghierarchy.model.Organization;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.model.Projectclass;
@@ -36,7 +45,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	
 	
-	public ProjectsupportattributVM getAddJspPage(Long id) {
+	public ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance) {
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
 		
@@ -48,9 +59,30 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setProjectId(projectclassnode.getProjectId().getId());
 		pVm.setParentId(projectclassnode.getParentId());
 		pVm.setLevel(projectclassnode.getLevel());
+		pVm.setThisNodeId(id);
+		
+		Projectinstancenode projectinstancenodeDate= Projectinstancenode.getProjectParentId(projectclassnode.getParentId(),mainInstance);
+		
+		if(projectinstancenodeDate != null){
+		
+			if(projectinstancenodeDate.getStartDate() != null){
+				pVm.setStartDateLimit(format1.format(projectinstancenodeDate.getStartDate()));
+			}
+			if(projectinstancenodeDate.getEndDate() != null){
+				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
+			}
+		}
 		
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
-		
+		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(id,mainInstance);
+		if(projectinstancenode != null){
+		if(projectinstancenode.getStartDate() != null){
+		pVm.setStartDate(format.format(projectinstancenode.getStartDate()));
+		}
+		if(projectinstancenode.getEndDate() != null){
+		pVm.setEndDate(format.format(projectinstancenode.getEndDate()));
+		}
+		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){
 			ProjectclassnodeattributVM projectclassnodeattributVM=new ProjectclassnodeattributVM();
@@ -59,7 +91,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			projectclassnodeattributVM.setType(proAtt.getType());
 			projectclassnodeattributVM.setValue(proAtt.getValue());
 			
-			Saveattributes saveattributes = Saveattributes.getprojectattriById(proAtt.getId());
+			Saveattributes saveattributes = null;
+			
+			
+			if(projectinstancenode != null){
+			saveattributes = Saveattributes.getProjectAttriId(projectinstancenode.getId(),proAtt.getId());
 			
 			if(saveattributes!=null){
 				
@@ -79,7 +115,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				}
 
 			}
-			
+			}
 			 
 			
 			if(proAtt.getValue() != null){
@@ -112,7 +148,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				}
 			projectclassnodeattributVM.setValueSlice(lines);
 			}
-			 projectclassnodeattributVM.setProjectnode(proAtt.getProjectnode().getId());
+			// projectclassnodeattributVM.setProjectnode(proAtt.getProjectnode().getId());
 			pList2.add(projectclassnodeattributVM);
 		}
 		pVm.setProjectValue(pList2);
@@ -124,7 +160,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	}
 	
 	
-	public ProjectsupportattributVM getEditJspPage(Long id) {
+	/*public ProjectsupportattributVM getEditJspPage(Long id,Long mainInstance) {
+		
+		System.out.println("_+_+_+_+_");
+		System.out.println(mainInstance);
+		System.out.println("_+_+_+_+_");
 		
 		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
 		
@@ -167,6 +207,62 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		
 		return pVm;
+		
+	}
+	*/
+	
+	@Override
+	public Projectinstance saveprojectTypeandName(HttpServletRequest request) {
+
+		System.out.println("+_+_+_+_+_+_+_");
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+
+		System.out.println(form.data().get("projectName"));
+		System.out.println(form.data().get("client"));
+		System.out.println(form.data().get("projectTypeId"));
+		
+		Projectinstance projectinstance= new Projectinstance();
+		projectinstance.setProjectName(form.data().get("projectName"));
+		projectinstance.setClientId(Long.parseLong(form.data().get("client")));
+		projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
+		projectinstance.setProjectDescription(form.data().get("projectDescription"));
+		if(form.data().get("client") != null){
+		Client client = Client.findById(Long.parseLong(form.data().get("client")));
+		projectinstance.setClientName(client.getClientName());
+		}
+		projectinstance.save();
+	
+		return projectinstance;
+		
+	}
+	
+	@Override
+	public Projectinstance editprojectTypeandName(Long projectId) {
+
+		Projectinstance projectinstance= Projectinstance.getById(projectId);
+		System.out.println(projectinstance.getProjectName());
+		return projectinstance;
+		
+	}
+	
+	@Override
+	public List<ClientVM> getfindCliect() {
+		
+		List<ClientVM> result = new ArrayList<ClientVM>();
+	
+		//List<Client> pList = Projectclass.getProjectList();
+		
+		List<Client> cList = Client.getClientList();
+			for(Client clientclass :cList) {
+				ClientVM clientVM = new ClientVM();
+				
+				clientVM.setId(String.valueOf(clientclass.getId()));
+				clientVM.setClientName(clientclass.getClientName());
+				
+				result.add(clientVM);
+			}
+		
+		return result;
 		
 	}
 	

@@ -70,12 +70,39 @@
 					</div>
 					</div>
 					
+					<div class="form-group" style="float: left;">
+				 <div class="col-md-4">
+						<label class="col-md-12" style="margin-top: 16px;">Start Date</label>
+						  <input type="date" name="startDate" value='${editNodeMetaData.startDate}'/> 
+						  
+						  <label class="col-md-12" style="color:red" ng-if="projectT == 1">type is required</label>
+						  
+					</div>
+					 <div class="col-md-2" style="margin-top: 42px;">
+					<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
+					</div>
+				
+					 <div class="col-md-6">
+						<label class="col-md-11" style="margin-top: 16px;" for="pro-name">End Date</label>
+						   <input type="date" name="endDate" value='${editNodeMetaData.endDate}'/> 
+						
+						 
+					</div>
+					</div>
+					
+					
 					<input size="16" type="text" value='${editNodeMetaData.projectTypes}'
 							placeholder="Enter String" style="display: none;" name="projectT">
 					<input size="16" type="text" value='${editNodeMetaData.projectDescription}'
 							placeholder="Enter String" style="display: none;" name="projectD">
 					<input size="16" type="text" value='${editNodeMetaData.projectId}'
 							placeholder="Enter String" style="display: none;" name="projecttypeId">
+							
+							<input size="16" type="text" value='${editNodeMetaData.thisNodeId}'
+							placeholder="Enter String" style="display: none;" name="projectId">
+							
+					 <input size="16" type="text" value='{{MainInstance}}'
+							placeholder="Enter String" style="display: none;" name="projectInstance"> 
 					
 					 <div class="form-group">
 					 <div class="col-md-12">
@@ -93,30 +120,18 @@
 				<div class="col-md-6">
 				<label>${pValue.name} :</label>
 				
-				<input size="16" type="text" value='${pValue.projectnode}'
+				<%-- <input size="16" type="text" value='${pValue.projectnode}'
 							placeholder="Enter String" style="display: none;" name="projectId">
-							
+				<input size="16" type="text" value='{{MainInstance}}'
+							placeholder="Enter String" style="display: none;" name="projectInstance">	 --%>		
 							
 				</div>
 				<c:choose>
 					<c:when
-						test="${pValue.name == 'Date'}">
+						test="${pValue.type == 'Date'}">
 						<div class="col-md-6">
-						<%-- <div id="${pValue.name}" data-provide="datepicker" data-date=""
-							class="input-prepend date datepicker" data-date-format="dd-mm-yyyy">
-							<span class="add-on" ng-click="open($event)"><i class="icon-calendar"></i></span> <input
-							class="add-on" size="16" type="text" value=""
-							placeholder="DD-MM-YYYY" name="${pValue.name}" is-open="opened">
-						</div> --%>
-					<!-- 	<input type="text" pick-a-date="date" placeholder="Select Date" /> {{ date }} -->
-					   <!--  <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
- 						   <input class="span2" size="16" type="text" value="12-02-2012">
-   							 <span class="add-on"><i class="icon-th"></i></span>
-   						 </div> -->
-   						<!--  <input type="text" id="dp1" class="span2 datepicker" placeholder="Date..."  
-           name="date"> <br> -->
-           
-           <input type="text"  /> 
+			
+           <input type="date" value='${pValue.attriValue}' name="${pValue.name}" /> 
            
 						</div>
 					
@@ -201,7 +216,7 @@
 			<div class="modal-footer" style="background-color:white">
 				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
 				<input type="button" class="btn btn-primary" onClick="myFunction()"
-					value="Submit" style="margin: 1% 2%; width: 8%;">
+					ng-click="closeThisDialog()" value="Submit" style="margin: 1% 2%; width: 8%;">
 			</div>
 				
 				</form>

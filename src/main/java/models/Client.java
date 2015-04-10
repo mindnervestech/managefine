@@ -17,6 +17,7 @@ import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
+import com.mnt.projectHierarchy.model.Projectclass;
 
 @Entity
 public class Client extends Model {
@@ -111,6 +112,9 @@ public class Client extends Model {
 	public static Client findById(Long id) {
         return find.where().eq("id", id).findUnique();
     }
+	public static List<Client> getClientList() {
+		return find.all();
+	}
 	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	

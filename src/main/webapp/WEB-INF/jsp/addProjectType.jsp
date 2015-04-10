@@ -24,6 +24,15 @@
 						 placeholder="Enter Project Description." required></textarea>
 							
 					</div>
+					<!-- <div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
+						<label for="org-type" style="width: 40%;">Start Date</label>
+							
+							 <input type="date"  ng-model="pro.startDate"/> 
+							<textarea  class="form-control" id="pro-des" ng-model="pro.projectDescription" rows="3"
+						 placeholder="Enter Project Description." required></textarea>
+							
+					</div> -->
+					 
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;" ng-if="overWrite == 1">
 						<label for="org-profile" style="width: 40%;color:red;">Organization Name already exists</label>
 					</div>

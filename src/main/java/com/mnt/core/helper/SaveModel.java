@@ -44,7 +44,7 @@ public abstract class SaveModel<model extends Model> {
 		
 		for(String key : multipartRequest.getFileMap().keySet()){
 			List<MultipartFile> files = multipartRequest.getFiles(key);
-			List<FileAttachmentMeta> metaFiles = new ArrayList<>();
+			List<FileAttachmentMeta> metaFiles = new ArrayList<FileAttachmentMeta>();
 			for(MultipartFile file : files) {
 				metaFiles.add(new FileAttachmentMeta(file.getOriginalFilename(), file.getSize(),
 						file.getContentType()));

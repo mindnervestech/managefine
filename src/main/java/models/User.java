@@ -208,6 +208,10 @@ public class User extends Model {
         return find.where().eq("id", id).findUnique();
     }
 	
+	public static List<User> findByCompanyId(Long id) {
+        return find.where().eq("companyobject.id", id).findList();
+    }
+	
 	public static List<User> findByIds(List<Long> ids) {
         return find.where().idIn(ids).findList();
     }

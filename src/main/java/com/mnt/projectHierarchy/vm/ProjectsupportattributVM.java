@@ -11,8 +11,13 @@ public class ProjectsupportattributVM {
 	public Long projectId;
 	public String projectTypes;
 	public String projectDescription;
+	public String startDate;
+	public String endDate;
+	public String startDateLimit;
+	public String endDateLimit;
 	public String projectColor;
 	public int level;
+	public Long thisNodeId;
 	public List<ProjectclassnodeattributVM> projectValue;
 	
 	
@@ -57,6 +62,36 @@ public class ProjectsupportattributVM {
 	}
 	public void setLevel(int level) {
 		this.level = level;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public Long getThisNodeId() {
+		return thisNodeId;
+	}
+	public void setThisNodeId(Long thisNodeId) {
+		this.thisNodeId = thisNodeId;
+	}
+	public String getStartDateLimit() {
+		return startDateLimit;
+	}
+	public void setStartDateLimit(String startDateLimit) {
+		this.startDateLimit = startDateLimit;
+	}
+	public String getEndDateLimit() {
+		return endDateLimit;
+	}
+	public void setEndDateLimit(String endDateLimit) {
+		this.endDateLimit = endDateLimit;
 	}
 	
 	

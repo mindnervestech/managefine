@@ -27,9 +27,6 @@ public class Role extends Model{
 
 	}
 	
-	public static Role getRoleById(Long id) {
-		return find.byId(id);
-	}
 	
 	public static Role getRoleByName(String name) {
 		return find.where().eq("roleName", name).findUnique();
@@ -67,10 +64,11 @@ public class Role extends Model{
 		this.parentId = parentId;
 	}
 
-	/*public static Role getRoleById(Long id) {
+	public static Role getRoleById(Long id) {
 		// TODO Auto-generated method stub
 		return find.byId(id);
-	}*/
+	}
+	
 
 	public List<Role> getRoleByParentId(Long id) {
 		// TODO Auto-generated method stub

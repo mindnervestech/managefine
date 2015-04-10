@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.avaje.ebean.Expr;
+
 import play.db.ebean.Model;
 @Entity
 public class Saveattributes extends Model{
@@ -118,6 +120,10 @@ public class Saveattributes extends Model{
 	
 	public static Saveattributes getprojectattriById(Long id) {
 		return find.where().eq("projectattrid", id).findUnique();
+	}
+	
+	public static Saveattributes getProjectAttriId(Long pnodeid,Long ptypeid) {
+		return find.where().add(Expr.and(Expr.eq("projectattrid", ptypeid), Expr.eq("projectinstancenode_id", pnodeid))).findUnique();
 	}
 	
 }

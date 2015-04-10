@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+ 
 <div style="width: 94%;margin-left:1%; float: left;"id='${_searchContext.entityName()}${mode}${"_search"}' class="well form-inline" >  
 		
 		<c:if test="${_searchContext.getFilter() != null}">		
@@ -31,7 +31,6 @@
 		</c:if>		
 				
 </div>
-
 
 <fieldset>
 

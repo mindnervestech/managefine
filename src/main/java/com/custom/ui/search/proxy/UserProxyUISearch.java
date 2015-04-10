@@ -39,7 +39,6 @@ public class UserProxyUISearch extends Model {
 	@SearchColumnOnUI(rank=4,colName="Designation")
 	public String	designation;
 	
-	
 	public String	companyName;
 	
 	public static Model.Finder<Long, UserProxyUISearch> find = new Model.Finder<Long,UserProxyUISearch>(Long.class, UserProxyUISearch.class);

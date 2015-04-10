@@ -3,29 +3,29 @@ package com.custom.helpers;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-
-import models.Project;
-import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import play.data.DynamicForm;
 import utils.ExceptionHandler;
 
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
+import com.mnt.core.ui.component.BuildUIButton;
+import com.mnt.core.ui.component.EditButton;
+import com.mnt.core.ui.component.UIButton;
+import com.mnt.core.ui.component.UIButton.ButtonActionType;
 import com.mnt.core.utils.GridViewModel;
 import com.mnt.core.utils.GridViewModel.PageData;
 import com.mnt.core.utils.GridViewModel.RowViewModel;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.time.controller.routes;
 
 
-public class ProjectSearchContext extends ASearchContext<Project>{
+public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //ProjectInstance 
 	
 	private static ProjectSearchContext searchContext = null;
 	
@@ -36,15 +36,15 @@ public class ProjectSearchContext extends ASearchContext<Project>{
 	}
 	
 	public String entityName(){
-		return Project.ENTITY;
-	}
-
-	public ProjectSearchContext() {
-		super(Project.class,null);
+		return Projectinstance.ENTITY;
 	}
 	
-	public ProjectSearchContext(Project p) {
-		super(Project.class,p);
+	public ProjectSearchContext() {
+		super(Projectinstance.class,null);//ProjectInstance 
+	}
+	
+	public ProjectSearchContext(Projectinstance p) {//ProjectInstance 
+		super(Projectinstance.class,p);//ProjectInstance 
 	}
 
 	@Override
@@ -76,14 +76,14 @@ public class ProjectSearchContext extends ASearchContext<Project>{
 	public HSSFWorkbook doExcel(DynamicForm form) {
 		Expression exp =  super.doSearchExpression(form, SearchType.Like);
 		String email = form.data().get("email");
-		User user1 = User.findByEmail(email);
-		Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
-		List<Project> result;  
+	//	User user1 = User.findByEmail(email);
+	//	Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
+		List<Projectinstance> result;  
 		
 		if(exp == null ){
-			result = Project.find.where().add(exp1).findList();
+			result = Projectinstance.find.where().findList();
 		}else{
-			result = Project.find.where().add(exp1).add(exp).findList();
+			result = Projectinstance.find.where().add(exp).findList();
 		}
 		try {
 			 return super.getExcelExport(result);
@@ -103,15 +103,15 @@ public class ProjectSearchContext extends ASearchContext<Project>{
 		
 		String email = form.data().get("email");
 		
-		User user1 = User.findByEmail(email);
-		Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
+		//User user1 = User.findByEmail(email);
+		//Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
 		
 		int count = 0;
-		if(exp == null ){
+		/*if(exp == null ){
 			count = Project.find.where().add(exp1).findRowCount();
 		}else{
 			count = Project.find.where().add(exp1).add(exp).findRowCount();
-		}
+		}*/
 		
 		String sidx = form.get("sidx");
 		String sord = form.get("sord");
@@ -130,24 +130,27 @@ public class ProjectSearchContext extends ASearchContext<Project>{
 		}
 		
 		int start = limit*page - limit;//orderBy(sidx+" "+sord)
-		List<Project> results =  exp == null ?Project.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).findList()
-				:Project.find.where().add(exp).add(exp1).setFirstRow(start).setMaxRows(limit).findList();
+		List<Projectinstance> results =  exp == null ?Projectinstance.find.setFirstRow(start).setMaxRows(limit).where().findList()
+				:Projectinstance.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findList();
 		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
 	}
 	
-	private  Function<Project,RowViewModel> toJqGridFormat() {
-		return new Function<Project, RowViewModel>() {
+	
+
+	private  Function<Projectinstance,RowViewModel> toJqGridFormat() {
+		return new Function<Projectinstance, RowViewModel>() {
 			@Override
-			public RowViewModel apply(Project project) {
+			public RowViewModel apply(Projectinstance project) {
 				try {
 					return new GridViewModel.RowViewModel((project.getId()).intValue(),newArrayList(
 									project.getProjectName(),
-									project.getProjectCode(),
-									project.getProjectManager().toString(),
-									new SimpleDateFormat("dd MMM yyyy").format(project.getStartDate()).toString(),
-									new SimpleDateFormat("dd MMM yyyy").format(project.getEndDate()).toString()
+									project.getProjectDescription(),
+									project.getClientName(),
+									project.getStartDate(),
+									project.getEndDate()
+									
 									));
 				} catch (Exception e) {
 					ExceptionHandler.onError(e);
@@ -164,13 +167,23 @@ public class ProjectSearchContext extends ASearchContext<Project>{
 	
 	@Override
 	public Map<String, String> autoCompleteUrls() {
-		return Project.autoCompleteAction;
+		return Projectinstance.autoCompleteAction;
 	}
 
 	@Override
 	protected void buildButton() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public UIButton showEditButton(){
+		
+		return BuildUIButton.me().withID("_editButton").
+				withTarget(ButtonActionType.NEW).
+				withLabel("Edit Selected").
+				withUrl("/edit/project").
+				withVisibility(true);
 	}
 	
 	

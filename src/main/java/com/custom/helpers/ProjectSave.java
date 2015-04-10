@@ -7,16 +7,17 @@ import play.data.Form;
 import play.db.ebean.Model;
 
 import com.mnt.core.helper.SaveModel;
+import com.mnt.createProject.model.Projectinstance;
 
-public class ProjectSave extends SaveModel<Project> {
+public class ProjectSave extends SaveModel<Projectinstance> {
 
 	public ProjectSave() {
-		ctx = Project.class;
+		ctx = Projectinstance.class;
 	}
 		
 	private Map<String,Object> extras = null;
 	public ProjectSave(Map<String,Object> extras) {
-		ctx = Project.class;
+		ctx = Projectinstance.class;
 		this.extras = extras;
 	}
 		

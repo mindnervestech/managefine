@@ -107,6 +107,12 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/roleHierarchy.jsp" />
   	</definition>
   	
+  	
+  	<definition name="employeeHierarchy" extends="base.definition">
+    	<put-attribute name="title" value="Define Roles" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/employeeHierarchy.jsp" />
+  	</definition>
+  	
   	<definition name="defineProjects" extends="base.definition">
     	<put-attribute name="title" value="Define Projects" />
     	<put-attribute name="content" value="/WEB-INF/jsp/project-hierarchy.jsp" />
