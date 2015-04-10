@@ -53,10 +53,10 @@ public class TimeSheetHandlerServiceTask implements JavaDelegate {
 		mailWfObject.body = mailWfObject.body + "\r\n " +
 				"Proj. Code\t\tTask Code\t\tSun\t\tMon\t\tTue\t\tWed\t\tThur\t\tFri\t\tSat";
 		for(TimesheetRow tsr : ts.timesheetRows){
-			mailWfObject.body = mailWfObject.body + " \r\n " +
-					tsr.projectCode+"\t\t\t"+tsr.taskCode+"\t\t\t"+tsr.sun+"\t\t\t"+tsr.mon+"\t\t\t"+tsr.tue+"\t\t\t"+tsr.wed+"\t\t\t"+tsr.thu+"\t\t\t"+tsr.fri+"\t\t\t"+tsr.sat;
+			//mailWfObject.body = mailWfObject.body + " \r\n " +
+	//				tsr.projectCode+"\t\t\t"+tsr.taskCode+"\t\t\t"+tsr.sun+"\t\t\t"+tsr.mon+"\t\t\t"+tsr.tue+"\t\t\t"+tsr.wed+"\t\t\t"+tsr.thu+"\t\t\t"+tsr.fri+"\t\t\t"+tsr.sat;
 			
-			totalHrs += tsr.totalHrs;
+			//totalHrs += tsr.totalHrs;
 		}
 		mailWfObject.body = mailWfObject.body + "" +
 				" \r\n "+"Total		"+totalHrs;

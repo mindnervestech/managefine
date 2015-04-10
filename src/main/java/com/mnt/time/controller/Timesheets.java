@@ -117,6 +117,85 @@ public class Timesheets{
 		return "schedularToday";
     }
 	
+	@RequestMapping(value="/schedularTodayAll", method = RequestMethod.GET)
+	public String schedularTodayAll(ModelMap model, @CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+		
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		cal.setTime(date);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String dt = df.format(date);
+		try {
+			date = df.parse(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("list", Json.toJson(timesheetService.getTodayAllTimesheet(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, date)));
+		
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		return "schedularTodayAll";
+    }
+	
+	@RequestMapping(value="/schedularWeekReport", method = RequestMethod.GET)
+	public String schedularWeekReport(ModelMap model, @CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+		
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		cal.setTime(date);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String dt = df.format(date);
+		try {
+			date = df.parse(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("weekReport", Json.toJson(timesheetService.getWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, date)));
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		return "schedularWeekReport";
+    }
+	
+	@RequestMapping(value="/getStaffWeekReport", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getStaffWeekReport(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return Json.toJson(timesheetService.getWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
+		
+	}
+	
+	@RequestMapping(value="/getTodayAllByDate", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getTodayAllByDate(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return Json.toJson(timesheetService.getTodayAllTimesheet(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
+		
+	}
+	
+	
 	@RequestMapping(value="/setupHoliday", method = RequestMethod.GET)
 	public String setupHoliday(ModelMap model, @CookieValue("username") String username) {
 		User user = User.findByEmail(username);
@@ -131,6 +210,30 @@ public class Timesheets{
 	public String getTodayData(ModelMap model, @PathVariable("userId") String userId,@PathVariable("dateStr") String date) {
 		
 		User user = User.findById(Long.parseLong(userId));
+		model.addAttribute("_menuContext", MenuBarFixture.build(user.getEmail()));
+		String arr[] = date.split("-");
+		String dateStr = arr[0]+"/"+arr[1]+"/"+arr[2];
+		model.addAttribute("user", user);
+		model.addAttribute("dateStr", dateStr);
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt;
+		try {
+			dt = df.parse(dateStr);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("userJson",timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime()));
+		
+		return "schedularToday";
+    }
+	
+	@RequestMapping(value="/getUserTodayData/{dateStr}/{userId}/{uId}", method = RequestMethod.GET)
+	public String getTodayData(ModelMap model,@PathVariable("dateStr") String date,@PathVariable("userId") String userId,@PathVariable("uId") String uId) {
+		
+		User user = User.findById(Long.parseLong(uId));
 		model.addAttribute("_menuContext", MenuBarFixture.build(user.getEmail()));
 		String arr[] = date.split("-");
 		String dateStr = arr[0]+"/"+arr[1]+"/"+arr[2];

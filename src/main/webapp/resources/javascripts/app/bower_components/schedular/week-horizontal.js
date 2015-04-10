@@ -24,7 +24,7 @@
 			}
 			var left = $("<span id='horizontal-scheduler-left' style='float:left;width:15%;height:100%;overflow:hidden;border-right:2px solid blue;'></span>");
 			var center = $("<span id='horizontal-scheduler-center' style='float:left;width:80%;height:100%;overflow:auto;border-right:2px solid blue;'></span>");
-			var right = $("<span id='horizontal-scheduler-right' style='float:left;width:5%;height:50px;border-bottom: 1px solid;'><span class='fa fa-caret-square-o-right' style='font-size: 50px;color: #5686ba;margin-left: 8px;'></span></span>");
+			var right = $("<span id='horizontal-scheduler-right' style='float:left;width:4%;height:50px;border-bottom: 1px solid;'><span class='fa fa-caret-square-o-right' style='font-size: 50px;color: #5686ba;margin-left: 8px;'></span></span>");
 			$(self).append(left,center,right);
 			//$(self).css("height","484px");
 			var unitTicketlabel = 0;

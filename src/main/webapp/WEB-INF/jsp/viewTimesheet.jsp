@@ -64,20 +64,20 @@
 	</div>
 
 	<div class="timesheetFirstRow"> 
-		<p style="display:none;"><b>Timesheet ID :</b> <span id="timesheetID">${timesheet.id}</span></p> 
+		<p style="display:none;"><b>Timesheet ID :</b> <span id="timesheetID">${timesheetVM.id}</span></p> 
 	
-		<p><b>Week Of Year :</b> ${timesheet.weekOfYear}</p>
+		<p><b>Week Of Year :</b> ${timesheetVM.weekOfYear}</p>
 		
-		<p><b>Status :</b> ${timesheet.status}</p>
+		<p><b>Status :</b> ${timesheetVM.status}</p>
 		
-		<p><b>Timesheet With</b> : ${timesheet.timesheetWith.firstName} ${timesheet.timesheetWith.lastName}</p>
+		<p><b>Timesheet With</b> : ${timesheetVM.firstName} ${timesheetVM.lastName}</p>
 	</div>
 
 	<table class="timesheetSecondRow">
 		<thead>
 			<tr>
-				<td style="width:15%">Project Code</td>
-				<td style="width:15%">Task Code</td>
+				<td style="width:15%">Project Name</td>
+				<td style="width:15%">Task Name</td>
 				<td style="width:10%">Mon</td>
 				<td style="width:10%">Tue</td>
 				<td style="width:10%">Wed</td>
@@ -86,95 +86,31 @@
 				<td style="width:10%">Sat</td>
 				<td style="width:10%">Sun</td>
 				<td style="width:10%">Total Hrs</td>
-				<td style="width:10%">is Overtime</td>
+				<!-- <td style="width:10%">is Overtime</td> -->
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="row" items="${timesheet.timesheetRows}">
+			<c:forEach var="row" items="${timesheetVM.timesheetRowsList}">
 				<tr>
-					<td>${row.projectCode}</td>
-					<td>${row.taskCode}</td>
+					<td>${row.projectName}</td>
+					<td>${row.taskName}</td>
+					<c:forEach var="dayObj" items="${row.timesheetRowDays}">
 					<td>
 						<c:choose>
-							<c:when test="${row.mon == null}">
-								0
+							<c:when test="${dayObj.timeFrom == null}">
+								-
 							</c:when>
 							<c:otherwise>
-								${row.mon}
+								${dayObj.timeFrom} to ${dayObj.timeTo}
 							</c:otherwise>
-						</c:choose>
+							</c:choose>
+						
 					</td>
+					</c:forEach>
 					<td>
-						<c:choose>
-							<c:when test="${row.tue == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.tue}
-							</c:otherwise>
-						</c:choose>
+						${row.totalHrs}
 					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.wed == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.wed}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.thu == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.thu}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.fri == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.fri}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.sat == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.sat}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.sun == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.sun}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${row.totalHrs == null}">
-								0
-							</c:when>
-							<c:otherwise>
-								${row.totalHrs}
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
+					<%-- <td>
 						<c:choose>
 							<c:when test="${row.overTime == null}">
 								No
@@ -190,7 +126,8 @@
 								</c:choose>
 							</c:otherwise>
 						</c:choose>
-					</td>
+					</td> --%>
+					
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -183,6 +183,16 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/schedularMonth.jsp" />
   	</definition> 
   	
+  	<definition name="schedularTodayAll" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/schedularTodayAll.jsp" />
+  	</definition> 
+  	
+  	<definition name="schedularWeekReport" extends="base.definition">
+    	<put-attribute name="title" value="Schedule" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/schedularWeekReport.jsp" />
+  	</definition>
+  	
   	<definition name="setupHoliday" extends="base.definition">
     	<put-attribute name="title" value="Schedule" />
     	<put-attribute name="content" value="/WEB-INF/jsp/setup-holiday.jsp" />

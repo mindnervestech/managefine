@@ -29,6 +29,8 @@ public enum Permissions {
 	Week(routes.Schedule.schedularWeek.url,Schedule,"Week View"),
 	Month(routes.Schedule.schedularMonth.url,Schedule,"Month View"),
 	Holiday(routes.Schedule.setupHoliday.url,Schedule,"Setup Holiday"),
+	TodayAll(routes.Schedule.todayAll.url,Schedule,"Today All"),
+	WeekReport(routes.Schedule.weekReport.url,Schedule,"Week Report"),
 	
 	Delegate(routes.Delegate.index.url,null,"Delegates"),
 	

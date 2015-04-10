@@ -54,10 +54,6 @@ public class ProjectHierarchyRepositoryImpl implements ProjectHierarchyRepositor
 	@Override
 	public List<ProjectclassnodeVM> selectProjectType(Long id) {
 		
-		System.out.println("%%%%%%%%%%");
-		System.out.println(id);
-		System.out.println("%%%%%%%%%%");
-		
 		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
 		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(id);
 		for(Projectclassnode projectclassnode :projList) {

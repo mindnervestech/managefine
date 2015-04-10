@@ -326,6 +326,11 @@
 	margin-left: 1%;
 	padding-right: 0% !important;
 }
+
+.ui-pnotify-history-container.well {
+top: -130.3125px;
+}
+
 </style>
 <script>
 

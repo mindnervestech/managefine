@@ -454,6 +454,15 @@ public interface Schedule {
 	public interface setupHoliday {
 		public static String url="/setupHoliday";
 	}
+	
+	public interface todayAll {
+		public static String url="/schedularTodayAll";
+	}
+	
+	public interface weekReport {
+		public static String url="/schedularWeekReport";
+	}
+	
 }
 
 public interface Timesheet {
@@ -471,6 +480,7 @@ public interface Calendar {
 		public static String url="/timesheetSearchIndex";
 	}
 
+	
 	public interface create {
 		public static String url="/timesheetCreate";
 	}

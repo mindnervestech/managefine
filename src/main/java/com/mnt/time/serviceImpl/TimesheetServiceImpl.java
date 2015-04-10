@@ -49,4 +49,13 @@ public class TimesheetServiceImpl implements TimesheetService{
 	public void markLeave(StaffLeaveVM leaveVM, User user) {
 		 timesheetDAO.markLeave(leaveVM, user);
 	}
+	
+	public List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
+		return timesheetDAO.getTodayAllTimesheet(weekOfYear, year, user, date);
+	}
+	
+	public List getWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		return timesheetDAO.getWeekReport(weekOfYear, year, user, date);
+	}
+	
 }

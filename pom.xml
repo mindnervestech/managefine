@@ -215,19 +215,8 @@
 			<artifactId>tiles-el</artifactId>
 			<version>2.2.2</version>
 			
-		</dependency> 
-
-	<!-- 
-		<dependency>
-			<groupId>crud-ebean</groupId>
-			<artifactId>crud-ebean</artifactId>
-			<version>0.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/crud-ebean-0.0.2.jar</systemPath>
 		</dependency>
-	-->
 
-		<!-- Test -->
 		<dependency>
 			<groupId>crud-ebean</groupId>
 			<artifactId>crud-ebean</artifactId>
@@ -245,12 +234,12 @@
 		</dependency>
 
 		<!-- Test -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
   			<groupId>commons-fileupload</groupId>

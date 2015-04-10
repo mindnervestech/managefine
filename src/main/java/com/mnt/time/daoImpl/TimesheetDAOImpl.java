@@ -26,8 +26,12 @@ import viewmodel.DayVM;
 import viewmodel.LeaveDay;
 import viewmodel.LeaveMonth;
 import viewmodel.MonthVM;
+import viewmodel.ReportEvent;
 import viewmodel.SchedularTodayVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.StaffWeekReportVM;
+import viewmodel.TodayAllVM;
+import viewmodel.WeekReportVM;
 
 import com.mnt.time.dao.TimesheetDAO;
 
@@ -40,7 +44,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	public JsonNode getScheduleByDate(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
-		
+		List<SchedularTodayVM> emptyList = new ArrayList<>();
 		if(timesheet != null) {
 		
 		List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
@@ -73,7 +77,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			return Json.toJson(vmList);
 	
 		} else {
-			return Json.toJson("");
+			return Json.toJson(emptyList);
 		}
 		
 	}
@@ -546,6 +550,154 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 	}
 	
+	@Override
+	public List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
+		List<User> users = User.findByManager(user);
+		List<TodayAllVM> todayAllVMList = new ArrayList<>();
+		for(User userObj: users) {
+			TodayAllVM todayAllVM = new TodayAllVM();
+			todayAllVM.id = userObj.getId();
+			todayAllVM.name = userObj.getFirstName()+" "+userObj.getLastName();
+			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
+			
+			if(timesheet != null) {
+			
+			List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
+			List<SchedularTodayVM> vmList = new ArrayList<>();
+			if(timesheetRows != null) {
+				for(TimesheetRow row : timesheetRows) {
+					TimesheetDays timesheetDay = TimesheetDays.findByDateAndTimesheet(date, row);
+					if(timesheetDay != null) {
+						if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
+							SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+							schedularTodayVM.id = timesheetDay.getId();
+							schedularTodayVM.startTime = timesheetDay.getTimeFrom();
+							schedularTodayVM.endTime = timesheetDay.getTimeTo();
+							schedularTodayVM.notes = timesheet.getStatus().getName();
+							schedularTodayVM.type = "A";
+							if(timesheet.getStatus().getName().equals("Approved")) {
+								schedularTodayVM.color = "#009933";
+							} else {
+								schedularTodayVM.color = "#FF7519";
+							}
+							Task task = Task.findByTaskCode(row.getTaskCode());
+							schedularTodayVM.visitType = task.getTaskName();
+							schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
+							schedularTodayVM.taskId = task.getId();
+							vmList.add(schedularTodayVM);
+						}
+					}
+				}
+			}
+			
+			todayAllVM.data = vmList;
+		  }
+			todayAllVMList.add(todayAllVM);
+	   }		
+		return todayAllVMList;
+	}
+	
+	@Override
+	public List getWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		List<User> users = User.findByManager(user);
+		List<StaffWeekReportVM> staffWeekReportList = new ArrayList<>();
+		
+		for(User userObj: users) {
+			
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = userObj.getId();
+			reportVM.name = userObj.getFirstName()+" "+userObj.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
+			
+			if(timesheet != null) {
+				List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
+				if(timesheetRows != null) {
+						String day = "";
+						List<WeekReportVM> weekReportList = new ArrayList<>();
+						for(int i=0;i<=6;i++) {
+							if(i == 0) {
+								day = "monday";
+							}
+							if(i == 1) {
+								day = "tuesday";
+							}
+							if(i == 2) {
+								day = "wednesday";
+							}
+							if(i == 3) {
+								day = "thursday";
+							}
+							if(i == 4) {
+								day = "friday";
+							}
+							if(i == 5) {
+								day = "saturday";
+							}
+							if(i == 6) {
+								day = "sunday";
+							}
+							WeekReportVM weekReportVM = new WeekReportVM();
+							int hours = 0,totalmins = 0;
+							for(TimesheetRow row : timesheetRows) {
+								TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
+								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+								weekReportVM.date = df.format(timesheetDay.getTimesheetDate());
+								if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
+									totalmins = totalmins + timesheetDay.getWorkMinutes();
+								}
+							}
+							hours = totalmins/60;
+							int percent = (hours*100)/9;
+							List<ReportEvent> reportEventList = new ArrayList<>();
+							if(percent == 0) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								reportEvent.setLabel("9Hrs");
+								reportEventList.add(reportEvent);
+							} 
+							if(percent>0 && percent<=100) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100-percent);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								reportEvent.setLabel(9-hours+"Hrs");
+								reportEventList.add(reportEvent);
+								
+								ReportEvent reportEvent2 = new ReportEvent();
+								reportEvent2.setTooltip("Alloted Time!");
+								reportEvent2.setX("");
+								List<Integer> y2 = new ArrayList<Integer>();
+								y2.add(percent);
+								reportEvent2.setY(y2);
+								reportEvent2.setColor("#009933");
+								reportEvent2.setLabel(hours+"Hrs");
+								reportEventList.add(reportEvent2);
+							}
+							weekReportVM.data = reportEventList;
+							weekReportList.add(weekReportVM);
+							
+					}
+						reportVM.weekReport = weekReportList;
+				}	
+			}
+			
+			staffWeekReportList.add(reportVM);
+		}
+		
+		
+		return staffWeekReportList;
+	}
 	
 	
 }

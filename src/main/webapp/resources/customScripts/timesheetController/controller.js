@@ -380,6 +380,7 @@ app.controller("SchedularTodayController", function($scope,$http) {
 			.success(function(data) {
 				console.log('success');
 				console.log(data);
+				
 				$scope.myString = JSON.stringify(data);
 				$scope.data.data = $scope.myString;
 			});
@@ -1081,5 +1082,181 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 	}
 	
+});
+
+app.controller("SchedularTodayAllController", function($scope,$http) {
+	
+	var d = new Date();
+	$scope.currentDate = (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+	$scope.unitValueInMin = 60;
+	$scope.gradationBetweenPerUnit = 15;
+	$scope.gradationBetweenPerUnitpx = 50;
+	var d1 = new Date($scope.currentDate);
+	
+	$scope.addFunction = function() {
+		
+	};
+	
+	$scope.editFunction = function() {
+		
+	};
+	
+	$scope.init = function(data) {
+		$scope.dataList = data;
+		var myString = JSON.stringify($scope.dataList);
+		$("#horizontal-scheduler").weekHorizontal({
+			unitValueInMin:  $scope.unitValueInMin,
+			gradationBetweenPerUnit: $scope.gradationBetweenPerUnit,
+			gradationBetweenPerUnitpx:$scope.gradationBetweenPerUnitpx,
+			width:"400",
+			height:"100px",
+			data: myString,
+			startTime:'0',
+			endTime:'24',
+			showCurrentTime:true,
+			date:d1,
+			addFunction:$scope.addFunction,
+			editFunction:$scope.editFunction,
+			showRuller:true,
+			vertically:false
+		});
+	};
+	
+	$scope.getAllStaffAppointments = function(currentDate) {
+		console.log(currentDate);
+		$scope.userId = $('#userID').val();
+		var d1 = new Date(currentDate);
+		$http({method:'GET',url:contextPath+'/getTodayAllByDate',params:{userId:$scope.userId,date:currentDate}})
+		.success(function(data) {
+			console.log('success');
+			var myString = JSON.stringify(data);
+			$("#horizontal-scheduler").weekHorizontal({
+				unitValueInMin:  $scope.unitValueInMin,
+				gradationBetweenPerUnit: $scope.gradationBetweenPerUnit,
+				gradationBetweenPerUnitpx:$scope.gradationBetweenPerUnitpx,
+				width:"400",
+				height:"100px",
+				data: myString,
+				startTime:'0',
+				endTime:'24',
+				showCurrentTime:true,
+				date:d1,
+				addFunction:$scope.addFunction,
+				editFunction:$scope.editFunction,
+				showRuller:true,
+				vertically:false
+			});
+		});	
+	}
+	
+});
+
+app.controller("SchedularWeekReportController", function($scope,$http,$compile) {
+	console.log('week report........');
+	$scope.currentDate = new Date(); 
+	$scope.staffs = [];
+	
+	$scope.init = function(data) {
+		$scope.userId = $('#userID').val();
+		for(var i=0;i<data.length;i++) {
+			if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
+				data[i].flag = false;
+			} else {
+				data[i].flag = true;
+			}
+		}
+		$scope.staffs = data;
+		console.log(data);
+	}
+	
+	$scope.changeWeek = function(date) {
+		$scope.userId = $('#userID').val();
+		var d = (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
+		$http({method:'GET',url:contextPath+'/getStaffWeekReport',params:{userId:$scope.userId,date:d}}).success(function(data) {
+			console.log(data);
+			for(var i=0;i<data.length;i++) {
+				if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
+					data[i].flag = false;
+				} else {
+					data[i].flag = true;
+				}
+			}
+			$scope.staffs = data;
+		});
+	};
+	
+	$scope.getWeekDayData = function(day,week,year,userId) {
+		var htmlTemplate = "";
+		
+			$http({method:'GET',url:contextPath+'/getWeekDayData',params:{userId:userId,week:week,year:year,day:day}})
+			.success(function(data) {
+				if(day == 'monday') {
+					$scope.mondayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in mondayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'tuesday') {
+					$scope.tuesdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in tuesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'wednesday') {
+					$scope.wednesdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in wednesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'thursday') {
+					$scope.thursdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in thursdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'friday') {
+					$scope.fridayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in fridayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'saturday') {
+					$scope.saturdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in saturdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(day == 'sunday') {
+					$scope.sundayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in sundayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+			$.pnotify({
+			    title: day,
+			    type:'info',
+			    text: htmlTemplate,
+			    addclass: day,
+			    hide: false,
+			    sticker: false
+			});
+			var element = $('.'+day);
+			$compile(element)($scope);
+		});
+	}
+	
+	$scope.config = {
+			tooltips: true,
+			labels: true,
+			mouseover: function() {},
+			mouseout: function() {},
+			click: function() {},
+			innerRadius: '40%',
+			colors:['blue','green','black','red'],
+			legend: {
+				display: false,
+				//could be 'left, right'
+				position: 'right'
+			}
+		};
+
+		$scope.data = {
+			data: [{
+				y: [100, 500, 0],
+				tooltip: "this is tooltip"
+			}, {
+				y: [300, 100, 100]
+			}, {
+				y: [351]
+			}, {
+				y: [54, 0, 879]
+			}]
+		};
 });
 

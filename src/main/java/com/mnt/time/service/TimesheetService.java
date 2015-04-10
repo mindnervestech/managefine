@@ -27,4 +27,8 @@ public interface TimesheetService {
 	void markWeeklyLeave(Integer leaveIndex,User user);
 	
 	void markLeave(StaffLeaveVM leaveVM, User user);
+	
+	List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date);
+	
+	List getWeekReport(Integer weekOfYear, Integer year, User user, Date date);
 }

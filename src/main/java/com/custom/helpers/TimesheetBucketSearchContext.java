@@ -13,6 +13,7 @@ import java.util.List;
 import models.Delegate;
 import models.Project;
 import models.Timesheet;
+import models.TimesheetActual;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -277,18 +278,29 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 	}
 
 	public GridViewModel doSearch(DynamicForm form) {
-		List<Timesheet> timesheets = null;
-		List<Timesheet> timesheetsDelegate = null;
+		//List<Timesheet> timesheets = null;
+		//List<Timesheet> timesheetsDelegate = null;
+		
+		List<TimesheetActual> timesheets = null;
+		List<TimesheetActual> timesheetsDelegate = null;
 		
 		User user = User.findByEmail(form.data().get("userEmail"));
 		Long id = null;
 		if(form.data().get("status") != null ){
-			timesheets = Timesheet.find.where()
+			/*timesheets = Timesheet.find.where()
+					.and(Expr.eq("status", TimesheetStatus.valueOf(form.data().get("status")).ordinal()),
+							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
+								.findList();*/
+			timesheets = TimesheetActual.find.where()
 					.and(Expr.eq("status", TimesheetStatus.valueOf(form.data().get("status")).ordinal()),
 							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
 								.findList();
 		}else{
-			timesheets = Timesheet.find.where()
+			/*timesheets = Timesheet.find.where()
+					.and(Expr.eq("status", TimesheetStatus.Submitted),
+							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
+								.findList();*/
+			timesheets = TimesheetActual.find.where()
 					.and(Expr.eq("status", TimesheetStatus.Submitted),
 							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
 								.findList();
@@ -298,7 +310,8 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 		if(delegate != null && (today.isAfter(delegate.fromDate.getTime()) && today.isBefore(delegate.toDate.getTime())))
 		{
 			id = delegate.delegator.id;
-			timesheetsDelegate = Timesheet.find.where().eq("timesheetWith",User.find.byId(id)).findList();
+			//timesheetsDelegate = Timesheet.find.where().eq("timesheetWith",User.find.byId(id)).findList();
+			timesheetsDelegate = TimesheetActual.find.where().eq("timesheetWith",User.find.byId(id)).findList();
 		}
 		
 		
@@ -308,7 +321,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				TimeSheetBucket myBucket = new TimeSheetBucket();
 				myBucket.setFirstName(timesheets.get(i).getUser().getFirstName());
 				myBucket.setLastName(timesheets.get(i).user.getLastName());
-				myBucket.setProjectName(Project.findByProjectCode(timesheets.get(i).timesheetRows.get(0).getProjectCode()).getProjectName());
+				myBucket.setProjectName(Project.findByProjectCode(timesheets.get(i).timesheetRowsActual.get(0).getProjectCode()).getProjectName());
 				myBucket.setId(timesheets.get(i).getId());
 				myBucket.setWeekOfYear(timesheets.get(i).getWeekOfYear());
 				myBucket.setYear(timesheets.get(i).getYear());
@@ -362,7 +375,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				TimeSheetBucket myBucket = new TimeSheetBucket();
 				myBucket.setFirstName(timesheetsDelegate.get(i).getUser().getFirstName());
 				myBucket.setLastName(timesheetsDelegate.get(i).user.getLastName());
-				myBucket.setProjectName(Project.findByProjectCode(timesheetsDelegate.get(i).timesheetRows.get(0).getProjectCode()).getProjectName());
+				myBucket.setProjectName(Project.findByProjectCode(timesheetsDelegate.get(i).timesheetRowsActual.get(0).getProjectCode()).getProjectName());
 				myBucket.setId(timesheetsDelegate.get(i).getId());
 				myBucket.setWeekOfYear(timesheetsDelegate.get(i).getWeekOfYear());
 				myBucket.setYear(timesheetsDelegate.get(i).getYear());

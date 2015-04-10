@@ -216,6 +216,9 @@ public class User extends Model {
         return find.where().idIn(ids).findList();
     }
 	
+	public static List<User> findByManager(User user) {
+		return find.where().eq("manager", user).findList();
+	}
 	
 	public static User authenticate(String email, String password, String companyCode) {
 		User user= find.where().eq("email", email).eq("password", password).findUnique();

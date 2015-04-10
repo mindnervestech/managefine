@@ -46,6 +46,7 @@
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/moment.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/bootbox.min.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
+    	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/app.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/coreController.js"/>'></script>
 		 

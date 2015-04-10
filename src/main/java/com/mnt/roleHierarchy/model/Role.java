@@ -27,6 +27,9 @@ public class Role extends Model{
 
 	}
 	
+	public static Role getRoleById(Long id) {
+		return find.byId(id);
+	}
 	
 	public static Role getRoleByName(String name) {
 		return find.where().eq("roleName", name).findUnique();

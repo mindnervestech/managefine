@@ -285,5 +285,13 @@ public class Project extends Model{
 		this.task = task;
 	}
 
+	public List<ProjectFlexi> getFlexiAttributes() {
+		return flexiAttributes;
+	}
+
+	public void setFlexiAttributes(List<ProjectFlexi> flexiAttributes) {
+		this.flexiAttributes = flexiAttributes;
+	}
+
 
 }

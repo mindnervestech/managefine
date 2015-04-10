@@ -88,7 +88,7 @@ public class TimesheetSearchContext extends ASearchContext<Timesheet>{
 
 	@Override
 	public String searchUrl() {
-		return routes.Timesheets.search.url;
+		return routes.Calendar.search.url;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class TimesheetSearchContext extends ASearchContext<Timesheet>{
 	}
 	@Override
 	public String generateExcel() {
-		return routes.Timesheets.excelReport.url;
+		return routes.Calendar.excelReport.url;
 	}
 	
 	@Override
