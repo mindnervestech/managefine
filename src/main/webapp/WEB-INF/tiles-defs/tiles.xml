@@ -65,7 +65,12 @@
   	<definition name="supplierIndex" extends="base.definition">
     	<put-attribute name="title" value="Manage Suppliers" />
     	<put-attribute name="content" value="/WEB-INF/jsp/supplierIndex.jsp" />
-  	</definition>  
+  	</definition> 
+  	
+  	<definition name="caseIndex" extends="base.definition">
+    	<put-attribute name="title" value="Cases" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/caseIndex.jsp" />
+  	</definition> 
 
   	<definition name="userIndex" extends="base.definition">
     	<put-attribute name="title" value="Manage Users" />

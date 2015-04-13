@@ -63,6 +63,9 @@ public class FlexiAttributes {
 				}else if(flexi.getModel().equals("Client")){
 					flexiAttribute.setModel("models.ClientFlexi");
 					flexiAttribute.setUniqueid(3L);
+				}else if(flexi.getModel().equals("Supplier")){
+					flexiAttribute.setModel("models.SupplierFlexi");
+					flexiAttribute.setUniqueid(5L);
 				}else if(flexi.getModel().equals("Task")){
 					flexiAttribute.setModel("models.TaskFlexi");
 					flexiAttribute.setUniqueid(4L);

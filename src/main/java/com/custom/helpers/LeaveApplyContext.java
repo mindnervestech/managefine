@@ -160,7 +160,7 @@ private static LeaveApplyContext searchContext = null;
 					Date fromdate = OrignaldateFormat.parse(fromDateFromUI);
 					fromDateFromUI= TargerdateFormat.format(fromdate);  
 					toDateFromUI= TargerdateFormat.format(todate);  
-			        exp = Expr.and(exp, Expr.between("startDate",fromDateFromUI, toDateFromUI));
+			        exp =  Expr.between("startDate",fromDateFromUI, toDateFromUI);
         		}
         	}	
 		} catch (ParseException e) {

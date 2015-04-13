@@ -19,11 +19,16 @@ public class LeavesCredit extends Model {
 	
 	public String policyName;
 	
-	
+	@OneToOne(cascade=CascadeType.ALL)
+	public Company companyobject;
 
 	public static Model.Finder<Long, LeavesCredit> find = new Model.Finder<Long,LeavesCredit>
 
 (Long.class, LeavesCredit.class);
+	
+	public static LeavesCredit findByCompany(Company companyobject){
+		return LeavesCredit.find.where().eq("companyobject", companyobject).findUnique();
+	}
 
 	public Long getId() {
 		return id;
@@ -39,6 +44,14 @@ public class LeavesCredit extends Model {
 
 	public void setPolicyName(String policyName) {
 		this.policyName = policyName;
+	}
+
+	public Company getCompanyobject() {
+		return companyobject;
+	}
+
+	public void setCompanyobject(Company companyobject) {
+		this.companyobject = companyobject;
 	}
 
 	

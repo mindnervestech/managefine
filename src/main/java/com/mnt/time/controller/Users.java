@@ -5,8 +5,12 @@ import static com.google.common.collect.Lists.transform;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +25,7 @@ import models.Company;
 import models.Department;
 import models.LeaveBalance;
 import models.LeaveLevel;
+import models.LeavesCredit;
 import models.MailSetting;
 import models.RoleLevel;
 import models.RoleX;
@@ -381,12 +386,13 @@ public class Users {
 	}
 	
 	@RequestMapping(value="/userCreate", method = RequestMethod.POST)
-	public @ResponseBody String create(HttpServletRequest request,@CookieValue("username") String username) {
+	public @ResponseBody String create(HttpServletRequest request,@CookieValue("username") String username) throws ParseException {
 		String email,code,userEmail;
 		int a,b;
 		
 			DynamicForm form = DynamicForm.form().bindFromRequest(request);
 			String userName = form.get("email");
+			System.out.println("join date----"+form.get("hireDate"));
 			User user = User.findByEmail(username);
 			
 			email = user.email;
@@ -401,6 +407,7 @@ public class Users {
 			RoleLevel roleLevel = RoleLevel.findById(Long.parseLong(form.get("rolex")));
 			Role role = Role.getRoleById(Long.parseLong(form.get("rolex")));
 			Department deptr = Department.departmentById(Long.parseLong(form.get("dept")));
+			LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
 	    	Map<String, Object> extra = new HashMap<String, Object>();
 	    	extra.put("email", userEmail);
 			extra.put("companyobject", User.findByEmail(username).companyobject);
@@ -411,6 +418,47 @@ public class Users {
 			extra.put("designation", role.getRoleName());
 			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());
+			System.out.println("join date=="+user.getHireDate());
+			List<LeaveBalance> lb = LeaveBalance.findByUser(user);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = formatter.parse(form.get("hireDate"));
+			for(LeaveBalance l : lb){
+				if(lc.getPolicyName().equals("Pro rata basis")){
+					Calendar c = Calendar.getInstance();
+					c.setTime(date);
+					int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+					
+					if(dayOfMonth < 15){
+						l.setBalance(1F);
+						l.update();
+					}else{
+						l.setBalance(0F);
+						l.update();
+					}
+				}else{
+					System.out.println("leaves --"+0);
+				}
+				if(lc.getPolicyName().equals("Annual Credit Policy")){
+					Calendar c = Calendar.getInstance();
+					c.setTime(date);
+					int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+					int Month = c.get(Calendar.MONTH);
+					int remain = 12 - Month;
+					if(dayOfMonth < 15){
+						int bal1 = remain + 1;
+						float bal2 = (float) bal1;
+						l.setBalance(bal2);
+						l.update();
+					}else{
+						int bal1 = remain;
+						float bal2 = (float) bal1;
+						l.setBalance(bal2);
+						l.update();
+					}
+				}else{
+					System.out.println("leaves --"+9);
+				}
+			}
 			
 			UserSave saveUtils = new UserSave(extra);
 			

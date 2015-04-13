@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
- 
+
 <div style="width: 94%;margin-left:1%; float: left;"id='${_searchContext.entityName()}${mode}${"_search"}' class="well form-inline" >  
 		
 		<c:if test="${_searchContext.getFilter() != null}">		
@@ -21,7 +21,7 @@
 				 <c:when test='${fieldType.ctype().name() == "DATE"}'>
 				 	<label style="margin-left: 2%;"class="control-label" for="selectbasic">${fieldType.label()}</label>
 					<div data-provide="datepicker" class="input-append date datepicker" data-date="" data-date-format="dd-mm-yyyy">
-	    				<input style="width: 80%;"id='${_searchContext.entityName()}${mode}${fieldType.name()}' size="16" type="text" value="" readonly name='${fieldType.name()}'><span class="add-on"><i class="icon-calendar"></i></span>
+	    				<input style="width: 80%;  height: 20px;"id='${_searchContext.entityName()}${mode}${fieldType.name()}' size="16" type="text" value="" readonly name='${fieldType.name()}'><span class="add-on"><i class="icon-calendar"></i></span>
 					</div>
 				 </c:when>
 			</c:choose>
@@ -31,6 +31,7 @@
 		</c:if>		
 				
 </div>
+
 
 <fieldset>
 

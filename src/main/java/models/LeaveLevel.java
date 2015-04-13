@@ -56,6 +56,10 @@ public class LeaveLevel extends Model{
 		return LeaveLevel.find.byId(id);
 	}
 	
+	public static LeaveLevel findByLeaveType(String leave_type){
+		return LeaveLevel.find.where().eq("leave_type", leave_type).findUnique();
+	}
+	
 	public static LeaveLevel findByUser(Long id, String pm) {
         return find.where().add(Expr.eq("leaveX", LeaveX.findByCompany(User.findById(id).getCompanyobject().getId()))).findUnique();
     }

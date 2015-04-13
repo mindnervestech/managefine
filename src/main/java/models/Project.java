@@ -130,9 +130,13 @@ public class Project extends Model{
 		Project project =  find.where().add(Expr.ilike("projectCode", query)).findUnique();
 		return project;
 	}
-	
+
 	public static Project findById(Long id) {
         return find.where().eq("id", id).findUnique();
+    }
+	
+	public static Project findByUserNId(Long id,String projectName) {
+        return find.where().eq("id", id).like("projectName", '%'+projectName+'%').findUnique();
     }
 	
 	public static List<Project> findByIds(List<Long> ids) {
@@ -146,6 +150,7 @@ public class Project extends Model{
 		List<SqlRow> list = sqlQuery.findList();
 		 return list;
 	}
+
 	
 	public static List<SqlRow> getTasksOfProject(Long id) {
 		String sql = "select project_task.task_id from project_task where project_task.project_id = :id";
@@ -273,6 +278,14 @@ public class Project extends Model{
 		return companyObj;
 	}
 
+	public List<ProjectFlexi> getFlexiAttributes() {
+		return flexiAttributes;
+	}
+
+	public void setFlexiAttributes(List<ProjectFlexi> flexiAttributes) {
+		this.flexiAttributes = flexiAttributes;
+	}
+
 	public void setCompanyObj(Company companyObj) {
 		this.companyObj = companyObj;
 	}
@@ -283,14 +296,6 @@ public class Project extends Model{
 
 	public void setTask(List<Task> task) {
 		this.task = task;
-	}
-
-	public List<ProjectFlexi> getFlexiAttributes() {
-		return flexiAttributes;
-	}
-
-	public void setFlexiAttributes(List<ProjectFlexi> flexiAttributes) {
-		this.flexiAttributes = flexiAttributes;
 	}
 
 

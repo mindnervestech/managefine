@@ -1,5 +1,6 @@
 package com.mnt.time.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +9,13 @@ import java.util.Map;
 import models.Company;
 import models.LeaveBalance;
 import models.LeaveLevel;
+import models.LeavesCredit;
 import models.RoleLeave;
 import models.RoleLevel;
 import models.RoleX;
 import models.User;
+
+
 
 
 /*import org.springframework.batch.core.Job;
@@ -51,7 +55,7 @@ public class RunScheduler {
 				 value1 = new HashMap<Long, Float>();
 				 
 				 for(RoleLeave roleLeave : leaves) {
-					 value1.put(roleLeave.leaveLevel.getId(), new Float(roleLeave.total_leave/12.0 ));
+					 value1.put(roleLeave.leaveLevel.getId(), new Float(roleLeave.total_leave));
 				 }
 				 
 				 value.put(rl.getId(), value1 );
@@ -66,22 +70,27 @@ public class RunScheduler {
 			 leaveBalances = LeaveBalance.find.where().eq("employee", user).findList();
 			 for(LeaveBalance leaveBalance : leaveBalances) {
 				 //float b=0;
-				// if(user.companyobject == null || user.role == null) break;
+				 if(user.companyobject == null || user.role == null) break;
 				  LeaveLevel lv = LeaveLevel.find.where().eq("id", leaveBalance.getLeaveLevel().getId()).findUnique() ;
                  
-				  System.out.println("chk :"+lv.getCarry_forward(). equals("NO"));
-				  
-				 if(lv.getCarry_forward(). equals("NO"))
-                 {
-               	  leaveBalance.setBalance(0.0f);
-               	  leaveBalance.update();
-                 }else{
-				  /*Float toBeAccrued ;
-				 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
-				 System.out.println("chk val "+toBeAccrued);
-				 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
-				 leaveBalance.update();*/
-                 }
+				 // System.out.println("chk :"+lv.getCarry_forward(). equals("NO"));
+				  LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
+				if(lc.getPolicyName().equals("Annual Credit Policy")){
+					if(lv.getCarry_forward(). equals("NO"))
+	                 {
+					  Float toBeAccrued ;
+					  toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
+	               	  leaveBalance.setBalance(toBeAccrued);
+	               	  leaveBalance.update();
+	                 }else{
+					  Float toBeAccrued ;
+					 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
+					 System.out.println("chk val "+toBeAccrued);
+					 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
+					 leaveBalance.update();
+	                }
+				}
+				
 			 }
 			 System.out.println("status :"+user);
 		 }
@@ -108,7 +117,7 @@ public class RunScheduler {
 				 value1 = new HashMap<Long, Float>();
 				 
 				 for(RoleLeave roleLeave : leaves) {
-					 value1.put(roleLeave.leaveLevel.getId(), new Float(roleLeave.total_leave/12.0 ));
+					 value1.put(roleLeave.leaveLevel.getId(), new Float(roleLeave.total_leave/12.0));
 				 }
 				 
 				 value.put(rl.getId(), value1 );
@@ -122,11 +131,25 @@ public class RunScheduler {
 			 leaveBalances = LeaveBalance.find.where().eq("employee", user).findList();
 			 for(LeaveBalance leaveBalance : leaveBalances) {
 				 if(user.companyobject == null || user.role == null) break;
-				 Float toBeAccrued ;
+				 LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
+					if(lc.getPolicyName().equals("Pro rata basis")){
+						Calendar c = Calendar.getInstance();
+						c.setTime(user.getHireDate());
+						int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+						
+						if(dayOfMonth < 15){
+							leaveBalance.setBalance(leaveBalance.balance + 1);
+							leaveBalance.update();
+						}else{
+							leaveBalance.setBalance(leaveBalance.balance);
+							leaveBalance.update();
+						}
+					}
+				/* Float toBeAccrued ;
 				 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
 				 System.out.println("chk val "+toBeAccrued);
 				 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
-				 leaveBalance.update();
+				 leaveBalance.update();*/
 			 }
 		 }
 			 

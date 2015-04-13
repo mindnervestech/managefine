@@ -43,6 +43,14 @@ public class LeaveBalance extends Model {
 	
 	public static Model.Finder<Long, LeaveBalance> find = new Model.Finder<Long,LeaveBalance>(Long.class, LeaveBalance.class);
 
+	public static LeaveBalance findByUserAndLeave(User employee,LeaveLevel leaveLevel){
+		return LeaveBalance.find.where().eq("employee", employee).eq("leaveLevel", leaveLevel).findUnique();
+	}
+	
+	public static List<LeaveBalance> findByUser(User employee){
+		return LeaveBalance.find.where().eq("employee", employee).findList();
+	}
+	
 	public Long getId() {
 		return id;
 	}

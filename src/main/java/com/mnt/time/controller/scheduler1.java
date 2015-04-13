@@ -12,8 +12,8 @@ public class scheduler1 {
 		        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("job-report.xml");
 	
 		         
-	/*
-		        Thread.sleep(30000);
+	
+		       /* Thread.sleep(30000);
 	
 		        context.close();*/
 	

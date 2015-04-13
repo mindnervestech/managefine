@@ -163,6 +163,41 @@ public interface userSearch {
 
 }
 
+public interface Cases {
+	public interface index {
+		public static String url="/caseIndex";
+	}
+
+	public interface search {
+		public static String url="/caseSearch";
+	}
+
+	public interface delete {
+		public static String url="/caseDelete";
+	}
+
+	public interface findProject {
+		public static String url="/findPro";
+	}
+	
+	public interface create {
+		public static String url="/caseCreate";
+	}
+
+	public interface edit {
+		public static String url="/caseEdit";
+	}
+
+	public interface showEdit {
+		public static String url="/caseShowEdit ";
+	}
+
+	public interface excelReport {
+		public static String url="/caseExcelReport";
+	}
+
+}
+
 public interface Suppliers {
 	public interface index {
 		public static String url="/supplierIndex";
@@ -480,7 +515,6 @@ public interface Calendar {
 		public static String url="/timesheetSearchIndex";
 	}
 
-	
 	public interface create {
 		public static String url="/timesheetCreate";
 	}

@@ -255,6 +255,7 @@ public class Leaves {
 	 @RequestMapping(value="/leave/approveLeave" , method = RequestMethod.GET)
 	public @ResponseBody String approveLeave(@CookieValue("username") String username,HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		User user = User.findByEmail(username);
 		String query = form.data().get("query");
 		if(query == null){
 			query = form.data().get("leaveID");
@@ -264,7 +265,21 @@ public class Leaves {
 			leave.setStatus(LeaveStatus.Approved);
 			leave.update(Long.parseLong(ids));
 			String pid = leave.getProcessInstanceId();
+			Integer counFloat;
+			LeaveLevel ll = LeaveLevel.findByLeaveType(leave.getTypeOfLeave());
+			if(ll != null){
+				LeaveBalance lb = LeaveBalance.findByUserAndLeave(leave.getUser(), ll);
+				 float a=lb.getBalance();
+				 int b;
+				 b=(int)a;
+				 int nof = Integer.parseInt(leave.getNoOfDays());
+				 counFloat = b - nof;
+			 	 float z = (float) counFloat;
+				 lb.setBalance(z);
+				 lb.update();
+			}
 			VacationWorkflowUtils.setVariableToTask(pid, true,leave.getLeaveGuid());
+			
 		}
 		Integer count = Application.count(username);
 		String notification = count.toString(); 
@@ -449,6 +464,8 @@ public class Leaves {
 		//Form<LeaveCreditBindFromRequest>leaveForm=form(LeaveCreditBindFromRequest.class).bindFromRequest(request);	
 		LeavesCredit lc = new LeavesCredit();
 		lc.setPolicyName(form.data().get("policy"));
+		lc.setCompanyobject(User.findByEmail(username).companyobject);
+		//extra.put("companyobject", User.findByEmail(username).companyobject);
 		lc.save();
 		return "leave credit saved";
 	}	
@@ -485,8 +502,6 @@ public class Leaves {
 		 
 	}
 	
-	
-	 
 	 static class RoleTypeByLeaveTypeMap {
 		 public static Map<String,List<LeaveCell>> build(User user ) {
 			 List<RoleLeave>roleLeaves=RoleLeave.find.where()
