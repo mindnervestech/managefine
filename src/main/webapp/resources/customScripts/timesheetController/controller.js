@@ -204,6 +204,11 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$http({method:'GET',url:'deleteTimesheetRow',params:{rowId:rowId}})
 					.success(function(data) {
 						console.log('success');
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Timesheet Row Deleted Successfully",
+						});
 					});
 					
 				}
@@ -332,6 +337,11 @@ app.controller("TimeSheetController", function($scope,$http) {
 			} else {
 				$("#retractTimesheetForm").attr("disabled","disabled");
 			}
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Timesheet Saved Successfully",
+			});
 		});
 		
 	}
@@ -485,7 +495,7 @@ app.controller("SchedularWeekController", function($scope,$http) {
 			}];
 		var yourData = JSON.stringify($scope.weeks);
 		$("#scheduler1").matrixWrapper({
-			day:[ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			day:[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"],
 			widthofday:(100/7)+"%",
 			data: yourData,
 			year:$scope.currentDateObject.getFullYear(),
@@ -539,7 +549,7 @@ app.controller("SchedularWeekController", function($scope,$http) {
 	
 });
 
-app.controller("SchedularMonthController", function($scope,$http) {
+app.controller("SchedularMonthController", function($scope,$http,$compile) {
 	$scope.dateTime;
 	$scope.currentDate;
 	$scope.currentDateMonth;
@@ -570,6 +580,55 @@ app.controller("SchedularMonthController", function($scope,$http) {
 		console.log($scope.currentDateMonth);
 	};
 	
+	$scope.getDateAppointment = function(month,date,year) {
+		var htmlTemplate = "";
+		$scope.userId = $('#userID').val();
+		$scope.date = month+'/'+date+'/'+year;
+		$http({method:'GET', url:contextPath+'/getDayDetails',params :{date:$scope.date,userId:$scope.userId}}).success(function(data) {
+			console.log(data);
+			if(data != "") {
+				if(data[0].day == 'monday') {
+					$scope.mondayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in mondayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'tuesday') {
+					$scope.tuesdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in tuesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'wednesday') {
+					$scope.wednesdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in wednesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'thursday') {
+					$scope.thursdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in thursdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'friday') {
+					$scope.fridayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in fridayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'saturday') {
+					$scope.saturdayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in saturdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				if(data[0].day == 'sunday') {
+					$scope.sundayData = data;
+					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in sundayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
+				}
+				
+				$.pnotify({
+				    title: data[0].day+" "+$scope.date,
+				    type:'info',
+				    text: htmlTemplate,
+				    addclass: data[0].day,
+				    hide: false,
+				    sticker: false
+				});
+				var element = $('.'+data[0].day);
+				$compile(element)($scope);
+			}
+		});
+	};
 	
 });
 
@@ -895,6 +954,11 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					$http({method:'GET',url:'deleteActualTimesheetRow',params:{rowId:rowId}})
 					.success(function(data) {
 						console.log('success');
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Timesheet Row Deleted Successfully",
+						});
 					});
 					
 				}
@@ -1078,6 +1142,11 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			} else {
 				$("#retractTimesheetForm").attr("disabled","disabled");
 			}
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Timesheet Saved Successfully",
+			});
 		});
 		
 	}

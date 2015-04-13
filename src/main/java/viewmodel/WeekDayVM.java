@@ -6,4 +6,5 @@ public class WeekDayVM {
 	public String taskCode;
 	public String from;
 	public String to;
+	public String day;
 }

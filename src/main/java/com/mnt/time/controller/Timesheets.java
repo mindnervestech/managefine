@@ -412,6 +412,46 @@ public class Timesheets{
 		return timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime());
 	}
 	
+	@RequestMapping(value="/getDayDetails", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getDayDetails(ModelMap model,@RequestParam("date") String date,@RequestParam("userId") String userId) {
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		User user = User.findById(Long.parseLong(userId));
+		int weekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
+		int yearVal = cal.get(Calendar.YEAR);
+		String week[] = {"sunday","monday","tuesday","wednesday","thursday","friday","saturday"};
+		String day = week[cal.get(Calendar.DAY_OF_WEEK)-1];
+		
+		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, yearVal);
+		List<WeekDayVM> weekDayList = new ArrayList<>();
+		if(timesheet != null) {
+			List<TimesheetRow> timesheetRowList = TimesheetRow.getByTimesheet(timesheet);
+			
+			for(TimesheetRow row: timesheetRowList) {
+				WeekDayVM vm = new WeekDayVM();
+				vm.projectCode = row.getProjectCode();
+				vm.taskCode = row.getTaskCode();
+				TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
+				vm.from = timesheetDay.getTimeFrom();
+				vm.to = timesheetDay.getTimeTo();
+				vm.day = day;
+				if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
+					weekDayList.add(vm);
+				}
+			}
+		}
+		
+		return Json.toJson(weekDayList);
+	}
+	
 	@RequestMapping(value="/getSchedularWeek", method = RequestMethod.GET)
 	public @ResponseBody Map getSchedularWeek(ModelMap model,@RequestParam("date") String date,@RequestParam("userId") String userId) {
 		System.out.println(".....Date..........."+date+".........user id ........"+userId);

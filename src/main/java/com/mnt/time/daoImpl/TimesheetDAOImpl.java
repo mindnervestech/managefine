@@ -560,10 +560,12 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			todayAllVM.name = userObj.getFirstName()+" "+userObj.getLastName();
 			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
 			
+			List<SchedularTodayVM> vmList = new ArrayList<>();
+			
 			if(timesheet != null) {
 			
 			List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
-			List<SchedularTodayVM> vmList = new ArrayList<>();
+			
 			if(timesheetRows != null) {
 				for(TimesheetRow row : timesheetRows) {
 					TimesheetDays timesheetDay = TimesheetDays.findByDateAndTimesheet(date, row);
@@ -591,6 +593,12 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			}
 			
 			todayAllVM.data = vmList;
+		  } else {
+			  SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+			  schedularTodayVM.startTime = "00:00";
+			  schedularTodayVM.endTime = "00:00";
+			  vmList.add(schedularTodayVM);
+			  todayAllVM.data = vmList;
 		  }
 			todayAllVMList.add(todayAllVM);
 	   }		

@@ -45,6 +45,9 @@
 					showCurrentTimeFlag = false;
 					newTickLabel = $("<div style'border:  1px solid black;' class='leftSch' id="+i+"></div>");
 					week.append($(newTickLabel));
+					if(i==6) {
+						opts.week = opts.week+1;
+					}
 					if(i >= 1){ showRullerFlag = false;}
 					if(moment(moment(moment({year:opts.year}).day(day[i]).week(opts.week))).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY')){showCurrentTimeFlag = true;}
 					var date = new Date(moment(moment({year:opts.year}).day(day[i]).week(opts.week)).format('MM/DD/YYYY'));

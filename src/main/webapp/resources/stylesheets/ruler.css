@@ -192,7 +192,7 @@
 
 	position: absolute;
 	 height:0px;
-	 width: 106%;
+	 width: 100%;
 	 border-top:  1px solid red;
 	 border-bottom: 0px;
 	 border-left: 0px;
@@ -202,7 +202,6 @@
 	 padding-left: 0px;
 	 padding-right: 0px;
 	 z-index:1;
-	 left: -69px;
 }
 .currentTimeV{
 
@@ -240,7 +239,7 @@
 
 .shedule {
 	border-radius: 10px;
-	padding:3px 0 0 10px;
+	padding:0px 0 0 7px;
 	float: left;
 	width: 100%;
 	position: absolute;

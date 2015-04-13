@@ -37,266 +37,266 @@
 				</tr>
 				<tr>
 					<td ng-if="!monthVM.days[0].assigned">{{monthVM.days[0].day}}</td>
-					<td ng-class="monthVM.days[0].appoinmentCount==2?'current full':monthVM.days[0].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[0].assigned"><em>{{monthVM.days[0].day}}</em><a
+					<td class="current" ng-if="monthVM.days[0].assigned"><em>{{monthVM.days[0].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[0].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[0])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[0].day,monthVM.year)"><i></i>
 							{{monthVM.days[0].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[1].assigned">{{monthVM.days[1].day}}</td>
-					<td ng-class="monthVM.days[1].appoinmentCount==2?'current full':monthVM.days[1].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[1].assigned"><em>{{monthVM.days[1].day}}</em><a
+					<td class="current" ng-if="monthVM.days[1].assigned"><em>{{monthVM.days[1].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[1].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[1])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[1].day,monthVM.year)"><i></i>
 							{{monthVM.days[1].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[2].assigned">{{monthVM.days[2].day}}</td>
-					<td ng-class="monthVM.days[2].appoinmentCount==2?'current full':monthVM.days[2].appoinmentCount==1?'current almost':'current'" ng-class="monthVM.days[1].appoinmentCount==2?'current full':monthVM.days[1].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[2].assigned"><em>{{monthVM.days[2].day}}</em><a
+					<td class="current" ng-class="monthVM.days[1].appoinmentCount==2?'current full':monthVM.days[1].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[2].assigned"><em>{{monthVM.days[2].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[2].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[2])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[2].day,monthVM.year)"><i></i>
 							{{monthVM.days[2].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[3].assigned">{{monthVM.days[3].day}}</td>
-					<td ng-class="monthVM.days[3].appoinmentCount==2?'current full':monthVM.days[3].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[3].assigned"><em>{{monthVM.days[3].day}}</em><a
+					<td class="current" ng-if="monthVM.days[3].assigned"><em>{{monthVM.days[3].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[3].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[3])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[3].day,monthVM.year)"><i></i>
 							{{monthVM.days[3].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[4].assigned">{{monthVM.days[4].day}}</td>
-					<td ng-class="monthVM.days[4].appoinmentCount==2?'current full':monthVM.days[4].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[4].assigned"><em>{{monthVM.days[4].day}}</em><a
+					<td class="current" ng-if="monthVM.days[4].assigned"><em>{{monthVM.days[4].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[4].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[4])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[4].day,monthVM.year)"><i></i>
 							{{monthVM.days[4].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[5].assigned">{{monthVM.days[5].day}}</td>
-					<td ng-class="monthVM.days[5].appoinmentCount==2?'current full':monthVM.days[5].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[5].assigned"><em>{{monthVM.days[5].day}}</em><a
+					<td class="current" ng-if="monthVM.days[5].assigned"><em>{{monthVM.days[5].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[5].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[5])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[5].day,monthVM.year)"><i></i>
 							{{monthVM.days[5].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[6].assigned">{{monthVM.days[6].day}}</td>
-					<td ng-class="monthVM.days[6].appoinmentCount==2?'current full':monthVM.days[6].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[6].assigned"><em>{{monthVM.days[6].day}}</em><a
+					<td class="current" ng-if="monthVM.days[6].assigned"><em>{{monthVM.days[6].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[6].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[6])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[6].day,monthVM.year)"><i></i>
 							{{monthVM.days[6].appoinmentCount}} Tasks</span></td>
 				</tr>
 				<tr>
 					<td ng-if="!monthVM.days[7].assigned">{{monthVM.days[7].day}}</td>
-					<td ng-class="monthVM.days[7].appoinmentCount==2?'current full':monthVM.days[7].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[7].assigned"><em>{{monthVM.days[7].day}}</em><a
+					<td class="current" ng-if="monthVM.days[7].assigned"><em>{{monthVM.days[7].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[7].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[7])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[7].day,monthVM.year)"><i></i>
 							{{monthVM.days[7].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[8].assigned">{{monthVM.days[8].day}}</td>
-					<td ng-class="monthVM.days[8].appoinmentCount==2?'current full':monthVM.days[8].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[8].assigned"><em>{{monthVM.days[8].day}}</em><a
+					<td class="current" ng-if="monthVM.days[8].assigned"><em>{{monthVM.days[8].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[8].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[8])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[8].day,monthVM.year)"><i></i>
 							{{monthVM.days[8].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[9].assigned">{{monthVM.days[9].day}}</td>
-					<td ng-class="monthVM.days[9].appoinmentCount==2?'current full':monthVM.days[9].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[9].assigned"><em>{{monthVM.days[9].day}}</em><a
+					<td class="current" ng-if="monthVM.days[9].assigned"><em>{{monthVM.days[9].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[9].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[9])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[9].day,monthVM.year)"><i></i>
 							{{monthVM.days[9].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[10].assigned">{{monthVM.days[10].day}}</td>
-					<td ng-class="monthVM.days[10].appoinmentCount==2?'current full':monthVM.days[10].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[10].assigned"><em>{{monthVM.days[10].day}}</em><a
+					<td class="current" ng-if="monthVM.days[10].assigned"><em>{{monthVM.days[10].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[10].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[10])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[10].day,monthVM.year)"><i></i>
 							{{monthVM.days[10].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[11].assigned">{{monthVM.days[11].day}}</td>
-					<td ng-class="monthVM.days[11].appoinmentCount==2?'current full':monthVM.days[11].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[11].assigned"><em>{{monthVM.days[11].day}}</em><a
+					<td class="current" ng-if="monthVM.days[11].assigned"><em>{{monthVM.days[11].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[11].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[11])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[11].day,monthVM.year)"><i></i>
 							{{monthVM.days[11].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[12].assigned">{{monthVM.days[12].day}}</td>
-					<td ng-class="monthVM.days[12].appoinmentCount==2?'current full':monthVM.days[12].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[12].assigned"><em>{{monthVM.days[12].day}}</em><a
+					<td class="current" ng-if="monthVM.days[12].assigned"><em>{{monthVM.days[12].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[12].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[12])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[12].day,monthVM.year)"><i></i>
 							{{monthVM.days[12].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[13].assigned">{{monthVM.days[13].day}}</td>
-					<td ng-class="monthVM.days[13].appoinmentCount==2?'current full':monthVM.days[13].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[13].assigned"><em>{{monthVM.days[13].day}}</em><a
+					<td class="current" ng-if="monthVM.days[13].assigned"><em>{{monthVM.days[13].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[13].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[13])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[13].day,monthVM.year)"><i></i>
 							{{monthVM.days[13].appoinmentCount}} Tasks</span></td>
 				</tr>
 				<tr>
 					<td ng-if="!monthVM.days[14].assigned">{{monthVM.days[14].day}}</td>
-					<td ng-class="monthVM.days[14].appoinmentCount==2?'current full':monthVM.days[14].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[14].assigned"><em>{{monthVM.days[14].day}}</em><a
+					<td class="current" ng-if="monthVM.days[14].assigned"><em>{{monthVM.days[14].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[14].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[14])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[14].day,monthVM.year)"><i></i>
 							{{monthVM.days[14].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[15].assigned">{{monthVM.days[15].day}}</td>
-					<td ng-class="monthVM.days[15].appoinmentCount==2?'current full':monthVM.days[15].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[15].assigned"><em>{{monthVM.days[15].day}}</em><a
+					<td class="current" ng-if="monthVM.days[15].assigned"><em>{{monthVM.days[15].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[15].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[15])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[15].day,monthVM.year)"><i></i>
 							{{monthVM.days[15].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[16].assigned">{{monthVM.days[16].day}}</td>
-					<td ng-class="monthVM.days[16].appoinmentCount==2?'current full':monthVM.days[16].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[16].assigned"><em>{{monthVM.days[16].day}}</em><a
+					<td class="current" ng-if="monthVM.days[16].assigned"><em>{{monthVM.days[16].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[16].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[16])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[16].day,monthVM.year)"><i></i>
 							{{monthVM.days[16].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[17].assigned">{{monthVM.days[17].day}}</td>
-					<td ng-class="monthVM.days[17].appoinmentCount==2?'current full':monthVM.days[17].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[17].assigned"><em>{{monthVM.days[17].day}}</em><a
+					<td class="current" ng-if="monthVM.days[17].assigned"><em>{{monthVM.days[17].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[17].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[17])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[17].day,monthVM.year)"><i></i>
 							{{monthVM.days[17].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[18].assigned">{{monthVM.days[18].day}}</td>
-					<td ng-class="monthVM.days[18].appoinmentCount==2?'current full':monthVM.days[18].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[18].assigned"><em>{{monthVM.days[18].day}}</em><a
+					<td class="current" ng-if="monthVM.days[18].assigned"><em>{{monthVM.days[18].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[18].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[18])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[18].day,monthVM.year)"><i></i>
 							{{monthVM.days[18].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[19].assigned">{{monthVM.days[19].day}}</td>
-					<td ng-class="monthVM.days[19].appoinmentCount==2?'current full':monthVM.days[19].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[19].assigned"><em>{{monthVM.days[19].day}}</em><a
+					<td class="current" ng-if="monthVM.days[19].assigned"><em>{{monthVM.days[19].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[19].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[19])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[19].day,monthVM.year)"><i></i>
 							{{monthVM.days[19].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[20].assigned">{{monthVM.days[20].day}}</td>
-					<td ng-class="monthVM.days[20].appoinmentCount==2?'current full':monthVM.days[20].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[20].assigned"><em>{{monthVM.days[20].day}}</em><a
+					<td class="current" ng-if="monthVM.days[20].assigned"><em>{{monthVM.days[20].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[20].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[20])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[20].day,monthVM.year)"><i></i>
 							{{monthVM.days[20].appoinmentCount}} Tasks</span></td>
 				</tr>
 				<tr>
 					<td ng-if="!monthVM.days[21].assigned">{{monthVM.days[21].day}}</td>
-					<td ng-class="monthVM.days[21].appoinmentCount==2?'current full':monthVM.days[21].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[21].assigned"><em>{{monthVM.days[21].day}}</em><a
+					<td class="current" ng-if="monthVM.days[21].assigned"><em>{{monthVM.days[21].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[21].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[21])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[21].day,monthVM.year)"><i></i>
 							{{monthVM.days[21].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[22].assigned">{{monthVM.days[22].day}}</td>
-					<td ng-class="monthVM.days[22].appoinmentCount==2?'current full':monthVM.days[22].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[22].assigned"><em>{{monthVM.days[22].day}}</em><a
+					<td class="current" ng-if="monthVM.days[22].assigned"><em>{{monthVM.days[22].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[22].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[22])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[22].day,monthVM.year)"><i></i>
 							{{monthVM.days[22].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[23].assigned">{{monthVM.days[23].day}}</td>
-					<td ng-class="monthVM.days[23].appoinmentCount==2?'current full':monthVM.days[23].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[23].assigned"><em>{{monthVM.days[23].day}}</em><a
+					<td class="current" ng-if="monthVM.days[23].assigned"><em>{{monthVM.days[23].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[23].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[23])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[23].day,monthVM.year)"><i></i>
 							{{monthVM.days[23].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[24].assigned">{{monthVM.days[24].day}}</td>
-					<td ng-class="monthVM.days[24].appoinmentCount==2?'current full':monthVM.days[24].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[24].assigned"><em>{{monthVM.days[24].day}}</em><a
+					<td class="current" ng-if="monthVM.days[24].assigned"><em>{{monthVM.days[24].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[24].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[24])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[24].day,monthVM.year)"><i></i>
 							{{monthVM.days[24].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[25].assigned">{{monthVM.days[25].day}}</td>
-					<td ng-class="monthVM.days[25].appoinmentCount==2?'current full':monthVM.days[25].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[25].assigned"><em>{{monthVM.days[25].day}}</em><a
+					<td class="current" ng-if="monthVM.days[25].assigned"><em>{{monthVM.days[25].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[25].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[25])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[25].day,monthVM.year)"><i></i>
 							{{monthVM.days[25].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[26].assigned">{{monthVM.days[26].day}}</td>
-					<td ng-class="monthVM.days[26].appoinmentCount==2?'current full':monthVM.days[26].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[26].assigned"><em>{{monthVM.days[26].day}}</em><a
+					<td class="current" ng-if="monthVM.days[26].assigned"><em>{{monthVM.days[26].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[26].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[26])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[26].day,monthVM.year)"><i></i>
 							{{monthVM.days[26].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[27].assigned">{{monthVM.days[27].day}}</td>
-					<td ng-class="monthVM.days[27].appoinmentCount==2?'current full':monthVM.days[27].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[27].assigned"><em>{{monthVM.days[27].day}}</em><a
+					<td class="current" ng-if="monthVM.days[27].assigned"><em>{{monthVM.days[27].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[27].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[27])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[27].day,monthVM.year)"><i></i>
 							{{monthVM.days[27].appoinmentCount}} Tasks</span></td>
 				</tr>
 				<tr ng-if="monthVM.days[28].assigned">
 					<td ng-if="!monthVM.days[28].assigned">{{monthVM.days[28].day}}</td>
-					<td ng-class="monthVM.days[28].appoinmentCount==2?'current full':monthVM.days[28].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[28].assigned"><em>{{monthVM.days[28].day}}</em><a
+					<td class="current" ng-if="monthVM.days[28].assigned"><em>{{monthVM.days[28].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[28].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[28])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[28].day,monthVM.year)"><i></i>
 							{{monthVM.days[28].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[29].assigned">{{monthVM.days[29].day}}</td>
-					<td ng-class="monthVM.days[29].appoinmentCount==2?'current full':monthVM.days[29].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[29].assigned"><em>{{monthVM.days[29].day}}</em><a
+					<td class="current" ng-if="monthVM.days[29].assigned"><em>{{monthVM.days[29].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[29].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[29])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[29].day,monthVM.year)"><i></i>
 							{{monthVM.days[29].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[30].assigned">{{monthVM.days[30].day}}</td>
-					<td ng-class="monthVM.days[30].appoinmentCount==2?'current full':monthVM.days[30].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[30].assigned"><em>{{monthVM.days[30].day}}</em><a
+					<td class="current" ng-if="monthVM.days[30].assigned"><em>{{monthVM.days[30].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[30].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[30])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[30].day,monthVM.year)"><i></i>
 							{{monthVM.days[30].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[31].assigned">{{monthVM.days[31].day}}</td>
-					<td ng-class="monthVM.days[31].appoinmentCount==2?'current full':monthVM.days[31].appoinmentCount==1?'current almost':'current'" ng-if="monthVM.days[31].assigned"><em>{{monthVM.days[31].day}}</em><a
+					<td class="current" ng-if="monthVM.days[31].assigned"><em>{{monthVM.days[31].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[31].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[31])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[31].day,monthVM.year)"><i></i>
 							{{monthVM.days[31].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[32].assigned">{{monthVM.days[32].day}}</td>
 					<td class="current" ng-if="monthVM.days[32].assigned"><em>{{monthVM.days[32].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[32].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[32])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[32].day,monthVM.year)"><i></i>
 							{{monthVM.days[32].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[33].assigned">{{monthVM.days[33].day}}</td>
 					<td class="current" ng-if="monthVM.days[33].assigned"><em>{{monthVM.days[33].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[33].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[33])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[33].day,monthVM.year)"><i></i>
 							{{monthVM.days[33].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[34].assigned">{{monthVM.days[34].day}}</td>
 					<td class="current" ng-if="monthVM.days[34].assigned"><em>{{monthVM.days[34].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[34].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[34])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[34].day,monthVM.year)"><i></i>
 							{{monthVM.days[34].appoinmentCount}} Tasks</span></td>
 				</tr>
 				<tr ng-if="monthVM.days[35].assigned">
 					<td ng-if="!monthVM.days[35].assigned">{{monthVM.days[35].day}}</td>
 					<td class="current" ng-if="monthVM.days[35].assigned"><em>{{monthVM.days[35].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[35].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[35])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[35].day,monthVM.year)"><i></i>
 							{{monthVM.days[35].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[36].assigned">{{monthVM.days[36].day}}</td>
 					<td class="current" ng-if="monthVM.days[36].assigned"><em>{{monthVM.days[36].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[36].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[36])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[36].day,monthVM.year)"><i></i>
 							{{monthVM.days[36].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[37].assigned">{{monthVM.days[37].day}}</td>
 					<td class="current" ng-if="monthVM.days[37].assigned"><em>{{monthVM.days[37].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[37].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[37])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[37].day,monthVM.year)"><i></i>
 							{{monthVM.days[37].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[38].assigned">{{monthVM.days[38].day}}</td>
 					<td class="current" ng-if="monthVM.days[38].assigned"><em>{{monthVM.days[38].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[38].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[38])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[38].day,monthVM.year)"><i></i>
 							{{monthVM.days[38].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[39].assigned">{{monthVM.days[39].day}}</td>
 					<td class="current" ng-if="monthVM.days[39].assigned"><em>{{monthVM.days[39].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[39].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[39])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[39].day,monthVM.year)"><i></i>
 							{{monthVM.days[39].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[40].assigned">{{monthVM.days[40].day}}</td>
 					<td class="current" ng-if="monthVM.days[40].assigned"><em>{{monthVM.days[40].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[40].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[40])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[40].day,monthVM.year)"><i></i>
 							{{monthVM.days[40].appoinmentCount}} Tasks</span></td>
 					<td ng-if="!monthVM.days[41].assigned">{{monthVM.days[41].day}}</td>
 					<td class="current" ng-if="monthVM.days[41].assigned"><em>{{monthVM.days[41].day}}</em><a
 						ng-href="${pageContext.request.contextPath}/{{(monthVM.monthIndex+1)}}-{{monthVM.days[41].day}}-{{monthVM.year}}/{{userId}}" class="bookapp tip"
-						title="Book an Appointment"></a> <span
-						ng-click="getDateAppointment(monthVM.days[41])"><i></i>
+						title="Day View"></a> <span
+						ng-click="getDateAppointment(monthVM.monthIndex+1,monthVM.days[41].day,monthVM.year)"><i></i>
 							{{monthVM.days[41].appoinmentCount}} Tasks</span></td>
 				</tr>
 			</table>

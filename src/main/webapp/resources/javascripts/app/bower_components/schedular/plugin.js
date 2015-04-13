@@ -403,26 +403,31 @@
 		    if(emin<10) {
 		    	emin = '0'+emin;
 		    }
-		    var toolTip = $("<div class='webui-popover' style='display: none;'></div>");
+		    //var toolTip = $("<div class='webui-popover' style='display: none;'></div>");
 		    line.append();
 		    line.addClass("shedule");
 		    //line.draggable();
-		    line.append(toolTip);
-		    var arr = $("<div class='arrow'></div>");
+		    //line.append(toolTip);
+		   /* var arr = $("<div class='arrow'></div>");
 		    var inner = $("<div class='webui-popover-inner'></div>");
 		    toolTip.append(arr,inner);
 		    var he = $("<h3 id='webui-popover-title'>"+data.visitType.split("-")[0]+" ("+sHours+":"+smin+sAmPm+" - "+eHours+":"+emin+eAmPm+")</h3>");
 		    var cont = $("<div class='webui-popover-content'><div>");
 		    inner.append(he,cont);
 		    var table = $("<table></table>");
-		    cont.append(table);
-		    if(data.type == "A") {
+		    cont.append(table);*/
+		    if(data.visitType != null) {
+			    var text = $("<b style='margin-top:3%;'>"+data.visitType.split("-")[0]+" ("+sHours+":"+smin+sAmPm+" - "+eHours+":"+emin+eAmPm+")</b>");
+			    line.append(text);
+			    text.css({"margin-top":e.offsetY+50});
+		    }
+		    /*if(data.type == "A") {
 		    	var t = $("<tr><td colspan='2' style='text-align:center;padding-bottom:12px;'>"+data.patientName+"</td></tr>");
 		    	table.append(t);
-		    } 
-		    var t2 = $("<tr><td style='width:50%;'>Appointment Note</td><td style='width:50%;'>"+data.notes+"</td></tr>");
-		    table.append(t2);
-		    for(d in data.insurances) {
+		    } */
+		   /* var t2 = $("<tr><td style='width:50%;'>Appointment Note</td><td style='width:50%;'>"+data.notes+"</td></tr>");
+		    table.append(t2);*/
+		   /* for(d in data.insurances) {
 		    	var tr = $("<tr><td style='width:50%;'>Insurance :</td><td style='width:50%;'>"+d.planName+"</td></tr>");
 		    	table.append(tr);
 		    }
@@ -434,7 +439,7 @@
 		    });
 		    line.bind("mouseout",function(e) {
 		    	toolTip.css({"display":"none"});
-		    });
+		    });*/
 		    //$(line).webuiPopover({title:'Notes',content:data.notes,trigger:'hover'});
 		    /*line.draggable({ 
 				containment: "parent",
