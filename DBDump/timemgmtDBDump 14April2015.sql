@@ -333,12 +333,13 @@ CREATE TABLE IF NOT EXISTS `leave_level` (
   KEY `ix_leave_level_roleLeave_11` (`role_leave_id`),
   CONSTRAINT `fk_leave_level_leaveX_10` FOREIGN KEY (`leave_x_id`) REFERENCES `leave_x` (`id`),
   CONSTRAINT `fk_leave_level_roleLeave_11` FOREIGN KEY (`role_leave_id`) REFERENCES `role_leave` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.leave_level: ~0 rows (approximately)
+-- Dumping data for table timemgmt.leave_level: ~2 rows (approximately)
 /*!40000 ALTER TABLE `leave_level` DISABLE KEYS */;
 INSERT INTO `leave_level` (`id`, `leave_type`, `carry_forward`, `leave_x_id`, `role_leave_id`, `last_update`) VALUES
-	(1, 'Sick', 'YES', 1, NULL, '2015-04-09 16:48:45');
+	(1, 'Sick', 'YES', 1, NULL, '2015-04-09 16:48:45'),
+	(2, 'Paid', 'NO', 2, NULL, '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `leave_level` ENABLE KEYS */;
 
 
@@ -349,11 +350,12 @@ CREATE TABLE IF NOT EXISTS `leave_x` (
   PRIMARY KEY (`id`),
   KEY `ix_leave_x_company_12` (`company_id`),
   CONSTRAINT `fk_leave_x_company_12` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.leave_x: ~0 rows (approximately)
+-- Dumping data for table timemgmt.leave_x: ~1 rows (approximately)
 /*!40000 ALTER TABLE `leave_x` DISABLE KEYS */;
 INSERT INTO `leave_x` (`id`, `company_id`) VALUES
+	(2, 1),
 	(1, 2);
 /*!40000 ALTER TABLE `leave_x` ENABLE KEYS */;
 
@@ -819,31 +821,37 @@ CREATE TABLE IF NOT EXISTS `role_leave` (
   CONSTRAINT `fk_role_leave_company_18` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   CONSTRAINT `fk_role_leave_leaveLevel_20` FOREIGN KEY (`leave_level_id`) REFERENCES `leave_level` (`id`),
   CONSTRAINT `fk_role_leave_roleLevel_19` FOREIGN KEY (`role_level_id`) REFERENCES `role_level` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.role_leave: ~20 rows (approximately)
+-- Dumping data for table timemgmt.role_leave: ~26 rows (approximately)
 /*!40000 ALTER TABLE `role_leave` DISABLE KEYS */;
 INSERT INTO `role_leave` (`id`, `company_id`, `role_level_id`, `leave_level_id`, `total_leave`) VALUES
-	(1, 2, 1, 1, 0),
-	(2, 2, 2, 1, 0),
-	(3, 2, 3, 1, 0),
-	(4, 2, 4, 1, 0),
-	(5, 2, 5, 1, 0),
-	(6, 2, 6, 1, 0),
-	(7, 2, 7, 1, 0),
-	(8, 2, 8, 1, 0),
-	(9, 2, 9, 1, 0),
-	(10, 2, 10, 1, 0),
-	(11, 2, 11, 1, 0),
-	(12, 2, 12, 1, 0),
-	(13, 2, 13, 1, 0),
-	(14, 2, 14, 1, 0),
-	(15, 2, 15, 1, 0),
-	(16, 2, 16, 1, 0),
-	(17, 2, 17, 1, 0),
-	(18, 2, 18, 1, 0),
-	(19, 2, 19, 1, 0),
-	(20, 2, 20, 1, 0);
+	(29, 2, 1, 1, 24),
+	(30, 2, 2, 1, 19),
+	(31, 2, 3, 1, 12),
+	(32, 2, 4, 1, 22),
+	(33, 2, 5, 1, 11),
+	(34, 2, 6, 1, 15),
+	(35, 2, 7, 1, 17),
+	(36, 2, 8, 1, 18),
+	(37, 2, 9, 1, 23),
+	(38, 2, 10, 1, 21),
+	(39, 2, 17, 1, 16),
+	(40, 2, 18, 1, 14),
+	(41, 2, 19, 1, 25),
+	(42, 2, 1, 2, 27),
+	(43, 2, 2, 2, 21),
+	(44, 2, 3, 2, 14),
+	(45, 2, 4, 2, 15),
+	(46, 2, 5, 2, 17),
+	(47, 2, 6, 2, 23),
+	(48, 2, 7, 2, 24),
+	(49, 2, 8, 2, 14),
+	(50, 2, 9, 2, 18),
+	(51, 2, 10, 2, 19),
+	(52, 2, 17, 2, 24),
+	(53, 2, 18, 2, 17),
+	(54, 2, 19, 2, 22);
 /*!40000 ALTER TABLE `role_leave` ENABLE KEYS */;
 
 
@@ -862,7 +870,7 @@ CREATE TABLE IF NOT EXISTS `role_level` (
   CONSTRAINT `fk_role_level_roleX_21` FOREIGN KEY (`role_x_id`) REFERENCES `role_x` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.role_level: ~20 rows (approximately)
+-- Dumping data for table timemgmt.role_level: ~14 rows (approximately)
 /*!40000 ALTER TABLE `role_level` DISABLE KEYS */;
 INSERT INTO `role_level` (`id`, `role_x_id`, `role_level`, `role_name`, `reporting_to`, `final_approval`, `permissions`, `last_update`) VALUES
 	(1, 1, 9, 'Subject Mater Expert', 'Senior Subject Mater Expert', 'Team Lead', 'Home|ManageUser|ManageClient|ManageProject|ManageTask|Delegate|FeedBackCreate|FeedBackView|RolePermissions|UserPermissions|UserRequest|MyBucket|LeaveBucket|TeamRate|ProjectReport|Mail|Notification|DefineRoles|OrgHierarchy|', '2014-02-25 13:46:45'),
@@ -875,12 +883,6 @@ INSERT INTO `role_level` (`id`, `role_x_id`, `role_level`, `role_name`, `reporti
 	(8, 1, 7, 'CEO', 'CEO', 'CEO', 'FeedBackCreate|FeedBackView|', '2014-02-25 13:46:45'),
 	(9, 1, 8, 'Owner', 'Subject Mater Expert', 'Subject Mater Expert', 'ManageUser|ManageClient|ManageProject|ManageTask|ApplyLeave|CreateTimesheet|SearchTimesheet|FeedBackCreate|FeedBackView|RolePermissions|UserPermissions|UserRequest|MyBucket|LeaveBucket|TeamRate|ProjectReport|Mail|Notification|DefineRoles|OrgHierarchy|', '2014-02-25 13:46:45'),
 	(10, 1, 9, 'Co-Owner', 'Subject Mater Expert', 'Subject Mater Expert', 'ManageTask|', '2014-02-25 13:46:45'),
-	(11, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
-	(12, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
-	(13, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
-	(14, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
-	(15, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
-	(16, 1, 0, '', 'Subject Mater Expert', 'Subject Mater Expert', '', '2014-02-25 13:46:45'),
 	(17, 2, 0, 'Software Engineer', 'Senior Software Engineer', 'Senior Software Engineer', '', '2015-02-23 11:22:36'),
 	(18, 2, 1, 'Senior Software Engineer', 'Group Lead', 'Group Lead', '', '2015-02-23 11:22:36'),
 	(19, 2, 2, 'Group Lead', 'Project Manager', 'Project Manager', 'Home|ManageUser|ManageClient|ManageProject|ManageTask|CreateTimesheet|SearchTimesheet|CreateTimesheets|Today|Week|Month|Holiday|TodayAll|WeekReport|Delegate|RolePermissions|UserPermissions|UserRequest|MyBucket|LeaveBucket|TeamRate|ProjectReport|Mail|Notification|DefineRoles|DefineFlexiAttribute|OrgHierarchy|', '2015-04-10 17:53:03'),
@@ -1075,7 +1077,7 @@ INSERT INTO `timesheet` (`id`, `user_id`, `status`, `week_of_year`, `year`, `tim
 	(25, 4, 0, 11, 2015, 3, 0, NULL, NULL, '2015-03-25 12:24:38'),
 	(26, 4, 0, 15, 2015, 4, 0, NULL, NULL, '2015-04-08 11:45:10'),
 	(27, 3, 0, 15, 2015, 3, 0, NULL, NULL, '2015-04-10 11:19:06'),
-	(28, 3, 0, 16, 2015, 3, 0, NULL, NULL, '2015-04-13 10:34:46');
+	(28, 3, 0, 16, 2015, 3, 0, NULL, NULL, '2015-04-14 14:58:33');
 /*!40000 ALTER TABLE `timesheet` ENABLE KEYS */;
 
 
@@ -1099,10 +1101,10 @@ CREATE TABLE IF NOT EXISTS `timesheet_actual` (
 -- Dumping data for table timemgmt.timesheet_actual: ~3 rows (approximately)
 /*!40000 ALTER TABLE `timesheet_actual` DISABLE KEYS */;
 INSERT INTO `timesheet_actual` (`id`, `user_id`, `status`, `week_of_year`, `year`, `timesheet_with_id`, `level`, `process_instance_id`, `tid`, `last_update_date`) VALUES
-	(7, 4, 3, 14, 2015, 3, 0, NULL, NULL, '2015-04-03 18:48:45'),
-	(8, 4, 3, 15, 2015, 3, 0, NULL, NULL, '2015-04-08 11:40:03'),
+	(7, 4, 1, 14, 2015, 3, 0, NULL, NULL, '2015-04-14 14:21:02'),
+	(8, 4, 1, 15, 2015, 3, 0, NULL, NULL, '2015-04-14 15:31:04'),
 	(9, 3, 0, 15, 2015, 3, 0, NULL, NULL, '2015-04-10 11:18:06'),
-	(10, 3, 0, 16, 2015, 3, 0, NULL, NULL, '2015-04-13 14:33:14');
+	(10, 3, 3, 16, 2015, 3, 0, NULL, NULL, '2015-04-14 15:04:35');
 /*!40000 ALTER TABLE `timesheet_actual` ENABLE KEYS */;
 
 
@@ -1199,7 +1201,7 @@ CREATE TABLE IF NOT EXISTS `timesheet_days_actual` (
   `timesheet_row_actual_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `timesheet_row_actual_id` (`timesheet_row_actual_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table timemgmt.timesheet_days_actual: ~49 rows (approximately)
 /*!40000 ALTER TABLE `timesheet_days_actual` DISABLE KEYS */;
@@ -1296,9 +1298,9 @@ CREATE TABLE IF NOT EXISTS `timesheet_row_actual` (
   `over_time` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `timesheet_actual_id` (`timesheet_actual_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Dumping data for table timemgmt.timesheet_row_actual: ~8 rows (approximately)
+-- Dumping data for table timemgmt.timesheet_row_actual: ~7 rows (approximately)
 /*!40000 ALTER TABLE `timesheet_row_actual` DISABLE KEYS */;
 INSERT INTO `timesheet_row_actual` (`id`, `timesheet_actual_id`, `project_code`, `task_code`, `over_time`) VALUES
 	(8, 7, '1', 't-2', 0),
