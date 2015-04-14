@@ -12,8 +12,8 @@ import com.mnt.roleHierarchy.vm.RoleVM;
 public interface RoleHierarchyRepository {
 	List<RoleVM> getRoleHierarchy();
 	Boolean deleteRoleChild(Long id);
-	Long saveRoleChild(RoleVM roleVM);
-	Long editRoleChild(RoleVM roleVM);
+	Long saveRoleChild(RoleVM roleVM, String username);
+	Long editRoleChild(RoleVM roleVM, String username);
 
 //	Long saveRoleChild(MultipartFile file, RoleVM roleVM, String username);
 }

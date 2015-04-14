@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import models.Company;
+import models.User;
 
 import com.mnt.orghierarchy.model.Organization;
 
@@ -19,6 +23,8 @@ public class Role extends Model{
 	@Column(length=255)
 	private String roleDescription;
 	private Long parentId;
+	@OneToOne
+	private Company company;
 
 	public static Finder<Long,Role> find = new Finder<Long,Role>(Long.class,Role.class);
 	
@@ -63,6 +69,18 @@ public class Role extends Model{
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
+	
+	
+
+	public Company getCompany() {
+		return company;
+	}
+
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 
 	public static Role getRoleById(Long id) {
 		// TODO Auto-generated method stub

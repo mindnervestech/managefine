@@ -54,8 +54,8 @@ public class RoleHierarchyController {
 		return "editRoleOrganization";
 	}
 	@RequestMapping(value="/saveRoleChild",method=RequestMethod.POST) 
-	public @ResponseBody Long saveRoleChild(@RequestBody RoleVM roleVM) {
-		return roleHierarchyService.saveRoleChild(roleVM);
+	public @ResponseBody Long saveRoleChild(@RequestBody RoleVM roleVM,@CookieValue("username")String username) {
+		return roleHierarchyService.saveRoleChild(roleVM,username);
 	}
 	
 	@RequestMapping(value="/deleteRoleChild",method=RequestMethod.GET)
@@ -64,7 +64,7 @@ public class RoleHierarchyController {
 	}
 	
 	@RequestMapping(value="/editRoleChild",method=RequestMethod.POST) 
-	public @ResponseBody Long editRoleChild(@RequestBody RoleVM roleVM) {
-		return roleHierarchyService.editRoleChild(roleVM);
+	public @ResponseBody Long editRoleChild(@RequestBody RoleVM roleVM,@CookieValue("username")String username) {
+		return roleHierarchyService.editRoleChild(roleVM,username);
 	}
 }

@@ -9,6 +9,7 @@ import play.db.ebean.Model;
 
 import com.custom.domain.Status;
 import com.mnt.core.ui.annotation.Validation;
+import com.mnt.roleHierarchy.model.Role;
 
 @Entity
 public class Company extends Model{
@@ -81,5 +82,10 @@ public class Company extends Model{
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public static Company getFindById(Long id) {
+		// TODO Auto-generated method stub
+		return find.byId(id);
 	}
 }

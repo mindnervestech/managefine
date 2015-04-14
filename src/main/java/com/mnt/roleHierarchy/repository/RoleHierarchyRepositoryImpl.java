@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import models.Company;
 import models.User;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -69,12 +70,15 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 	}
 
 	@Override
-	public Long saveRoleChild(RoleVM roleVM) {
+	public Long saveRoleChild(RoleVM roleVM, String username) {
 		
 		Role role = new Role();
 		Role role1 = Role.getRoleByName(roleVM.getRoleName());
 		
 		if(role1 == null){
+		User user = User.findByEmail(username);
+		
+		role.setCompany(Company.getFindById(user.getCompanyobject().getId()));	
 		role.setRoleName(roleVM.getRoleName());
 		role.setRoleDescription(roleVM.getRoleDescription());
 		role.setParentId(roleVM.getParent());
@@ -88,7 +92,7 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 	}
 
 	@Override
-	public Long editRoleChild(RoleVM roleVM) {
+	public Long editRoleChild(RoleVM roleVM, String username) {
 		
 		Role role = Role.getRoleById(roleVM.getParent());
 		role.setRoleName(roleVM.getRoleName());

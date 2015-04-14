@@ -25,15 +25,15 @@ public class RoleHierarchyServiceImpl implements RoleHierarchyService{
 		return roleHierarchyRepository.deleteRoleChild(id);
 	}
 	@Override
-	public Long saveRoleChild(RoleVM roleVM) {
+	public Long saveRoleChild(RoleVM roleVM, String username) {
 		// TODO Auto-generated method stub
-		return roleHierarchyRepository.saveRoleChild(roleVM);
+		return roleHierarchyRepository.saveRoleChild(roleVM, username);
 	}
 	
 	@Override
-	public Long editRoleChild(RoleVM roleVM) {
+	public Long editRoleChild(RoleVM roleVM, String username) {
 		// TODO Auto-generated method stub
-		return roleHierarchyRepository.editRoleChild(roleVM);
+		return roleHierarchyRepository.editRoleChild(roleVM,username);
 	}
 
 }

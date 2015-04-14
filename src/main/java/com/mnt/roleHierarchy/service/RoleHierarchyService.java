@@ -10,8 +10,8 @@ public interface RoleHierarchyService {
 	
 	List<RoleVM> getRoleHierarchy();
 	Boolean deleteRoleChild(Long id);
-    Long editRoleChild(RoleVM roleVM);
-	Long saveRoleChild(RoleVM roleVM);
+    Long editRoleChild(RoleVM roleVM, String username);
+	Long saveRoleChild(RoleVM roleVM, String username);
 
 //	Long saveRoleChild(MultipartFile file, RoleVM roleVM, String username);
 }
