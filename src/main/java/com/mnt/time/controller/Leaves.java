@@ -58,6 +58,8 @@ import com.mnt.core.domain.DomainEnum;
 
 
 
+import com.mnt.roleHierarchy.model.Role;
+
 //import controllers.routes.Status.userSearch;
 import dto.fixtures.MenuBarFixture;
 //import play.mvc.Controller;
@@ -394,7 +396,7 @@ public class Leaves {
 			List<RoleLevel> rl2 = RoleLevel.find.all();
 			Form<LeaveX> leaveXForm = form(LeaveX.class).bindFromRequest(request);
 			LeaveX leaveX = LeaveX.find.where(Expr.eq("company", user.getCompanyobject())).findUnique();
-			List<RoleLevel> rolelevel=RoleLevel.findListByCompany(user.getCompanyobject().getId());
+			List<Role> rolelevel=Role.findListByCompany(user.getCompanyobject().getId());
 			System.out.println("form leavesss==="+leaveXForm.get().getLeaveLevels().get(0).getLeave_type());
 			System.out.println("form ==="+leaveXForm);
 			if(leaveX == null){
@@ -420,7 +422,7 @@ public class Leaves {
 			
 			List<LeaveLevel> ll=LeaveLevel.findListByCompany(user.getCompanyobject().getId());
 			
-			for(RoleLevel r:rolelevel){
+			for(Role r:rolelevel){
 				for(LeaveLevel l:ll) {
 					
 					if(RoleLeave.find.where()
@@ -486,10 +488,10 @@ public class Leaves {
 	}
 	
 	
-	private void updateRoleLeave(LeaveLevel rl, List<RoleLevel> rolelevel ){
-		List<RoleLevel> rl1 = RoleLevel.find.all();
+	private void updateRoleLeave(LeaveLevel rl, List<Role> rolelevel ){
+		List<Role> rl1 = Role.find.all();
 		//List<User> users = User.find.where().eq("companyobject",user.getCompanyobject()).findList();
-		for(RoleLevel r:rl1) {
+		for(Role r:rl1) {
 			if(RoleLeave.find.where().eq("company", rl.getLeaveX().getCompany()).eq("roleLevel", r).eq("leaveLevel", rl).findUnique() == null){
 				RoleLeave Rleave = new RoleLeave();
 				Rleave.roleLevel = r;
@@ -510,7 +512,7 @@ public class Leaves {
 			
 			 Map<String,List<LeaveCell>> map = new HashMap<String,List<LeaveCell>>();
 			 for(RoleLeave rleave : roleLeaves) {
-				 String role_name = rleave.getRoleLevel().getRole_name();
+				 String role_name = rleave.getRoleLevel().getRoleName();
 				 List<LeaveCell> leaveCells;
 				 if(map.containsKey(role_name)){
 					 leaveCells = map.get(role_name);
@@ -559,7 +561,7 @@ public class Leaves {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(RoleLevel rl: role.roleLevels) {
+			 for(Role rl: role.getRoleLevels()) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 
@@ -605,7 +607,7 @@ public class Leaves {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(RoleLevel rl: role.roleLevels) {
+			 for(Role rl: role.getRoleLevels()) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 

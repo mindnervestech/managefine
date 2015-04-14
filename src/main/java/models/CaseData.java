@@ -13,12 +13,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
+import com.custom.domain.CaseTypes;
 import com.custom.domain.Status;
 import com.custom.helpers.CaseSearchContext;
+import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.helper.SearchContext;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
@@ -42,36 +45,36 @@ public class CaseData extends Model {
 	public Long id;
 	
 	@SearchColumnOnUI(rank=2,colName="Title")
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=1,label="Title")
 	public String title;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="Description")
 	public String description;
 	
-	@SearchColumnOnUI(rank=3,colName="Status")
+	/*@SearchColumnOnUI(rank=3,colName="Status")
 	@Enumerated(EnumType.STRING)
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=3,label="Status")
-	public Status status;
+	public Status status;*/
     
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=5,label="Notes", mandatory = true)
+	@WizardCardUI(name="Basic Info",step=1)
+	@UIFields(order=3,label="Notes", mandatory = true)
     public String notes;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<CaseNotes> casenotes;
     
-	@WizardCardUI(name="Other Info",step=3)
-	@UIFields(order=6,label=PROJECTS, autocomplete=true)
+	@WizardCardUI(name="Basic Info",step=1)
+	@UIFields(order=4,label=PROJECTS, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne(cascade = CascadeType.ALL)
 	public Project projects;
 	
-	@SearchColumnOnUI(rank=1,colName="Assignto")
+	@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=4,label=ASSIGNTO_USER, autocomplete=true)
+	@UIFields(order=5,label=ASSIGNTO_USER, autocomplete=true)
 	@OneToOne(cascade = CascadeType.ALL)
 	@Validation(required=true)
 	public User assignto;
@@ -79,16 +82,33 @@ public class CaseData extends Model {
 	@Validation(required = true)
 	public Long userid;
     
-	@SearchColumnOnUI(rank=4,colName="DueDate")
-	@WizardCardUI(name="Other Info",step=2)
-	@UIFields(order=8,label="Due Date")
+	@SearchColumnOnUI(rank=7,colName="Due Date")
+	@WizardCardUI(name="Basic Info",step=1)
+	@UIFields(order=6,label="Due Date")
 	@Validation(required = true)
 	@Formats.DateTime(pattern="dd-MM-yyyy")
-	@SearchFilterOnUI(label="DueDate")
+	//@SearchFilterOnUI(label="DueDate")
 	public Date	dueDate;
 	
-	@WizardCardUI(name="Flexi Attribute",step=3)
-	@UIFields(order=7,label="flexiAttributes")
+	//@SearchColumnOnUI(rank=5,colName="Types")
+	@Enumerated(EnumType.STRING)
+	@WizardCardUI(name="Basic Info",step=1)
+	@UIFields(order=7,label="Types")
+	@SearchFilterOnUI(label="Type")
+	public CaseTypes type;
+	
+	@Transient
+	@SearchFilterOnUI(label="From Due Date")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date startDateWindow;
+	
+	@Transient
+	@SearchFilterOnUI(label="To Due Date")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date endDateWindow;
+	
+	@WizardCardUI(name="Flexi Attribute",step=2)
+	@UIFields(order=8,label="flexiAttributes")
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<CaseFlexi> flexiAttributes;
 	
@@ -128,13 +148,6 @@ public class CaseData extends Model {
 		this.description = description;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
 
 	public String getNotes() {
 		return notes;
@@ -199,6 +212,14 @@ public class CaseData extends Model {
 
 	public void setProjects(Project projects) {
 		this.projects = projects;
+	}
+
+	public CaseTypes getType() {
+		return type;
+	}
+
+	public void setType(CaseTypes type) {
+		this.type = type;
 	}
 
 	public Company getCompany() {

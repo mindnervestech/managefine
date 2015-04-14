@@ -33,6 +33,7 @@ import com.custom.helpers.CustomRoleSearchContext;
 import com.custom.helpers.RoleSave;
 import com.custom.helpers.TaskSearchContext;
 import com.google.common.collect.Sets;
+import com.mnt.roleHierarchy.model.Role;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -126,13 +127,13 @@ public class Roles {
 		if(roleX != null){
 			List<LeaveLevel> ll = LeaveLevel.findListByCompany(user.getCompanyobject().getId());
 			
-			for(RoleLevel _rl : roleXForm.get().roleLevels){
-				if( _rl.id != null ){
+			for(Role _rl : roleXForm.get().roleLevels){
+				if( _rl.getId() != null ){
 				Ebean.update(_rl,Sets.newHashSet("role_level","role_name"));	
 				//_rl.update();
 				} else {
 					if(RoleLevel.find.where()
-							.eq("role_name",_rl.role_name)
+							.eq("role_name",_rl.getRoleName())
 							.eq("roleX", roleX).findUnique() != null){
 						return "Seems to be duplicate Submit or trying to insert duplicate roles name";
 					}
@@ -164,8 +165,8 @@ public class Roles {
 		RoleX roleX = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		
 		if(roleX != null){
-			for(RoleLevel _rl : roleXForm.get().roleLevels){
-				if( _rl.id != null ){
+			for(Role _rl : roleXForm.get().roleLevels){
+				if( _rl.getId() != null ){
 				_rl.update();
 				} else {
 					_rl.roleX = roleX;

@@ -15,6 +15,7 @@ import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
 import com.custom.domain.RoleLevels;
+import com.mnt.roleHierarchy.model.Role;
 
 @Entity
 public class RoleLevel extends Model{
@@ -72,8 +73,8 @@ public class RoleLevel extends Model{
 	
 	public static boolean checkUserLevel(Long id,RoleLevels currentLevel){
 		RoleX roleX = RoleX.find.where(Expr.eq("company", User.findById(id).companyobject)).findUnique();
-		for(RoleLevel level : roleX.getRoleLevels()){
-			if(level.role_level.ordinal() >= currentLevel.ordinal()){
+		for(Role level : roleX.getRoleLevels()){
+			if(level.getId() >= currentLevel.ordinal()){
 				return true;
 			}
 		}
