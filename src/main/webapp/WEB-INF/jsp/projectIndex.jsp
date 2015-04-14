@@ -16,18 +16,19 @@
  <div class="col-md-12">
  <div id="dialog" title="Project" style="background: white;height: 311px;">
  <div class="form-group">
- 	<form method="post" action="saveprojectTypeandName" >   <!--modelAttribute="pVm" action="/saveprojectTypeandName" -->
+ 	<form name="myForm" method="post" action="saveprojectTypeandName">   <!--modelAttribute="pVm" action="/saveprojectTypeandName" -->
     	<div class="modal-body" >
 					<div class="form-group">
-						<label for="org-name">Project Type</label>
+						<label style="margin-left: 15px;">Project Type</label>
 						
-							<select class="col-md-6" name="projectTypeId" data-ng-model="projectinfo.projectTypeId" ng-change="onProjectTypeChange(projectType.projectTypeId)"  placeholder="Select Project type."  required>   <!-- data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" -->
+							<select class="col-md-6 required" id="projectTypeId" name="projectTypeId" data-ng-model="projectinfo.projectTypeId" ng-change="onProjectTypeChange(projectType.projectTypeId)"  placeholder="Select Project type."  required>  
+								<option value="">-select-</option>
 								<option ng-repeat="projectT in projectType" value="{{projectT.id}}">{{projectT.projectTypes}}</option>
 					        </select>
 						
 					</div>
 					<div class="form-group">
-					 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
+					 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;margin-top: 15px;">
 					 <div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
 						<label for="org-type" class="col-md-11">Project Name</label>
 							
@@ -40,13 +41,9 @@
 						<label for="org-type" class="col-md-11">Project Description</label>
 							
 							<textarea  class="col-md-11" id="pro-des" name="projectDescription" ng-model="projectinfo.projectDescriptions" rows="1"
-						 placeholder="Enter Project Description."></textarea>
+						 placeholder="Enter Project Description." required></textarea>
 						 							
 						</div>
-					
-							
-							
-						
 						
 						</div>	
 					</div>
@@ -55,6 +52,7 @@
 						<label class="col-md-8">Client</label>
 						
 							<select class="col-md-6" name="client" data-ng-model="projectinfo.client" ng-change="onProjectTypeChange(projectinfo.client)"  placeholder="Select Client."  required>     <!-- data-ng-options="clientinfo.id as clientinfo.clientName for clientinfo in findCliect" -->
+								<option value="">-select-</option>
 								<option ng-repeat="clientinfo in findCliect" value="{{clientinfo.id}}">{{clientinfo.clientName}}</option>
 					        </select>
 						
@@ -76,12 +74,10 @@
     </div>
     </div>
     <!-- ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable -->
-    <style>
    
     
-    </style>
-    
 <script>
+
 
 $(document).ready(function(){
 	$("#Projectinstanceadd_addButton").unbind();
@@ -99,12 +95,12 @@ $(document).ready(function(){
 		
 	});
 	
-	
-	
+
 });
+
 </script>
    
-    
+ 
    
  <script type="text/javascript" src='<c:url value="/resources/javascripts/primitives/primitives.latest.js"/>'></script>
  <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular-datepicker.js"/>'></script>

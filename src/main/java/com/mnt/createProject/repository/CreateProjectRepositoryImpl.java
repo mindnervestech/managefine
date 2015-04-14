@@ -2,10 +2,14 @@ package com.mnt.createProject.repository;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -15,16 +19,22 @@ import models.Client;
 import models.User;
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 
 import com.custom.helpers.UserSearchContext;
+import com.mnt.createProject.model.ProjectAttachment;
+
+import com.mnt.createProject.model.ProjectComment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
 import com.mnt.createProject.vm.ClientVM;
+import com.mnt.createProject.vm.ProjectAttachmentVM;
+import com.mnt.createProject.vm.ProjectCommentVM;
 import com.mnt.createProject.vm.ProjectinstanceVM;
 import com.mnt.orghierarchy.model.Organization;
 import com.mnt.orghierarchy.vm.OrganizationVM;
@@ -42,7 +52,8 @@ import com.mnt.roleHierarchy.vm.RoleVM;
 @Service
 public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 
-	
+	@Value("${imageRootDir}")
+	String imageRootDir;
 	
 	
 	public ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance) {
@@ -159,67 +170,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 	}
 	
-	
-	/*public ProjectsupportattributVM getEditJspPage(Long id,Long mainInstance) {
 		
-		System.out.println("_+_+_+_+_");
-		System.out.println(mainInstance);
-		System.out.println("_+_+_+_+_");
-		
-		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
-		
-		Projectclassnode projectclassnode=Projectclassnode.getProjectById(id);
-		ProjectsupportattributVM pVm=new ProjectsupportattributVM();
-		pVm.setProjectTypes(projectclassnode.getProjectTypes());
-		pVm.setProjectDescription(projectclassnode.getProjectDescription());
-		pVm.setProjectColor(projectclassnode.getProjectColor());
-		pVm.setProjectId(projectclassnode.getProjectId().getId());
-		pVm.setParentId(projectclassnode.getParentId());
-		pVm.setLevel(projectclassnode.getLevel());
-		
-		List<Projectinstancenode> projectinstancenodes= Projectinstancenode.getprojectNodeById(id);
-		
-		List<Saveattributes> saveattributes = Saveattributes.getprojectNodeById(id);
-		
-		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
-		for(Saveattributes sAtt:saveattributes){
-			ProjectclassnodeattributVM projectclassnodeattributVM=new ProjectclassnodeattributVM();
-			projectclassnodeattributVM.setId(sAtt.getId());
-			projectclassnodeattributVM.setName(sAtt.getAttributName());
-			projectclassnodeattributVM.setType(sAtt.getType());
-			if(sAtt.getType().equals("Checkbox")){
-				String[] gvalue = sAtt.getAttributValue().split(",");
-				List<String> lines = new ArrayList<String>();
-				for(int i=0; i < gvalue.length; i++){
-					lines.add(gvalue[i]);
-					System.out.println("%^%^%^%%^%");
-				 	System.out.println(gvalue[i]);
-					}
-				projectclassnodeattributVM.setCheckBoxValue(lines);
-			}else{
-				projectclassnodeattributVM.setAttriValue(sAtt.getAttributValue());
-			}
-            projectclassnodeattributVM.setProjectnode(sAtt.getProjectinstancenode_id());
-			pList2.add(projectclassnodeattributVM);
-		}
-		pVm.setProjectValue(pList2);
-		
-		
-		
-		return pVm;
-		
-	}
-	*/
-	
 	@Override
 	public Projectinstance saveprojectTypeandName(HttpServletRequest request) {
 
-		System.out.println("+_+_+_+_+_+_+_");
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
-
-		System.out.println(form.data().get("projectName"));
-		System.out.println(form.data().get("client"));
-		System.out.println(form.data().get("projectTypeId"));
 		
 		Projectinstance projectinstance= new Projectinstance();
 		projectinstance.setProjectName(form.data().get("projectName"));
@@ -265,5 +220,136 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		return result;
 		
 	}
+	
+	@Override
+	public Long saveFiles(MultipartFile file, ProjectsupportattributVM pVm, String username) {
+		//ProjectsupportattributVM pVm=new ProjectsupportattributVM();
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+	
+		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(pVm.getProjectId(), pVm.getThisNodeId());
+		
+			String[] filenames = file.getOriginalFilename().split("\\.");
+			String filename = imageRootDir+File.separator+ "attachment" + File.separator +filenames[0]+ "_" + projectinstancenode.getId() +"."+filenames[filenames.length-1];
+			
+			File f = new File(filename);
+			try {
+				file.transferTo(f);
+		
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			
+			
+			ProjectAttachment projectattachment= new ProjectAttachment();
+			projectattachment.setDocName(file.getOriginalFilename());
+			projectattachment.setDocPath(filename);
+			try {
+				projectattachment.setDocDate(format.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			//if(projectinstancenode != null){
+			projectattachment.setProjectinstanceid(projectinstancenode.getId());
+			//}
+			projectattachment.save();
+
+		return null;
+	}
+
+	public ProjectsupportattributVM findAttachFile(Long id,Long mainInstance) {
+		
+		ProjectsupportattributVM pVm = new ProjectsupportattributVM();
+		
+		Projectinstancenode projectinstancenode = Projectinstancenode.getProjectParentId(id, mainInstance);
+		
+		if(projectinstancenode != null){
+		pVm.setThisNodeId(projectinstancenode.getId());
+		pVm.setProjectId(projectinstancenode.getProjectclassnode().getId());
+		List<ProjectAttachment> pAttachment = ProjectAttachment.getprojectinstanceById(projectinstancenode.getId());
+		
+		List<ProjectAttachmentVM> pAList = new ArrayList<ProjectAttachmentVM>();
+		List<ProjectCommentVM> pCList = new ArrayList<ProjectCommentVM>();
+		
+		for(ProjectAttachment pAtt:pAttachment){
+			ProjectAttachmentVM pAttachmentVM = new ProjectAttachmentVM();
+			pAttachmentVM.setId(pAtt.getId());
+			pAttachmentVM.setDocDate(pAtt.getDocDate());
+			pAttachmentVM.setDocName(pAtt.getDocName());
+			pAttachmentVM.setDocPath(pAtt.getDocPath());
+			pAttachmentVM.setProjectinstanceid(pAtt.getProjectinstanceid());
+			pAList.add(pAttachmentVM);
+			
+		}
+		pVm.setProjectAttachment(pAList);
+		
+		List<ProjectComment> pComment = ProjectComment.getprojectinstanceById(projectinstancenode.getId());
+		
+		for(ProjectComment pComm:pComment){
+			ProjectCommentVM pCommentVM = new ProjectCommentVM();
+			pCommentVM.setCommetDate(pComm.getCommetDate());
+			pCommentVM.setId(pComm.getId());
+			pCommentVM.setProjectComment(pComm.getProjectComment());
+			pCommentVM.setUserName(pComm.getUser().getFirstName());
+			pCList.add(pCommentVM);
+		}
+		pVm.setProjectcomments(pCList);
+		
+		
+		
+		}else{
+			pVm.setThisNodeId(null);
+		}
+		
+		return pVm;
+		
+	}
+	
+	@Override
+	public Long saveComment(ProjectsupportattributVM pVm,String username) {
+		Date dt = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		
+		User user= User.findByEmail(username);
+		ProjectComment pComment = new ProjectComment();
+		
+		try {
+			pComment.setCommetDate(format.parse(sdf.format(dt)));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pComment.setUser(User.findById(user.getId()));
+		pComment.setProjectComment(pVm.getComment());
+		
+		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(pVm.getProjectId(), pVm.getThisNodeId());
+		pComment.setProjectinstanceid(projectinstancenode.getId());
+		pComment.save();
+		
+		return pComment.getId();
+	}
+	
+	public Long saveTask(Long id,Long mainInstance, Long task){
+		
+		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(id,mainInstance);
+		
+		projectinstancenode.setTaskCompilation(task.intValue());
+		projectinstancenode.update();
+		
+		return projectinstancenode.getId();
+		
+	}
+
 	
 }

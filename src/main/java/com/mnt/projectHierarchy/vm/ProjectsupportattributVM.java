@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 
+import com.mnt.createProject.vm.ProjectAttachmentVM;
+import com.mnt.createProject.vm.ProjectCommentVM;
+
 
 public class ProjectsupportattributVM {
 
@@ -18,7 +21,10 @@ public class ProjectsupportattributVM {
 	public String projectColor;
 	public int level;
 	public Long thisNodeId;
+	public String comment;
 	public List<ProjectclassnodeattributVM> projectValue;
+	public List<ProjectAttachmentVM> projectAttachment;
+	public List<ProjectCommentVM> projectcomments;
 	
 	
 	public String getProjectTypes() {
@@ -92,6 +98,24 @@ public class ProjectsupportattributVM {
 	}
 	public void setEndDateLimit(String endDateLimit) {
 		this.endDateLimit = endDateLimit;
+	}
+	public List<ProjectAttachmentVM> getProjectAttachment() {
+		return projectAttachment;
+	}
+	public void setProjectAttachment(List<ProjectAttachmentVM> projectAttachment) {
+		this.projectAttachment = projectAttachment;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public List<ProjectCommentVM> getProjectcomments() {
+		return projectcomments;
+	}
+	public void setProjectcomments(List<ProjectCommentVM> projectcomments) {
+		this.projectcomments = projectcomments;
 	}
 	
 	

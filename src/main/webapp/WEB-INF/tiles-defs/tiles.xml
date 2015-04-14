@@ -273,6 +273,6 @@
   		<definition name="addProjectType" template="/WEB-INF/jsp/addProjectType.jsp"/> 
   		<definition name="editRoleOrganization" template="/WEB-INF/jsp/editRoleOrganization.jsp"/>
   		<definition name="addProjectTypeValue" template="/WEB-INF/jsp/addProjectTypeValue.jsp"/>
-  		<definition name="editProjectTypeValue" template="/WEB-INF/jsp/editProjectTypeValue.jsp"/> 
-  		 
+  		<definition name="editProjectTypeValue" template="/WEB-INF/jsp/editProjectTypeValue.jsp"/>
+  		<definition name="addProjectNotsAndAtt" template="/WEB-INF/jsp/addProjectNotsAndAtt.jsp"/>
 </tiles-definitions>

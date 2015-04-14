@@ -16,6 +16,15 @@ background-repeat: no-repeat ! important;
 background-position-y: 3px ! important;
 }
 
+.editInfo{
+   background-position: center center;
+
+background-image: url(http://localhost:8080/time/resources/images//icon/editInfo.png) ! important;
+background-size:13px 13px  ! important;
+background-repeat: no-repeat ! important;
+background-position-y: 3px ! important;
+}
+
 .edit{
    background-position: center center;
 

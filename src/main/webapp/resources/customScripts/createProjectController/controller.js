@@ -1,9 +1,11 @@
-app.controller("createProjectController",function($scope,$http,ngDialog,$upload) {
+app.controller("createProjectController",function($scope,$http,$rootScope,ngDialog,$upload,$timeout,$filter) {
+	
+	$scope.progressValue = 150;
 	
 	$scope.index = 10;
     $scope.Message = "";
     maximumId = 2;
-    $scope.MainInstance = 0;
+    $rootScope.MainInstance = 0;
     $scope.selectRootNode= null;
     $scope.projectsearch= {
     		projectValue:[],
@@ -16,22 +18,11 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     
     var buttons = [];
     
-   
-/*	$scope.addProjectName = function(projectInfo){
-		 console.log("jjjjj");
-		 console.log(projectInfo);
-		$http({method:'POST',url:'saveprojectTypeandName',data:projectInfo}).success(function(response) {
- 			console.log("Ok"); 
- 			console.log(response);
- 			 
- 			
- 			});
-	}
-    */
-    
-    //buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
+     
     buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
+	buttons.push(new primitives.orgdiagram.ButtonConfig("editInfo", "ui-icon-close", "EditInfo"));
+	
 
 	$scope.myOptions = {
     		cursorItem : 0,
@@ -40,20 +31,61 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     		templates : [getContactTemplate()],
     		defaultTemplateName : "contactTemplate",
     		buttons:buttons,
+    	
     };
 	
+	$scope.editdata = {};
 	$scope.myOptions.onButtonClick = function (e, data) {
+		
 		switch (data.name) {
-        	case "delete":
+        	case "editInfo":
+        		$scope.fileAttachData = null;
+        		$rootScope.currentParentId = data.context.id;
+        			$http({method:'GET',url:'/time/findAttachFile',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance}}).success(function(data) {
+        				console.log("Ok----");
+        				console.log(data);
+        				$scope.fileAttachData = data;
+        				angular.forEach($scope.fileAttachData.projectAttachment, function(obj, index){
+        					
+        					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MM-yyyy");
+        					return;
+        				});
+        				angular.forEach($scope.fileAttachData.projectcomments, function(obj, index){
+        					
+        					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MM-yyyy");
+        					return;
+        				});
+        				
+        				console.log($scope.fileAttachData);
+        				
+        				if($scope.fileAttachData.thisNodeId != null){
+            			ngDialog.open({
+                			template:'addProjectNotsAndAtt',
+                			scope:$scope,
+                			closeByDocument:false
+                			
+                		}); 
+        				}else{
+        					console.log("First Add Node");
+        					$.pnotify({
+                                title: "Error",
+                                type:'error',
+                                text: "First Add Data",
+                            });
+        				}
+        				
+        			});
+        			
         		
         		break;
         	case "add":
+        	
         		console.log("=-=-=-=-=");
         		console.log(data.context.id);
-        		console.log($scope.MainInstance);
+        		console.log($rootScope.MainInstance);
         		console.log("=-=-=-=-=");
         		
-        		$http({method:'GET',url:'AddJspPage',params:{id:data.context.id,mainInstance:$scope.MainInstance}}).success(function(data) {
+        		$http({method:'GET',url:'AddJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
         			console.log(data);
         			        			
         			ngDialog.open({
@@ -68,13 +100,14 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
         			
         		});
         		
+        		
         		break;
         	case "edit":
         		
-        		console.log($scope.MainInstance);
+        		console.log($rootScope.MainInstance);
         		console.log(data.context.id);
         		
-        		$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$scope.MainInstance}}).success(function(data) {
+        		$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
         			console.log(data);
         			
         			        			
@@ -109,15 +142,6 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     	$scope.findCliect = response;
     });
     
-    /*ngDialog.open({
-		template:$scope.projectType,
-		plain:true,
-		//controller: 'ProjectHierarchyController',
-		scope:$scope,
-		closeByDocument:false,
-		className: 'ngdialog-theme-plain'
-	});*/
-    
     $scope.saveProjectType = function(){
     	console.log("-----------");
     	console.log($scope.pro);
@@ -151,7 +175,7 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     $scope.viewHierarchy = function(id,rootId){
     	console.log(id);
     	console.log(rootId);
-    	 $scope.MainInstance = rootId;
+    	$rootScope.MainInstance = rootId;
     	$scope.selectRootNode = id;
     	console.log($scope.selectRootNode);
     	items = [];
@@ -185,6 +209,103 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     	
     }
 
+
+    var file = null;
+    $scope.selectFile = function(files) {
+    	file = files[0];
+    	console.log(file);
+    };
+    $scope.saveAttachment = function(){
+    	
+    	console.log($rootScope.currentParentId);
+    	$scope.editdata.projectId  = $rootScope.currentParentId;
+		$scope.editdata.thisNodeId = $rootScope.MainInstance;
+		console.log($scope.editdata);
+    	$upload.upload({
+            url: 'saveFile',
+            data: $scope.editdata,
+            file: file,
+            method:'post'
+        }).progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+        }).success(function (data, status, headers, config) {
+            console.log(data);
+            $http({method:'GET',url:'/time/findAttachFile',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance}}).success(function(data) {
+				console.log("Ok----");
+				console.log(data);
+				$scope.fileAttachData = data;
+				
+				angular.forEach($scope.fileAttachData.projectAttachment, function(obj, index){
+					
+					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MM-yyyy");
+					return;
+				});
+				angular.forEach($scope.fileAttachData.projectcomments, function(obj, index){
+					
+					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MM-yyyy");
+					return;
+				});
+            });
+           
+        });
+    	
+    
+    }
+    
+   $scope.downloadfile = function(id){
+	   console.log("AAAAAAAAAA");
+	   console.log($rootScope.currentParentId);
+	   console.log($rootScope.MainInstance);
+	   
+	   $.fileDownload('/time/downloadStatusFile',
+		{	   	
+			   httpMethod : "POST",
+			   data : {
+				   attchId : id,
+				   mainInstance : $rootScope.MainInstance,
+				   currentParentId : $rootScope.currentParentId
+			   }
+		}).done(function(e, response)
+				{
+				}).fail(function(e, response)
+				{
+					// failure
+				});
+    
+   }
+   
+    $scope.saveComment = function(comment){
+    	
+    	$scope.editdata.projectId  = $rootScope.currentParentId;
+		$scope.editdata.thisNodeId = $rootScope.MainInstance;
+		$scope.editdata.comment = comment;
+    	
+    	console.log($scope.editdata);
+    	 $http({method:'POST',url:'/time/saveComment',data:$scope.editdata}).success(function(response) {
+  			console.log("Ok"); 
+  			console.log(response);
+  			
+  			 $http({method:'GET',url:'/time/findAttachFile',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance}}).success(function(data) {
+ 				console.log("Ok----");
+ 				console.log(data);
+ 				$scope.fileAttachData = data;
+ 				
+ 				angular.forEach($scope.fileAttachData.projectAttachment, function(obj, index){
+					
+					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MM-yyyy");
+					return;
+				});
+				angular.forEach($scope.fileAttachData.projectcomments, function(obj, index){
+					
+					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MM-yyyy");
+					return;
+				});
+             });
+  			
+  			});
+    }
+    
     	$scope.projectT = 0;
     	$scope.projectD = 0;
     	$scope.saveCreateProject = function(pro){
@@ -195,7 +316,7 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
     	
     	$scope.editProjectInfo = function(){
     		console.log($scope.pro.projectTypes);
-   		 $scope.projectsearch.parentId = $scope.currentParentId;
+   		 $scope.projectsearch.parentId = $rootScope.currentParentId;
    		 $scope.projectsearch.projectId = $scope.projectid;
    		 $scope.projectsearch.projectTypes = $scope.pro.projectTypes;
    		 $scope.projectsearch.projectDescription = $scope.pro.projectDescription;
@@ -232,6 +353,22 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
    		ngDialog.close();
     	}
    		
+    	}
+    	
+    	$scope.task = function(taskC){
+    		console.log(taskC);
+    		$http({method:'GET',url:'/time/saveTask',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance,task : taskC}}).success(function(data) {
+    			console.log("((((((OK)))))");
+    			
+    		});
+    		
+    		/*$scope.editdata.projectId  = $rootScope.currentParentId;
+    		$scope.editdata.thisNodeId = $rootScope.MainInstance;
+    		$scope.editdata.comment = comment;
+        	
+        	console.log($scope.editdata);
+        	 $http({method:'POST',url:'/time/saveComment',data:$scope.editdata}).success(function(response) {*/
+    		
     	}
         
     $scope.setCursorItem = function (item) {
@@ -286,6 +423,7 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
             + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.projectDescription}}</div>'
+            + '<div><progressbar id="progressBar" class="progress-striped active" ng-click="abcdx()" style="height: 20px;margin-top: 59px;" animate="true" max="300" value="100" type="success"><i> / 100</i></progressbar></div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",
@@ -324,6 +462,7 @@ app.controller("createProjectController",function($scope,$http,ngDialog,$upload)
         return result;
     };
 
-	
+	   
+ 
 	
 });

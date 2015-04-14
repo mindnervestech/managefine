@@ -48,6 +48,7 @@
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/app.js"/>'></script>
+		 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ui-bootstrap-tpls-0.12.1.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/coreController.js"/>'></script>
 		 
 		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/controller.js"/>'></script>

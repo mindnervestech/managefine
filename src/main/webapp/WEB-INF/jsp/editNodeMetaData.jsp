@@ -12,7 +12,7 @@
 <c:set var="projectDescription" value='${editNodeMetaData.projectDescription}'/>   
 
 
- <div class="modal" id="myModal" tabindex="-1" role="dialog"
+ <div id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;"> 
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -78,11 +78,11 @@
 						  <label class="col-md-12" style="color:red" ng-if="projectT == 1">type is required</label>
 						  
 					</div>
-					 <div class="col-md-2" style="margin-top: 42px;">
+					<div class="col-md-2" style="margin-top: 42px;">
 					<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
 					</div>
 				
-					 <div class="col-md-6">
+					 <div class="col-md-5" style="margin-left: 17px;">
 						<label class="col-md-11" style="margin-top: 16px;" for="pro-name">End Date</label>
 						   <input type="date" name="endDate" value='${editNodeMetaData.endDate}'/> 
 						

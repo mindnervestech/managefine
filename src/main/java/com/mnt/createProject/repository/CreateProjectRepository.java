@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 
 
@@ -20,8 +22,12 @@ import com.mnt.roleHierarchy.vm.RoleVM;
 public interface CreateProjectRepository {
 	ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance);
 	//ProjectsupportattributVM getEditJspPage(Long id,Long mainInstance);
+	Long saveFiles(MultipartFile file,ProjectsupportattributVM pVm,String username);
+	Long saveComment(ProjectsupportattributVM pVm,String username);
 	Projectinstance saveprojectTypeandName(HttpServletRequest request);
 	Projectinstance editprojectTypeandName(Long projectId);
+	ProjectsupportattributVM findAttachFile(Long id,Long mainInstance);
+	Long saveTask(Long id,Long mainInstance, Long task);
 	List<ClientVM> getfindCliect();
 
 }

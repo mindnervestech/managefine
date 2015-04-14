@@ -30,6 +30,7 @@ public class Projectinstancenode extends Model{
 	private Long projectinstanceid;
 	private Date startDate;
 	private Date endDate;
+	private long taskCompilation;
 	
 	/*@OneToMany(cascade=CascadeType.ALL)
 	private List<Saveattributes> saveattributes;*/
@@ -62,15 +63,13 @@ public class Projectinstancenode extends Model{
 		this.projecttypeid = projecttypeid;
 	}
 
-	
-	/*public List<Saveattributes> getSaveAttributes() {
-		return saveattributes;
+	public long getTaskCompilation() {
+		return taskCompilation;
 	}
 
-	public void setSaveAttributes(List<Saveattributes> saveAttributes) {
-		this.saveattributes = saveAttributes;
-	}*/
-	
+	public void setTaskCompilation(long taskCompilation) {
+		this.taskCompilation = taskCompilation;
+	}
 
 	public Date getStartDate() {
 		return startDate;

@@ -7500,8 +7500,8 @@ primitives.orgdiagram.BaseController.prototype._onDefaultTemplateRender = functi
 primitives.orgdiagram.BaseController.prototype._createCheckBoxTemplate = function () {
 	var template = jQuery('<div style="height:0px !important;"></div>');
 	template.addClass("bp-item bp-selectioncheckbox-frame");
-
-/*template.append(jQuery('<label><nobr><input type="checkbox" name="checkbox" class="bp-selectioncheckbox" />&nbsp;<span name="selectiontext" class="bp-selectiontext">'
+	
+   /*template.append(jQuery('<label><nobr><input type="checkbox" name="checkbox" class="bp-selectioncheckbox" />&nbsp;<span name="selectiontext" class="bp-selectiontext">'
 		+ this.options.selectCheckBoxLabel + '</span></nobr></label>'));*/
 
 	this._checkBoxTemplate = template.wrap('<div>').parent().html();

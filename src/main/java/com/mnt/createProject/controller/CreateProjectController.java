@@ -2,6 +2,8 @@ package com.mnt.createProject.controller;
 
 import static play.data.Form.form;
 
+import java.io.File;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import models.LeaveLevel;
 import models.RoleLeave;
@@ -17,6 +20,8 @@ import models.RoleX;
 import models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -31,10 +36,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.google.common.collect.Sets;
+import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
 import com.mnt.createProject.vm.ProjectinstanceVM;
+import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
 import com.mnt.projectHierarchy.vm.ProjectclassVM;
@@ -57,6 +64,9 @@ public class CreateProjectController {
 
 	@Autowired
 	com.mnt.createProject.service.CreateProjectService createProjectService;
+	
+	@Value("${imageRootDir}")
+	String imageRootDir;
 	
 	@RequestMapping(value="/createProject",method=RequestMethod.GET)
 	public String orgHierarchy(@CookieValue("username")String username,Model model) {
@@ -92,6 +102,18 @@ public class CreateProjectController {
 		model.addAttribute("editNodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
 		return "editNodeMetaData";
 	}
+	
+	@RequestMapping(value="/findAttachFile",method=RequestMethod.GET)
+	public @ResponseBody ProjectsupportattributVM findAttachFile(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance) {
+		
+		return createProjectService.findAttachFile(id,mainInstance);
+	}
+	
+	@RequestMapping(value="/saveComment",method=RequestMethod.POST) 
+	public @ResponseBody Long saveComment(@RequestBody ProjectsupportattributVM pVm,@CookieValue("username")String username) {
+		return createProjectService.saveComment(pVm,username);
+	}
+	
 		
 	@RequestMapping(value="/saveprojectTypeandName",method=RequestMethod.POST) 
 	public String saveprojectTypeandName(HttpServletRequest request,@CookieValue("username")String username,Model model) {
@@ -138,13 +160,7 @@ public class CreateProjectController {
 			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
 			if(projectclassnode.getParentId() == null){
 			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
-		   /* try {
-				projectinstance.setStartDate(format.parse(form.data().get("startDate")));
-				projectinstance.setEndDate(format.parse(form.data().get("endDate")));
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
+		  
 			projectinstance.setStartDate(form.data().get("startDate"));
 			projectinstance.setEndDate(form.data().get("endDate"));
 			
@@ -197,12 +213,7 @@ public class CreateProjectController {
 			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
 			if(projectclassnode.getParentId() == null){
 			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
-		   /* try {
-				projectinstance.setStartDate(format.parse(form.data().get("startDate")));
-				projectinstance.setEndDate(format.parse(form.data().get("endDate")));
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}*/
+		  
 		    projectinstance.setStartDate(form.data().get("startDate"));
 			projectinstance.setEndDate(form.data().get("endDate"));
 		    projectinstance.update();
@@ -244,6 +255,41 @@ public class CreateProjectController {
 		return null;
 	}
 	
+	@RequestMapping(value="/edit/project/addProjectNotsAndAtt",method=RequestMethod.GET)
+	public String addProjectNotsAndAtt(Model model) {
+		return "addProjectNotsAndAtt";
+	}
+	
+	@RequestMapping(value="/edit/project/saveFile",method=RequestMethod.POST) 
+	public @ResponseBody Long saveFile(@RequestParam("file")MultipartFile file,ProjectsupportattributVM pVm,@CookieValue("username")String username) {
+		return createProjectService.saveFiles(file, pVm, username);
+	}
+	
 		
+	@RequestMapping(value = "/downloadStatusFile", method = RequestMethod.POST)
+	@ResponseBody
+	public FileSystemResource getattchfile(final HttpServletResponse response, @RequestParam(value = "attchId", required = true) final String attchId, @RequestParam(value = "mainInstance", required = true) final String mainInstance, @RequestParam(value = "currentParentId", required = true) final String currentParentId)
+	{
+	
+		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(currentParentId),Long.parseLong(mainInstance));
+		
+		ProjectAttachment projectAttachment = ProjectAttachment.getById(Long.parseLong(attchId));
+		String[] filenames = projectAttachment.getDocName().split("\\.");
+		
+		 response.setContentType("application/x-download");
+         response.setHeader("Content-Transfer-Encoding", "binary"); 
+         response.setHeader("Content-disposition","attachment; filename=\""+projectAttachment.getDocName());
+         File file = new File(imageRootDir+File.separator+ "attachment" + File.separator +filenames[0]+ "_" + projectinstancenode.getId() +"."+filenames[filenames.length-1]);
+         
+         return new FileSystemResource(file);
+		
+	}
+	
+	@RequestMapping(value="/saveTask",method=RequestMethod.GET)
+	public @ResponseBody Long saveTask(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance, @RequestParam("task")Long task) {
+		
+		return createProjectService.saveTask(id, mainInstance,task);
+	}	
+	
 }
 
