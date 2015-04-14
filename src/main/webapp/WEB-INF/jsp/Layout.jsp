@@ -47,14 +47,11 @@
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/bootbox.min.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
-		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/app.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ui-bootstrap-tpls-0.12.1.js"/>'></script>
-		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/coreController.js"/>'></script>
 		 
-		 <script type="text/javascript" src='<c:url value="/resources/customScripts/controller/controller.js"/>'></script>
-    	 
+		 
     </head>
-    <body ng-app="time-app" style="background-color: rgba(245, 245, 245, 0.71);box-shadow: 0 1px 30px #CCC;padding-bottom: 2%;
+    <body  style="background-color: rgba(245, 245, 245, 0.71);box-shadow: 0 1px 30px #CCC;padding-bottom: 2%;
 border-radius: 36px;">
     	<div id="loading" style='position:fixed;
     							top:50%;
@@ -101,4 +98,5 @@ border-radius: 36px;">
 </style>
 
 
-
+<script type="text/javascript" src='<c:url value="/resources/customScripts/controller/coreController.js"/>'></script>
+		 

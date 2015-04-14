@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="menuContext.jsp" />
 <link rel="stylesheet" media="screen" href='<c:url value="resources/stylesheets/customRoleX.css"/>'>
-<form ng-app="time-app" ng-controller="TimeController">
+<form ng-app="dept-app" ng-controller="TimeController">
 <fieldset>
 	<div id="rolex">
 		<div class="twipsies well roleLevel" ng-repeat="department in departments">
@@ -13,7 +13,7 @@
 						class="help-block"></span>
 				</div>
 			</div>
-			<a class="removeRole btn danger pull-right btnColor">Remove</a>
+			<a class="removeRole btn danger pull-right btnColor" ng-click="romove($index,department.id)">Remove</a>
 		</div>
 	</div>
 </fieldset>
@@ -24,8 +24,8 @@
 </div>
 </form>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
-<script type="text/javascript" src='<c:url value="/resources/customScripts/controller/app.js"/>'></script>
-<script type="text/javascript" src='<c:url value="/resources/customScripts/controller/controller.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/customScripts/deparmentController/app.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/customScripts/deparmentController/controller.js"/>'></script>
 <style>
 .btnColor{
 	color: gray;
