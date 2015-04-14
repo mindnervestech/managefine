@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `client_name` varchar(255) DEFAULT NULL,
   `phone_no` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `fax` int(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `street` varchar(255) DEFAULT NULL,
@@ -147,10 +148,10 @@ CREATE TABLE IF NOT EXISTS `client` (
   CONSTRAINT `fk_client_company_3` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.client: ~0 rows (approximately)
+-- Dumping data for table timemgmt.client: ~1 rows (approximately)
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` (`id`, `client_name`, `phone_no`, `email`, `fax`, `address`, `street`, `city`, `country`, `pin`, `contact_name`, `contact_phone`, `contact_email`, `company_id`) VALUES
-	(1, 'abcd', '8787878', 'yy@yy.com', 45678, 'jug', 'jhj', 'jkh', 'kjhj', '87678', 'iuyiu', '986789', 'yy@yy.com', 2);
+INSERT INTO `client` (`id`, `client_name`, `phone_no`, `email`, `password`, `fax`, `address`, `street`, `city`, `country`, `pin`, `contact_name`, `contact_phone`, `contact_email`, `company_id`) VALUES
+	(1, 'abcd', '8787878', 'yy@yy.com', NULL, 45678, 'jug', 'jhj', 'jkh', 'kjhj', '87678', 'iuyiu', '986789', 'yy@yy.com', 2);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 
 
@@ -944,6 +945,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `supplier_name` varchar(255) DEFAULT NULL,
   `phone_no` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `fax` int(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `street` varchar(255) DEFAULT NULL,
@@ -959,10 +961,10 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   CONSTRAINT `fk_supplier_company_3` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table timemgmt.supplier: ~0 rows (approximately)
+-- Dumping data for table timemgmt.supplier: ~1 rows (approximately)
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
-INSERT INTO `supplier` (`id`, `supplier_name`, `phone_no`, `email`, `fax`, `address`, `street`, `city`, `country`, `pin`, `contact_name`, `contact_phone`, `contact_email`, `company_id`) VALUES
-	(1, 'kkkk', '98909', 'jhjhj@uyt.com', 99, 'kjjkj', 'kjnj', 'kjnkj', 'kjloiiu', '7788', 'yyyyy', '00000', 'vgvg@gfv.com', 2);
+INSERT INTO `supplier` (`id`, `supplier_name`, `phone_no`, `email`, `password`, `fax`, `address`, `street`, `city`, `country`, `pin`, `contact_name`, `contact_phone`, `contact_email`, `company_id`) VALUES
+	(1, 'kkkk', '98909', 'jhjhj@uyt.com', NULL, 99, 'kjjkj', 'kjnj', 'kjnkj', 'kjloiiu', '7788', 'yyyyy', '00000', 'vgvg@gfv.com', 2);
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 
 
