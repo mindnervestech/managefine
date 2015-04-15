@@ -5,11 +5,15 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import models.Company;
+import models.RoleLevel;
+import models.RoleX;
 import models.User;
 
+import com.avaje.ebean.Expr;
 import com.mnt.orghierarchy.model.Organization;
 
 import play.db.ebean.Model;
@@ -23,10 +27,15 @@ public class Role extends Model{
 	@Column(length=255)
 	private String roleDescription;
 	private Long parentId;
-	@OneToOne
-	private Company company;
+	@ManyToOne
+	public RoleX roleX;
 
 	public static Finder<Long,Role> find = new Finder<Long,Role>(Long.class,Role.class);
+	
+	
+	public static List<Role> findListByCompany(Long id) {
+		return find.where().eq("company", Company.find.byId(id)).findList();
+    }
 	
 	public static List<Role> getRoleList() {
 		return find.all();
@@ -70,16 +79,6 @@ public class Role extends Model{
 		this.parentId = parentId;
 	}
 	
-	
-
-	public Company getCompany() {
-		return company;
-	}
-
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
 
 
 	public static Role getRoleById(Long id) {
@@ -91,6 +90,14 @@ public class Role extends Model{
 	public List<Role> getRoleByParentId(Long id) {
 		// TODO Auto-generated method stub
 		return find.where().eq("parentId", id).findList();
+	}
+
+	public RoleX getRoleX() {
+		return roleX;
+	}
+
+	public void setRoleX(RoleX roleX) {
+		this.roleX = roleX;
 	}
 
 	

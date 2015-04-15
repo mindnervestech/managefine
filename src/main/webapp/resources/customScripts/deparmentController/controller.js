@@ -21,6 +21,7 @@ app.controller("TimeController",function($scope,$http) {
 	});
 	
 	$scope.saveDepartments = function() {
+		console.log("DEPART")
 		$http({url:'saveDepartments',method:'POST',data:$scope.departments}).success(function(response){
 			
 			$http({url:'getDeparment',method:'POST'}).success(function(response){

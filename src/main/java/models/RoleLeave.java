@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.mnt.roleHierarchy.model.Role;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -21,7 +23,7 @@ public class RoleLeave extends Model {
 	public Company company;
 	
 	@OneToOne
-	public RoleLevel roleLevel;
+	public Role roleLevel;
 		
 	/*@OneToMany
 	@Column(name="leave_level_id")
@@ -57,14 +59,6 @@ public class RoleLeave extends Model {
 		this.company = company;
 	}
 
-	public RoleLevel getRoleLevel() {
-		return roleLevel;
-	}
-
-	public void setRoleLevel(RoleLevel roleLevel) {
-		this.roleLevel = roleLevel;
-	}
-
 	/*public LeaveLevel getLeaveLevel() {
 		return leaveLevel;
 	}
@@ -95,6 +89,14 @@ public class RoleLeave extends Model {
 
 	public void setLeaveLevel(LeaveLevel leaveLevel) {
 		this.leaveLevel = leaveLevel;
+	}
+
+	public Role getRoleLevel() {
+		return roleLevel;
+	}
+
+	public void setRoleLevel(Role roleLevel) {
+		this.roleLevel = roleLevel;
 	}
 
 	/*public List<LeaveLevel> getLeaveLevels() {

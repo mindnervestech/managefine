@@ -94,6 +94,8 @@ public class FlexiAttributes {
 			 fl = FlexiAttribute.getFieldsByUniqueId(3L);
 		}else if(userid.equals("Task")){
 			 fl = FlexiAttribute.getFieldsByUniqueId(4L);
+		}else if(userid.equals("Supplier")){
+			 fl = FlexiAttribute.getFieldsByUniqueId(5L);
 		}
 		 
 		 for(FlexiAttribute flexi : fl) {

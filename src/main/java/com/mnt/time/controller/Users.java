@@ -85,7 +85,7 @@ public class Users {
 			List<DomainEnum> roleX = new ArrayList<DomainEnum>();
 			if(role != null){
 				for(int i=0; i<role.roleLevels.size(); i++){
-					roleX.add(new RoleDomain(role.roleLevels.get(i).id+"",role.roleLevels.get(i).role_name,false));
+					roleX.add(new RoleDomain(role.roleLevels.get(i).getId()+"",role.roleLevels.get(i).getRoleName(),false));
 				}
 			}
 			user.rolex = roleX;
@@ -311,9 +311,9 @@ public class Users {
 										User.findByEmail(username).companyobject)).findUnique();
 		
 		List<String> upperRoleLevels = new ArrayList<String>();
-		for(RoleLevel level : roleX.roleLevels){
-			if(Integer.parseInt(level.role_level.name().split("[_]")[1]) > Integer.parseInt(param)){
-				upperRoleLevels.add(level.role_level.name());
+		for(Role level : roleX.roleLevels){
+			if(Integer.parseInt(level.getRoleName().split("[_]")[1]) > Integer.parseInt(param)){
+				upperRoleLevels.add(level.getRoleName());
 			}
 		}
 		

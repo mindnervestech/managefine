@@ -16,6 +16,7 @@ import models.RoleX;
 import models.User;
 
 
+
 /*import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Expr;
+import com.mnt.roleHierarchy.model.Role;
 
 @Component
 public class RunScheduler {
@@ -46,7 +48,7 @@ public class RunScheduler {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(RoleLevel rl: role.roleLevels) {
+			 for(Role rl: role.roleLevels) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 
@@ -108,7 +110,7 @@ public class RunScheduler {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(RoleLevel rl: role.roleLevels) {
+			 for(Role rl: role.roleLevels) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 

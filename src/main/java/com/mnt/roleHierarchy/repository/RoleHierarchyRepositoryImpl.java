@@ -78,7 +78,7 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		if(role1 == null){
 		User user = User.findByEmail(username);
 		
-		role.setCompany(Company.getFindById(user.getCompanyobject().getId()));	
+		//role.setCompany(Company.getFindById(user.getCompanyobject().getId()));	
 		role.setRoleName(roleVM.getRoleName());
 		role.setRoleDescription(roleVM.getRoleDescription());
 		role.setParentId(roleVM.getParent());

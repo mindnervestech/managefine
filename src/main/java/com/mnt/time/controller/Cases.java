@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.CaseData;
 import models.CaseFlexi;
 import models.CaseNotes;
+import models.CaseTypes;
 import models.Department;
 import models.LeaveBalance;
 import models.LeaveLevel;
@@ -56,6 +57,7 @@ import viewmodel.TaskVM;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlRow;
+import com.custom.domain.CaseStatus;
 import com.custom.domain.RoleDomain;
 import com.custom.domain.Status;
 import com.custom.emails.Email;
@@ -224,6 +226,7 @@ public class Cases {
 		extra.put("currentuser", currentuser.getId().toString());
 		Map<String, Object> extra1 = new HashMap<String, Object>();
 		extra1.put("company", User.findByEmail(username).companyobject);
+		extra1.put("status", "Assigned");
 		CaseSave saveUtils = new CaseSave(extra1);
 		Long id  = (Long)saveUtils.doSave(false, request);
 		CaseData cd = CaseData.findById(id);

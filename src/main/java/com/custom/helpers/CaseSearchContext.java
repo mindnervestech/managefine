@@ -3,6 +3,9 @@ package com.custom.helpers;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +96,24 @@ private static CaseSearchContext searchContext = null;
 	public GridViewModel doSearch(DynamicForm form) {
 		
 		Expression exp =  super.doSearchExpression(form, SearchType.Like);
+		String fromDateFromUI = form.get("startDateWindow");
+        String toDateFromUI = form.get("endDateWindow");
+        SimpleDateFormat TargerdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat OrignaldateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        try {
+        	if(fromDateFromUI != null || toDateFromUI != null){
+        		if(!(fromDateFromUI.equals("") && toDateFromUI.equals(""))){
+					Date todate = OrignaldateFormat.parse(toDateFromUI);
+					Date fromdate = OrignaldateFormat.parse(fromDateFromUI);
+					fromDateFromUI= TargerdateFormat.format(fromdate);  
+					toDateFromUI= TargerdateFormat.format(todate);  
+			        exp =  Expr.between("startDate",fromDateFromUI, toDateFromUI);
+        		}
+        	}	
+		} catch (ParseException e) {
+			ExceptionHandler.onError(e);
+		}
 		int page = Integer.parseInt(form.get("page"));
 		int limit = Integer.parseInt(form.get("rows"));
 		GridViewModel.PageData pageData = new PageData(limit,
