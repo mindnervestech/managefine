@@ -198,6 +198,31 @@ public interface Cases {
 
 }
 
+public interface CasesTo {
+
+	public interface toIndex {
+		public static String url="/caseToIndex";
+	}
+	
+	public interface searchTo {
+		public static String url="/caseToSearch";
+	}
+
+	public interface createTo {
+		public static String url="/caseToCreate";
+	}
+
+	public interface editTo {
+		public static String url="/caseToEdit";
+	}
+
+	public interface showEditTo {
+		public static String url="/caseToShowEdit ";
+	}
+
+}
+
+
 public interface Suppliers {
 	public interface index {
 		public static String url="/supplierIndex";

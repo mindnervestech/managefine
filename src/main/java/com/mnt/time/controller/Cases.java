@@ -6,10 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import models.CaseData;
 import models.CaseFlexi;
 import models.CaseNotes;
-import models.CaseTypes;
 import models.Department;
 import models.LeaveBalance;
 import models.LeaveLevel;
@@ -63,6 +59,7 @@ import com.custom.domain.Status;
 import com.custom.emails.Email;
 import com.custom.helpers.CaseSave;
 import com.custom.helpers.CaseSearchContext;
+import com.custom.helpers.CaseToSearchContext;
 import com.custom.helpers.ClientSave;
 import com.custom.helpers.ProjectSave;
 import com.custom.helpers.SupplierSave;
@@ -210,6 +207,7 @@ public class Cases {
 		/*return ok(userIndex.render(UserSearchContext.getInstance().build(),MenuBarFixture.build(request().username()),user));*/
     }
 	
+	
 	@RequestMapping(value="/caseDelete", method=RequestMethod.GET)
 	public String delete() {
 		return "";
@@ -240,5 +238,74 @@ public class Cases {
 		return "Case Created Successfully";
     }
 	
+	
 
+	@RequestMapping(value="/caseToIndex", method = RequestMethod.GET)
+	public String toIndex(ModelMap model,@CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+
+		model.addAttribute("context", CaseToSearchContext.getInstance().build());
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		return "caseToIndex";
+		/*return ok(userIndex.render(UserSearchContext.getInstance().build(),MenuBarFixture.build(request().username()),user));*/
+    }
+	
+	@RequestMapping( value="/caseToSearch", method= RequestMethod.GET )
+	public @ResponseBody String searchTo(HttpServletRequest request,@CookieValue("username") String username) {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		form.data().put("email", username);
+		return Json.toJson(CaseToSearchContext.getInstance().build().doSearch(form)).toString();
+    }
+	
+	@RequestMapping(value="/caseToCreate", method = RequestMethod.POST)
+	public @ResponseBody String createTo(HttpServletRequest request,@CookieValue("username") String username) throws Exception{
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		System.out.println("case too");
+		User currentuser = User.findByEmail(username);
+		Date notedate = new Date(); 
+		String status = form.get("caseStatus");
+		String note = form.get("caseNote");
+		CaseData cas = CaseData.findById(Long.parseLong(form.get("caseform")));
+		cas.setStatus(status);
+		cas.setNotes(note);
+		cas.update();
+		CaseNotes cnote = new CaseNotes();
+		cnote.setCasedata(cas);
+		cnote.setNoteDate(notedate);
+		cnote.setNoteUser(currentuser.getId());
+		cnote.setCasenote(cas.getNotes());
+		cnote.save();
+		return "Case Updated Successfully";
+    }
+	
+	@RequestMapping( value="/caseToEdit", method = RequestMethod.POST)
+	public @ResponseBody String editTo(@CookieValue("username")String username,HttpServletRequest request) throws Exception {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		User currentuser = User.findByEmail(username);
+		Date notedate = new Date(); 
+		
+		
+		return "Cases Edited Successfully";
+    }
+
+	@RequestMapping( value="/caseToShowEdit ", method= RequestMethod.GET )
+	public String showEditTo(ModelMap model, HttpServletRequest request) {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		Long id = null;
+		try {
+			id = Long.valueOf(form.get("query"));
+			model.addAttribute("_searchContext",
+					new CaseToSearchContext(CaseData.findById(id)).build());
+			return "editWizard";
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			//ExceptionHandler.onError(request().uri(),e);
+		}
+		return "Not able to show Results, Check Logs";
+		
+	}
+	
 }

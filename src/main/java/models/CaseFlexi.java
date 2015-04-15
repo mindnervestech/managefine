@@ -19,7 +19,7 @@ public class CaseFlexi extends Model implements FlexiAttributes {
 	
 	
 	@ManyToOne
-	public CaseData Case;
+	public CaseData CaseData;
 	
 	public Long flexiId; 
 	
@@ -92,12 +92,12 @@ public class CaseFlexi extends Model implements FlexiAttributes {
 		this.type = type;
 	}
 
-	public CaseData getCase() {
-		return Case;
+	public CaseData getCaseData() {
+		return CaseData;
 	}
 
-	public void setCase(CaseData case1) {
-		Case = case1;
+	public void setCaseData(CaseData caseData) {
+		CaseData = caseData;
 	}
 
 

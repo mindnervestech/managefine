@@ -21,20 +21,24 @@ import utils.ExceptionHandler;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
+import com.custom.domain.LeaveStatus;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
+import com.mnt.core.ui.component.BuildUIButton;
+import com.mnt.core.ui.component.UIButton;
+import com.mnt.core.ui.component.UIButton.ButtonActionType;
 import com.mnt.core.utils.GridViewModel;
 import com.mnt.core.utils.GridViewModel.PageData;
 import com.mnt.core.utils.GridViewModel.RowViewModel;
 import com.mnt.time.controller.routes;
 
-public class CaseSearchContext extends ASearchContext<CaseData> {
+public class CaseToSearchContext extends ASearchContext<CaseData> {
 
-private static CaseSearchContext searchContext = null;
+private static CaseToSearchContext searchContext = null;
 	
-	public static CaseSearchContext getInstance(){
+	public static CaseToSearchContext getInstance(){
 		//if(searchContext == null){
-			return new CaseSearchContext();
+			return new CaseToSearchContext();
 		//}
 	}
 	
@@ -42,32 +46,28 @@ private static CaseSearchContext searchContext = null;
 		return CaseData.ENTITY;
 	}
 
-	public CaseSearchContext() {
+	public CaseToSearchContext() {
 		super(CaseData.class,null);
 	}
 	
-	public CaseSearchContext(CaseData c) {
+	public CaseToSearchContext(CaseData c) {
 		super(CaseData.class,c);
 	}
 
 	@Override
 	public String searchUrl() {
-		return routes.Cases.search.url;
+		return routes.CasesTo.searchTo.url;
 	}
 	
-	@Override
-	public String generateExcel() {
-		return routes.Cases.excelReport.url;
-	}
 
 	@Override
 	public String editUrl() {
-		return routes.Cases.edit.url;
+		return routes.CasesTo.editTo.url;
 	}
 
 	@Override
 	public String createUrl() {
-		return routes.Cases.create.url;
+		return routes.CasesTo.createTo.url;
 	}
 
 	@Override
@@ -98,6 +98,7 @@ private static CaseSearchContext searchContext = null;
 	public GridViewModel doSearch(DynamicForm form) {
 		
 		Expression exp =  super.doSearchExpression(form, SearchType.Like);
+		
 		String fromDateFromUI = form.get("startDateWindow");
         String toDateFromUI = form.get("endDateWindow");
         SimpleDateFormat TargerdateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -116,6 +117,7 @@ private static CaseSearchContext searchContext = null;
 		} catch (ParseException e) {
 			ExceptionHandler.onError(e);
 		}
+		
 		int page = Integer.parseInt(form.get("page"));
 		int limit = Integer.parseInt(form.get("rows"));
 		GridViewModel.PageData pageData = new PageData(limit,
@@ -124,7 +126,7 @@ private static CaseSearchContext searchContext = null;
 		String email = form.data().get("email");
 		
 		User user1 = User.findByEmail(email);
-		Expression exp1 = Expr.eq("company.companyCode", user1.companyobject.getCompanyCode());
+		Expression exp1 = Expr.eq("assignto_id", user1.getId());
 		
 		int count =0;
 		if(exp == null ){
@@ -150,8 +152,19 @@ private static CaseSearchContext searchContext = null;
 		}
 		
 		int start = limit*page - limit;//orderBy(sidx+" "+sord)
+		
+		/*List<CaseData> results = CaseData.find.where().eq("assignto_id",user1.getId()).setFirstRow(start).setMaxRows(limit).findList();*/
+		
+		/*if(form.get("status")==null){
+			results = CaseData.find.where().eq("status",LeaveStatus.Submitted).setFirstRow(start).setMaxRows(limit).findList();
+		}else{
+			results = CaseData.find.where().eq("status",form.get("status")).setFirstRow(start).setMaxRows(limit).findList();
+		}*/
+		
+		
 		List<CaseData> results =  exp == null ?CaseData.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).findList()
 				:CaseData.find.where().add(exp).add(exp1).setFirstRow(start).setMaxRows(limit).findList();
+		
 		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
@@ -185,6 +198,5 @@ private static CaseSearchContext searchContext = null;
 	protected void buildButton() {
 		//super.getButtonActions().add(new AddButton());
 	}
-	
 	
 }

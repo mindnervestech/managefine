@@ -4,7 +4,7 @@ import com.mnt.core.domain.DomainEnum;
 
 public enum CaseTypes implements DomainEnum {
 		Tasks("Tasks"),
-		Issues("Issues"),
+		Issue("Issue"),
 		Risk("Risk");
 		private boolean uiHidden = false;
 		@Override

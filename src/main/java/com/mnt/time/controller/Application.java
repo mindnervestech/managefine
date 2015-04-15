@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.ApplyLeave;
+import models.CaseData;
 import models.Company;
 import models.LeaveBalance;
 import models.MailSetting;
@@ -541,6 +542,28 @@ public class Application  {
 		 else
 				return "Minimum 6 characters required";
     } 
+   
+   
+   
+   public static int mycount( String username)
+   {
+	   int count = 0;
+	   
+	   User user = User.findByEmail(username);
+	   
+	   if(user==null) return 0;
+
+	   if(user !=  null)
+		   	{
+			   count = CaseData.find.where().eq("assignto_id",user.getId()).findRowCount();
+		   	}
+	   
+	
+	   
+	  
+	   return count;
+   }
+   
    
    public static int count( String username)
    {

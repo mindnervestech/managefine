@@ -375,7 +375,14 @@
 					});
 					return;
 				}
-				$.ajax({
+			
+			
+				if(typeof(${_searchContext.entityName()}${"EditButtonFn"})=='function') {
+					console.log("here");
+					${_searchContext.entityName()}${"EditButtonFn"}(s);
+					return;
+				} else {
+				  $.ajax({
 					url:'${pageContext.request.contextPath}${_searchContext.showEditUrl()}',
 					data: {query: s[0]},
 					success: function(data) {
@@ -416,7 +423,8 @@
 						    });
 						}
 					}
-				});
+				}); // end of ajax
+			   } // end of else
 			}
 			
 		},

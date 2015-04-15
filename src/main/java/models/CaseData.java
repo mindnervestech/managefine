@@ -51,13 +51,14 @@ public class CaseData extends Model {
 	
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="Description")
+	@SearchColumnOnUI(rank=3,colName="Description")
 	public String description;
 	
-	/*@SearchColumnOnUI(rank=3,colName="Status")
-	@Enumerated(EnumType.STRING)
-	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=3,label="Status")
-	public Status status;*/
+	@SearchColumnOnUI(rank=4,colName="Status")
+	//@Enumerated(EnumType.STRING)
+	//@WizardCardUI(name="Basic Info",step=1)
+	//@UIFields(order=3,label="Status")
+	public String status;
     
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=3,label="Notes", mandatory = true)
@@ -82,7 +83,7 @@ public class CaseData extends Model {
 	@Validation(required = true)
 	public Long userid;
     
-	@SearchColumnOnUI(rank=7,colName="Due Date")
+	@SearchColumnOnUI(rank=5,colName="Due Date")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=6,label="Due Date")
 	@Validation(required = true)
@@ -184,6 +185,30 @@ public class CaseData extends Model {
 
 	public List<CaseFlexi> getFlexiAttributes() {
 		return flexiAttributes;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getStartDateWindow() {
+		return startDateWindow;
+	}
+
+	public void setStartDateWindow(Date startDateWindow) {
+		this.startDateWindow = startDateWindow;
+	}
+
+	public Date getEndDateWindow() {
+		return endDateWindow;
+	}
+
+	public void setEndDateWindow(Date endDateWindow) {
+		this.endDateWindow = endDateWindow;
 	}
 
 	public void setFlexiAttributes(List<CaseFlexi> flexiAttributes) {

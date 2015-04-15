@@ -2,7 +2,7 @@
 
  
 <jsp:include page="menuContext.jsp"/> 
-<h4><b style=" width: 1051px; margin-left: 20px;"><i>Cases</i></b></h4>
+<h4><b style=" width: 1051px; margin-left: 20px;"><i>Assigned By Me</i></b></h4>
 
 <c:set var="_searchContext" value="${context}" scope="request" />
 <c:set var="_parentSearchCtx" value="${null}" scope="request" />

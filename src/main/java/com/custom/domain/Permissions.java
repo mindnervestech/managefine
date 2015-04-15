@@ -18,7 +18,8 @@ public enum Permissions {
 	ApplyLeave(routes.Leaves.applyIndex.url,Leaves,"My Leaves"),
 	
 	Cases("#",null,"Cases"),
-	Case(routes.Cases.index.url,Cases,"AssignedByMe"),
+	Case(routes.Cases.index.url,Cases,"Assigned By Me"),
+	CaseTo(routes.CasesTo.toIndex.url,Cases,"Assigned To Me"),
 	
 	Calendar("#",null,"Calendar"),
 	CreateTimesheet(routes.Calendar.index.url,Calendar,"Create"),

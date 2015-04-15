@@ -71,6 +71,11 @@
     	<put-attribute name="title" value="Cases" />
     	<put-attribute name="content" value="/WEB-INF/jsp/caseIndex.jsp" />
   	</definition> 
+  	
+  	<definition name="caseToIndex" extends="base.definition">
+    	<put-attribute name="title" value="Cases" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/caseToIndex.jsp" />
+  	</definition> 
 
   	<definition name="userIndex" extends="base.definition">
     	<put-attribute name="title" value="Manage Users" />

@@ -26,6 +26,11 @@
 		 			<div class="noti_bubble"><%=count %></div>
 		 			<%} %>
 		 		</c:if>	
+		 		<c:if test='${items.name == "Cases"}'>
+ 		 			<% int count =com.mnt.time.controller.Application.mycount(((models.User)request.getAttribute("user")).getEmail()); if(count != 0) { %>
+		 			<div class="noti_bubble"><%=count %></div>
+		 			<%} %>
+		 		</c:if>	
 		 			<a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">${items.name} <b class="caret"></b></a>
 		 			<ul class="dropdown-menu">
 		 			
