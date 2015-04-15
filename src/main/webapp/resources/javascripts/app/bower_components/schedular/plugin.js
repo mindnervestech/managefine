@@ -417,7 +417,7 @@
 		    var table = $("<table></table>");
 		    cont.append(table);*/
 		    if(data.visitType != null) {
-			    var text = $("<b style='margin-top:3%;'>"+data.visitType.split("-")[0]+" ("+sHours+":"+smin+sAmPm+" - "+eHours+":"+emin+eAmPm+")</b>");
+			    var text = $("<b style='margin-top:3%;'>"+data.visitType.split("-")[0]+"("+data.taskCode+")     "+" ("+sHours+":"+smin+sAmPm+" - "+eHours+":"+emin+eAmPm+")</b>");
 			    line.append(text);
 			    text.css({"margin-top":e.offsetY+50});
 		    }

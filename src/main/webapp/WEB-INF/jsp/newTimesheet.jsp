@@ -73,10 +73,10 @@
 				<div class="worksheetHeader">
 					<h5>Work/Absence Hours Reporting</h5>
 					<div id="statusInfo">
-						<h6>With :</h6>
+						<%-- <h6>With :</h6>
 						<label style="margin: 4px 10px 0 0; padding: 4px 0; float: left;">
 							${user.firstName} ${user.lastName} </label> <label
-							style="margin: 4px 0px 0 0; padding: 4px 0; float: left;">/</label>
+							style="margin: 4px 0px 0 0; padding: 4px 0; float: left;">/</label> --%>
 						<h6>Status : {{timesheetStatus}}</h6>
 						<label style="margin: 4px 0; padding: 4px 0; float: left;"
 							id="outputStatus"></label>

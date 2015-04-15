@@ -67,6 +67,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						}
 						Task task = Task.findByTaskCode(row.getTaskCode());
 						schedularTodayVM.visitType = task.getTaskName();
+						schedularTodayVM.taskCode = row.getTaskCode();
 						schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
 						schedularTodayVM.taskId = task.getId();
 						vmList.add(schedularTodayVM);
@@ -141,6 +142,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								}
 								Task task = Task.findByTaskCode(row.getTaskCode());
 								schedularTodayVM.visitType = task.getTaskName();
+								schedularTodayVM.taskCode = row.getTaskCode();
 								schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
 								schedularTodayVM.taskId = task.getId();
 								vmList.add(schedularTodayVM);

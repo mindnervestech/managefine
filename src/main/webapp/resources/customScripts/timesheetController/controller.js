@@ -5,11 +5,12 @@ app.controller("TimeSheetController", function($scope,$http) {
 	$scope.timesheetData = [];
 	$scope.projectList = [];
 	$scope.taskList = [];
+	$scope.isCopyFromLastweek = false;
 	
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
 		$scope.getTimesheetByWeek();
-		
+		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
 		Date.prototype.getWeek = function() {
 		    var onejan = new Date(this.getFullYear(),0,1);
@@ -162,7 +163,8 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 		if (confirm("Are you sure to copy from last week?") == true) {
 		
-			
+			$scope.weekOfYear = $('#weekValue').val();
+			$scope.year = $('#yearValue').val();
 			$http({method:'GET',url:'getTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
@@ -173,13 +175,13 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$scope.timesheetStatus = data.status;
 					
 					$scope.timesheetData = data.timesheetRows;
-					
-					if(!angular.isUndefined($scope.timesheetId) || $scope.timesheetId != null) {
-						$http({method:'GET',url:'deleteTimesheet',params:{timesheetId:$scope.timesheetId}})
-						.success(function(data) {
-							console.log('success');
-						});
+					$scope.isCopyFromLastweek = true;
+					console.log($scope.timesheetData);
+					for(var i=0;i<$scope.timesheetData.length;i++) {
+						$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+						$scope.timesheetData[i].rowId = 0;
 					}
+					
 				} else {
 					alert("No data found for last week");
 				}
@@ -246,6 +248,14 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.saveTimesheet = function(status) {
+		
+		if($scope.isCopyFromLastweek == true) {
+			$http({method:'GET',url:'deleteTimesheet',params:{timesheetId:$scope.timesheetId}})
+			.success(function(data) {
+				console.log('success');
+				$scope.isCopyFromLastweek = false;
+			});
+		}
 		
 		for(var i=0;i<$scope.timesheetData.length;i++) {
 			if(angular.isUndefined($scope.timesheetData[i].monFrom) || $scope.timesheetData[i].monFrom == null) {
@@ -511,16 +521,16 @@ app.controller("SchedularWeekController", function($scope,$http) {
 	};
 	
 	$scope.init = function() {
+		$scope.currentDateObject = new Date();
+		$scope.currentDate = ($scope.currentDateObject.getMonth()+1)+"/"+$scope.currentDateObject.getDate()+"/"+$scope.currentDateObject.getFullYear();
 		console.log($scope.currentDateObject.getFullYear());
-		$scope.data = {"0":[],"25/03/2015":[{"id":null,"startTime":"12:0","endTime":"13:0","staffId":null,"customerId":null,"visitType":"Break Time!","appoitmentDate":null,"notes":"Break Time!","color":"#ff0000","type":"Lu","workOrderId":null,"workOrderDetailId":null}],"24/03/2015":[{"id":null,"startTime":"12:0","endTime":"13:0","staffId":null,"customerId":null,"visitType":"Break Time!","appoitmentDate":null,"notes":"Break Time!","color":"#ff0000","type":"Lu","workOrderId":null,"workOrderDetailId":null}],"26/03/2015":[{"id":null,"startTime":"12:0","endTime":"13:0","staffId":null,"customerId":null,"visitType":"Break Time!","appoitmentDate":null,"notes":"Break Time!","color":"#ff0000","type":"Lu","workOrderId":null,"workOrderDetailId":null},{"id":13,"startTime":"02:30","endTime":"03:30","staffId":123,"customerId":null,"visitType":"Pumbling","appoitmentDate":"3/26/2015","notes":"","color":"#ff80c0","type":"A","workOrderId":6,"workOrderDetailId":9}],"22/03/2015":[{"id":null,"startTime":"12:0","endTime":"13:0","staffId":null,"customerId":null,"visitType":"Break Time!","appoitmentDate":null,"notes":"Break Time!","color":"#ff0000","type":"Lu","workOrderId":null,"workOrderDetailId":null}],"28/03/2015":[{"id":null,"startTime":"00:00","endTime":"24:00","staffId":null,"customerId":null,"visitType":"Staff Leave!","appoitmentDate":null,"notes":"Staff Shift not Defined Yet!","color":"#0080c0","type":"L","workOrderId":null,"workOrderDetailId":null}],"27/03/2015":[{"id":null,"startTime":"00:00","endTime":"24:00","staffId":null,"customerId":null,"visitType":"Staff Leave!","appoitmentDate":null,"notes":"Staff Leave!","color":"#00ff40","type":"L","workOrderId":null,"workOrderDetailId":null}],"23/03/2015":[{"id":null,"startTime":"12:0","endTime":"13:0","staffId":null,"customerId":null,"visitType":"Break Time!","appoitmentDate":null,"notes":"Break Time!","color":"#ff0000","type":"Lu","workOrderId":null,"workOrderDetailId":null}]};
-		console.log($scope.data);
-		$scope.drawWeeklyAppointment($scope.data);
+		//console.log($scope.data);
+		//$scope.drawWeeklyAppointment($scope.data);
 		$scope.getDataByWeek();
 	}
 	
-	$scope.changeWeek = function(date,staff) {
+	$scope.changeWeek = function(date) {
 		$scope.currentDateObject = date;
-		$scope.selectedStaff = staff;
 		$scope.currentDate= (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
 		$scope.getDataByWeek();
 	};
@@ -755,11 +765,12 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.projectList = [];
 	$scope.taskList = [];
 	$scope.weekDayData;
+	$scope.isCopyFromLastweek = false;
 	
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
 		$scope.getTimesheetByWeek();
-		
+		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
 		Date.prototype.getWeek = function() {
 		    var onejan = new Date(this.getFullYear(),0,1);
@@ -912,6 +923,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		if (confirm("Are you sure to copy from last week?") == true) {
 		
+			$scope.weekOfYear = $('#weekValue').val();
+			$scope.year = $('#yearValue').val();
 			
 			$http({method:'GET',url:'getActualTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
@@ -923,13 +936,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					$scope.timesheetStatus = data.status;
 					
 					$scope.timesheetData = data.timesheetRows;
+					$scope.isCopyFromLastweek = true;
 					
-					if(!angular.isUndefined($scope.timesheetId) || $scope.timesheetId != null) {
-						$http({method:'GET',url:'deleteActualTimesheet',params:{timesheetId:$scope.timesheetId}})
-						.success(function(data) {
-							console.log('success');
-						});
+					for(var i=0;i<$scope.timesheetData.length;i++) {
+						$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+						$scope.timesheetData[i].rowId = 0;
 					}
+					
 				} else {
 					alert("No data found for last week");
 				}
@@ -1051,6 +1064,15 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	
 	
 	$scope.saveTimesheet = function(status) {
+		
+		if($scope.isCopyFromLastweek == true) {
+			$http({method:'GET',url:'deleteActualTimesheet',params:{timesheetId:$scope.timesheetId}})
+			.success(function(data) {
+				console.log('success');
+				$scope.isCopyFromLastweek = false;
+			});
+		}
+		
 		
 		for(var i=0;i<$scope.timesheetData.length;i++) {
 			if(angular.isUndefined($scope.timesheetData[i].monFrom) || $scope.timesheetData[i].monFrom == null) {
@@ -1221,7 +1243,6 @@ app.controller("SchedularTodayAllController", function($scope,$http) {
 });
 
 app.controller("SchedularWeekReportController", function($scope,$http,$compile) {
-	console.log('week report........');
 	$scope.currentDate = new Date(); 
 	$scope.staffs = [];
 	

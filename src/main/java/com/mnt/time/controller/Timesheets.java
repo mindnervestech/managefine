@@ -454,7 +454,6 @@ public class Timesheets{
 	
 	@RequestMapping(value="/getSchedularWeek", method = RequestMethod.GET)
 	public @ResponseBody Map getSchedularWeek(ModelMap model,@RequestParam("date") String date,@RequestParam("userId") String userId) {
-		System.out.println(".....Date..........."+date+".........user id ........"+userId);
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		Date dt;

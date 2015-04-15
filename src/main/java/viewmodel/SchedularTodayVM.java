@@ -14,4 +14,5 @@ public class SchedularTodayVM {
 	public String type;
 	public Long projectId;
 	public Long taskId;
+	public String taskCode;
 }
