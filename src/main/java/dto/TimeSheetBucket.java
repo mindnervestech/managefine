@@ -33,6 +33,9 @@ public class TimeSheetBucket extends Model{
 	@SearchColumnOnUI(colName="Year", rank=5 , width =10)
 	public int year;
 	
+	@SearchColumnOnUI(colName="Total Hours", rank=6 , width =10)
+	public int totalHrs;
+	
 	public static Model.Finder<Long, TimeSheetBucket> find = new Model.Finder<Long,TimeSheetBucket>(Long.class, TimeSheetBucket.class);
 	
 	public enum TimesheetStatus implements DomainEnum{
@@ -104,4 +107,14 @@ public class TimeSheetBucket extends Model{
 		this.year = year;
 	}
 
+	public int getTotalHrs() {
+		return totalHrs;
+	}
+
+	public void setTotalHrs(int totalHrs) {
+		this.totalHrs = totalHrs;
+	}
+	
+	
+	
 }

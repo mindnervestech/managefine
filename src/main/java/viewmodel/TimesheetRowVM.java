@@ -33,6 +33,7 @@ public class TimesheetRowVM {
 	public String projectName;
 	public String taskName;
 	public Integer totalHrs;
+	public String tCode;
 	public List<TimesheetDaysVM> timesheetRowDays;
 	
 	
@@ -215,6 +216,12 @@ public class TimesheetRowVM {
 	}
 	public void setTimesheetRowDays(List<TimesheetDaysVM> timesheetRowDays) {
 		this.timesheetRowDays = timesheetRowDays;
+	}
+	public String gettCode() {
+		return tCode;
+	}
+	public void settCode(String tCode) {
+		this.tCode = tCode;
 	}
 	
 	

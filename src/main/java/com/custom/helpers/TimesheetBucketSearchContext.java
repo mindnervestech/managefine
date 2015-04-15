@@ -14,6 +14,8 @@ import models.Delegate;
 import models.Project;
 import models.Timesheet;
 import models.TimesheetActual;
+import models.TimesheetDaysActual;
+import models.TimesheetRowActual;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -325,6 +327,19 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				myBucket.setId(timesheets.get(i).getId());
 				myBucket.setWeekOfYear(timesheets.get(i).getWeekOfYear());
 				myBucket.setYear(timesheets.get(i).getYear());
+				int count = 0;
+				for(TimesheetRowActual row :timesheets.get(i).timesheetRowsActual) {
+					List<TimesheetDaysActual> dayList = TimesheetDaysActual.getByTimesheetRow(row);
+					
+					for(TimesheetDaysActual day: dayList) {
+						if(day.getTimeFrom() != null) {
+							count = count+day.getWorkMinutes();
+						}
+					}
+					
+				}
+				int hrs = count/60;
+				myBucket.setTotalHrs(hrs);
 				/*
 				myBucket.firstName = timesheets.get(i).user.firstName;
 				myBucket.lastName = timesheets.get(i).user.lastName;

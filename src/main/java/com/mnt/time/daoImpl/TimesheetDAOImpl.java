@@ -588,6 +588,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							schedularTodayVM.visitType = task.getTaskName();
 							schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
 							schedularTodayVM.taskId = task.getId();
+							schedularTodayVM.taskCode = row.getTaskCode();
 							vmList.add(schedularTodayVM);
 						}
 					}
@@ -597,8 +598,6 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			todayAllVM.data = vmList;
 		  } else {
 			  SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
-			  schedularTodayVM.startTime = "00:00";
-			  schedularTodayVM.endTime = "00:00";
 			  vmList.add(schedularTodayVM);
 			  todayAllVM.data = vmList;
 		  }

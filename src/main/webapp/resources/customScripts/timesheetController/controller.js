@@ -594,40 +594,48 @@ app.controller("SchedularMonthController", function($scope,$http,$compile) {
 		var htmlTemplate = "";
 		$scope.userId = $('#userID').val();
 		$scope.date = month+'/'+date+'/'+year;
+		$scope.dayName = "";
 		$http({method:'GET', url:contextPath+'/getDayDetails',params :{date:$scope.date,userId:$scope.userId}}).success(function(data) {
 			console.log(data);
 			if(data != "") {
 				if(data[0].day == 'monday') {
 					$scope.mondayData = data;
+					$scope.dayName = "Monday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in mondayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				if(data[0].day == 'tuesday') {
 					$scope.tuesdayData = data;
+					$scope.dayName = "Tuesday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in tuesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
-				if(data[0].day == 'wednesday') {
+				if(data[0].day == 'Wednesday') {
 					$scope.wednesdayData = data;
+					$scope.dayName = "Wednesday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in wednesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				if(data[0].day == 'thursday') {
 					$scope.thursdayData = data;
+					$scope.dayName = "Thursday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in thursdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				if(data[0].day == 'friday') {
 					$scope.fridayData = data;
+					$scope.dayName = "Friday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in fridayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				if(data[0].day == 'saturday') {
 					$scope.saturdayData = data;
+					$scope.dayName = "Saturday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in saturdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				if(data[0].day == 'sunday') {
 					$scope.sundayData = data;
+					$scope.dayName = "Sunday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in sundayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
 				
 				$.pnotify({
-				    title: data[0].day+" "+$scope.date,
+				    title: $scope.dayName+" "+$scope.date,
 				    type:'info',
 				    text: htmlTemplate,
 				    addclass: data[0].day,
@@ -1015,39 +1023,47 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
 		console.log(day);
+		$scope.dayName = "";
 		$http({method:'GET',url:contextPath+'/getWeekDayData',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year,day:day}})
 		.success(function(data) {
 			if(day == 'monday') {
 				$scope.mondayData = data;
+				$scope.dayName = "Monday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in mondayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'tuesday') {
 				$scope.tuesdayData = data;
+				$scope.dayName = "Tuesday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in tuesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'wednesday') {
 				$scope.wednesdayData = data;
+				$scope.dayName = "Wednesday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in wednesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'thursday') {
 				$scope.thursdayData = data;
+				$scope.dayName = "Thursday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in thursdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'friday') {
 				$scope.fridayData = data;
+				$scope.dayName = "Friday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in fridayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'saturday') {
 				$scope.saturdayData = data;
+				$scope.dayName = "Saturday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in saturdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			if(day == 'sunday') {
 				$scope.sundayData = data;
+				$scope.dayName = "Sunday";
 				htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in sundayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 			}
 			console.log(data);
 			$.pnotify({
-			    title: day,
+			    title: $scope.dayName,
 			    type:'info',
 			    text: htmlTemplate,
 			    addclass: day,

@@ -198,6 +198,7 @@ public class TimesheetBuckets  {
 				TimesheetRowVM rowVM = new TimesheetRowVM();
 				rowVM.projectName = Project.findByProjectCode(row.getProjectCode()).getProjectName();
 				rowVM.taskName = Task.findByTaskCode(row.getTaskCode()).getTaskName();
+				rowVM.tCode = row.getTaskCode();
 				List<TimesheetDaysActual> timesheetDaysList = TimesheetDaysActual.getByTimesheetRow(row);
 				List<TimesheetDaysVM> daysList = new ArrayList<>();
 				int totalmins = 0;

@@ -136,9 +136,9 @@
 				             	 </c:otherwise>
 			             	</c:choose>
 			             </c:forEach> 
-			              <c:if test='${_searchContext.getGridActions() !=null && _searchContext.getGridActions().size()!=0}'>
+			             /*  <c:if test='${_searchContext.getGridActions() !=null && _searchContext.getGridActions().size()!=0}'>
 			            	 ,'Action'
-			              </c:if>
+			              </c:if> */
 			             ],
 			   	colModel :[
 						
@@ -154,9 +154,9 @@
 							
 						</c:forEach>
 						
-						<c:if test="${_searchContext.getGridActions() !=null && _searchContext.getGridActions().size()!=0}">
+						/* <c:if test="${_searchContext.getGridActions() !=null && _searchContext.getGridActions().size()!=0}">
 							,{name:'action', index:'action', width:40,align:'center',formatter:this.actionFormatter, search:false, title:false}
-						</c:if>
+						</c:if> */
 			   	],
 			   	pagination : true,
 			   	pager: '#${_searchContext.entityName()}${mode}${"_jqGrid_pager"}',
@@ -231,7 +231,7 @@
 						</c:forEach>
 					</c:if>
 					${_searchContext.entityName()}${"_squrl"}=${_searchContext.entityName()}${"_squrl"} + '1=1';
-					window.open('${_searchContext.generateExcel()}?'+${_searchContext.entityName()}${"_squrl"},'','');
+					window.open('${pageContext.request.contextPath}${_searchContext.generateExcel()}?'+${_searchContext.entityName()}${"_squrl"},'','');
 				},
 				caption:"",
 				position: "last", 

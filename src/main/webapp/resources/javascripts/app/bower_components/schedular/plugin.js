@@ -255,7 +255,9 @@
 				
 			};
 			for(var ind =0;ind<data.length;ind++) {
-				scheduler.append(this.getScheduleDiv(data[ind]));
+				if(data[ind].startTime != null && data[ind].endTime != null) {
+					scheduler.append(this.getScheduleDiv(data[ind]));
+				}
 			}
 			var height = ((60 / this.unitPerGrid)*this.unitPerGridpx)*scaleNo;
 			if(o.vertically) {

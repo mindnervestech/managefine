@@ -89,8 +89,8 @@
 					o1.data = JSON.stringify(data[d].data);
 				}
 				var doctor = $("<div style='position:relative;padding:5% 0% 5% 30%;height:"+opts.height+";text-align:center;'></div>");
-				var img = $("<img src='get-doctor-profile/"+data[d].id+".jpg' style='height:80px;width:95%;'/>");
-				var name = $("<span style='display:inline-block;bottom:20px;position:relative;color:white;'>"+data[d].name+"</span>");
+				//var img = $("<img src='get-doctor-profile/"+datad][.id+".jpg' style='height:80px;width:95%;'/>");
+				var name = $("<span style='display:inline-block;position:relative;top:10%;font-size:14px;'>"+data[d].name+"</span>");
 				var elem = $("<div style='height:"+opts.height+";width:100%;position:relative;'></div>");
 				center.append(elem);
 				o1.showRuller = false;
@@ -98,7 +98,7 @@
 				o1.rullerHeight = unitTicketlabel+"px";
 				elem.borderify(o1);
 				left.append(doctor);
-				doctor.append(img,name);
+				doctor.append(name);
 				index++;
 			}
 			var hr = (new Date()).getHours();

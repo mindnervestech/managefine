@@ -2,8 +2,8 @@
 <style>
 	#custom-modal-container{
 		/* width: 950px !important; */
-		left: 32% !important;
-		top: 20%;
+		left: 27% !important;
+		top: 10%;
 	}
 
 	.formClass{
@@ -34,6 +34,10 @@
 		border-bottom: 1px solid #eee;
 		border-left: 1px solid #eee;
 
+	}
+	
+	body{
+	line-height: 10px;
 	}
 	
 	.timesheetSecondRow td:LAST-CHILD{
@@ -93,7 +97,7 @@
 			<c:forEach var="row" items="${timesheetVM.timesheetRowsList}">
 				<tr>
 					<td>${row.projectName}</td>
-					<td>${row.taskName}</td>
+					<td>${row.taskName} (${row.tCode})</td>
 					<c:forEach var="dayObj" items="${row.timesheetRowDays}">
 					<td>
 						<c:choose>
