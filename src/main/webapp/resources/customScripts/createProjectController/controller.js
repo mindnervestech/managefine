@@ -45,34 +45,48 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         				console.log("Ok----");
         				console.log(data);
         				$scope.fileAttachData = data;
+        				$scope.taskCompilation = $scope.fileAttachData.taskCompilation;
+        				$scope.completeStatus =   $scope.fileAttachData.comment;
         				angular.forEach($scope.fileAttachData.projectAttachment, function(obj, index){
         					
-        					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MM-yyyy");
+        					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MMM-yyyy");
         					return;
         				});
         				angular.forEach($scope.fileAttachData.projectcomments, function(obj, index){
         					
-        					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MM-yyyy");
+        					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MMM-yyyy");
         					return;
         				});
         				
         				console.log($scope.fileAttachData);
         				
-        				if($scope.fileAttachData.thisNodeId != null){
-            			ngDialog.open({
-                			template:'addProjectNotsAndAtt',
-                			scope:$scope,
-                			closeByDocument:false
-                			
-                		}); 
+        				if($scope.fileAttachData.comment != "notAllow"){
+        					
+        					if($scope.fileAttachData.thisNodeId != null){
+                    			ngDialog.open({
+                        			template:'addProjectNotsAndAtt',
+                        			scope:$scope,
+                        			closeByDocument:false
+                        			
+                        		}); 
+                				}else{
+                					console.log("First Add Node");
+                					$.pnotify({
+                                        title: "Error",
+                                        type:'error',
+                                        text: "First Add Data",
+                                    });
+                				}
+        					
         				}else{
-        					console.log("First Add Node");
-        					$.pnotify({
+        					/*$.pnotify({
                                 title: "Error",
                                 type:'error',
                                 text: "First Add Data",
-                            });
+                            });*/
+        					
         				}
+        				
         				
         			});
         			
@@ -173,13 +187,14 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     }
    
     $scope.viewHierarchy = function(id,rootId){
+    	
     	console.log(id);
     	console.log(rootId);
     	$rootScope.MainInstance = rootId;
     	$scope.selectRootNode = id;
     	console.log($scope.selectRootNode);
     	items = [];
-    	$http({method:'GET',url:'selectProjectType',params:{id:id}}).success(function(data) {
+    	$http({method:'GET',url:'/time/selectAllProjectType',params:{id:id,rootId:rootId}}).success(function(data) {
     		console.log("---====---");
         	console.log(data);
         	if(data.length>0) {
@@ -190,6 +205,8 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         				parent: value.parentId,
         				projectTypes: value.projectTypes,
         				projectDescription: value.projectDescription,
+        				projectCompleted: value.completed,
+        				status: value.status,
            				itemTitleColor: primitives.common.Colors.RoyalBlue
         			}));
         		});
@@ -254,9 +271,6 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     }
     
    $scope.downloadfile = function(id){
-	   console.log("AAAAAAAAAA");
-	   console.log($rootScope.currentParentId);
-	   console.log($rootScope.MainInstance);
 	   
 	   $.fileDownload('/time/downloadStatusFile',
 		{	   	
@@ -358,7 +372,34 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	$scope.task = function(taskC){
     		console.log(taskC);
     		$http({method:'GET',url:'/time/saveTask',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance,task : taskC}}).success(function(data) {
-    			console.log("((((((OK)))))");
+    			console.log(data);
+	        	$scope.myOptions.items = [];
+    			items = [];
+    			
+    			if(data.length>0) {
+    				
+            		$scope.projectid = data[0].projectId;
+            		angular.forEach(data,function(value,key) {
+            			items.push(new primitives.orgdiagram.ItemConfig({
+            				id: value.id,
+            				parent: value.parentId,
+            				projectTypes: value.projectTypes,
+            				projectDescription: value.projectDescription,
+            				projectCompleted: value.completed,
+            				status: value.status,
+               				itemTitleColor: primitives.common.Colors.RoyalBlue
+            			}));
+            		});
+            	} else {
+            		items.push(new primitives.orgdiagram.ItemConfig({
+        				id: 0,
+        				parent: null,
+        				projectTypes: "Root",
+        				projectDescription: "Pune",
+        				itemTitleColor: primitives.common.Colors.RoyalBlue
+        			}));
+            	}
+            	$scope.myOptions.items = items;
     			
     		});
     		
@@ -407,7 +448,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         var result = new primitives.orgdiagram.TemplateConfig();
         result.name = "contactTemplate";
 
-        result.itemSize = new primitives.common.Size(150, 80);
+        result.itemSize = new primitives.common.Size(150, 90);
         result.minimizedItemSize = new primitives.common.Size(2, 2);
         result.minimizedItemCornerRadius = 5;
         result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
@@ -423,7 +464,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
             + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.projectDescription}}</div>'
-            + '<div><progressbar id="progressBar" class="progress-striped active" ng-click="abcdx()" style="height: 20px;margin-top: 59px;" animate="true" max="300" value="100" type="success"><i> / 100</i></progressbar></div>'
+            + '<div><progressbar id="progressBar" class="progress-striped active" style="height: 20px;margin-top: 71px;" animate="true" max="100" value="itemConfig.projectCompleted" type="{{itemConfig.status}}"><i>{{itemConfig.projectCompleted}}</i></progressbar></div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",

@@ -2,14 +2,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
  <jsp:include page="menuContext.jsp"></jsp:include> 
- 
-
 
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/primitives/primitives.latest.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/slimScroll/prettify/prettify.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/stylesheets/bootstrap.min.css"/>'>
 
-<label style="font-size: large;margin-left: 74px;"><b>${createProject.projectName}</b></label>
+<label style="font-size: large;margin-left: 19px;margin-top: 12px;"><u><b>${createProject.projectName}</b></u></label>
 <div ng-app="ProjectHierarchyApp" ng-controller="createProjectController" class="container" ng-init='viewHierarchy(${createProject.projectid},${createProject.id})'><!--  viewHierarchy -->
 	<div class="form-group">
 				 <!--  <label class="col-md-12" style="margin-left: 4px;">Choose Project type</label>  -->
@@ -29,16 +28,8 @@
 					        </select>
 					</div> -->
 					<div>
-					<!-- <progressbar class="progress-striped active" animate="true" max="300" value="progressValue" type="success"><i> / 100</i></progressbar> --> 
 					  
-					<!-- <div class="container">
-  <h2>Basic Progress Bar</h2>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-      <span class="sr-only">70% Complete</span>
-    </div>
-  </div>
-</div> -->
+				
 					</div>
 					<div class="form-group">
     				
@@ -47,7 +38,7 @@
 						data-options="myOptions" 
 						data-on-highlight-changed="onMyHighlightChanged()"  
 						data-on-cursor-changed="onMyCursorChanged()" 
-						style="width: 100%; height: 600px; border-style: dotted; border-width: 1px;">
+						style="width: 98%; height: 600px; border-style: none; border-width: 1px;">
 						
 					</div>
 					
@@ -61,6 +52,8 @@
 <%-- <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script> --%>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular-datepicker.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/primitives/primitives.latest.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/slimScroll/prettify/prettify.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/slimScroll/jquery.slimscroll.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/js/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
@@ -94,21 +87,27 @@ function myFunction() {
 		url : "${pageContext.request.contextPath}/saveCreateProjectAttributes",
 		success : function(data) {
 			$.pnotify({
-				history : false,
-				text : data
-			});
+                title: "Error",
+                type:'error',
+                text: "First Add Data",
+            });
 		}
 	});
 }
 
 
 </script> 
-
- 
- 
- 
- 
- 
+ <script type="text/javascript">
+    $(function(){
+     
+      $('#testDiv3').slimScroll({
+          color: '#00f',
+          height: 480,
+          alwaysVisible: true
+      });
+    
+    });
+</script>  
  
  
  

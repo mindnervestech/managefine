@@ -16,7 +16,7 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;"> 
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header" style="background: blue;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
+			<div class="modal-header" style="background: #005580;color: white;padding: 1px;border-bottom: 4px gray;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -47,9 +47,12 @@
 			</div>
 			
 			<%-- <h4>'${nodeMetaData.projectnode}'</h4> --%>
-			<div style="padding-left: 5px;padding-right: 5px;">
+			<div style="padding-left: 5px;max-height: 500px;overflow: auto;">
 			<form method="POST" commandName="createProjectForm"
-		action="${pageContext.request.contextPath}<%=com.mnt.time.controller.routes.CreateProject.saveCreateProjectAttributes.url%>" id="form">
+		action="${pageContext.request.contextPath}<%=com.mnt.time.controller.routes.CreateProject.saveCreateProjectAttributes.url%>" id="form"  name="myform" onsubmit="return validateform()" >
+				<div class="examples">
+
+ 				 <div id="testDiv3"> 
 				 <div class="form-group">
 				 <div class="col-md-4">
 				
@@ -74,21 +77,36 @@
 				<div class="form-group" style="float:left;">
 				
 				 <div class="col-md-4">
-						<label class="col-md-12" style="margin-top: 16px;">Start Date</label>
-						  <input type="date" name="startDate" min='${nodeMetaData.startDateLimit}' max='${nodeMetaData.endDateLimit}'/> 
-						  
+						<label class="col-md-12" style="margin-top: 15px;">Start Date</label>
+						  <input type="date" name="startDate" min='${nodeMetaData.startDateLimit}' max='${nodeMetaData.endDateLimit}'required/> 
+						
+					
 						  
 					</div>
-					 <div class="col-md-2" style="margin-top: 42px;">
+					 <div class="col-md-2" style="margin-top: 40px;">
 					<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
 					</div>
 				
 					 <div class="col-md-5" style="margin-left: 17px;">
-						<label class="col-md-11" style="margin-top: 16px;"  for="pro-name">End Date</label>
-						   <input type="date" name="endDate" min='${nodeMetaData.startDateLimit}' max='${nodeMetaData.endDateLimit}'/> 
+						<label class="col-md-11" style="margin-top: 15px;"  for="pro-name">End Date</label>
+						   <input type="date" name="endDate" min='${nodeMetaData.startDateLimit}' max='${nodeMetaData.endDateLimit}' required/> 
 						
 						 
 					</div>
+					</div>
+					
+					 <div class="col-md-12" style="padding: 0px;">
+						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Weightage *</label>
+						<select class="col-md-2" name="weightage"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+					        </select> 
+						  
+						  
 					</div>
 					
 					<input size="16" type="text" value='${nodeMetaData.projectTypes}'
@@ -104,67 +122,67 @@
 					 <input size="16" type="text" value='{{MainInstance}}'
 							placeholder="Enter String" style="display: none;" name="projectInstance"> 
 					
+					<hr style="width: 100%;float: left;">
+					<c:choose>
+					
+					<c:when
+						test="${nodeMetaData.projectValue.size() != 0}">
+											
 					 <div class="form-group">
-					 <div class="col-md-12">
-					<fieldset  style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;height: 271px;overflow: auto;margin-bottom: 7px;">
-  		<legend style="width: 99px;border-style: none;margin-bottom: 1px;">Attributes </legend>
+					 <div class="col-md-12" style="padding: 0px;margin-top: 17px;">
+					<!-- <fieldset  style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;max-height: 271px;overflow: auto;margin-bottom: 7px;">
+  		<legend style="border-style: none;width: 0px;margin-bottom: 1px;margin-top: 34px;"></legend> -->
 				
 				<div class="modal-body" style="padding: 0px;">
-				<!-- <div class="form-group">
-				<button type="button" class="btn btn-primary" style="margin-left: 25px;" ng-click="newprojectValue($event)">Add </button>
-				</div> -->
 				
-				<c:forEach var="pValue" items="${nodeMetaData.projectValue}">
-				<div class="form-group">
-				<div class="col-md-12" style="margin-bottom: 11px;">
-				<div class="col-md-6">
-				<label>${pValue.name} :</label>
+				 <div class="form-group"> 
 				
-				<%-- <input size="16" type="text" value='${pValue.projectnode}'
-							placeholder="Enter String" style="display: none;" name="projectId"> --%>
+				<c:forEach var="pValue" items="${nodeMetaData.projectValue}" varStatus="index">
+								
+				<div class="col-md-6" style="height:60px;">
+				<div class="col-md-12">
+				<label>${pValue.name}:</label>
 				
-				<!-- <input size="16" type="text" value='{{MainInstance}}'
-							placeholder="Enter String" style="display: none;" name="projectInstance"> -->
-							
+										
 				</div>
 				<c:choose>
 					<c:when
 						test="${pValue.type == 'Date'}">
-						<div class="col-md-6">
+						<div class="col-md-12" style="padding: 0px;">
 				
-           <input type="date" name="${pValue.name}" /> 
+        					   <input type="date" name="${pValue.name}" /> 
            
 						</div>
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Integer'}">
-						<div class="col-md-6">
-						<input size="16" type="text" value=""
+						<div class="col-md-12" style="padding: 0px;">
+						<input size="16" type="text" 
 							placeholder="Enter Number" name="${pValue.name}">
 						</div>
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'String'}">
-						<div class="col-md-6">
-						<input size="16" type="text" value=""
+						<div class="col-md-12" style="padding: 0px;">
+						<input size="16" type="text" 
 							placeholder="Enter String" name="${pValue.name}">
 						</div>
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Checkbox'}">
-						<div class="col-md-6">
+						<div class="col-md-12" style="padding: 0px;">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
-								 <input type="checkbox" name="${pValue.name}" value='${option.value}'>${option.value}
+								 <input class="col-md-1" type="checkbox" name="${pValue.name}" value='${option.value}'><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
 							</c:forEach>
 						</div>
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Dropdown'}">
-						<div class="col-md-6">
+						<div class="col-md-12" style="padding: 0px;">
 						<select id="Dropdown"
 							name="${pValue.name}" class="input-large">
 
@@ -176,9 +194,9 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Radio'}">
-						<div class="col-md-6">
+						<div class="col-md-12" style="padding: 0px;">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
-									<input type="radio" name="${pValue.name}" value='${option.value}'>${option.value}
+									<input class="col-md-1" type="radio" name="${pValue.name}" value='${option.value}'><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
 							</c:forEach>
 							</div>
 					</c:when>
@@ -188,24 +206,27 @@
 					</c:otherwise>
 				</c:choose>
 				</div>
-				</div>
 				
+			 
 				</c:forEach>
-				
-				
-		</fieldset>	
+					
+				 </div> 
+		<!-- </fieldset>	 -->
 					</div>
 					</div>
-					
+						</c:when>
+					</c:choose>
 					
 				
 				
-			<div class="modal-footer" style="background-color:white">
+			<div class="modal-footer" style="background-color:white;border-top: 0px">
 				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
-				<input type="button" class="btn btn-primary" onClick="myFunction()"
+			
+			<input type="button" class="btn btn-primary" onClick="myFunction()"
 					ng-click="closeThisDialog()" value="Submit" style="margin: 1% 2%; width: 8%;">
 			</div>
-				
+				</div>
+				</div>
 				</form>
 			</div>
 		</div>
@@ -219,6 +240,20 @@
 	width: 747px; 
  }
 
+	#loading{
+		display:none;
+	}
 
 </style>
- 	  
+ 	  <script type="text/javascript">
+    $(function(){
+     
+      $('#testDiv3').slimScroll({
+          color: '#00f',
+          height: 480,
+          alwaysVisible: true
+      });
+    
+    });
+</script>  
+ 

@@ -8,8 +8,16 @@ public class ProjectclassnodeVM {
 	public String projectColor;
 	public Long parentId;
 	public Long projectId;
+	public Long completed;
 	public int level;
+	public String status;
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +60,13 @@ public class ProjectclassnodeVM {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public Long getCompleted() {
+		return completed;
+	}
+	public void setCompleted(Long completed) {
+		this.completed = completed;
+	}
+	
 	
 	
 }

@@ -2,7 +2,7 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">  <!-- ng-app="ProjectHierarchyApp" ng-controller="ProjectHierarchyController" -->
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header" style="background: blue;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>

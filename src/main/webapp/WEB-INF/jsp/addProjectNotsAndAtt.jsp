@@ -1,46 +1,52 @@
 <div  id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header" style="background: blue;color: white;margin: 2px;border-bottom: 4px gray;">
+		<div class="modal-content" style="height: 551px;">
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 37px;padding: 6px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel">Project Progress</h4>
 			</div>
-			
-				<form method="post" data-ng-submit="saveProjectType()" role="form" class="form-horizontal">
-				<div class="modal-body">
-					<form method="post" role="form" class="form-horizontal">
+			<div class="examples">
+
+ 				 <div id="testDiv3"> 
+				<div class="modal-body" style="max-height: 915px;overflow-y:hidden;">
+				
+					
 				 <div class="form-group">
 					 <div class="col-md-12" style="padding: 0px;">
 						 <div class="col-md-6" style="padding: 0px;">
-							 <label class="col-md-9">Task % compilation *</label>
-							 <input type="text" name="projectName" ng-blur="task(taskCompilation)" data-ng-model="taskCompilation" class="col-md-3" required>
+							 <span class="col-md-8"><b>Task % completed :<span style="color:red;">*</span></b></span>
+							 <div class="col-md-4">
+							 <input class="col-md-9" type="text" name="projectName" ng-blur="task(taskCompilation)" data-ng-model="taskCompilation" required>%
+							 </div>
 						 </div>
 						<div class="col-md-6">
+						 <span ng-if="completeStatus == 'Inprogress'"><span  class="icon-forward"></span> {{completeStatus}}</span>
+						  <span ng-if="completeStatus == 'Completed'" style="color:green"><span class="icon-ok"></span> {{completeStatus}}</span>
 						</div>	
 						  
 						  
 					</div>
 					
-					<hr>
+					<hr style="width: 100%;float: left;">
 					
 					 <div class="form-group">
-					 <div class="col-md-12" style="margin-top: 25px;">
-						 <div class="col-md-3">
-							 <label>Attachment </label>
+					 <div class="col-md-12" style="padding: 0px;">
+						 <div class="col-md-2">
+							 <span><b>Attachment:</b></span>
 							  
 						 </div>
-						 <div class="col-md-3">
+						 <div class="col-md-5">
 						 
 						 	<input type="file" ng-file-select="selectFile($files)" id="org-profile" required>
 						 
 						 </div>
 						
 						<div class="col-md-4">
-						 <button type="button" class="btn btn-primary" ng-click="saveAttachment()">Save on server</button>
+						 <button type="button" class="btn btn-primary" ng-click="saveAttachment()">Upload</button>
 						 
 						</div>	
 						<div class="col-md-2">
@@ -51,22 +57,22 @@
 					</div>
 					<div class="form-group">
 					 <div class="col-md-12">
-						<table border="1" style="width: 100%;font-size: small;">
-                	<thead style="background-color: #00F;">
+						<table class="table table-striped" border="1" style="width: 100%;font-size: small;margin-top: 10px;">
+                	<thead style="background-color: #005580;">
                     	<tr>
-                           <th><a style="color: white;">Sr.No</a></th>
-                            <th><a style="color: white;">DateTime</a></th>
-                            <th><a style="color: white;">Documents</a></th>
-                            <th>Download</th>
+                           <th style="text-align: center;width: 36px;padding: 6px;"><a style="color: white;">Sr.No</a></th>
+                            <th style="text-align: center;"><a style="color: white;">DateTime</a></th>
+                            <th style="text-align: center;"><a style="color: white;">Documents</a></th>
+                            <th style="width:81px;text-align: center;color: white;">Download</th>
                         </tr>
                     </thead>
                 	<tbody>
                 	
                     	<tr ng-repeat="doc in fileAttachData.projectAttachment">
-          					<td>{{$index+1}}</td>
-          					 <td>{{doc.docDate}}</td>
-                           <td>{{doc.docName}}</td>
-                             <td><a ng-click="downloadfile(doc.id)">download</a></td>
+          					<td style="width: 22px;text-align: center;padding: 6px;">{{$index+1}}</td>
+          					 <td style="text-align: center;">{{doc.docDate}}</td>
+                           <td style="text-align: center;">{{doc.docName}}</td>
+                             <td style="text-align: center;"><a ng-click="downloadfile(doc.id)">download</a></td>
                            
                             </tr>
                            
@@ -74,15 +80,15 @@
                 </table>	
 					</div>
 					</div>
-					<hr>
+					<hr style="width: 100%;float: left;">
 				<div class="form-group">
 					 <div class="col-md-12">
 						
-							 <label class="col-md-4">Note</label>
+							 <span class="col-md-4" style="padding: 0px;margin-left: 3px;"><b>Activity :</b></span>
 							 <textarea  class="form-control col-md-12" ng-model="comment" rows="1"
 						 placeholder="Comment." required></textarea>
 						 
-						 <div class="col-md-3" style="margin-top: 6px;">
+						 <div class="col-md-3" style="margin-top: 6px;margin-bottom: 15px;padding-left:0px;">
 						 <button type="button" class="btn btn-primary" ng-click="saveComment(comment)">Post Comment</button>
 						 
 						</div>	
@@ -91,44 +97,87 @@
 		    	</div>
 		    	
 		    	<div class="form-group">
-					 <div class="col-md-12" ng-repeat="note in fileAttachData.projectcomments">
-						 <label>" {{note.userName}} "</label>	
+					 <div class="col-md-12" style="margin-bottom: 17px;" ng-repeat="note in fileAttachData.projectcomments">
+						 <span style="font-style: italic;">" {{note.userName}} "</span>	
 							
 						<div class="comment_box fr col-md-12">
      							 <p class="comment_paragraph" contenteditable="true">" {{note.projectComment}} "</p>
-         						  <span class="date">{{note.commetDate}}</span> </div>  
-         						  
-         						  <div class="container">
-     
-      <!-- <div class="panel-group" id="accordion"  ng-repeat="note in fileAttachData.projectcomments">
-      
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href='#collapsex{{$inde}}'>{{note.userName}}</a>
-            </h4>
-          </div>
-          <div id="collapse{{$index}}" class="panel-collapse collapse">
-            <div class="panel-body">{{note.projectComment}}</div>
-          </div>
-        </div>
-       
-      </div>  -->
-    </div>
-         						  
-								
+         						  <span class="date"><b>{{note.commetDate}}</b></span> </div>  
 					</div>
 		    	</div>
 		    	
-		    	<!-- ------------- -->
+		    
+					</div>
+			
+				
+				
+			
+		</div>
+		 </div>
+		</div> 
+		
+		</div>
+		
+	</div>
+</div>
+
+<style>
+	 .comment_box {
+		padding-bottom: 8px;
+		
+		height: auto;
+		background: none repeat scroll 0% 0% ghostwhite;
+		border: 1px solid #D8D8D8;
+		position: relative;
+	}
+	
+	.fr {
+		float: right;
+	}
+	 .comment_paragraph{
+		color: #454545;
+		line-height: 14px;
+		margin: 4px 10px 0px 15px;
+	}
+	
+	.date {
+    float: right;
+    font-size: 0.85em;
+    color: #454545;
+    margin-top: 0px;
+    margin-right: 15px;
+	}
+	
+	.slimScrollDiv{
+	
+		height: 486px !important;;
+		}
+</style>
+
+
+ 	<script type="text/javascript">
+    $(function(){
+     
+      $('#testDiv3').slimScroll({
+          color: '#00f',
+          height: 480,
+          alwaysVisible: true
+      });
+    
+    });
+</script> 
+
+
+
+	<!-- ------------- -->
 					
-					 <!-- <div class="container">
+					<!--   <div class="container">
       <h2>Collapse</h2>
       <div class="panel-group">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" class="collapsed" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1" style="cursor: pointer;">Collapsible Group 1</a>
+              <a data-toggle="collapse" id="coll1" class="collapsed" data-target="#collapse1" ng-click="opencoll()" aria-expanded="true" aria-controls="collapse1" style="cursor: pointer;">Collapsible Group 1</a>
             </h4>
           </div>
           <div id="collapse1" class="collapse in">
@@ -162,46 +211,8 @@
           </div>
         </div>
       </div> 
-    </div>  -->
+    </div>   -->
 					
 				<!-- -------------- -->	
-					</div>
-			<!-- <div class="modal-footer">
-				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
-				<button type="submit" class="btn btn-primary">Add Project Type</button>
-			</div> -->
 				
-				</form>
 			
-		</div>
-	</div>
-</div>
-
-<style>
-	 .comment_box {
-		padding-bottom: 8px;
-		
-		height: auto;
-		background: none repeat scroll 0% 0% ghostwhite;
-		border: 1px solid #D8D8D8;
-		position: relative;
-	}
-	
-	.fr {
-		float: right;
-	}
-	 .comment_paragraph{
-		color: #454545;
-		line-height: 14px;
-		margin: 4px 10px 0px 15px;
-	}
-	
-	.date {
-    float: right;
-    font-size: 0.85em;
-    color: #454545;
-    margin-top: 0px;
-    margin-right: 15px;
-	}
-</style>
-

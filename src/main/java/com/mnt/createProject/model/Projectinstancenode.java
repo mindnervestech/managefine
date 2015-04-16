@@ -31,6 +31,7 @@ public class Projectinstancenode extends Model{
 	private Date startDate;
 	private Date endDate;
 	private long taskCompilation;
+	private int weightage;
 	
 	/*@OneToMany(cascade=CascadeType.ALL)
 	private List<Saveattributes> saveattributes;*/
@@ -94,6 +95,14 @@ public class Projectinstancenode extends Model{
 	public void setProjectinstanceid(Long projectinstanceid) {
 		this.projectinstanceid = projectinstanceid;
 	}
+	
+	public int getWeightage() {
+		return weightage;
+	}
+
+	public void setWeightage(int weightage) {
+		this.weightage = weightage;
+	}
 
 	public static Projectinstancenode getById(Long id) {
 		return find.byId(id);
@@ -107,6 +116,10 @@ public class Projectinstancenode extends Model{
 		// TODO Auto-generated method stub
 		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid), Expr.eq("projectinstanceid", ptypeid))).findUnique();
 		//return find.where().add(Expr.or(Expr.eq("id", id), Expr.eq("parentId", id))).findList();
+	}
+	
+	public static List<Projectinstancenode> getprojectinstanceById(Long id) {
+		return find.where().eq("projectinstanceid", id).findList();
 	}
 	
 	

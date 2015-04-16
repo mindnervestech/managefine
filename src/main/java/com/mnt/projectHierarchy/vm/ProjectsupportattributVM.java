@@ -22,6 +22,8 @@ public class ProjectsupportattributVM {
 	public int level;
 	public Long thisNodeId;
 	public String comment;
+	public Long taskCompilation;
+	public int weightage;
 	public List<ProjectclassnodeattributVM> projectValue;
 	public List<ProjectAttachmentVM> projectAttachment;
 	public List<ProjectCommentVM> projectcomments;
@@ -117,6 +119,19 @@ public class ProjectsupportattributVM {
 	public void setProjectcomments(List<ProjectCommentVM> projectcomments) {
 		this.projectcomments = projectcomments;
 	}
+	public Long getTaskCompilation() {
+		return taskCompilation;
+	}
+	public void setTaskCompilation(Long taskCompilation) {
+		this.taskCompilation = taskCompilation;
+	}
+	public int getWeightage() {
+		return weightage;
+	}
+	public void setWeightage(int weightage) {
+		this.weightage = weightage;
+	}
+	
 	
 	
 }

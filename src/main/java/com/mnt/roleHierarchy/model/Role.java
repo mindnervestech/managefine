@@ -79,6 +79,18 @@ public class Role extends Model{
 		this.parentId = parentId;
 	}
 	
+	
+
+
+
+	public RoleX getRoleX() {
+		return roleX;
+	}
+
+
+	public void setRoleX(RoleX roleX) {
+		this.roleX = roleX;
+	}
 
 
 	public static Role getRoleById(Long id) {
@@ -90,14 +102,6 @@ public class Role extends Model{
 	public List<Role> getRoleByParentId(Long id) {
 		// TODO Auto-generated method stub
 		return find.where().eq("parentId", id).findList();
-	}
-
-	public RoleX getRoleX() {
-		return roleX;
-	}
-
-	public void setRoleX(RoleX roleX) {
-		this.roleX = roleX;
 	}
 
 	

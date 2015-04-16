@@ -275,7 +275,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
         var result = new primitives.orgdiagram.TemplateConfig();
         result.name = "contactTemplate";
 
-        result.itemSize = new primitives.common.Size(200, 100);
+        result.itemSize = new primitives.common.Size(155, 80);
         result.minimizedItemSize = new primitives.common.Size(5, 5);
         result.minimizedItemCornerRadius = 5;
         result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
@@ -284,13 +284,10 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
         var itemTemplate = jQuery(
           '<div class="bp-item bp-corner-all bt-item-frame">'
             + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="background:{{itemTitleColor}};top: 2px; left: 2px; width: 216px; height: 20px;">'
-                + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 208px; height: 18px;">{{itemConfig.organizationName}}</div>'
+                + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 0px; width: 155px; height: 18px;">{{itemConfig.organizationName}}</div>'
             + '</div>'
-            + '<div class="bp-item bp-photo-frame" style="top: 26px; left: 2px; width: 50px; height: 60px;">'
-                + '<img name="photo" src="{{itemConfig.image}}" style="height: 60px; width:50px;" />'
-            + '</div>'
-            + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
-            + '<div name="description" class="bp-item" style="top: 62px; left: 56px; width: 162px; height: 36px; font-size: 10px;">{{itemConfig.organizationLocation}}</div>'
+            + '<div class="bp-item" style="top: 27px; width: 162px; height: 18px; font-size: 12px;text-align: center;">{{itemConfig.organizationType}}</div>'
+            + '<div name="description" class="bp-item" style="top: 51px; width: 162px; height: 36px; font-size: 10px;text-align: center;">{{itemConfig.organizationLocation}}</div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",
@@ -330,3 +327,21 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
     };
 
 });
+
+
+
+
+/*
+
+var itemTemplate = jQuery(
+        '<div class="bp-item bp-corner-all bt-item-frame">'
+          + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="background:{{itemTitleColor}};top: 2px; left: 2px; width: 216px; height: 20px;">'
+              + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 208px; height: 18px;">{{itemConfig.organizationName}}</div>'
+          + '</div>'
+          + '<div class="bp-item bp-photo-frame" style="top: 26px; left: 2px; width: 50px; height: 60px;">'
+              + '<img name="photo" src="{{itemConfig.image}}" style="height: 60px; width:50px;" />'
+          + '</div>'
+          + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
+          + '<div name="description" class="bp-item" style="top: 62px; left: 56px; width: 162px; height: 36px; font-size: 10px;">{{itemConfig.organizationLocation}}</div>'
+      + '</div>'
+      ).css({*/

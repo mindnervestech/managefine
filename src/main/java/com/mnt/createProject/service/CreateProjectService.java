@@ -24,7 +24,8 @@ public interface CreateProjectService {
 	Projectinstance saveprojectTypeandName(HttpServletRequest request);
 	Projectinstance editprojectTypeandName(Long projectId);
 	ProjectsupportattributVM findAttachFile(Long id,Long mainInstance);
-	Long saveTask(Long id,Long mainInstance, Long task);
+	List<ProjectclassnodeVM> selectAllProjectType(Long id,Long rootId);
+	List<ProjectclassnodeVM> saveTask(Long id,Long mainInstance, Long task);
 	List<ClientVM> getfindCliect();
 	
 	

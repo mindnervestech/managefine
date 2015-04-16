@@ -33,6 +33,12 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	}
 	
 	@Override
+	public List<ProjectclassnodeVM> selectAllProjectType(Long id, Long rootId) {
+		// TODO Auto-generated method stub
+		return createProjectRepository.selectAllProjectType(id, rootId);
+	}
+	
+	@Override
 	public ProjectsupportattributVM findAttachFile(Long id,Long mainInstance) {
 		// TODO Auto-generated method stub
 		return createProjectRepository.findAttachFile(id,mainInstance);
@@ -40,7 +46,7 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	
 	
 	@Override
-	public Long saveTask(Long id,Long mainInstance, Long task) {
+	public List<ProjectclassnodeVM> saveTask(Long id,Long mainInstance, Long task) {
 		// TODO Auto-generated method stub
 		return createProjectRepository.saveTask(id,mainInstance, task);
 	}

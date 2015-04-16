@@ -78,6 +78,10 @@ public class CreateProjectController {
 		return "createProject";
 	}
 	
+	@RequestMapping(value="/selectAllProjectType",method=RequestMethod.GET) 
+	public @ResponseBody List selectAllProjectType(@RequestParam("id")Long id,@RequestParam("rootId")Long rootId) {
+		return createProjectService.selectAllProjectType(id,rootId);
+	}
 	
 	@RequestMapping(value="/AddJspPage",method=RequestMethod.GET)
 	public String AddJspPage(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
@@ -170,6 +174,7 @@ public class CreateProjectController {
 			projectinstancenode.setProjecttypeid(Long.parseLong(form.data().get("projecttypeId")));
 			projectinstancenode.setProjectclassnode(Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId"))));
 			projectinstancenode.setProjectinstanceid(Long.parseLong(form.data().get("projectInstance")));
+		    projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -220,6 +225,7 @@ public class CreateProjectController {
 			}
 			
 			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
+			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -286,7 +292,7 @@ public class CreateProjectController {
 	}
 	
 	@RequestMapping(value="/saveTask",method=RequestMethod.GET)
-	public @ResponseBody Long saveTask(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance, @RequestParam("task")Long task) {
+	public @ResponseBody List saveTask(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance, @RequestParam("task")Long task) {
 		
 		return createProjectService.saveTask(id, mainInstance,task);
 	}	

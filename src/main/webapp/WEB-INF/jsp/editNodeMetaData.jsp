@@ -16,7 +16,7 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;"> 
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header" style="background: blue;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -89,6 +89,18 @@
 						 
 					</div>
 					</div>
+					 <div class="col-md-12" style="padding: 0px;">
+						<label class="col-md-11" style="margin-top: 16px;margin-left: 16px;">Weightage *</label>
+						<select class="col-md-2" name="weightage" value='${editNodeMetaData.weightage}'  style="margin-left: 15px;" required>
+								<option <c:if test="${editNodeMetaData.weightage eq 1}">Selected</c:if>>1</option>
+								<option <c:if test="${editNodeMetaData.weightage eq 2}">Selected</c:if>>2</option>
+								<option <c:if test="${editNodeMetaData.weightage eq 3}">Selected</c:if>>3</option>
+								<option <c:if test="${editNodeMetaData.weightage eq 4}">Selected</c:if>>4</option>
+								<option <c:if test="${editNodeMetaData.weightage eq 5}">Selected</c:if>>5</option>
+					        </select> 
+						  
+						  
+					</div>
 					
 					
 					<input size="16" type="text" value='${editNodeMetaData.projectTypes}'
@@ -103,42 +115,37 @@
 							
 					 <input size="16" type="text" value='{{MainInstance}}'
 							placeholder="Enter String" style="display: none;" name="projectInstance"> 
+					<hr style="width: 100%;float: left;">
 					
 					 <div class="form-group">
 					 <div class="col-md-12">
-					<fieldset  style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;height: 271px;overflow: auto;margin-bottom: 7px;">
-  		<legend style="width: 99px;border-style: none;margin-bottom: 1px;">Attributes </legend>
+					<!-- <fieldset  style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;max-height: 271px;overflow: auto;margin-bottom: 7px;">
+  		<legend style="border-style: none;width: 0px;margin-bottom: 1px;margin-top: 34px;"></legend> -->
 				
 				<div class="modal-body" style="padding: 0px;">
-				<!-- <div class="form-group">
-				<button type="button" class="btn btn-primary" style="margin-left: 25px;" ng-click="newprojectValue($event)">Add </button>
-				</div> -->
-				
-				<c:forEach var="pValue" items="${editNodeMetaData.projectValue}">
+			
 				<div class="form-group">
-				<div class="col-md-12" style="margin-bottom: 11px;">
-				<div class="col-md-6">
+				<c:forEach var="pValue" items="${editNodeMetaData.projectValue}">
+				
+				<div class="col-md-6" style="height:60px;">
+				<div class="col-md-12">
 				<label>${pValue.name} :</label>
 				
-				<%-- <input size="16" type="text" value='${pValue.projectnode}'
-							placeholder="Enter String" style="display: none;" name="projectId">
-				<input size="16" type="text" value='{{MainInstance}}'
-							placeholder="Enter String" style="display: none;" name="projectInstance">	 --%>		
-							
+				
 				</div>
 				<c:choose>
 					<c:when
 						test="${pValue.type == 'Date'}">
-						<div class="col-md-6">
+						<div class="col-md-12">
 			
-           <input type="date" value='${pValue.attriValue}' name="${pValue.name}" /> 
+          				 <input type="date" value='${pValue.attriValue}' name="${pValue.name}" /> 
            
 						</div>
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Integer'}">
-						<div class="col-md-6">
+						<div class="col-md-12">
 						<input size="16" type="text" value='${pValue.attriValue}'
 							placeholder="Enter Number" name="${pValue.name}">
 						</div>
@@ -146,7 +153,7 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'String'}">
-						<div class="col-md-6">
+						<div class="col-md-12">
 						<input size="16" type="text" value='${pValue.attriValue}'
 							placeholder="Enter String" name="${pValue.name}">
 						</div>
@@ -157,27 +164,20 @@
 					 
 						test="${pValue.type == 'Checkbox'}">
 							 
-						<div class="col-md-6">
+						<div class="col-md-12">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
 						    
-								 <input type="checkbox" name="${pValue.name}" value='${option.value}' ${option.select}>${option.value}
+								 <input class="col-md-1" type="checkbox" name="${pValue.name}" value='${option.value}' ${option.select}><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
 							
 							</c:forEach>
 						</div>
 						
-						
-						<%-- <div class="col-md-6">
-						<c:forEach var="option" items='${pValue.valueSlice}'>
-						   <c:forEach var="check" items='${pValue.checkBoxValue}'>
-								 <input type="checkbox" name="${pValue.name}" value='${option.value}' <c:if test="${option.value eq check}">checked</c:if>>${option.value}
-								 </c:forEach>
-							</c:forEach>
-						</div> --%>
+					
 					
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Dropdown'}">
-						<div class="col-md-6">
+						<div class="col-md-12">
 						<select id="Dropdown"
 							name="${pValue.name}" class="input-large" value='${pValue.attriValue}'>
 
@@ -189,9 +189,9 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Radio'}">
-						<div class="col-md-6">
+						<div class="col-md-12">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
-									<input type="radio" name="${pValue.name}" value='${option.value}' <c:if test="${option.value eq pValue.attriValue}">checked</c:if>>${option.value}
+									<input class="col-md-1" type="radio" name="${pValue.name}" value='${option.value}' <c:if test="${option.value eq pValue.attriValue}">checked</c:if>><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
 							</c:forEach>
 							</div>
 					</c:when>
@@ -201,12 +201,11 @@
 					</c:otherwise>
 				</c:choose>
 				</div>
-				</div>
+				
 				
 				</c:forEach>
-				
-				
-		</fieldset>	
+				</div>
+		<!-- </fieldset>	 -->
 					</div>
 					</div>
 					
@@ -231,7 +230,9 @@
  .modal-dialog{
 	width: 747px; 
  }
-
+  #loading{
+		display:none;
+	}
 
 </style>
  	  

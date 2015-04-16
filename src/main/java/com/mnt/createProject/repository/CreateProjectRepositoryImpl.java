@@ -82,6 +82,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			if(projectinstancenodeDate.getEndDate() != null){
 				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
 			}
+			pVm.setWeightage(projectinstancenodeDate.getWeightage());
 		}
 		
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
@@ -167,6 +168,65 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		
 		return pVm;
+		
+	}
+	
+	@Override
+	public List<ProjectclassnodeVM> selectAllProjectType(Long id, Long rootId) {
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		Date dt = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		//System.out.println(format.parse(sdf.format(dt)));
+		
+		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
+		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(id);
+		List<Projectinstancenode> pList = Projectinstancenode.getprojectinstanceById(rootId);
+		for(Projectclassnode projectclassnode :projList) {
+			//long diff = 0;
+			
+				ProjectclassnodeVM pVm = new ProjectclassnodeVM();
+			    for(Projectinstancenode projectList: pList){
+				
+					if(projectclassnode.getId() == projectList.getProjectclassnode().getId()){
+						pVm.setCompleted(projectList.getTaskCompilation());
+					
+						
+						long diff = projectList.getEndDate().getTime() - projectList.getStartDate().getTime();
+						long dayDiff1 = diff / (1000 * 60 * 60 * 24);
+						
+						diff = dt.getTime() - projectList.getStartDate().getTime();
+						long dayDiff2 = diff / (1000 * 60 * 60 * 24);
+						
+						if(dayDiff2 > dayDiff1){
+							dayDiff2 = dayDiff1;
+						}
+						
+						long expected = (100*dayDiff2)/dayDiff1;
+						if(projectList.getTaskCompilation() < (expected-10)){
+							pVm.setStatus("danger");
+						} else if(projectList.getTaskCompilation() < expected){
+							pVm.setStatus("warning");
+						} else{
+							pVm.setStatus("success");
+						} 
+					}
+				
+		    	}
+				
+				pVm.setId(projectclassnode.getId());
+				pVm.setProjectTypes(projectclassnode.getProjectTypes());
+				pVm.setProjectDescription(projectclassnode.getProjectDescription());
+				pVm.setProjectId(projectclassnode.getProjectId().getId());
+				pVm.setLevel(projectclassnode.getLevel());
+				pVm.setParentId(projectclassnode.getParentId());
+				result.add(pVm);
+			
+		}
+		
+		
+		return result;
+			
 		
 	}
 	
@@ -271,46 +331,55 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		ProjectsupportattributVM pVm = new ProjectsupportattributVM();
 		
+		List<Projectclassnode> projectclassnode = Projectclassnode.getparentByprojectId(id);
+		
+		if(projectclassnode.size() == 0){
 		Projectinstancenode projectinstancenode = Projectinstancenode.getProjectParentId(id, mainInstance);
 		
 		if(projectinstancenode != null){
-		pVm.setThisNodeId(projectinstancenode.getId());
-		pVm.setProjectId(projectinstancenode.getProjectclassnode().getId());
-		List<ProjectAttachment> pAttachment = ProjectAttachment.getprojectinstanceById(projectinstancenode.getId());
+			pVm.setThisNodeId(projectinstancenode.getId());
+			pVm.setProjectId(projectinstancenode.getProjectclassnode().getId());
+			pVm.setTaskCompilation(projectinstancenode.getTaskCompilation());
+			if(projectinstancenode.getTaskCompilation() < 100){
+				pVm.setComment("Inprogress");
+			}else{
+				pVm.setComment("Completed");
+			}
+			List<ProjectAttachment> pAttachment = ProjectAttachment.getprojectinstanceById(projectinstancenode.getId());
 		
-		List<ProjectAttachmentVM> pAList = new ArrayList<ProjectAttachmentVM>();
-		List<ProjectCommentVM> pCList = new ArrayList<ProjectCommentVM>();
+			List<ProjectAttachmentVM> pAList = new ArrayList<ProjectAttachmentVM>();
+			List<ProjectCommentVM> pCList = new ArrayList<ProjectCommentVM>();
 		
-		for(ProjectAttachment pAtt:pAttachment){
-			ProjectAttachmentVM pAttachmentVM = new ProjectAttachmentVM();
-			pAttachmentVM.setId(pAtt.getId());
-			pAttachmentVM.setDocDate(pAtt.getDocDate());
-			pAttachmentVM.setDocName(pAtt.getDocName());
-			pAttachmentVM.setDocPath(pAtt.getDocPath());
-			pAttachmentVM.setProjectinstanceid(pAtt.getProjectinstanceid());
-			pAList.add(pAttachmentVM);
+			for(ProjectAttachment pAtt:pAttachment){
+				ProjectAttachmentVM pAttachmentVM = new ProjectAttachmentVM();
+				pAttachmentVM.setId(pAtt.getId());
+				pAttachmentVM.setDocDate(pAtt.getDocDate());
+				pAttachmentVM.setDocName(pAtt.getDocName());
+				pAttachmentVM.setDocPath(pAtt.getDocPath());
+				pAttachmentVM.setProjectinstanceid(pAtt.getProjectinstanceid());
+				pAList.add(pAttachmentVM);
 			
-		}
-		pVm.setProjectAttachment(pAList);
+			}
+			pVm.setProjectAttachment(pAList);
 		
-		List<ProjectComment> pComment = ProjectComment.getprojectinstanceById(projectinstancenode.getId());
+			List<ProjectComment> pComment = ProjectComment.getprojectinstanceById(projectinstancenode.getId());
+			
+			for(ProjectComment pComm:pComment){
+				ProjectCommentVM pCommentVM = new ProjectCommentVM();
+				pCommentVM.setCommetDate(pComm.getCommetDate());
+				pCommentVM.setId(pComm.getId());
+				pCommentVM.setProjectComment(pComm.getProjectComment());
+				pCommentVM.setUserName(pComm.getUser().getFirstName());
+				pCList.add(pCommentVM);
+		  }
+		  pVm.setProjectcomments(pCList);
 		
-		for(ProjectComment pComm:pComment){
-			ProjectCommentVM pCommentVM = new ProjectCommentVM();
-			pCommentVM.setCommetDate(pComm.getCommetDate());
-			pCommentVM.setId(pComm.getId());
-			pCommentVM.setProjectComment(pComm.getProjectComment());
-			pCommentVM.setUserName(pComm.getUser().getFirstName());
-			pCList.add(pCommentVM);
-		}
-		pVm.setProjectcomments(pCList);
-		
-		
-		
-		}else{
+		  }else{
 			pVm.setThisNodeId(null);
+		  }
+		}else{
+			pVm.setComment("notAllow");
 		}
-		
 		return pVm;
 		
 	}
@@ -340,15 +409,97 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		return pComment.getId();
 	}
 	
-	public Long saveTask(Long id,Long mainInstance, Long task){
+	public List<ProjectclassnodeVM> saveTask(Long id,Long mainInstance, Long task){
+		
+				
+		double total =0;
+		double numerator = 0;
+		double denominator = 0;
 		
 		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(id,mainInstance);
-		
 		projectinstancenode.setTaskCompilation(task.intValue());
 		projectinstancenode.update();
 		
-		return projectinstancenode.getId();
+		Long pId = id;
+		while(pId != null){
+			total =0;
+			numerator = 0;
+			denominator = 0;
+			Projectclassnode projectclassnode= Projectclassnode.getProjectById(pId);
+			if(projectclassnode.getParentId() != null){
+				List<Projectclassnode> projecList = Projectclassnode.getparentByprojectId(projectclassnode.getParentId());
+				for(Projectclassnode projectclassnode2:projecList){
+					Projectinstancenode projectinstancenode2 = Projectinstancenode.getProjectParentId(projectclassnode2.getId(), mainInstance);
+					if(projectinstancenode2 != null){
+						numerator = numerator + (projectinstancenode2.getTaskCompilation() * projectinstancenode2.getWeightage());		
+						denominator	= denominator + projectinstancenode2.getWeightage();
+					}
+				}
+				total = numerator / denominator;
+				
+				Projectinstancenode parent = Projectinstancenode.getProjectParentId(projectclassnode.getParentId(), mainInstance);
+				parent.setTaskCompilation((long)total);
+				parent.update();
+			}
+			pId = projectclassnode.getParentId();
+		}
 		
+		
+		
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		Date dt = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		//System.out.println(format.parse(sdf.format(dt)));
+		
+		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
+		Projectinstance projectinstance = Projectinstance.getById(mainInstance);
+		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(projectinstance.getProjectid());
+		List<Projectinstancenode> pList = Projectinstancenode.getprojectinstanceById(mainInstance);
+		for(Projectclassnode projectclassnode :projList) {
+			//long diff = 0;
+			
+				ProjectclassnodeVM pVm = new ProjectclassnodeVM();
+			    for(Projectinstancenode projectList: pList){
+				
+					if(projectclassnode.getId() == projectList.getProjectclassnode().getId()){
+						pVm.setCompleted(projectList.getTaskCompilation());
+					
+						
+						long diff = projectList.getEndDate().getTime() - projectList.getStartDate().getTime();
+						long dayDiff1 = diff / (1000 * 60 * 60 * 24);
+						
+						diff = dt.getTime() - projectList.getStartDate().getTime();
+						long dayDiff2 = diff / (1000 * 60 * 60 * 24);
+						
+						if(dayDiff2 > dayDiff1){
+							dayDiff2 = dayDiff1;
+						}
+						
+						long expected = (100*dayDiff2)/dayDiff1;
+						if(projectList.getTaskCompilation() < (expected-10)){
+							pVm.setStatus("danger");
+						} else if(projectList.getTaskCompilation() < expected){
+							pVm.setStatus("warning");
+						} else{
+							pVm.setStatus("success");
+						} 
+					}
+				
+		    	}
+				
+				pVm.setId(projectclassnode.getId());
+				pVm.setProjectTypes(projectclassnode.getProjectTypes());
+				pVm.setProjectDescription(projectclassnode.getProjectDescription());
+				pVm.setProjectId(projectclassnode.getProjectId().getId());
+				pVm.setLevel(projectclassnode.getLevel());
+				pVm.setParentId(projectclassnode.getParentId());
+				result.add(pVm);
+			
+		}
+		
+		
+		return result;
 	}
 
 	
