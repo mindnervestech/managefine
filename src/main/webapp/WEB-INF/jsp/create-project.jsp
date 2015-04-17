@@ -7,26 +7,13 @@
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/slimScroll/prettify/prettify.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/stylesheets/bootstrap.min.css"/>'>
+<div ng-app="ProjectHierarchyApp" ng-controller="createProjectController">
+<%-- <span style="font-size: large;margin-left: 19px;margin-top: 12px;"><u><b>${createProject.projectName} </b></u>  (Client Name :${createProject.clientName}, Start Date : ${createProject.startDate} / End Date : ${createProject.endDate})</span> --%>
 
-<label style="font-size: large;margin-left: 19px;margin-top: 12px;"><u><b>${createProject.projectName}</b></u></label>
-<div ng-app="ProjectHierarchyApp" ng-controller="createProjectController" class="container" ng-init='viewHierarchy(${createProject.projectid},${createProject.id})'><!--  viewHierarchy -->
+<div class="container" ng-init='viewHierarchy(${createProject.projectid},${createProject.id},"${createProject.projectName}","${createProject.clientName}","${createProject.startDate}","${createProject.endDate}")'><!--  viewHierarchy -->
 	<div class="form-group">
-				 <!--  <label class="col-md-12" style="margin-left: 4px;">Choose Project type</label>  -->
-						 	
-							<!--  <select class="col-md-3" data-ng-model="projectType.id" ng-change="onProjectTypeChange(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
-								<option>Select Project Type..</option>
-					        </select>  -->
-							
-							
-				       <!-- <button type="submit" class="btn btn-primary" onClick="myFunction()">Add</button> -->
-					</div>
-					<!-- <div class="form-group">
-						<label class="col-md-12" style="margin-left: 15px;">Choose Client</label>
-						 	
-							<select class="col-md-3" data-ng-model="projectType.id" ng-change="onProjectTypeChange(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
-								<option>Select </option>
-					        </select>
-					</div> -->
+						</div>
+			
 					<div>
 					  
 				
@@ -48,7 +35,7 @@
     				
     				</div> 
 </div>
-
+</div>
 <%-- <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script> --%>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular-datepicker.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/primitives/primitives.latest.js"/>'></script>
@@ -74,6 +61,13 @@
 .progress-bar { 
   transition: width 1s ease-in-out; 
 }
+
+	.ui-pnotify{
+			top: 99px;
+	}
+	.ui-pnotify-icon{
+		display:none;
+	}
 
 </style>
 

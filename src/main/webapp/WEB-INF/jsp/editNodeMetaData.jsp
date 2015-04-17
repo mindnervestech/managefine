@@ -136,7 +136,7 @@
 				<c:choose>
 					<c:when
 						test="${pValue.type == 'Date'}">
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 			
           				 <input type="date" value='${pValue.attriValue}' name="${pValue.name}" /> 
            
@@ -145,7 +145,7 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Integer'}">
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 						<input size="16" type="text" value='${pValue.attriValue}'
 							placeholder="Enter Number" name="${pValue.name}">
 						</div>
@@ -153,7 +153,7 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'String'}">
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 						<input size="16" type="text" value='${pValue.attriValue}'
 							placeholder="Enter String" name="${pValue.name}">
 						</div>
@@ -164,7 +164,7 @@
 					 
 						test="${pValue.type == 'Checkbox'}">
 							 
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
 						    
 								 <input class="col-md-1" type="checkbox" name="${pValue.name}" value='${option.value}' ${option.select}><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
@@ -177,7 +177,7 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Dropdown'}">
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 						<select id="Dropdown"
 							name="${pValue.name}" class="input-large" value='${pValue.attriValue}'>
 
@@ -189,7 +189,7 @@
 					</c:when>
 					<c:when
 						test="${pValue.type == 'Radio'}">
-						<div class="col-md-12">
+						<div class="col-md-12" style="padding: 0px;">
 						<c:forEach var="option" items='${pValue.valueSlice}'>
 									<input class="col-md-1" type="radio" name="${pValue.name}" value='${option.value}' <c:if test="${option.value eq pValue.attriValue}">checked</c:if>><span class="col-md-3" style="padding: 0px;margin-left: 3px;">${option.value}</span>
 							</c:forEach>

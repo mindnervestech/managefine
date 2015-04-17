@@ -18,7 +18,7 @@
 				 <div class="form-group">
 					 <div class="col-md-12" style="padding: 0px;">
 						 <div class="col-md-6" style="padding: 0px;">
-							 <span class="col-md-8"><b>Task % completed :<span style="color:red;">*</span></b></span>
+							 <span class="col-md-8"><b>Task % completed <span style="color:red;">*</span> :</b></span>
 							 <div class="col-md-4">
 							 <input class="col-md-9" type="text" name="projectName" ng-blur="task(taskCompilation)" data-ng-model="taskCompilation" required>%
 							 </div>
@@ -27,8 +27,6 @@
 						 <span ng-if="completeStatus == 'Inprogress'"><span  class="icon-forward"></span> {{completeStatus}}</span>
 						  <span ng-if="completeStatus == 'Completed'" style="color:green"><span class="icon-ok"></span> {{completeStatus}}</span>
 						</div>	
-						  
-						  
 					</div>
 					
 					<hr style="width: 100%;float: left;">

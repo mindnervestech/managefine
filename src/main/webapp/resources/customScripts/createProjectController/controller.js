@@ -1,4 +1,4 @@
-app.controller("createProjectController",function($scope,$http,$rootScope,ngDialog,$upload,$timeout,$filter) {
+app.controller("createProjectController",function($scope,$http,$rootScope,ngDialog,$upload,$timeout,$filter,$compile) {
 	
 	$scope.progressValue = 150;
 	
@@ -186,14 +186,37 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 		});
     }
    
-    $scope.viewHierarchy = function(id,rootId){
-    	
+    $scope.viewHierarchy = function(id,rootId,pName,cName,sDate,eDate){
     	console.log(id);
     	console.log(rootId);
+    	$scope.cName = cName;
+    	$scope.sDate = sDate;
+    	$scope.eDate = eDate;
     	$rootScope.MainInstance = rootId;
     	$scope.selectRootNode = id;
+    	var className = 'showDataPnotify';
+    	
+    	//if(data[0].day == 'sunday') {
+		//	$scope.sundayData = data;
+		//	$scope.dayName = "Sunday";
+			htmlTemplate = '<table class="table"><tr><td>Client Name :</td><td>{{cName}}</td></tr><tr><td>StartDate</td><td>{{sDate}}</td></tr><tr><td>EndDate</td><td>{{eDate}}</td></tr></table>';
+		//}
+		
+		$.pnotify({
+		    title: pName,
+		    type:'info',
+		    text: htmlTemplate,
+		    addclass: className,
+		    hide: false,
+		    sticker: false
+		});
+		var element = $('.'+className);
+		$compile(element)($scope);
+    	
+    	
     	console.log($scope.selectRootNode);
     	items = [];
+    	
     	$http({method:'GET',url:'/time/selectAllProjectType',params:{id:id,rootId:rootId}}).success(function(data) {
     		console.log("---====---");
         	console.log(data);

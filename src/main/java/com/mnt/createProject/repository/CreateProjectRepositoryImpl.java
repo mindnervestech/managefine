@@ -255,7 +255,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	public Projectinstance editprojectTypeandName(Long projectId) {
 
 		Projectinstance projectinstance= Projectinstance.getById(projectId);
-		System.out.println(projectinstance.getProjectName());
+		
 		return projectinstance;
 		
 	}
