@@ -6,6 +6,7 @@
 <link rel="stylesheet"  href='<c:url value="/resources/stylesheets/datepicker.css"/>'>
 <script src='<c:url value="/resources/javascripts/bootstrap-datepicker.js"/>' type="text/javascript"></script>
  <script type="text/javascript" src='<c:url value="/resources/javascripts/bootstrap-datetimepicker.min.js"/>'></script>
+ <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 
 <c:set var="projectName" value='${editNodeMetaData.projectTypes}'/>   
 
@@ -89,22 +90,8 @@
 						 
 					</div>
 					</div>
-					<%--  <div class="col-md-12" style="padding: 0px;">
-						<label class="col-md-11" style="margin-top: 16px;margin-left: 16px;">Weightage *</label>
-						<select class="col-md-2" name="weightage" value='${editNodeMetaData.weightage}'  style="margin-left: 15px;" required>
-								<option <c:if test="${editNodeMetaData.weightage eq 1}">Selected</c:if>>1</option>
-								<option <c:if test="${editNodeMetaData.weightage eq 2}">Selected</c:if>>2</option>
-								<option <c:if test="${editNodeMetaData.weightage eq 3}">Selected</c:if>>3</option>
-								<option <c:if test="${editNodeMetaData.weightage eq 4}">Selected</c:if>>4</option>
-								<option <c:if test="${editNodeMetaData.weightage eq 5}">Selected</c:if>>5</option>
-					        </select> 
-						  
-						  
-					</div> --%>
-					
-					
-					<!-- --------------------------------------=== -->
-					
+									
+							
 					
 						<div class="form-group">
 					 
@@ -112,31 +99,33 @@
 						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Weightage *</label>
 						<select class="col-md-4" name="weightage"  style="margin-left: 15px;" required>
 								<option value="">Select</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
+								<option value="1" ng-selected = "${editNodeMetaData.weightage} == '1'">1</option>
+								<option value="2" ng-selected = "${editNodeMetaData.weightage} == '2'">2</option>
+								<option value="3" ng-selected = "${editNodeMetaData.weightage} == '3'">3</option>
+								<option value="4" ng-selected = "${editNodeMetaData.weightage} == '4'">4</option>
+								<option value="5" ng-selected = "${editNodeMetaData.weightage} == '5'">5</option>
 					        </select> 
 						  
 						  
 					</div>
 					
 					<div class="col-md-6" style="padding: 0px;">
-						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
-						<input type="text" name="projectManager" value='${editNodeMetaData.projectManager}' disabled="disabled" class="col-md-11">
-						  
-						  
+										
+						<label class="col-md-11" ng-if="${editNodeMetaData.level} == 0" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
+						<%-- <input type="text" name="projectManager" ng-if="${editNodeMetaData.level} == 0" value='${editNodeMetaData.projectManager}' disabled="disabled" class="col-md-11"> --%>
+						<select class="col-md-12" name="projectManager" ui-select2 multiple="multiple" ng-model="projectManagerData"  style="margin-left: 15px;" required>
+								<option ng-repeat="projectMinfo in findUser" value="{{projectMinfo.id}}" ng-selected = "${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}}</option>
+					        </select> 
+											  
 					</div>
 					</div>
 					
-					<div class="col-md-12">
-					 
+					<div class="col-md-12" ng-if="${editNodeMetaData.level} == 0">
+					
 					 <div class="col-md-6">
 						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Supplier</label>
-						<select class="col-md-12" name="supplier"  style="margin-left: 15px;" required>
-								<option value="">Select</option>
-								<option ng-repeat="supplierinfo in findSelectedSupplier" value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
+						<select class="col-md-12" name="supplier"  multiple="multiple" ng-model="supplierData" style="margin-left: 15px;" required>
+								<option ng-repeat="supplierinfo in selectSupplier" value="{{supplierinfo.id}}" ng-selected="supplierinfo.selected == 'selected'">{{supplierinfo.supplierName}}</option>
 					        </select> 
 						  
 						  
@@ -144,20 +133,12 @@
 					
 					<div class="col-md-6">
 						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Member</label>
-						<select class="col-md-12" name="member"  style="margin-left: 15px;" required>
-								<option value="">Select</option>
-								<option ng-repeat="memberinfo in findSelectedUser" value="{{memberinfo.id}}">{{memberinfo.firstName}}</option>
+						<select class="col-md-12" name="member" multiple="multiple" ng-model="memberData"  style="margin-left: 15px;" required>
+								<option ng-repeat="memberinfo in selectUser" value="{{memberinfo.id}}" ng-selected="memberinfo.selected == 'selected'">{{memberinfo.firstName}}</option>
 					        </select> 
 					</div>
 					</div>
 					
-					
-					
-					
-					
-					
-					
-					<!-- -------------=-=-==- -->
 					
 					<input size="16" type="text" value='${editNodeMetaData.projectTypes}'
 							placeholder="Enter String" style="display: none;" name="projectT">
@@ -293,6 +274,8 @@
 	}
 
 </style>
+ 	  <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
  	  
  <script type="text/javascript">
 $(".form_datetime").datetimepicker({

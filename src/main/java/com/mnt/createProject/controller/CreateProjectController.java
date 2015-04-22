@@ -170,7 +170,8 @@ public class CreateProjectController {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 	
-	
+		
+		
 		List<Projectclassnodeattribut> attributesArray = null;
 		Projectinstancenode projectnode = null;
 		if(form.data().get("projectId") != null){
@@ -184,6 +185,7 @@ public class CreateProjectController {
 			if(projectclassnode.getParentId() == null){
 			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
 		  
+					
 			projectinstance.setStartDate(form.data().get("startDate"));
 			projectinstance.setEndDate(form.data().get("endDate"));
 			
@@ -208,6 +210,7 @@ public class CreateProjectController {
 			
 			projectinstancenode.save();
 		   
+			
 		    for(Projectclassnodeattribut attr : attributesArray){
 		    	
 				Saveattributes saveattri = new Saveattributes();

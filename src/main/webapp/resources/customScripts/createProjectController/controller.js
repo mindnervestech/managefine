@@ -259,17 +259,91 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     		console.log($scope.myOptions);	
     	});
     	
-    	
-    	  $http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
-    	    	console.log(response);
-    	    	$scope.findSelectedUser = response;
-    	    });
-    	  
+    	$scope.selectSupplier = [];
+    	$scope.selectUser = [];
+    	 
+    	 $http({method:'GET',url:'/time/findSupplierData'}).success(function(response) {
+  	    	console.log(response);
+  	    	$scope.findSupplier = response;
+  	    	
     	  $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
   	    	console.log(response);
   	    	$scope.findSelectedSupplier = response;
+  	    	
+         	    angular.forEach($scope.findSupplier, function(obj, index){
+         	    	var flag = true;
+     				angular.forEach($scope.findSelectedSupplier, function(obj1, index){
+     					
+     					
+     					if ((obj.id == obj1.id)) {
+     						flag =false;
+     						$scope.selectSupplier.push({
+     							id: obj.id,
+     							supplierName : obj.supplierName,
+     							selected : "selected"
+     							
+     						});
+     												
+     					};
+     				});
+     				if(flag) {
+     					$scope.selectSupplier.push({
+ 							id: obj.id,
+ 							supplierName : obj.supplierName,
+ 							selected : ""
+ 							
+ 						});
+     				}
+     			});
+     	    });
+  	    	
+  	    	
   	    });
     	  
+    	 
+    	    
+    	    $http({method:'GET',url:'/time/findUser'}).success(function(response) {
+    	    	console.log(response);
+    	    	$scope.findUser = response;
+    	    	
+    	    	
+    	    	 $http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
+    	    	    	console.log(response);
+    	    	    	$scope.findSelectedUser = response;
+    	    	    	
+    	    	    	
+    	    	    	
+    	    	        angular.forEach($scope.findUser, function(obj, index){
+    	         	    	var flag = true;
+    	     				angular.forEach($scope.findSelectedUser, function(obj1, index){
+    	     					
+    	     					
+    	     					if ((obj.id == obj1.id)) {
+    	     						flag =false;
+    	     						$scope.selectUser.push({
+    	     							id: obj.id,
+    	     							firstName : obj.firstName,
+    	     							selected : "selected"
+    	     							
+    	     						});
+    	     												
+    	     					};
+    	     				});
+    	     				if(flag) {
+    	     					$scope.selectUser.push({
+    	 							id: obj.id,
+    	 							firstName : obj.firstName,
+    	 							selected : ""
+    	 							
+    	 						});
+    	     				}
+    	     			});
+    	    	    	
+    	    	    });
+    	    	
+    	    });
+    	   
+    	    
     	  
     	
     }

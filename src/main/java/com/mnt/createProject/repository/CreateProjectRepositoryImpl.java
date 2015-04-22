@@ -76,6 +76,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				pVm.setEndDateLimit(format.format(projectinstancenodeDate.getEndDate()));
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
+			
 		}
 		
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
@@ -87,6 +88,16 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		if(projectinstancenode.getEndDate() != null){
 		pVm.setEndDate(format.format(projectinstancenode.getEndDate()));
 		}
+		
+		if(projectinstancenode.getSupplier() != null){
+			pVm.setSupplier(String.valueOf(projectinstancenode.getSupplier().getId()));
+		}
+		if(projectinstancenode.getUser() != null){
+			pVm.setUser(String.valueOf(projectinstancenode.getUser().getId()));
+		}
+		
+		pVm.setWeightage(projectinstancenode.getWeightage());
+		
 		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){

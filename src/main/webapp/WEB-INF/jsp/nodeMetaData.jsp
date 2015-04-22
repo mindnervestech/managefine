@@ -4,8 +4,11 @@
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <link rel="stylesheet"  href='<c:url value="/resources/stylesheets/datepicker.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 <script src='<c:url value="/resources/javascripts/bootstrap-datepicker.js"/>' type="text/javascript"></script>
- <script type="text/javascript" src='<c:url value="/resources/javascripts/bootstrap-datetimepicker.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
+
 
 <c:set var="projectName" value='${nodeMetaData.projectTypes}'/>   
 
@@ -112,21 +115,18 @@
 					</div>
 					
 					<div class="col-md-6" style="padding: 0px;">
-						<c:when
-						     test="${nodeMetaData.level == 0}">
-							<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
-							<input type="text" name="projectManager" value='${nodeMetaData.projectManager}' disabled="disabled" class="col-md-11">						
-						</c:when>
+						<label class="col-md-11" ng-if="${nodeMetaData.level} == 0" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
+						<input type="text" ng-if="${nodeMetaData.level} == 0" name="projectManager" value='${nodeMetaData.projectManager}' disabled="disabled" class="col-md-11">
+						  
 						  
 					</div>
 					</div>
 					
-					<div class="col-md-12">
+					<div class="col-md-12" ng-if="${nodeMetaData.level} == 0">
 					 
 					 <div class="col-md-6">
 						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Supplier</label>
-						<select class="col-md-12" name="supplier"  style="margin-left: 15px;" required>
-								<option value="">Select</option>
+						<select class="col-md-12" name="supplier" ui-select2 multiple="multiple"  style="margin-left: 15px;" required>
 								<option ng-repeat="supplierinfo in findSelectedSupplier" value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
 					        </select> 
 						  
@@ -135,8 +135,7 @@
 					
 					<div class="col-md-6">
 						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Member</label>
-						<select class="col-md-12" name="member"  style="margin-left: 15px;" required>
-								<option value="">Select</option>
+						<select class="col-md-12" name="member" ui-select2 multiple="multiple"  style="margin-left: 15px;" required>
 								<option ng-repeat="memberinfo in findSelectedUser" value="{{memberinfo.id}}">{{memberinfo.firstName}}</option>
 					        </select> 
 					</div>
@@ -163,8 +162,6 @@
 											
 					 <div class="form-group">
 					 <div class="col-md-12" style="padding: 0px;margin-top: 17px;">
-					<!-- <fieldset  style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;max-height: 271px;overflow: auto;margin-bottom: 7px;">
-  		<legend style="border-style: none;width: 0px;margin-bottom: 1px;margin-top: 34px;"></legend> -->
 				
 				<div class="modal-body" style="padding: 0px;">
 				
