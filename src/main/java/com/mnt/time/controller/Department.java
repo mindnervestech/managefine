@@ -34,10 +34,15 @@ public class Department {
 	@RequestMapping(value="/saveDepartments",method=RequestMethod.POST)
 	public @ResponseBody void saveDepartments(@CookieValue("username")String username,@RequestBody DepartmentList departments) {
 		for(DepartmentVM department : departments) {
-			System.out.println("department:"+department.name);
 			models.Department d = new models.Department();
 			d.setName(department.getName());
-			d.save();
+			if(department.getId() == null) {
+				d.save();
+			} else {
+				d.setId(department.getId());
+				d.update();
+			}
+			
 		}
 	}
 	
