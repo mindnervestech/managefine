@@ -29,9 +29,10 @@ public class Department {
     	model.addAttribute("user", User.findByEmail(username));
 		return "defineDepartments";
 	}
+	public static class DepartmentList extends ArrayList<DepartmentVM> { }
 	
 	@RequestMapping(value="/saveDepartments",method=RequestMethod.POST)
-	public @ResponseBody void saveDepartments(@CookieValue("username")String username,@RequestBody List<DepartmentVM> departments) {
+	public @ResponseBody void saveDepartments(@CookieValue("username")String username,@RequestBody DepartmentList departments) {
 		for(DepartmentVM department : departments) {
 			System.out.println("department:"+department.name);
 			models.Department d = new models.Department();
