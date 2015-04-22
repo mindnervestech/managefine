@@ -19,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mnt.orghierarchy.model.Organization;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.roleHierarchy.model.Role;
+import com.mnt.roleHierarchy.vm.DepartmentDataVM;
 import com.mnt.roleHierarchy.vm.RoleVM;
+import com.mnt.time.controller.Department;
 
 @Service
 public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
@@ -38,6 +40,10 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 				roleVM.setParent(role.getParentId());
 				roleVM.setRoleName(role.getRoleName());
 				roleVM.setRoleDescription(role.getRoleDescription());
+				if(role.getDepartment() != null){
+				roleVM.setDepartment(String.valueOf(role.getDepartment().getId()));
+				roleVM.setDepartmentName(role.getDepartment().getName());
+				}
 			
 				result.add(roleVM);
 			}
@@ -70,6 +76,23 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 	
 	}
 
+	public List<DepartmentDataVM> findDepartment(){
+		List<DepartmentDataVM> dpDataVMs = new ArrayList<DepartmentDataVM>();
+		List<models.Department> department = models.Department.findAll();
+		
+		for(models.Department department2:department){
+			DepartmentDataVM pVm = new DepartmentDataVM();
+			pVm.setId(department2.getId());
+			pVm.setName(department2.getName());
+			dpDataVMs.add(pVm);
+		}
+		
+		
+		return dpDataVMs;
+		
+	}
+	
+	
 	@Override
 	public Long saveRoleChild(RoleVM roleVM, String username) {
 		
@@ -82,7 +105,9 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		role.setRoleX(RoleX.findByCompany(user.getCompanyobject().getId()));	
 		role.setRoleName(roleVM.getRoleName());
 		role.setRoleDescription(roleVM.getRoleDescription());
+		role.setDepartment(models.Department.departmentById(Long.parseLong(roleVM.getDepartment())));
 		role.setParentId(roleVM.getParent());
+		
 		role.save();
 		}else{
 			return null;
@@ -98,9 +123,9 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		Role role = Role.getRoleById(roleVM.getParent());
 		role.setRoleName(roleVM.getRoleName());
 		role.setRoleDescription(roleVM.getRoleDescription());
+		role.setDepartment(models.Department.departmentById(Long.parseLong(roleVM.getDepartment())));
 		role.update();
 		return role.getId();
-		
 	}
 
 }

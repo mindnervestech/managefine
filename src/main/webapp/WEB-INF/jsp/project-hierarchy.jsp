@@ -13,7 +13,7 @@
 							
 							
 							<button type="button" class="btn btn-default" ng-click="viewHierarchy(projectType.id)">View</button>
-				       <button type="submit" class="btn btn-primary" ng-click="addHierarchyProjectType()">Add</button>
+				       <button type="submit" class="btn btn-primary" ng-click="addHierarchyProjectType()">Add Project Type</button>
 					</div>
 					<div class="form-group">
     				

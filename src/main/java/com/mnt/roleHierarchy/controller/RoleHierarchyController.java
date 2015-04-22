@@ -67,4 +67,11 @@ public class RoleHierarchyController {
 	public @ResponseBody Long editRoleChild(@RequestBody RoleVM roleVM,@CookieValue("username")String username) {
 		return roleHierarchyService.editRoleChild(roleVM,username);
 	}
+	
+	@RequestMapping(value="/findDepartment",method=RequestMethod.GET)
+	public @ResponseBody List findDepartment() {
+		return roleHierarchyService.findDepartment();
+	}
+	
+	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mnt.roleHierarchy.vm.DepartmentDataVM;
 import com.mnt.roleHierarchy.vm.RoleVM;
 
 @Service
@@ -36,4 +37,12 @@ public class RoleHierarchyServiceImpl implements RoleHierarchyService{
 		return roleHierarchyRepository.editRoleChild(roleVM,username);
 	}
 
+	@Override
+	public List<DepartmentDataVM> findDepartment() {
+		// TODO Auto-generated method stub
+		return roleHierarchyRepository.findDepartment();
+	}
+	
+	
+	
 }

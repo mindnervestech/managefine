@@ -4,6 +4,8 @@ public class RoleVM {
 	private Long id;
 	private String roleName;
 	private String roleDescription;
+	private String department;
+	private String departmentName;
 	
 	private Long parent;
 	public Long getId() {
@@ -31,4 +33,18 @@ public class RoleVM {
 	public void setParent(Long parent) {
 		this.parent = parent;
 	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	
+	
 }

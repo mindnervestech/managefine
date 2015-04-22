@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import models.Company;
+import models.Department;
 import models.RoleLevel;
 import models.RoleX;
 import models.User;
@@ -27,6 +28,8 @@ public class Role extends Model{
 	@Column(length=255)
 	private String roleDescription;
 	private Long parentId;
+	@OneToOne
+	private Department department;
 	@ManyToOne
 	public RoleX roleX;
 
@@ -79,9 +82,6 @@ public class Role extends Model{
 		this.parentId = parentId;
 	}
 	
-	
-
-
 
 	public RoleX getRoleX() {
 		return roleX;
@@ -92,6 +92,15 @@ public class Role extends Model{
 		this.roleX = roleX;
 	}
 
+	
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 
 	public static Role getRoleById(Long id) {
 		// TODO Auto-generated method stub

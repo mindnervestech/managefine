@@ -15,6 +15,8 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
     				parent: value.parent,
     				roleName: value.roleName,
     				roleDescription: value.roleDescription,
+    				department : value.department,
+    				departmentName: value.departmentName,
        				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
     		});
@@ -23,7 +25,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 				id: 0,
 				parent: null,
 				roleName: "Root",
-				roleDescription: "Pune",
+				roleDescription: "",
 				itemTitleColor: primitives.common.Colors.RoyalBlue
 			}));
     	}
@@ -64,6 +66,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             					    				parent: value.parent,
             					    				roleName: value.roleName,
             					    				roleDescription: value.roleDescription,
+            					    				department:value.departmentName,
             					    				itemTitleColor: primitives.common.Colors.RoyalBlue
             					    			}));
             					    		});
@@ -72,7 +75,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             									id: 0,
             									parent: null,
             									roleName: "Root",
-            									roleDescription: "Pune",
+            									roleDescription: "",
             									itemTitleColor: primitives.common.Colors.RoyalBlue
             								}));
             					    	}
@@ -99,6 +102,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             		console.log(data);
             		$scope.org.roleName = data.context.roleName;
             		$scope.org.roleDescription = data.context.roleDescription;
+            		$scope.org.department = data.context.department;
             		$scope.currentParentId = data.context.id;
             		ngDialog.open({
             			template:'editRoleOrganization',
@@ -176,6 +180,13 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
     	ngDialog.close();
 		
 	};
+	
+	
+	$http({method:'GET',url:'findDepartment'}).success(function(response) {
+    	console.log(response);
+    	$scope.findDepartment = response;
+    });
+    
         
     $scope.setCursorItem = function (item) {
         $scope.myOptions.cursorItem = item;
@@ -227,8 +238,8 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             + '<div class="bp-item bp-photo-frame" style="display:none;top: 26px; left: 2px; width: 50px; height: 60px;">'
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
-            + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
-            + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.roleDescription}}</div>'
+            + '<div class="bp-item" style="top: 23px; text-align: center;; width: 162px; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
+            + '<div name="description" class="bp-item" style="top: 42px; left: 0px; width: 100%;height:36px; font-size: 11px;text-align: center;">{{itemConfig.roleDescription}}</div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",
