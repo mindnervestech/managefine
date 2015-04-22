@@ -83,7 +83,7 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		role.setRoleName(roleVM.getRoleName());
 		role.setRoleDescription(roleVM.getRoleDescription());
 		role.setParentId(roleVM.getParent());
-			role.save();
+		role.save();
 		}else{
 			return null;
 		}

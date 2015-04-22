@@ -118,6 +118,10 @@ public class Supplier extends Model {
         return find.where().eq("id", id).findUnique();
     }
 	
+	public static List<Supplier> getSupplierList() {
+		return find.all();
+	}
+	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	
 	

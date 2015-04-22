@@ -18,16 +18,17 @@
 				<form method="post" role="form" class="form-horizontal">
 				 <div class="form-group">
 				 <div class="col-md-4">
-						<label class="col-md-12" style="margin-top: 16px;">Type</label>
+						<label class="col-md-12" style="margin-top: 16px;padding: 0px;">Type</label>
 						  <input type="text" name="projectName" data-ng-model="pro.projectTypes" class="col-md-11">
 						  <label class="col-md-12" style="color:red" ng-if="projectT == 1">type is required</label>
 						  
 					</div>
-					 <div class="col-md-2" style="margin-top: 42px;">
+					 <div class="col-md-2">
+					 <label class="col-md-12" style="margin-top: 16px;padding: 0px;">Color</label>
 					<input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid">
 					</div>
 					 <div class="col-md-6">
-						<label class="col-md-11" style="margin-top: 16px;" for="pro-name">Description</label>
+						<label class="col-md-11" style="margin-top: 16px;padding: 0px;" >Description</label>
 						  <textarea  class="col-md-11" id="pro-des" ng-model="pro.projectDescription" rows="1"
 						 placeholder="Enter Project Description."></textarea>
 						 <label class="col-md-12" style="color:red" ng-if="projectD == 1">description is required</label>

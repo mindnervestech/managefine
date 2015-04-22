@@ -33,6 +33,7 @@ import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.time.controller.routes;
 
 @Entity
@@ -201,6 +202,9 @@ public class User extends Model {
     
     @ManyToMany
 	public List<Project> project;
+    
+   /* @ManyToMany
+   	public List<Projectinstance> projectinstance;*/
 	
     public static Model.Finder<Long,User> find = new Model.Finder<Long,User>(Long.class, User.class);
 	
@@ -215,6 +219,10 @@ public class User extends Model {
 	public static List<User> findByIds(List<Long> ids) {
         return find.where().idIn(ids).findList();
     }
+	
+	public static List<User> getUserList() {
+		return find.all();
+	}
 	
 	public static List<User> findByManager(User user) {
 		return find.where().eq("manager", user).findList();

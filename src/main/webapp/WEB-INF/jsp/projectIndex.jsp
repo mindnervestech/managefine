@@ -10,6 +10,7 @@
 
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/primitives/primitives.latest.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 <div ng-app="ProjectHierarchyApp" ng-controller="createProjectController">
 
 <div class="form-group">
@@ -19,45 +20,82 @@
  	<form name="myForm" method="post" action="saveprojectTypeandName">   <!--modelAttribute="pVm" action="/saveprojectTypeandName" -->
     	<div class="modal-body" >
 					<div class="form-group">
+					  <div class="col-md-5">
 						<label style="margin-left: 15px;">Project Type</label>
 						
-							<select class="col-md-6 required" id="projectTypeId" name="projectTypeId" data-ng-model="projectinfo.projectTypeId" ng-change="onProjectTypeChange(projectType.projectTypeId)"  placeholder="Select Project type."  required>  
+							<select class="col-md-12 required" id="projectTypeId" name="projectTypeId" data-ng-model="projectinfo.projectTypeId" ng-change="onProjectTypeChange(projectType.projectTypeId)"  placeholder="Select Project type."  required>  
 								<option value="">-select-</option>
 								<option ng-repeat="projectT in projectType" value="{{projectT.id}}">{{projectT.projectTypes}}</option>
 					        </select>
-						
-					</div>
-					<div class="form-group">
-					 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;margin-top: 15px;">
-					 <div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
-						<label for="org-type" class="col-md-11">Project Name</label>
+						</div>
+						<div class="col-md-5">
 							
-							 <input type="text" class="col-md-11" name="projectName"
+							<label for="org-type" class="col-md-12">Project Name</label>
+							
+							 <input type="text" class="col-md-12" name="projectName"
 							class="form-control" id="pro-type" ng-model="projectinfo.projectName"
 							placeholder="Enter Project Name."  required>
-							</div>
-							
-							<div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
-						<label for="org-type" class="col-md-11">Project Description</label>
-							
-							<textarea  class="col-md-11" id="pro-des" name="projectDescription" ng-model="projectinfo.projectDescriptions" rows="1"
-						 placeholder="Enter Project Description." required></textarea>
-						 							
+						
 						</div>
 						
-						</div>	
 					</div>
+				
 					
 					<div class="form-group">
-						<label class="col-md-8">Client</label>
+					<div class="col-md-5">
+						<label class="col-md-12">Project Manager</label>
+							
+							 <select class="col-md-12" name="projectManager" ui-select2 data-ng-model="projectinfo.projectManager" ng-change="onProjectTypeChange(projectinfo.projectManager)"  placeholder="Select Client."  required>    
+								<option value="">-select-</option>
+								<option ng-repeat="userinfo in findUser" value="{{userinfo.id}}">{{userinfo.firstName}}</option>
+					        </select>
+						</div>
+						<div class="col-md-5">
+							
+							<label class="col-md-12">Project Description</label>
+							
+							<textarea  class="col-md-12" name="projectDescription" ng-model="projectinfo.projectDescriptions" rows="1"
+						 placeholder="Enter Project Description." required></textarea>
 						
-							<select class="col-md-6" name="client" data-ng-model="projectinfo.client" ng-change="onProjectTypeChange(projectinfo.client)"  placeholder="Select Client."  required>     <!-- data-ng-options="clientinfo.id as clientinfo.clientName for clientinfo in findCliect" -->
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+					<div class="col-md-5">
+						<label class="col-md-12">Client</label>
+						
+							<select class="col-md-12" name="client" ui-select2 data-ng-model="projectinfo.client" ng-change="onProjectTypeChange(projectinfo.client)"  placeholder="Select Client."  required>   
 								<option value="">-select-</option>
 								<option ng-repeat="clientinfo in findCliect" value="{{clientinfo.id}}">{{clientinfo.clientName}}</option>
 					        </select>
+						</div>
+						<div class="col-md-5">
+							
+							<label class="col-md-12">Member</label>
 						
+							<select class="col-md-12" name="member" ui-select2 multiple="multiple" data-ng-model="projectinfo.member" ng-change="onProjectTypeChange(projectinfo.member)"  placeholder="Select member."  required>     <!-- data-ng-options="clientinfo.id as clientinfo.clientName for clientinfo in findCliect" -->
+								<option ng-repeat="userinfo in findUser" value="{{userinfo.id}}">{{userinfo.firstName}}</option>
+					        </select>
+						
+						</div>
 					</div>
 					
+						<div class="form-group">
+					<div class="col-md-5">
+						<label class="col-md-12">Supplier</label>
+						
+							<select class="col-md-12" name="supplier" ui-select2 multiple="multiple" data-ng-model="projectinfo.supplier" ng-change="onProjectTypeChange(projectinfo.supplier)"  placeholder="Select Supplier."  required>     
+								<option ng-repeat="supplierinfo in findSupplier" value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
+					        </select>
+						</div>
+						<div class="col-md-5">
+					
+							{{projectinfo.supplier}}
+													
+						</div>
+					</div>
+									
 					</div>
 					<br>
 					<br>
@@ -107,6 +145,9 @@ $(document).ready(function(){
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/js/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
+ 
  
 <script type="text/javascript" src='<c:url value="/resources/customScripts/projectController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/createProjectController/controller.js"/>'></script> 

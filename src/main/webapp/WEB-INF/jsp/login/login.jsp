@@ -70,13 +70,13 @@
 						<p>
 							<input type="email" name="email" value="${loginForm.data().get('email')}"
 								placeholder="Email" rel="popover" required="required"
-								data-content="What's your Email Address?">
+								data-content="Enter your Email Address?">
 						</p>
 
 						<p>
 							<input type="password" name="password" placeholder="Password"
 								rel="popover" required="required"
-								data-content="What's your password on Time Minder?">
+								data-content="Enter your password on Time Minder?">
 						</p>
 						<p>
 							<button type="submit" class="btn btn-success">Login</button>

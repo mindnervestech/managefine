@@ -17,6 +17,7 @@ import models.LeaveLevel;
 import models.RoleLeave;
 import models.RoleLevel;
 import models.RoleX;
+import models.Supplier;
 import models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,27 @@ public class CreateProjectController {
 		return createProjectService.getfindCliect();
 	}
 	
+	@RequestMapping(value="/findUser",method=RequestMethod.GET)
+	public @ResponseBody List findUser() {
+		return createProjectService.getfindUser();
+	}
+	
+	@RequestMapping(value="/selectedUser",method=RequestMethod.GET)
+	public @ResponseBody List selectedUser(@RequestParam("mainInstance")Long mainInstance) {
+		return createProjectService.getselectedUser(mainInstance);
+	}
+	
+	@RequestMapping(value="/selectedSupplier",method=RequestMethod.GET)
+	public @ResponseBody List selectedSupplier(@RequestParam("mainInstance")Long mainInstance) {
+		return createProjectService.getselectedSupplier(mainInstance);
+	}
+		
+	
+	@RequestMapping(value="/findSupplierData",method=RequestMethod.GET)
+	public @ResponseBody List findSupplier() {
+		return createProjectService.getfindSupplier();
+	}
+	
 	@RequestMapping(value="/edit/project/{projectId}",method=RequestMethod.GET)
 	public String showEditProject(@PathVariable("projectId")Long projectId,@CookieValue("username")String username,Model model){
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
@@ -148,10 +170,7 @@ public class CreateProjectController {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 	
-		System.out.println("-=-=-=-=-=-");
-		System.out.println(form.data().get("projectId"));
-		System.out.println(form.data().get("projectInstance"));
-		System.out.println("-=-=-=-=-=-");
+	
 		List<Projectclassnodeattribut> attributesArray = null;
 		Projectinstancenode projectnode = null;
 		if(form.data().get("projectId") != null){
@@ -175,6 +194,9 @@ public class CreateProjectController {
 			projectinstancenode.setProjectclassnode(Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId"))));
 			projectinstancenode.setProjectinstanceid(Long.parseLong(form.data().get("projectInstance")));
 		    projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
+		    projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
+		    projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
+		    
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -226,6 +248,8 @@ public class CreateProjectController {
 			
 			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
+		    projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
+		    projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));

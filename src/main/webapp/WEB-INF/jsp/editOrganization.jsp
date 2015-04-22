@@ -28,7 +28,7 @@
 							placeholder="Enter organization type." style="height:33px;" value="org.organizationLocation" required> -->
 							
 							<textarea  class="form-control" id="org-type" ng-model="org.organizationLocation" rows="3"
-						 placeholder="Enter organization type." value="org.organizationLocation" required></textarea>
+						 placeholder="Enter organization address." value="org.organizationLocation" required></textarea>
 							
 					</div>
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;">

@@ -10,9 +10,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import models.Supplier;
+import models.User;
 
 import com.avaje.ebean.Expr;
 import com.custom.helpers.ProjectSearchContext;
@@ -68,6 +72,15 @@ public class Projectinstance extends Model{
 	
 	public Long clientId;
 	public Long projectid;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	public List<User> user;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	public List<Supplier> supplier;
+	
+	@OneToOne
+	public User userid;
 
 	public static Finder<Long,Projectinstance> find = new Finder<Long,Projectinstance>(Long.class,Projectinstance.class);
 	
@@ -135,6 +148,31 @@ public class Projectinstance extends Model{
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+	
+
+	public List<User> getUser() {
+		return user;
+	}
+
+	public void setUser(List<User> user) {
+		this.user = user;
+	}
+	
+	public User getUserid() {
+		return userid;
+	}
+
+	public void setUserid(User userid) {
+		this.userid = userid;
+	}
+
+	public List<Supplier> getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(List<Supplier> supplier) {
+		this.supplier = supplier;
 	}
 
 	public static Projectinstance getById(Long id) {

@@ -95,9 +95,11 @@
 					</div>
 					</div>
 					
-					 <div class="col-md-12" style="padding: 0px;">
+					<div class="form-group">
+					 
+					 <div class="col-md-6" style="padding: 0px;">
 						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Weightage *</label>
-						<select class="col-md-2" name="weightage"  style="margin-left: 15px;" required>
+						<select class="col-md-5" name="weightage"  style="margin-left: 15px;" required>
 								<option value="">Select</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -107,6 +109,37 @@
 					        </select> 
 						  
 						  
+					</div>
+					
+					<div class="col-md-6" style="padding: 0px;">
+						<c:when
+						     test="${nodeMetaData.level == 0}">
+							<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
+							<input type="text" name="projectManager" value='${nodeMetaData.projectManager}' disabled="disabled" class="col-md-11">						
+						</c:when>
+						  
+					</div>
+					</div>
+					
+					<div class="col-md-12">
+					 
+					 <div class="col-md-6">
+						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Supplier</label>
+						<select class="col-md-12" name="supplier"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option ng-repeat="supplierinfo in findSelectedSupplier" value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
+					        </select> 
+						  
+						  
+					</div>
+					
+					<div class="col-md-6">
+						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Member</label>
+						<select class="col-md-12" name="member"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option ng-repeat="memberinfo in findSelectedUser" value="{{memberinfo.id}}">{{memberinfo.firstName}}</option>
+					        </select> 
+					</div>
 					</div>
 					
 					<input size="16" type="text" value='${nodeMetaData.projectTypes}'

@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.ProjectinstanceVM;
+import com.mnt.createProject.vm.SupplierDataVM;
+import com.mnt.createProject.vm.UserVM;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.vm.ProjectclassVM;
 import com.mnt.projectHierarchy.vm.ProjectclassnodeVM;
@@ -74,6 +76,30 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	public List<ClientVM> getfindCliect() {
 		// TODO Auto-generated method stub
 		return createProjectRepository.getfindCliect();
+	}
+	
+	@Override
+	public List<UserVM> getfindUser() {
+		// TODO Auto-generated method stub
+		return createProjectRepository.getfindUser();
+	}
+	
+	@Override
+	public List<UserVM> getselectedUser(Long mainInstance) {
+		// TODO Auto-generated method stub
+		return createProjectRepository.getselectedUser(mainInstance);
+	}
+	
+	@Override
+	public List<SupplierDataVM> getselectedSupplier(Long mainInstance) {
+		// TODO Auto-generated method stub
+		return createProjectRepository.getselectedSupplier(mainInstance);
+	}
+	
+	@Override
+	public List<SupplierDataVM> getfindSupplier() {
+		// TODO Auto-generated method stub
+		return createProjectRepository.getfindSupplier();
 	}
 	
 	@Override

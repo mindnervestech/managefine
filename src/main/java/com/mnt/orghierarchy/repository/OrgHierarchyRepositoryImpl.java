@@ -37,7 +37,12 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 			organization.setOrganizationLocation(organizationVM.getOrganizationLocation());
 			organization.setOrganizationName(organizationVM.getOrganizationName());
 			organization.setOrganizationType(organizationVM.getOrganizationType());
-			organization.setParent(organizationVM.getParent());
+			if(organizationVM.getParent() == 0){
+				organization.setParent(null);
+			}else{
+				organization.setParent(organizationVM.getParent());
+			}
+			
 			User user = User.findByEmail(username);
 			organization.setCompanyId(user.getCompanyobject().getId());
 			organization.save();

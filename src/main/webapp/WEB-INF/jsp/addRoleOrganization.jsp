@@ -14,13 +14,13 @@
 				<div class="modal-body">
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
 						<label for="org-name" style="width: 40%;">Role name</label> <input type="text"
-							class="form-control" id="org-name" ng-model="org.roleName"
+							class="form-control" ng-model="org.roleName"
 							placeholder="Enter Role name." style="height:33px;" required>
 					</div>
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
 						<label for="org-type" style="width: 40%;">Role Description</label> 
 							
-						<textarea  class="form-control" id="org-type" ng-model="org.roleDescription" rows="3"
+						<textarea  class="form-control" ng-model="org.roleDescription" rows="3"
 						 placeholder="Enter Role Description." required></textarea>	
 							
 							

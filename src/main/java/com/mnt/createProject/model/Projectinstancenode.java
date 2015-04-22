@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import models.Supplier;
+import models.User;
+
 import com.avaje.ebean.Expr;
 import com.mnt.orghierarchy.model.Organization;
 import com.mnt.projectHierarchy.model.Projectclassnode;
@@ -32,6 +35,13 @@ public class Projectinstancenode extends Model{
 	private Date endDate;
 	private long taskCompilation;
 	private int weightage;
+	private String projectManager;
+	private String status;
+	
+	@OneToOne
+	private User user;
+	@OneToOne
+	private Supplier supplier;
 	
 	/*@OneToMany(cascade=CascadeType.ALL)
 	private List<Saveattributes> saveattributes;*/
@@ -102,6 +112,38 @@ public class Projectinstancenode extends Model{
 
 	public void setWeightage(int weightage) {
 		this.weightage = weightage;
+	}
+
+	public String getProjectManager() {
+		return projectManager;
+	}
+
+	public void setProjectManager(String projectManager) {
+		this.projectManager = projectManager;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public static Projectinstancenode getById(Long id) {

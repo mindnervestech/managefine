@@ -1,5 +1,5 @@
 <fieldset ng-controller="attributesController" style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;height: 271px;overflow: auto;margin-bottom: 7px;">
-  <legend style="width: 233px;border-style: none;margin-bottom: 1px;">Add Attributes :<button type="button" class="btn btn-primary" style="margin-left: 25px;" ng-click="newprojectValue($event)">Add </button></legend>
+  <legend style="width: 247px;border-style: none;margin-bottom: 1px;">Add Attributes<button type="button" class="btn btn-primary" style="margin-left: 25px;width: 79px;" ng-click="newprojectValue($event)"> + </button></legend>
 				<form method="post" data-ng-submit="saveRoleChild()" role="form" class="form-horizontal">
 				<div class="modal-body" style="padding: 0px;">
 				<!-- <div class="form-group">

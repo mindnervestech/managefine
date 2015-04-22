@@ -89,7 +89,7 @@
 						 
 					</div>
 					</div>
-					 <div class="col-md-12" style="padding: 0px;">
+					<%--  <div class="col-md-12" style="padding: 0px;">
 						<label class="col-md-11" style="margin-top: 16px;margin-left: 16px;">Weightage *</label>
 						<select class="col-md-2" name="weightage" value='${editNodeMetaData.weightage}'  style="margin-left: 15px;" required>
 								<option <c:if test="${editNodeMetaData.weightage eq 1}">Selected</c:if>>1</option>
@@ -100,8 +100,64 @@
 					        </select> 
 						  
 						  
+					</div> --%>
+					
+					
+					<!-- --------------------------------------=== -->
+					
+					
+						<div class="form-group">
+					 
+					 <div class="col-md-6" style="padding: 0px;">
+						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Weightage *</label>
+						<select class="col-md-4" name="weightage"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+					        </select> 
+						  
+						  
 					</div>
 					
+					<div class="col-md-6" style="padding: 0px;">
+						<label class="col-md-11" style="margin-top: 16px;margin-left: 14px;">Project Manager</label>
+						<input type="text" name="projectManager" value='${editNodeMetaData.projectManager}' disabled="disabled" class="col-md-11">
+						  
+						  
+					</div>
+					</div>
+					
+					<div class="col-md-12">
+					 
+					 <div class="col-md-6">
+						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Supplier</label>
+						<select class="col-md-12" name="supplier"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option ng-repeat="supplierinfo in findSelectedSupplier" value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
+					        </select> 
+						  
+						  
+					</div>
+					
+					<div class="col-md-6">
+						<label class="col-md-12" style="margin-top: 16px;margin-left: 14px;">Member</label>
+						<select class="col-md-12" name="member"  style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option ng-repeat="memberinfo in findSelectedUser" value="{{memberinfo.id}}">{{memberinfo.firstName}}</option>
+					        </select> 
+					</div>
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					<!-- -------------=-=-==- -->
 					
 					<input size="16" type="text" value='${editNodeMetaData.projectTypes}'
 							placeholder="Enter String" style="display: none;" name="projectT">
@@ -123,9 +179,11 @@
   		<legend style="border-style: none;width: 0px;margin-bottom: 1px;margin-top: 34px;"></legend> -->
 				
 				<div class="modal-body" style="padding: 0px;">
-			
+			${editNodeMetaData.projectValue[0].attriValue}
 				<div class="form-group">
 				<c:forEach var="pValue" items="${editNodeMetaData.projectValue}">
+				
+				${pValue.attriValue}
 				
 				<div class="col-md-6" style="height:60px;">
 				<div class="col-md-12">

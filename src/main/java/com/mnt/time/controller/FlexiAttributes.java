@@ -84,8 +84,8 @@ public class FlexiAttributes {
 		public @ResponseBody  List<FlexiattributeVM> getFlexiAttribute(@RequestParam("userId") String userid,HttpServletRequest request) {
 		 	
 		 System.out.println("user-----"+userid);
-		 List<FlexiattributeVM> flist = new ArrayList<>();
-		 List<FlexiAttribute> fl = new ArrayList<>();;
+		 List<FlexiattributeVM> flist = new ArrayList<FlexiattributeVM>();
+		 List<FlexiAttribute> fl = new ArrayList<FlexiAttribute>();;
 		 if(userid.equals("User")){
 			  fl = FlexiAttribute.getFieldsByUniqueId(1L);
 		}else if(userid.equals("Project")){

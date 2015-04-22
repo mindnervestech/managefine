@@ -1,10 +1,7 @@
 package com.mnt.createProject.repository;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,12 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import models.Client;
+import models.Supplier;
 import models.User;
-import net.coobird.thumbnailator.Thumbnails;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 
-import com.custom.helpers.UserSearchContext;
 import com.mnt.createProject.model.ProjectAttachment;
-
 import com.mnt.createProject.model.ProjectComment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
@@ -35,19 +29,14 @@ import com.mnt.createProject.model.Saveattributes;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.ProjectAttachmentVM;
 import com.mnt.createProject.vm.ProjectCommentVM;
-import com.mnt.createProject.vm.ProjectinstanceVM;
-import com.mnt.orghierarchy.model.Organization;
-import com.mnt.orghierarchy.vm.OrganizationVM;
-import com.mnt.projectHierarchy.model.Projectclass;
+import com.mnt.createProject.vm.SupplierDataVM;
+import com.mnt.createProject.vm.UserVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
 import com.mnt.projectHierarchy.vm.ProjectattributSelect;
-import com.mnt.projectHierarchy.vm.ProjectclassVM;
 import com.mnt.projectHierarchy.vm.ProjectclassnodeVM;
 import com.mnt.projectHierarchy.vm.ProjectclassnodeattributVM;
 import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
-import com.mnt.roleHierarchy.model.Role;
-import com.mnt.roleHierarchy.vm.RoleVM;
 
 @Service
 public class CreateProjectRepositoryImpl implements CreateProjectRepository {
@@ -72,15 +61,19 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setLevel(projectclassnode.getLevel());
 		pVm.setThisNodeId(id);
 		
+		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+		if(projectinstance.getUserid() != null){
+		pVm.setProjectManager(projectinstance.getUserid().getFirstName());
+		}
 		Projectinstancenode projectinstancenodeDate= Projectinstancenode.getProjectParentId(projectclassnode.getParentId(),mainInstance);
 		
 		if(projectinstancenodeDate != null){
 		
 			if(projectinstancenodeDate.getStartDate() != null){
-				pVm.setStartDateLimit(format1.format(projectinstancenodeDate.getStartDate()));
+				pVm.setStartDateLimit(format.format(projectinstancenodeDate.getStartDate()));
 			}
 			if(projectinstancenodeDate.getEndDate() != null){
-				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
+				pVm.setEndDateLimit(format.format(projectinstancenodeDate.getEndDate()));
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
 		}
@@ -236,6 +229,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		
+		String supplierValues[] = request.getParameterValues("supplier");
+		String memberValues[] = request.getParameterValues("member");
+		
+		
+		
 		Projectinstance projectinstance= new Projectinstance();
 		projectinstance.setProjectName(form.data().get("projectName"));
 		projectinstance.setClientId(Long.parseLong(form.data().get("client")));
@@ -245,8 +243,29 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		Client client = Client.findById(Long.parseLong(form.data().get("client")));
 		projectinstance.setClientName(client.getClientName());
 		}
+		
+		projectinstance.setUserid(User.findById(Long.parseLong(form.data().get("projectManager"))));
+		
+		List<User> uList = new ArrayList<User>();
+		for(String s:supplierValues){
+			User user = User.findById(Long.parseLong(s));
+			uList.add(user);
+		}
+		
+		projectinstance.setUser(uList);
+		
+		List<Supplier> sList = new ArrayList<Supplier>();
+		for(String sid:supplierValues){
+			Supplier supplier = Supplier.findById(Long.parseLong(sid));
+			sList.add(supplier);
+		}
+		
+		projectinstance.setSupplier(sList);
+		
 		projectinstance.save();
 	
+		
+		
 		return projectinstance;
 		
 	}
@@ -280,6 +299,94 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		return result;
 		
 	}
+	
+	
+	@Override
+	public List<UserVM> getfindUser() {
+		
+		List<UserVM> result = new ArrayList<UserVM>();
+	
+		List<User> uList = User.getUserList();
+			for(User lUser :uList) {
+				UserVM userVM = new UserVM();
+				
+				userVM.setId(String.valueOf(lUser.getId()));
+				userVM.setEmail(lUser.getEmail());
+				userVM.setFirstName(lUser.getFirstName());
+				
+				result.add(userVM);
+			}
+		
+		return result;
+		
+	}
+	
+	
+	@Override
+	public List<SupplierDataVM> getfindSupplier() {
+		
+		List<SupplierDataVM> result = new ArrayList<SupplierDataVM>();
+	
+		//List<Client> pList = Projectclass.getProjectList();
+		
+		List<Supplier> sList = Supplier.getSupplierList();
+			for(Supplier slist :sList) {
+				SupplierDataVM supplierVM = new SupplierDataVM();
+				
+				supplierVM.setId(String.valueOf(slist.getId()));
+				supplierVM.setEmail(slist.getEmail());
+				supplierVM.setSupplierName(slist.getSupplierName());
+				supplierVM.setAddress(slist.getAddress());
+				
+				result.add(supplierVM);
+			}
+		
+		return result;
+		
+	}
+	
+	
+	@Override
+	public List<UserVM> getselectedUser(Long mainInstance) {
+		
+		List<UserVM> result = new ArrayList<UserVM>();
+		
+		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+		
+			for(User lUser :projectinstance.getUser()) {
+				UserVM userVM = new UserVM();
+				userVM.setId(String.valueOf(lUser.getId()));
+				userVM.setEmail(lUser.getEmail());
+				userVM.setFirstName(lUser.getFirstName());
+				
+				result.add(userVM);
+			}
+		
+		return result;
+		
+	}
+	
+	
+	@Override
+	public List<SupplierDataVM> getselectedSupplier(Long mainInstance) {
+		
+		List<SupplierDataVM> result = new ArrayList<SupplierDataVM>();
+		
+		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+		
+			for(Supplier lSupplier :projectinstance.getSupplier()) {
+				SupplierDataVM supplierVM = new SupplierDataVM();
+				supplierVM.setId(String.valueOf(lSupplier.getId()));
+				supplierVM.setEmail(lSupplier.getEmail());
+				supplierVM.setSupplierName(lSupplier.getSupplierName());
+				
+				result.add(supplierVM);
+			}
+		
+		return result;
+		
+	}
+	
 	
 	@Override
 	public Long saveFiles(MultipartFile file, ProjectsupportattributVM pVm, String username) {
@@ -418,6 +525,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(id,mainInstance);
 		projectinstancenode.setTaskCompilation(task.intValue());
+		
+		if(task.intValue() < 100){
+			projectinstancenode.setStatus("Inprogress");
+		}else{
+			projectinstancenode.setStatus("Completed");
+		}
 		projectinstancenode.update();
 		
 		Long pId = id;
@@ -439,6 +552,13 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				
 				Projectinstancenode parent = Projectinstancenode.getProjectParentId(projectclassnode.getParentId(), mainInstance);
 				parent.setTaskCompilation((long)total);
+				
+				if((long)total < 100){
+					parent.setStatus("Inprogress");
+				}else{
+					parent.setStatus("Completed");
+				}
+				
 				parent.update();
 			}
 			pId = projectclassnode.getParentId();

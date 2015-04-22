@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.ProjectinstanceVM;
+import com.mnt.createProject.vm.SupplierDataVM;
+import com.mnt.createProject.vm.UserVM;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.vm.ProjectclassVM;
 import com.mnt.projectHierarchy.vm.ProjectclassnodeVM;
@@ -27,6 +29,10 @@ public interface CreateProjectService {
 	List<ProjectclassnodeVM> selectAllProjectType(Long id,Long rootId);
 	List<ProjectclassnodeVM> saveTask(Long id,Long mainInstance, Long task);
 	List<ClientVM> getfindCliect();
+	List<UserVM> getfindUser();
+	List<SupplierDataVM> getfindSupplier();
+	List<UserVM> getselectedUser(Long mainInstance);
+	List<SupplierDataVM> getselectedSupplier(Long mainInstance);
 	
 	
 }

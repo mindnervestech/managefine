@@ -33,9 +33,9 @@ public class Role extends Model{
 	public static Finder<Long,Role> find = new Finder<Long,Role>(Long.class,Role.class);
 	
 	
-	public static List<Role> findListByCompany(Long id) {
-		return find.where().eq("company", Company.find.byId(id)).findList();
-    }
+	 public static List<Role> findListByCompany(RoleX roleX) {
+         return find.where().eq("roleX", roleX).findList();
+	 }
 	
 	public static List<Role> getRoleList() {
 		return find.all();

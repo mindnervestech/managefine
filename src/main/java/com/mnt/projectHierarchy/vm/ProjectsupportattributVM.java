@@ -14,6 +14,9 @@ public class ProjectsupportattributVM {
 	public Long projectId;
 	public String projectTypes;
 	public String projectDescription;
+	public String projectManager;
+	public String supplier;
+	public String user;
 	public String startDate;
 	public String endDate;
 	public String startDateLimit;
@@ -130,6 +133,24 @@ public class ProjectsupportattributVM {
 	}
 	public void setWeightage(int weightage) {
 		this.weightage = weightage;
+	}
+	public String getProjectManager() {
+		return projectManager;
+	}
+	public void setProjectManager(String projectManager) {
+		this.projectManager = projectManager;
+	}
+	public String getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
 	}
 	
 	

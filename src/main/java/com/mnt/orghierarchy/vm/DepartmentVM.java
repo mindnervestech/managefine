@@ -1,11 +1,13 @@
 package com.mnt.orghierarchy.vm;
 
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DepartmentVM {
 	private Long id;
 	public String name;
+	
 	public Long getId() {
 		return id;
 	}

@@ -17,7 +17,7 @@
 		</div>
 	</div>
 </fieldset>
-<div class="actions buttonPosition">
+<div class="actions buttonPosition" style="margin-left: 2%;">
 	<a class="addMore btn btn-warning" ng-click="addMoreDepartment()">Add More</a> <input type="button"
 		class="btn btn-warning" id="submitButton" value="Submit" ng-click="saveDepartments()"
 		style="width: 9%;">

@@ -84,8 +84,10 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             		}
             		break;
             	case "add":
+            		console.log(data.context.id);
             		$scope.currentParentId = data.context.id;
             		console.log(data);
+            		$scope.org = {};
             		ngDialog.open({
             			template:'addRoleOrganization',
             			scope:$scope,
@@ -121,7 +123,13 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
     };
     $scope.overWrite = 0;
   $scope.saveRoleChild = function() {
+	  console.log($scope.currentParentId);
 	  $scope.org.parent = $scope.currentParentId;
+	  if($scope.org.parent == 0){
+		  items = [];
+		  $scope.myOptions.items = [];
+		  $scope.org.parent = null;
+	  }
 	 // $scope.org.roleName = $scope.org.roleName;
 	 // $scope.org.roleDescriptio = $scope.org.roleDescriptio;
 	  console.log($scope.org);

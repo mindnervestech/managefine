@@ -131,6 +131,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
     $scope.saveOrgChild = function() {
     	
     	$scope.org.parent = $scope.currentParentId;
+    	
     	console.log($scope.org);
     	$upload.upload({
             url: 'saveOrgChild',
@@ -144,16 +145,24 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             console.log(data);
             if(data != null && data != ""){
             	$scope.overWrite = 0;
-        	$scope.org.id = data;
+            	
+            	 if($scope.org.parent == 0){
+              		  items = [];
+              		  $scope.myOptions.items = [];
+              		
+              	  	}
+            	
+            	$scope.org.id = data;
         	$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
                 id: data,
                 parent: $scope.org.parent,
                 organizationName: $scope.org.organizationName,
                 organizationLocation: $scope.org.organizationLocation,
                 image: "orgProfile/"+data,
-                organizationType:$scope.org.organizaationType
+                organizationType:$scope.org.organizationType
                 
             }));
+        	console.log($scope.myOptions.items);
         	ngDialog.close();
             }else{
             	$scope.overWrite = 1;

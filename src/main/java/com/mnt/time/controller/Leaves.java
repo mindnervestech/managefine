@@ -396,7 +396,8 @@ public class Leaves {
 			List<RoleLevel> rl2 = RoleLevel.find.all();
 			Form<LeaveX> leaveXForm = form(LeaveX.class).bindFromRequest(request);
 			LeaveX leaveX = LeaveX.find.where(Expr.eq("company", user.getCompanyobject())).findUnique();
-			List<Role> rolelevel=Role.findListByCompany(user.getCompanyobject().getId());
+			  RoleX rx = RoleX.findByCompany(user.getCompanyobject().getId());
+              List<Role> rolelevel=Role.findListByCompany(rx);
 			System.out.println("form leavesss==="+leaveXForm.get().getLeaveLevels().get(0).getLeave_type());
 			System.out.println("form ==="+leaveXForm);
 			if(leaveX == null){

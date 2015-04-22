@@ -23,12 +23,10 @@
 							placeholder="Enter organization type." style="height:33px;" required>
 					</div>
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%;margin-bottom: 15px;">
-						<label for="org-type" style="width: 40%;">Organization Address</label> <!-- <input
-							type="text" class="form-control" id="org-type" ng-model="org.organizationLocation"
-							placeholder="Enter organization type." style="height:33px;" required> -->
+						<label for="org-type" style="width: 40%;">Organization Address</label> 
 							
 							<textarea  class="form-control" id="org-type" ng-model="org.organizationLocation" rows="3"
-						 placeholder="Enter organization type." required></textarea>
+						 placeholder="Enter organization address" required></textarea>
 							
 					</div>
 					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;">

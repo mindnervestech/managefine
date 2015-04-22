@@ -156,6 +156,18 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	$scope.findCliect = response;
     });
     
+    $http({method:'GET',url:'findSupplierData'}).success(function(response) {
+    	console.log(response);
+    	$scope.findSupplier = response;
+    });
+    
+    $http({method:'GET',url:'findUser'}).success(function(response) {
+    	console.log(response);
+    	$scope.findUser = response;
+    });
+    
+  
+    
     $scope.saveProjectType = function(){
     	console.log("-----------");
     	console.log($scope.pro);
@@ -246,6 +258,19 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	
     		console.log($scope.myOptions);	
     	});
+    	
+    	
+    	  $http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
+    	    	console.log(response);
+    	    	$scope.findSelectedUser = response;
+    	    });
+    	  
+    	  $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
+  	    	console.log(response);
+  	    	$scope.findSelectedSupplier = response;
+  	    });
+    	  
+    	  
     	
     }
 
