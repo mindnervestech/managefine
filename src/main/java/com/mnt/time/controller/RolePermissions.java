@@ -200,7 +200,7 @@ public class RolePermissions {
 		RoleX role =  exp == null ?RoleX.find.setFirstRow(start).setMaxRows(limit).findUnique()
 					:RoleX.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findUnique();
 			
-		List<GridViewModel.RowViewModel> rows = transform(role.getRoleLevels(), toJqGridFormat());
+		List<GridViewModel.RowViewModel> rows = null;//transform(role.getRoleLevels(), toJqGridFormat());
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return Json.toJson(gridViewModel).toString();
 	}
