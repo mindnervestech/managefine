@@ -13,7 +13,7 @@
 						class="help-block"></span>
 				</div>
 			</div>
-			<a class="removeRole btn danger pull-right btnColor" ng-click="romove($index,department.id)">Remove</a>
+			<a ng-if="department.id == undefined" class="removeRole btn danger pull-right btnColor" ng-click="romove($index,department.id)">Remove</a>
 		</div>
 	</div>
 </fieldset>
