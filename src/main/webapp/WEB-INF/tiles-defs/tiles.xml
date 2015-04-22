@@ -208,6 +208,9 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/setup-holiday.jsp" />
   	</definition>
   	
+  	<definition name="showGantt" template="/WEB-INF/jsp/gantt.jsp">
+  	</definition>
+  	
   	<definition name="searchTimesheet" extends="base.definition">
     	<put-attribute name="title" value="Timesheet" />
     	<put-attribute name="content" value="/WEB-INF/jsp/searchTimesheet.jsp" />

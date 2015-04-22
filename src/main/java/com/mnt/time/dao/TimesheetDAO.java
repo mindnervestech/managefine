@@ -8,6 +8,7 @@ import models.User;
 
 import org.codehaus.jackson.JsonNode;
 
+import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.StaffLeaveVM;
 
@@ -30,4 +31,6 @@ public interface TimesheetDAO {
 	List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date);
 	
 	List getWeekReport(Integer weekOfYear, Integer year, User user, Date date);
+	
+	GanttVM getProjectData(Long id,Long typeId);
 }

@@ -10,6 +10,7 @@ import org.codehaus.jackson.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.StaffLeaveVM;
 
@@ -56,6 +57,10 @@ public class TimesheetServiceImpl implements TimesheetService{
 	
 	public List getWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
 		return timesheetDAO.getWeekReport(weekOfYear, year, user, date);
+	}
+
+	public GanttVM getProjectData(Long id, Long typeId) {
+		return timesheetDAO.getProjectData(id,typeId);
 	}
 	
 }

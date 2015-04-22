@@ -1,0 +1,41 @@
+{
+  "name": "malhar-angular-widgets",
+  "license": "Apache License, v2.0",
+  "dependencies": {
+    "angular": "~1.3",
+    "jquery": "~2.0.3",
+    "angular-sanitize": "~1.3",
+    "bootstrap": "~3.0.3",
+    "angular-bootstrap": "0.11.0",
+    "angular-route": "~1.3",
+    "malhar-angular-table": ">=1.2.0",
+    "d3": "3.4.4",
+    "nvd3": "~1.1.15-beta",
+    "angularjs-nvd3-directives": "~0.0.7",
+    "malhar-angular-dashboard": "https://github.com/DataTorrent/malhar-angular-dashboard.git#master",
+    "visibilityjs": "~1.2.1",
+    "pines-notify": "~2.0.1",
+    "angular-pines-notify": "~1.0.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.3",
+    "angular-scenario": "~1.3"
+  },
+  "resolutions": {
+    "jquery": "~2.0.3",
+    "d3": "3.4.4",
+    "angular": ">=1.3",
+    "angular-bootstrap": "0.12.x",
+    "bootstrap": "~3.3.1"
+  },
+  "homepage": "https://github.com/DataTorrent/malhar-angular-widgets",
+  "_release": "655316f3cc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "655316f3cc0ea23ac3e345a14c855f87e719c44c"
+  },
+  "_source": "https://github.com/DataTorrent/malhar-angular-widgets.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/DataTorrent/malhar-angular-widgets.git"
+}

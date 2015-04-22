@@ -93,6 +93,14 @@ public interface Application {
 
 }
 
+public interface ProjectHealth {
+	
+	public interface gantt {
+		public static String url="/showGantt";
+	}
+	
+}
+
 public interface Users {
 	public interface index {
 		public static String url="/userIndex";

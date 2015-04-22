@@ -66,7 +66,10 @@ public enum Permissions {
 	DefineFlexiAttribute(routes.FlexiAttribute.defineFlexiAttribute.url,Setting,"Define Flexi Attribute"),
 	LeaveSettings(routes.Leaves.leaveSettings.url,Setting,"Leave Settings"),
 	OrgHierarchy(routes.Roles.OrgHierarchy.url,Setting,"Org Hierarchy"),
-	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy");
+	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy"),
+	
+	ProjectHealth("#",null,"ProjectHealth"),
+	GanttView(routes.ProjectHealth.gantt.url,ProjectHealth,"Show Gantt");
 	
 	private String url;
 	private int level;

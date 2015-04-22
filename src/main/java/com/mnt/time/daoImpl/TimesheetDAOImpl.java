@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import play.libs.Json;
 import viewmodel.DayVM;
+import viewmodel.GanttTask;
+import viewmodel.GanttVM;
 import viewmodel.LeaveDay;
 import viewmodel.LeaveMonth;
 import viewmodel.MonthVM;
@@ -33,6 +35,9 @@ import viewmodel.StaffWeekReportVM;
 import viewmodel.TodayAllVM;
 import viewmodel.WeekReportVM;
 
+import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.model.Projectinstancenode;
+import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.time.dao.TimesheetDAO;
 
 @Service
@@ -707,5 +712,60 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 		return staffWeekReportList;
 	}
+	
+	@Override
+	public GanttVM getProjectData(Long id,Long typeId) {
+		
+		GanttVM ganttVM = new GanttVM();
+		List<GanttTask> tasklist = new ArrayList<>();
+		
+		List<Projectinstancenode> projectInstanceNodeList = Projectinstancenode.getProjectInstanceByIdAndType(id, typeId);
+		int i = -1;
+		for(Projectinstancenode node : projectInstanceNodeList) {
+			GanttTask task1 = new GanttTask();
+			task1.id = i;
+			Projectclassnode classNode = node.getProjectclassnode();
+			if(classNode.getParentId() == null) {
+				task1.name = Projectinstance.getById(id).getProjectName();
+			} else {
+				task1.name = classNode.getProjectTypes();
+			}
+			task1.code = "";
+			
+			task1.level = classNode.getLevel();
+			task1.status = "STATUS_DONE";
+			task1.canWrite = true;
+			System.out.println("Start Time" + node.getStartDate());
+			task1.start = node.getStartDate().getTime();
+			task1.end = node.getEndDate().getTime();
+			
+			long diff = node.getEndDate().getTime() - node.getStartDate().getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			
+			task1.duration = diffDays+1;
+			task1.startIsMilestone = true;
+			task1.endIsMilestone = false;
+			task1.collapsed = false;
+			
+			List<Projectclassnode> childList = Projectclassnode.getparentByprojectId(classNode.getId());
+			if(childList == null) {
+				task1.hasChild = false;
+			} else {
+				task1.hasChild = true;
+			}
+			tasklist.add(task1);
+			
+			i = i - 1;
+		}
+		
+		ganttVM.tasks = tasklist;
+		ganttVM.selectedRow = 0;
+		ganttVM.canWrite = true;
+		ganttVM.canWriteOnParent = true;
+		
+		return ganttVM;
+	}
+	
+	
 	
 }

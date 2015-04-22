@@ -50,6 +50,8 @@ import play.data.Form;
 import play.libs.Json;
 import utils.EmailExceptionHandler;
 import utils.SelectUIMap;
+import viewmodel.GanttTask;
+import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.ProjectVM;
 import viewmodel.StaffLeaveVM;
@@ -57,6 +59,7 @@ import viewmodel.TaskVM;
 import viewmodel.TimesheetRowVM;
 import viewmodel.TimesheetVM;
 import viewmodel.WeekDayVM;
+import viewmodel.WidgetVM;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
@@ -66,6 +69,7 @@ import com.custom.emails.Email;
 import com.custom.exception.NoTimeSheetFoudException;
 import com.custom.helpers.TimesheetSearchContext;
 import com.custom.workflow.timesheet.TimesheetWorkflowUtils;
+import com.google.common.collect.Lists;
 import com.mnt.time.service.TimesheetService;
 
 import dto.fixtures.MenuBarFixture;
@@ -159,6 +163,20 @@ public class Timesheets{
 		model.addAttribute("user", user);
 		
 		return "schedularWeekReport";
+    }
+	
+	
+	@RequestMapping(value="/showGantt", method = RequestMethod.GET)
+	public String showGantt(ModelMap model, @CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+		
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		Long instanceId = 23L;
+		Long typeId = 11L;
+		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(instanceId,typeId)));
+		return "showGantt";
     }
 	
 	@RequestMapping(value="/getStaffWeekReport", method = RequestMethod.GET)

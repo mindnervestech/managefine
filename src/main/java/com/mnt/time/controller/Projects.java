@@ -3,6 +3,9 @@ package com.mnt.time.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,23 +14,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Project;
+import models.Task;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.codehaus.jackson.JsonNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import play.data.DynamicForm;
 import play.libs.Json;
 import utils.ExceptionHandler;
+import viewmodel.ProjectVM;
+import viewmodel.ProjectWidgetVM;
+import viewmodel.TaskVM;
+import viewmodel.WidgetVM;
 
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.SqlRow;
 import com.custom.helpers.ProjectSave;
 import com.custom.helpers.ProjectSearchContext;
+import com.google.common.collect.Lists;
 import com.mnt.createProject.model.Projectinstance;
 
 import dto.fixtures.MenuBarFixture;
@@ -66,6 +78,47 @@ public class Projects  {
 	public String delete() {
 		return "";
     }
+	
+	@RequestMapping(value="/getValues", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getValues(ModelMap model,@RequestParam("id") String id) {
+		List<SqlRow> sqlRows = Project.getProjectsOfUser(Long.parseLong(id));
+		List<ProjectWidgetVM> vmList = new ArrayList<>();
+		for(SqlRow row: sqlRows) {
+			Project project = Project.findById(row.getLong("project_id"));
+			ProjectWidgetVM vm = new ProjectWidgetVM();
+			vm.name = project.getProjectName();
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			vm.startDate = df.format(project.getStartDate());
+			vm.endDate = df.format(project.getEndDate());
+			vmList.add(vm);
+		}	
+		
+		return Json.toJson(vmList);
+	}
+	
+	@RequestMapping(value="/getTaskValues", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getTaskValues(ModelMap model,@RequestParam("id") String id) {
+		List<SqlRow> sqlRows = Project.getProjectsOfUser(Long.parseLong(id));
+		List<ProjectWidgetVM> vmList = new ArrayList<>();
+		for(SqlRow row: sqlRows) {
+			Project project = Project.findById(row.getLong("project_id"));
+			List<SqlRow> taskRows = Project.getTasksOfProject(project.id);
+			
+			for(SqlRow taskRow : taskRows) {
+				Task task = Task.findById(taskRow.getLong("task_id"));
+				ProjectWidgetVM vm = new ProjectWidgetVM();
+				vm.name = project.getProjectName();
+				vm.taskName = task.getTaskName();
+				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				vm.startDate = df.format(task.getStartDate());
+				vm.endDate = df.format(task.getEndDate());
+				vmList.add(vm);
+			}
+			
+		}	
+		
+		return Json.toJson(vmList);
+	}
 	
 	@RequestMapping(value="/projectExcelReport",method=RequestMethod.GET)		
 	public String excelReport(ModelMap model, @CookieValue("username") String username, HttpServletRequest request,HttpServletResponse response) throws IOException {
