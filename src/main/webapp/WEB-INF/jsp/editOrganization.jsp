@@ -2,7 +2,7 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header" style="background: blue;color: white;margin: 2px; border-bottom: 4px gray;">
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px; border-bottom: 4px gray;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>

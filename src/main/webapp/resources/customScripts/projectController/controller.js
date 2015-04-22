@@ -151,6 +151,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     	$scope.projectType = response;
     });
     
+    $scope.overWrite = 0;
     $scope.saveProjectType = function(){
     	console.log("-----------");
     	console.log($scope.pro);
@@ -162,7 +163,13 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
  		    	console.log(response);
  		    	$scope.projectType = response;
  		    });
- 			ngDialog.close();
+ 			 if(response == ""){
+ 				$scope.overWrite = 1;
+ 			 }else{
+ 				$scope.overWrite = 0;
+ 				ngDialog.close();
+ 			 }
+ 			
  			});
     	
     }
@@ -173,6 +180,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     }
     
     $scope.addHierarchyProjectType = function(){
+    	$scope.pro = {};
     	ngDialog.open({
 			template:'addProjectType',
 			scope:$scope,

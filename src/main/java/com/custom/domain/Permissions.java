@@ -10,7 +10,7 @@ public enum Permissions {
 	ManageClient(routes.Clients.index.url,Manage,"Customers"),
 	ManageSupplier(routes.Suppliers.index.url,Manage,"Suppliers"),
 	ManageProject(routes.Projects.index.url,Manage,"Manage Projects"),
-	ManageTask(routes.Tasks.index.url,Manage,"Tasks"),
+	/*ManageTask(routes.Tasks.index.url,Manage,"Tasks"),*/
 	EmployeeHierarchy(routes.Projects.employeeHierarchy.url,Manage,"Employee Hierarchy"),
 	
 	
@@ -38,9 +38,9 @@ public enum Permissions {
 	
 	Delegate(routes.Delegate.index.url,null,"Delegates"),
 	
-	Feedback("#",null,"Feedback"),
+	/*Feedback("#",null,"Feedback"),
 	FeedBackCreate(routes.Feedbacks.customIndex.url,Feedback,"Create"),
-	FeedBackView(routes.Feedbacks.index.url,Feedback,"View"),
+	FeedBackView(routes.Feedbacks.index.url,Feedback,"View"),*/
 	
 	PermissionsManagement("#",null,"Permission"),
 	RolePermissions(routes.RolePermissions.index.url,PermissionsManagement,"By Roles"),

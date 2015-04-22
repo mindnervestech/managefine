@@ -607,14 +607,20 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 							dayDiff2 = dayDiff1;
 						}
 						
+						Projectinstancenode childColor = Projectinstancenode.getById(projectList.getId());
 						long expected = (100*dayDiff2)/dayDiff1;
 						if(projectList.getTaskCompilation() < (expected-10)){
+							childColor.setColor("#ff0000");
 							pVm.setStatus("danger");
+							
 						} else if(projectList.getTaskCompilation() < expected){
+							childColor.setColor("#FFC200");
 							pVm.setStatus("warning");
 						} else{
+							childColor.setColor("#00ff00");
 							pVm.setStatus("success");
-						} 
+						}
+						childColor.update();
 					}
 				
 		    	}

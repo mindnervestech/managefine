@@ -37,6 +37,7 @@ public class Projectinstancenode extends Model{
 	private int weightage;
 	private String projectManager;
 	private String status;
+	private String color;
 	
 	@OneToOne
 	private User user;
@@ -144,6 +145,14 @@ public class Projectinstancenode extends Model{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public static Projectinstancenode getById(Long id) {

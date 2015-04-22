@@ -7,13 +7,16 @@
 	<div class="form-group">
 						<label class="col-md-12" style="margin-left: 3px;">Project type</label>
 						 	
-							<select class="col-md-3" data-ng-model="projectType.id" ng-change="onProjectTypeChange(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
+							<!-- <select class="col-md-3" data-ng-model="projectType.id" ng-change="viewHierarchy(projectType.id)" data-ng-options="projectT.id as projectT.projectTypes for projectT in projectType" placeholder="Select Project type." style="margin-left: 15px;" required>
 								<option>Select Project Type..</option>
-					        </select>
+					        </select> -->
+					        <select class="col-md-3" data-ng-model="projectType.id" ng-change="viewHierarchy(projectType.id)" placeholder="Select Project type." style="margin-left: 15px;" required>
+					          <option value="">Select Project Type..</option>
+								 <option ng-repeat="projectT in projectType" value="{{projectT.id}}">{{projectT.projectTypes}}</option>
+							</select>
 							
-							
-							<button type="button" class="btn btn-default" ng-click="viewHierarchy(projectType.id)">View</button>
-				       <button type="submit" class="btn btn-primary" ng-click="addHierarchyProjectType()">Add Project Type</button>
+							<!-- <button type="button" class="btn btn-default" ng-click="viewHierarchy(projectType.id)">View</button> -->
+				       <button type="submit" class="btn btn-primary" style="margin-left: 20px;" ng-click="addHierarchyProjectType()">Add Project Type</button>
 					</div>
 					<div class="form-group">
     				

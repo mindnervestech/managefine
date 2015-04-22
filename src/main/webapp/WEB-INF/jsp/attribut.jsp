@@ -1,5 +1,5 @@
-<fieldset ng-controller="attributesController" style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid;height: 271px;overflow: auto;margin-bottom: 7px;">
-  <legend style="width: 247px;border-style: none;margin-bottom: 1px;">Add Attributes<button type="button" class="btn btn-primary" style="margin-left: 25px;width: 79px;" ng-click="newprojectValue($event)"> + </button></legend>
+<fieldset ng-controller="attributesController" style="padding: .35em .625em .75em;margin: 0 2px;border: 1px solid lightgray;height: 271px;overflow: auto;margin-bottom: 7px;">
+  <legend style="width: 153px;border-style: none;margin-bottom: 1px;font-size: 16px;">Add Attributes<button type="button" class="btn btn-primary" style="margin-left: 8px;width: 41px;" ng-click="newprojectValue($event)"> + </button></legend>
 				<form method="post" data-ng-submit="saveRoleChild()" role="form" class="form-horizontal">
 				<div class="modal-body" style="padding: 0px;">
 				<!-- <div class="form-group">
@@ -54,3 +54,10 @@
 				</form>
 		</fieldset>	
 	
+
+	<style>
+		select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+		    height: 31px;
+		}
+	
+	</style>
