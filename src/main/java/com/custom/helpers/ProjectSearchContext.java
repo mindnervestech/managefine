@@ -149,7 +149,8 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 									project.getProjectDescription(),
 									project.getClientName(),
 									project.getStartDate(),
-									project.getEndDate()
+									project.getEndDate(),
+									project.getStatus()
 									
 									));
 				} catch (Exception e) {

@@ -9,3 +9,7 @@
 <c:set var="mode" value="add" scope="request" />
 <jsp:include page="searchContext.jsp"/> 
 
+<script>
+_customParameterBuilder
+</script>
+

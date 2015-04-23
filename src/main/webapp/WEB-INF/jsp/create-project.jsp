@@ -68,6 +68,7 @@
 
 	.ui-pnotify{
 			top: 99px;
+			right: 47px;
 	}
 	.ui-pnotify-icon{
 		display:none;

@@ -69,6 +69,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.ui.component.AutoComplete;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.roleHierarchy.model.Role;
 import com.mnt.time.controller.Application.Login;
 import com.mnt.time.controller.routes.Application.login;
@@ -152,7 +153,7 @@ public class Cases {
 		String query = form.get("query");
 		System.out.println(query);
 		ObjectNode result = Json.newObject();
-		List<AutoComplete> results = transform(Projects.findProjectByName(query,username), toAutoCompleteFormatForProject());
+		List<AutoComplete> results = transform(Projectinstance.getProjectUser(username), toAutoCompleteFormatForProject());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}
@@ -168,11 +169,11 @@ public class Cases {
 	}
 	
 	
-	private  Function<Project,AutoComplete> toAutoCompleteFormatForProject() {
-		return new Function<Project, AutoComplete>() {
+	private  Function<Projectinstance,AutoComplete> toAutoCompleteFormatForProject() {
+		return new Function<Projectinstance, AutoComplete>() {
 			@Override
-			public AutoComplete apply(Project project) {
-					return new AutoComplete(project.projectCode,project.projectName,project.clientName.clientName,project.id);
+			public AutoComplete apply(Projectinstance project) {
+					return new AutoComplete(project.projectName,project.projectName,project.clientName,project.id);
 			}
 		};
 	}
@@ -285,7 +286,6 @@ public class Cases {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		User currentuser = User.findByEmail(username);
 		Date notedate = new Date(); 
-		
 		
 		return "Cases Edited Successfully";
     }

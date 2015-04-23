@@ -28,6 +28,7 @@ import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.time.controller.routes;
 
 @Entity
@@ -54,7 +55,7 @@ public class CaseData extends Model {
 	@SearchColumnOnUI(rank=3,colName="Description")
 	public String description;
 	
-	@SearchColumnOnUI(rank=4,colName="Status")
+	@SearchColumnOnUI(rank=4,colName="Status",width=40)
 	//@Enumerated(EnumType.STRING)
 	//@WizardCardUI(name="Basic Info",step=1)
 	//@UIFields(order=3,label="Status")
@@ -71,7 +72,7 @@ public class CaseData extends Model {
 	@UIFields(order=4,label=PROJECTS, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne(cascade = CascadeType.ALL)
-	public Project projects;
+	public Projectinstance projects;
 	
 	@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
@@ -231,11 +232,11 @@ public class CaseData extends Model {
 		this.assignto = assignto;
 	}
 
-	public Project getProjects() {
+	public Projectinstance getProjects() {
 		return projects;
 	}
 
-	public void setProjects(Project projects) {
+	public void setProjects(Projectinstance projects) {
 		this.projects = projects;
 	}
 

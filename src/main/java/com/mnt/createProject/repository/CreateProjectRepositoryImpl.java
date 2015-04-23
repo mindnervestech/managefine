@@ -571,6 +571,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				}
 				
 				parent.update();
+			}else{
+				Projectinstancenode projectinstancenode2=Projectinstancenode.getProjectParentId(projectclassnode.getId(), mainInstance);
+				Projectinstance projectinstance = Projectinstance.getById(mainInstance);
+				projectinstance.setStatus(projectinstancenode2.getStatus());
+				projectinstance.update();
 			}
 			pId = projectclassnode.getParentId();
 		}

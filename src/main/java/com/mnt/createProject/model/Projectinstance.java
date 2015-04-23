@@ -39,7 +39,7 @@ public class Projectinstance extends Model{
 	
 	private static final String CHOOSE_MEMBERS = "Choose Members";
 	public static final String ENTITY = "Projectinstance";  
-	public static final String PROJECT_MANAGER = "Project Manager";  
+	public static final String PROJECTS = "Projects";  
 	public static final String CLIENT = "Client Name";
 	
 	@WizardCardUI(name="Basic Info",step=0)
@@ -49,26 +49,32 @@ public class Projectinstance extends Model{
 	
 	
 	@SearchColumnOnUI(rank=1,colName="Project Name",width=20)
+	@UIFields(order=6,label=PROJECTS, autocomplete=true)
 	@SearchFilterOnUI(label="Project Name")
 	public String projectName;
 	
 	
-	@SearchColumnOnUI(rank=2,colName="Description",width=50)
+	@SearchColumnOnUI(rank=2,colName="Description",width=40)
 	@SearchFilterOnUI(label="Description")
 	@Column(length=255)
 	public String projectDescription;
 	
-	@SearchColumnOnUI(rank=3,colName="Client Name",width=30)
+	@SearchColumnOnUI(rank=3,colName="Client Name",width=20)
 	@SearchFilterOnUI(label="Client Name")
 	public String clientName;
 	
-	@SearchColumnOnUI(rank=4,colName="Start Date",width=20)
+	@SearchColumnOnUI(rank=4,colName="Start Date",width=15)
 	@SearchFilterOnUI(label="Start Date")
 	public String startDate;
 	
-	@SearchColumnOnUI(rank=5,colName="End Date",width=20)
+	@SearchColumnOnUI(rank=5,colName="End Date",width=15)
 	@SearchFilterOnUI(label="End Date")
 	public String endDate;
+	
+	@SearchColumnOnUI(rank=6,colName="Status")
+	@WizardCardUI(name="Basic Info",step=1)
+	@UIFields(order=6,label="Due Date")
+	private String status;
 	
 	public Long clientId;
 	public Long projectid;
@@ -179,13 +185,31 @@ public class Projectinstance extends Model{
 		return find.byId(id);
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public static List<Projectinstance> getProjectUser(String username) {
+		User user = User.findByEmail(username);
+		System.out.println("-------");
+		System.out.println(user.getId());
+		return find.where().eq("userid.id", user.getId()).findList();
+	}
+
+
+
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	
 	static {
-		autoCompleteAction.put(CLIENT, routes.Clients.findClients.url);
-		autoCompleteAction.put(PROJECT_MANAGER, routes.Users.findProjectManagers.url);
+		autoCompleteAction.put(PROJECTS, routes.Cases.findProject.url);
+		//autoCompleteAction.put(CLIENT, routes.Clients.findClients.url);
+		//autoCompleteAction.put(PROJECT_MANAGER, routes.Users.findProjectManagers.url);
 		//TODO: Need users of the company not the PMs
-		autoCompleteAction.put(CHOOSE_MEMBERS, routes.Users.getCompanyUser.url);
+		//autoCompleteAction.put(CHOOSE_MEMBERS, routes.Users.getCompanyUser.url);
 	}
 	
 	@Override
