@@ -9,13 +9,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
 import com.custom.domain.RoleLevels;
-import com.mnt.roleHierarchy.model.Role;
 
 @Entity
 public class RoleLevel extends Model{
@@ -43,6 +43,15 @@ public class RoleLevel extends Model{
 	@Column(length=700)
 	public String permissions;
 	
+	//@Column(length=255)
+	//private String roleName;
+	@Column(length=255)
+	private String roleDescription;
+	private Long parentId;
+	@OneToOne
+	private Department department;
+	
+	
 	public String getPermissions(){
 		return permissions;
 	}
@@ -69,9 +78,43 @@ public class RoleLevel extends Model{
 		return find.where().add(Expr.eq("roleX",RoleX.find.where().eq("company", Company.find.byId(id)).findUnique())).findUnique();
     }
 	
+	 public static List<RoleLevel> findListByCompany(RoleX roleX) {
+         return find.where().eq("roleX", roleX).findList();
+	 }
 	
+	public static List<RoleLevel> getRoleList() {
+		return find.all();
+	}
 	
 	public static boolean checkUserLevel(Long id,RoleLevels currentLevel){
+		RoleX roleX = RoleX.find.where(Expr.eq("company", User.findById(id).companyobject)).findUnique();
+		for(RoleLevel level : roleX.getRoleLevels()){
+			if(level.getId() >= currentLevel.ordinal()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static RoleLevel getRoleById(Long id) {
+		// TODO Auto-generated method stub
+		return find.byId(id);
+	}
+	
+
+	public List<RoleLevel> getRoleByParentId(Long id) {
+		// TODO Auto-generated method stub
+		return find.where().eq("parentId", id).findList();
+	}
+	
+	
+	public static RoleLevel getRoleByName(String name) {
+		return find.where().eq("role_name", name).findUnique();
+	}
+	
+	
+	
+	/*public static boolean checkUserLevel(Long id,RoleLevels currentLevel){
 		RoleX roleX = RoleX.find.where(Expr.eq("company", User.findById(id).companyobject)).findUnique();
 		for(Role level : roleX.getRoleLevels()){
 			if(level.getId() >= currentLevel.ordinal()){
@@ -79,7 +122,7 @@ public class RoleLevel extends Model{
 			}
 		}
 		return false;
-	}
+	}*/
 
 	public Long getId() {
 		return id;
@@ -137,5 +180,33 @@ public class RoleLevel extends Model{
 		this.final_approval = final_approval;
 	}
 	public RoleLevel(){}
+
+
+
+	public String getRoleDescription() {
+		return roleDescription;
+	}
+
+	public void setRoleDescription(String roleDescription) {
+		this.roleDescription = roleDescription;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+
 	
 }

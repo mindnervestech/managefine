@@ -2,20 +2,14 @@ package com.mnt.projectHierarchy.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.avaje.ebean.Expr;
-import com.mnt.orghierarchy.model.Organization;
-import com.mnt.roleHierarchy.model.Role;
-
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
+
+import com.avaje.ebean.Expr;
 @Entity
 public class Projectclassnode extends Model{
 	@Id

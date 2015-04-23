@@ -7,12 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.avaje.ebean.Expr;
-import com.mnt.orghierarchy.model.Organization;
-import com.mnt.roleHierarchy.model.Role;
-
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
+
+import com.avaje.ebean.Expr;
 @Entity
 public class Projectclassnodeattribut extends Model{
 	@Id

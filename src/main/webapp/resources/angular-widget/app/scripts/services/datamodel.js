@@ -43,6 +43,35 @@ angular.module('app.service')
 
     return RestTimeSeriesDataModel;
   })
+  .factory('RestFunnelDataModel', function (WidgetDataModel, $http) {
+	    function RestFunnelDataModel() {
+	    }
+
+	    RestFunnelDataModel.prototype = Object.create(WidgetDataModel.prototype);
+
+	    RestFunnelDataModel.prototype.init = function () {
+	        WidgetDataModel.prototype.init.call(this);
+
+	        this.load();
+	    };
+	    
+	    RestFunnelDataModel.prototype.load = function () {
+	        $http.get('/saleFunnel', {
+	          params: {
+	        	  projectType: this.dataModelOptions.projectType
+	          }
+	        }).success(function (data) {
+	          this.updateScope(data);
+	        }.bind(this));
+	      };
+
+	    RestFunnelDataModel.prototype.destroy = function () {
+	      WidgetDataModel.prototype.destroy.call(this);
+	      
+	    };
+
+	    return RestFunnelDataModel;
+	  })
   .factory('RestTopNDataModel', function (settings, WidgetDataModel, $http) {
     function RestTopNDataModel() {
     }

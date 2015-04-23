@@ -1,24 +1,13 @@
 package com.mnt.employeeHierarchy.repository;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import models.User;
-import net.coobird.thumbnailator.Thumbnails;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
-import com.mnt.orghierarchy.model.Organization;
-import com.mnt.orghierarchy.vm.OrganizationVM;
-import com.mnt.roleHierarchy.model.Role;
-import com.mnt.roleHierarchy.vm.RoleVM;
 
 @Service
 public class EmployeeHierarchyRepositoryImpl implements EmployeeHierarchyRepository {

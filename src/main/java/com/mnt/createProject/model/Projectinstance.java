@@ -1,6 +1,5 @@
 package com.mnt.createProject.model;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,31 +7,21 @@ import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import models.Supplier;
 import models.User;
+import play.db.ebean.Model;
 
-import com.avaje.ebean.Expr;
 import com.custom.helpers.ProjectSearchContext;
 import com.mnt.core.helper.SearchContext;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
-import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
-import com.mnt.orghierarchy.model.Organization;
-import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
-import com.mnt.roleHierarchy.model.Role;
 import com.mnt.time.controller.routes;
-
-import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 @Entity
 
 public class Projectinstance extends Model{

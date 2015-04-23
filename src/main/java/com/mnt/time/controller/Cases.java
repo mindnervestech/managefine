@@ -5,39 +5,24 @@ import static com.google.common.collect.Lists.transform;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.CaseData;
-import models.CaseFlexi;
 import models.CaseNotes;
 import models.Department;
-import models.LeaveBalance;
-import models.LeaveLevel;
-import models.LeavesCredit;
-import models.MailSetting;
 import models.Project;
 import models.RoleLevel;
-import models.RoleX;
-import models.Supplier;
-import models.Task;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -47,32 +32,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import play.data.DynamicForm;
 import play.libs.Json;
-import utils.ExceptionHandler;
-import viewmodel.ProjectVM;
-import viewmodel.TaskVM;
 
-import com.avaje.ebean.Expr;
-import com.avaje.ebean.SqlRow;
-import com.custom.domain.CaseStatus;
 import com.custom.domain.RoleDomain;
-import com.custom.domain.Status;
-import com.custom.emails.Email;
 import com.custom.helpers.CaseSave;
 import com.custom.helpers.CaseSearchContext;
 import com.custom.helpers.CaseToSearchContext;
-import com.custom.helpers.ClientSave;
-import com.custom.helpers.ProjectSave;
-import com.custom.helpers.SupplierSave;
-import com.custom.helpers.SupplierSearchContext;
-import com.custom.helpers.UserSave;
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.ui.component.AutoComplete;
-import com.mnt.roleHierarchy.model.Role;
-import com.mnt.time.controller.Application.Login;
-import com.mnt.time.controller.routes.Application.login;
-import com.mnt.time.controller.routes.Status.companyIndex;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -181,14 +148,14 @@ public class Cases {
 	@RequestMapping(value="/caseIndex", method = RequestMethod.GET)
 	public String index(ModelMap model,@CookieValue("username") String username) {
 		User user = User.findByEmail(username);
-		List<Role> role = Role.getRoleList();
+		List<RoleLevel> role = RoleLevel.getRoleList();
 		List<Department> deptr = Department.findAll();
 		//RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		List<DomainEnum> roleX = new ArrayList<DomainEnum>();
 		List<DomainEnum> dept = new ArrayList<DomainEnum>();
 		if(role != null){
 			for(int i=0; i<role.size(); i++){
-				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRoleName(),false));
+				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 			}
 		}
 		if(deptr != null){

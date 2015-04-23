@@ -1,7 +1,6 @@
 package com.mnt.time.controller;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,18 +14,14 @@ import models.RoleLevel;
 import models.RoleX;
 import models.User;
 
+import org.springframework.stereotype.Component;
 
-
+import com.avaje.ebean.Expr;
 /*import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;*/
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.avaje.ebean.Expr;
-import com.mnt.roleHierarchy.model.Role;
 
 @Component
 public class RunScheduler {
@@ -48,7 +43,7 @@ public class RunScheduler {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(Role rl: role.roleLevels) {
+			 for(RoleLevel rl: role.roleLevels) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 
@@ -110,7 +105,7 @@ public class RunScheduler {
 		 for(Company company : companies) {
 			 RoleX role = RoleX.find.where(Expr.eq("company", company)).findUnique();
 			 value = new HashMap<Long, Map<Long,Float>>();
-			 for(Role rl: role.roleLevels) {
+			 for(RoleLevel rl: role.roleLevels) {
 				 List<RoleLeave> leaves =  RoleLeave.find.where().eq("company", company).eq("roleLevel", rl).findList();
 				 
 				 
