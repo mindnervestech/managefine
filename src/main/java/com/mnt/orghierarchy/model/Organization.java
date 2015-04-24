@@ -51,6 +51,12 @@ public class Organization extends Model {
 		return find.where().eq("companyId", companyId).findList();
 	}
 	
+	@Override
+	public String toString() {
+		return getOrganizationName() + " ("+getOrganizationType()+")";
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
