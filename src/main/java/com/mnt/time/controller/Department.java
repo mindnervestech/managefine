@@ -56,7 +56,7 @@ public class Department {
 	 @RequestMapping(value="/getDeparment",method=RequestMethod.POST)
 		public @ResponseBody  List<DepartmentVM> getDeparment() {
 		 	
-		 List<DepartmentVM> flist = new ArrayList<>();
+		 List<DepartmentVM> flist = new ArrayList<DepartmentVM>();
 		 List<models.Department> fl = models.Department.findAll();
 		
 		 for(models.Department de : fl) {

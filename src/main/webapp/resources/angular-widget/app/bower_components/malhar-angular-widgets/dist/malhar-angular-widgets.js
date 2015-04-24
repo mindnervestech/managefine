@@ -1233,11 +1233,12 @@ angular.module('ui.widgets')
         label: '@',
         min: '=',
         max: '=',
-        value: '='
+        value: '=',
+        size: '='
       },
       link: function (scope, element, attrs) {
         var config = {
-          size: 200,
+          size: undefined !== scope.size ? scope.size : 200,
           label: attrs.label,
           min: undefined !== scope.min ? scope.min : 0,
           max: undefined !== scope.max ? scope.max : 100,
@@ -1315,6 +1316,46 @@ angular.module('ui.widgets')
       }
     };
   });
+
+angular.module('ui.widgets')
+.directive('wtFunnel', function () {
+  return {
+    replace: true,
+    template: '<div></div>',
+    
+    scope: {
+      data: '='
+    },
+    link: function (scope, element, attrs) {
+  	var plot; 
+  	function init(value) {
+  		$(element).empty();
+      	plot = $(element).jqplot([value],{
+      		axesDefaults:[
+      		                
+      		                ],
+      		 seriesDefaults: {
+      	        renderer:$.jqplot.FunnelRenderer
+      	        ,
+       	        rendererOptions:{
+     	             dataLabels: "label",
+     	             showDataLabels: true
+     	            }
+      	     },
+      	     legend:{
+      	    	 location:'e',
+      	    	 show: true
+      	     }
+      	      
+      	});
+      }
+
+      scope.$watch('data', function (data) {
+      	  init(data);
+      });
+    }
+  };
+});
 /*
  * Copyright (c) 2014 DataTorrent, Inc. ALL Rights Reserved.
  *
@@ -1919,7 +1960,7 @@ angular.module('ui.widgets')
 'use strict';
 
 angular.module('ui.widgets')
-  .directive('wtTopN', function () {
+  .directive('wtProjects', function () {
     return {
       restrict: 'A',
       replace: true,
@@ -1935,11 +1976,15 @@ angular.module('ui.widgets')
           ]
         };
         $scope.columns = [
-          { id: 'name', key: 'name', label: 'ProjectName' },
-          { id: 'startDate', key: 'startDate', label: 'StartDate' },
-          { id: 'endDate', key: 'endDate', label: 'EndDate' },
+          { id: 'name', key: 'name', label: 'Project Name' },
+          { id: 'startDate', key: 'startDate', label: 'Start Date' },
+          { id: 'endDate', key: 'endDate', label: 'End Date' },
           { id: 'status', key: 'status', label: 'Status' }
         ];
+        $scope.items = [
+                {name:"S",startDate:"s",endDate:"s",status:"sd"},
+                {name:"S",startDate:"s",endDate:"s",status:"sd"}
+                        ];
       },
       link: function postLink(scope) {
         scope.$watch('data', function (data) {
@@ -1958,7 +2003,6 @@ angular.module('ui.widgets')
     templateUrl: 'template/widgets/topN/topN.html',
     scope: {
       data: '='
-      	
     },
     controller: function ($scope) {
       $scope.tableOptions = {
@@ -1967,10 +2011,10 @@ angular.module('ui.widgets')
         ]
       };
       $scope.columns = [
-        { id: 'taskName', key: 'taskName', label: 'TaskName' },                
-        { id: 'name', key: 'name', label: 'ProjectName' },
-        { id: 'startDate', key: 'startDate', label: 'StartDate' },
-        { id: 'endDate', key: 'endDate', label: 'EndDate' },
+        { id: 'taskName', key: 'taskName', label: 'Task Name' },                
+        { id: 'name', key: 'name', label: 'Project Name' },
+        { id: 'startDate', key: 'startDate', label: 'Start Date' },
+        { id: 'endDate', key: 'endDate', label: 'End Date' },
         { id: 'status', key: 'status', label: 'Status' }
       ];
     },

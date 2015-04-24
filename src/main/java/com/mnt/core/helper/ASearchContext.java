@@ -267,15 +267,16 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
                     Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
                     if(listClass.isAssignableFrom(DomainEnum.class)){
                     	try {
-                    		List<DomainEnum> list = (List<DomainEnum>) f.get(null);
+                    		List<DomainEnum> list = (List<DomainEnum>) f.get(model);
                     		DomainEnum[] e = new DomainEnum[list.size()];
                     		for(int i = 0 ; i< e.length ; i++){
                     			e[i] = list.get(i);
                     		}
                     		try { //TODO: WA for USER ROle only need to make it generic
-                    			//value.display = ((RoleLevel)model.getClass().getField("role").get(model)).getid + "";
+                    			doMappingforDropdown(f.getName(),value);
+                    			
                     		} catch (Exception e1) { 
-                        		//e1.printStackTrace();
+                        		e1.printStackTrace();
                         	}
                     		addWizard(wizardCardUI,fieldUI,validation,
                     				fieldNameWithPrefix(f.getName()),Type.SELECT_OPTION,e,value);
@@ -428,6 +429,10 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 				}
 			}
 		}
+	}
+	
+	protected void doMappingforDropdown(String fieldName, ValueWrapper value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		
 	}
 	
 	protected <T extends DomainEnum> void addWizard(final WizardCardUI wizardCardUI, final UIFields field,final Validation validation ,final String nameForMaping,final FieldType.Type type,

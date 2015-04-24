@@ -3,7 +3,7 @@ package com.mnt.time.controller;
 import static com.google.common.collect.Lists.transform;
 import static play.data.Form.form;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -15,17 +15,23 @@ import models.CaseData;
 import models.Company;
 import models.LeaveBalance;
 import models.MailSetting;
-import models.RoleLeave;
 import models.RoleLevel;
 import models.Timesheet;
 import models.User;
+import models.UserFlexi;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,13 +42,14 @@ import play.libs.Json;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
 import com.custom.domain.LeaveStatus;
-import com.custom.domain.RoleLevels;
 import com.custom.domain.Status;
 import com.custom.domain.TimesheetStatus;
 import com.custom.emails.Email;
 import com.google.common.base.Function;
+import com.mnt.core.domain.FileAttachmentMeta;
 import com.mnt.core.ui.component.AutoComplete;
 import com.mnt.core.workflow.ActivitiHelper;
+import com.mnt.orghierarchy.vm.FlexiattributeVM;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -348,6 +355,27 @@ public class Application  {
 	{
     	//return ok(views.html.forgotpassword.emailvalidate.render());
 		return "forgotpassword/emailvalidate";
+	}
+    
+    @Value("${imageRootDir}")
+	String imageRootDir;
+    
+    @RequestMapping(value="/get-images/{klass}/{id}" , method = RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource getImages(final HttpServletResponse response,@PathVariable String klass, @PathVariable Long id, @RequestParam String imagename)
+	{
+    	response.setHeader("Content-disposition","attachment; filename=\""+imagename);
+        
+    	if("models.UserFlexi".equalsIgnoreCase(klass)) {
+    		UserFlexi useFlex = UserFlexi.getUserIdById(id);
+           return new FileSystemResource(new File(imageRootDir + File.separator + "User" + File.separator + 
+    			   useFlex.user.id + File.separator + "flexi" + File.separator + imagename));
+   		}
+    	
+    	//
+    	
+    	return null;
+    	
 	}
     
     @RequestMapping(value="/finduserid" , method = RequestMethod.GET)

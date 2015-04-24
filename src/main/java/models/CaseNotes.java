@@ -51,6 +51,11 @@ public class CaseNotes extends Model{
 	public static Model.Finder<Long, CaseNotes> find = new Model.Finder<Long,CaseNotes>(Long.class, CaseNotes.class);
 
 
+	public static List<CaseNotes> getCasesNotesId(Long id) {
+		return find.where().eq("casedata.id", id).findList();
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}

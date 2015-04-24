@@ -9,7 +9,6 @@ import play.db.ebean.Model;
 
 import com.custom.domain.Status;
 import com.mnt.core.ui.annotation.Validation;
-import com.mnt.roleHierarchy.model.Role;
 
 @Entity
 public class Company extends Model{

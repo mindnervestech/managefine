@@ -44,13 +44,14 @@ public class FlexiAttributes {
 			return "defineFlexiAttribute";
 	 }
 	 
+	 public static class FlexiattributeList extends ArrayList<FlexiattributeVM> {
+		 
+	 }
 	 
 	 @RequestMapping(value="/saveFlexiAttribute",method=RequestMethod.POST)
-		public @ResponseBody FlexiattributeVM saveFlexiAttribute(@RequestBody List<FlexiattributeVM> flexiAttVMs,HttpServletRequest request) {
+		public @ResponseBody FlexiattributeVM saveFlexiAttribute(@RequestBody FlexiattributeList flexiAttVMs, HttpServletRequest request) {
 		 FlexiattributeVM flexiattributeVM = new FlexiattributeVM();	
 		 for(FlexiattributeVM flexi : flexiAttVMs) {
-				System.out.println("department:"+flexi.name);
-				System.out.println("department:"+flexi.model);
 				FlexiAttribute flexiAttribute = new FlexiAttribute();
 				flexiAttribute.setName(flexi.getName());
 				flexiAttribute.setType(flexi.getType());

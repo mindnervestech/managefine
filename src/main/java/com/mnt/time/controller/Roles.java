@@ -2,12 +2,14 @@ package com.mnt.time.controller;
 
 import static play.data.Form.form;
 
-import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import models.RoleLevel;
+import models.RoleX;
+import models.User;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,24 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import models.LeaveLevel;
-import models.RoleLeave;
-import models.RoleLevel;
-import models.RoleX;
-import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import utils.ExceptionHandler;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.custom.domain.RoleLevels;
 import com.custom.helpers.CustomRoleSearchContext;
 import com.custom.helpers.RoleSave;
-import com.custom.helpers.TaskSearchContext;
-import com.google.common.collect.Sets;
-import com.mnt.roleHierarchy.model.Role;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -118,7 +111,8 @@ public class Roles {
 //		return "defineRoles";
 //	}
 	
-	@RequestMapping(value="/saveRole " ,method=RequestMethod.POST)		
+	// Note from Jagbir : This might not be in use any longer. Commenting it as part of refactoring
+	/*@RequestMapping(value="/saveRole " ,method=RequestMethod.POST)		
 	public @ResponseBody String saveRole(@CookieValue("username")String username,HttpServletRequest request){
 		User user = User.findByEmail(username);
 		Form<RoleX> roleXForm = form(RoleX.class).bindFromRequest(request);
@@ -156,8 +150,12 @@ public class Roles {
 		}
 		
 		return "Defined Roles has been saved";
-	}
-	@RequestMapping(value="/saveOrg " ,method=RequestMethod.POST)		
+	}*/
+	
+	
+	// Note from Jagbir : This might not be in use any longer. Commenting it as part of refactoring
+	
+	/*@RequestMapping(value="/saveOrg " ,method=RequestMethod.POST)		
 	public @ResponseBody String saveOrg(@CookieValue("username")String username,HttpServletRequest request){
 	//	String username="akg8990@gmail.com";
 		User user = User.findByEmail(username);
@@ -181,7 +179,7 @@ public class Roles {
 
 		return "Defined Hierarchy has been saved";
 		
-	}
+	}*/
 	
 	
 	@RequestMapping(value="/showRoles " ,method=RequestMethod.GET)			

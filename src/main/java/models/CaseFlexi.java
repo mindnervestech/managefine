@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -8,8 +10,11 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 import com.mnt.core.domain.FlexiAttributes;
+import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.model.Projectinstancenode;
 
 @Entity
 public class CaseFlexi extends Model implements FlexiAttributes {
@@ -31,6 +36,8 @@ public class CaseFlexi extends Model implements FlexiAttributes {
 	@Transient
 	public FlexiAttribute flexiAttribute; // need to have as such 
 
+	
+	public static Finder<Long,CaseFlexi> find = new Finder<Long,CaseFlexi>(Long.class,CaseFlexi.class);
 	public Long getId() {
 		return id;
 	}
@@ -54,6 +61,14 @@ public class CaseFlexi extends Model implements FlexiAttributes {
 
 	public void setFlexiId(Long flexiId) {
 		this.flexiId = flexiId;
+	}
+	
+	public static List<CaseFlexi> getCasesAttId(Long id) {
+		return find.where().eq("CaseData.id", id).findList();
+	}
+	
+	public static CaseFlexi getById(Long id) {
+		return find.byId(id);
 	}
 
 	@Override

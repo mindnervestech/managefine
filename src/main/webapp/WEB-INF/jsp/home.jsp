@@ -4,6 +4,8 @@
 <head>
 
 <link rel="stylesheet" href='<c:url value="/resources/angular-widget/app/styles/main.css"/>'>
+<link rel="stylesheet" type="text/css" href='<c:url value="/resources/angular-widget/app/bower_components/jqPlot/jquery.jqplot.css"/>'>
+
 	<script type="text/javascript" src='<c:url value="/resources/angular-widget/app/settings.js"/>'></script>
 
         <!-- build:js scripts/modules.js -->
@@ -11,6 +13,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.7.0/lodash.min.js"></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/angular/angular1.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/jquery-ui/jquery-ui.js"/>'></script>
+        <script language="javascript" type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/jqPlot/jquery.jqplot.min.js"/>'></script>
+        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/jqPlot/plugins/jqplot.highlighter.min.js"/>'></script>
+        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/jqPlot/plugins/jqplot.cursor.min.js"/>'></script>
+        <script language="javascript" type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/jqPlot/plugins/jqplot.funnelRenderer.js"/>'></script>
+        
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/angular-route/angular-route.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/angular-ui-sortable/sortable.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/angular-resource/angular-resource.js"/>'></script>
@@ -53,8 +60,101 @@
 <body ng-controller="MainCtrl">
 <div class="row">
     <div class="col-md-12">
-        <div dashboard="dashboardOptions"></div>
+        <div template-url='<c:url value="resources/angular-widget/app/bower_components/malhar-angular-dashboard/src/components/directives/dashboard/dashboard.html"/>' 
+        dashboard="dashboardOptions"></div>
         <input type="hidden" id="employeeID" ng-model="userId" value="${user.id}">
     </div>
 </div>
 </body>
+
+<script>
+'use strict';
+
+angular.module('app')
+  .controller('MainCtrl'
+		  , function ($scope,$http, $interval, stackedAreaChartSampleData, pieChartSampleData,RestFunnelDataModel, RandomTimeSeriesDataModel, RandomTopNDataModel, ProjectDataModel, TaskDataModel)
+		  {
+
+       $scope.userId = 1;
+       
+       var widgetDefinitions = [
+                    
+<c:forEach var="project" items="${myProjects}">
+	  {
+	    name: '${project.name}',
+	    directive: 'wt-gauge',
+	    title: 'Health',
+	    attrs: {
+	      label:"${project.name}", 	
+	      value: '${project.percentage}',
+	      size: '100'
+	    },
+	    style: {
+	      width: '150px'
+	    }
+	  },
+</c:forEach>
+<c:forEach var="projectType" items="${myProjectTypes}">	  
+	  {
+          directive: 'wt-funnel',
+          name: '${projectType.name}',
+          dataAttrName: 'data',
+          dataModelType: FunnelDataModel,
+          dataModelOptions: {
+          	  projectType: '${projectType.name}'
+          },
+          style: {
+            width: '33%'
+          }
+      },  
+ </c:forEach>                        
+                        
+                        {
+                            name: 'Tasks',
+                            title: 'Tasks',
+                            directive: 'wt-tasks',
+                            dataAttrName: 'data',
+                            dataModelOptions: {
+                          	  userId: $scope.userId
+                            },
+                            dataModelType: TaskDataModel,
+                            style: {
+                              width: '40%'
+                            }
+                        },
+                        
+                        {
+                            name:'Projects',
+                            title:'Projects',
+                            directive: 'wt-projects',
+                            dataAttrName: 'data',
+                            dataModelOptions: {
+                          	  userId: $scope.userId
+                            },
+                            dataModelType: ProjectDataModel,
+                            style: {
+                              width: '40%'
+                            }
+                          },
+                        
+                      ];
+       
+       var defaultWidgets = _.map(widgetDefinitions, function (widgetDef) {
+    	      return {
+    	        name: widgetDef.name
+    	      };
+    	    });
+
+    	    $scope.dashboardOptions = {
+    	      widgetButtons: false,
+    	      attrs: {
+    	    	  templateUrl:'\resources\angular-widget\app\bower_components\malhar-angular-dashboard\src\components\directives\dashboard\dashboard.html1'
+    	      },
+    	      hideWidgetClose: true,
+    	      hideWidgetSettings: true,
+    	      hideWidgetName: true,
+    	      widgetDefinitions: widgetDefinitions,
+    	      defaultWidgets: defaultWidgets
+    	    };
+  });
+</script>

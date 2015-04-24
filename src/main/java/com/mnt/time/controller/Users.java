@@ -17,11 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Company;
 import models.Department;
 import models.LeaveBalance;
 import models.LeaveLevel;
@@ -54,10 +52,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.ui.component.AutoComplete;
-import com.mnt.roleHierarchy.model.Role;
-import com.mnt.time.controller.Application.Login;
-import com.mnt.time.controller.routes.Application.login;
-import com.mnt.time.controller.routes.Status.companyIndex;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -81,14 +75,26 @@ public class Users {
 		try{
 			id = Long.valueOf(form.get("query"));
 			User user = User.findById(id);
-			RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
+			List<RoleLevel> role = RoleLevel.getRoleList();
+			
 			List<DomainEnum> roleX = new ArrayList<DomainEnum>();
 			if(role != null){
-				for(int i=0; i<role.roleLevels.size(); i++){
-					roleX.add(new RoleDomain(role.roleLevels.get(i).getId()+"",role.roleLevels.get(i).getRoleName(),false));
+				for(int i=0; i<role.size(); i++){
+					roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 				}
 			}
 			user.rolex = roleX;
+			
+			List<DomainEnum> dept = new ArrayList<DomainEnum>();
+			List<Department> deptr = Department.findAll();
+				
+			if(deptr != null){
+				for(int i=0; i<deptr.size(); i++){
+					dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
+				}
+			}
+			
+			
 			model.addAttribute("_searchContext", new UserSearchContext(user).build());
 			return "editWizard";
 			/*return ok(editWizard.render(new UserSearchContext(user).build()));*/
@@ -215,16 +221,17 @@ public class Users {
 	@RequestMapping(value="/userIndex", method = RequestMethod.GET)
 	public String index(ModelMap model,@CookieValue("username") String username) {
 		User user = User.findByEmail(username);
-		List<Role> role = Role.getRoleList();
+		List<RoleLevel> role = RoleLevel.getRoleList();
 		List<Department> deptr = Department.findAll();
 		//RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
 		List<DomainEnum> roleX = new ArrayList<DomainEnum>();
 		List<DomainEnum> dept = new ArrayList<DomainEnum>();
 		if(role != null){
 			for(int i=0; i<role.size(); i++){
-				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRoleName(),false));
+				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 			}
 		}
+		
 		if(deptr != null){
 			for(int i=0; i<deptr.size(); i++){
 				dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
@@ -311,9 +318,9 @@ public class Users {
 										User.findByEmail(username).companyobject)).findUnique();
 		
 		List<String> upperRoleLevels = new ArrayList<String>();
-		for(Role level : roleX.roleLevels){
-			if(Integer.parseInt(level.getRoleName().split("[_]")[1]) > Integer.parseInt(param)){
-				upperRoleLevels.add(level.getRoleName());
+		for(RoleLevel level : roleX.roleLevels){
+			if(Integer.parseInt(level.getRole_name().split("[_]")[1]) > Integer.parseInt(param)){
+				upperRoleLevels.add(level.getRole_name());
 			}
 		}
 		
@@ -405,7 +412,7 @@ public class Users {
 			form.data().put("email", userEmail);
 			String password = Application.generatePassword();
 			RoleLevel roleLevel = RoleLevel.findById(Long.parseLong(form.get("rolex")));
-			Role role = Role.getRoleById(Long.parseLong(form.get("rolex")));
+			RoleLevel role = RoleLevel.getRoleById(Long.parseLong(form.get("rolex")));
 			Department deptr = Department.departmentById(Long.parseLong(form.get("dept")));
 			LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
 	    	Map<String, Object> extra = new HashMap<String, Object>();
@@ -415,7 +422,7 @@ public class Users {
 			extra.put("password", password);
 			extra.put("tempPassword", 1);
 			extra.put("role", roleLevel);
-			extra.put("designation", role.getRoleName());
+			extra.put("designation", role.getRole_name());
 			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());
 			System.out.println("join date=="+user.getHireDate());

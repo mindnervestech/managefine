@@ -4,25 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import models.Supplier;
 import models.User;
+import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
-import com.mnt.orghierarchy.model.Organization;
 import com.mnt.projectHierarchy.model.Projectclassnode;
-import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
-import com.mnt.roleHierarchy.model.Role;
-
-import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 @Entity
 public class Projectinstancenode extends Model{
 	@Id
