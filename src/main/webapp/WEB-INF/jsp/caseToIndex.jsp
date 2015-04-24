@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
- 
+<div ng-app="ProjectHierarchyApp"   ng-controller="casesController"> 
 <jsp:include page="menuContext.jsp"/> 
 <h4><b style=" width: 1051px; margin-left: 20px;"><i>Assigned To Me</i></b></h4>
 
@@ -12,10 +12,10 @@
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
 
 
-<div>
+
 <div class="form-group">
  <div class="col-md-12">
- <div id="dialog" title="Assigned To Me" style="background: white;height: 311px;" ng-app="ProjectHierarchyApp" ng-controller="casesController">
+ <div id="dialog" title="Assigned To Me" style="background: white;height: 311px;">
  <div class="form-group" ng-init='getCaseId()'>
      <form name="myForm" method="post" >   <!-- action="${pageContext.request.contextPath}/caseToCreate"  // modelAttribute="pVm" action="/saveprojectTypeandName" -->
         <div>
@@ -130,7 +130,7 @@
 					</div>
                     
                  
-                    <input type="hidden" id="myitem" name="caseform"  ng-model="caseData.caseId">
+                    <input class="offtheScreen" type="text" id="myitem" name="caseform" ng-change="showEditButton()" ng-model="selectedValue">
                     </div>
                     <br>
                     <br>
@@ -175,20 +175,24 @@
     margin-right: 15px;
 	}
 	
+.offtheScreen {	width: 0px;
+  height: 0px;
+  position: relative;
+  top: -87px;
+}	
     
     </style>
     
     <script>
     $('#dialog').css('display','none');
     function CaseEditButtonFn(selItem) {
-		console.log("please open new po -up now");
-		console.log(selItem);
-		  
-		$('#myitem').val(selItem);    
-		         $( "#dialog" ).dialog({"width":686,"top": 20,"height":560,open: function(){
-		                $('.ui-dialog-titlebar-close').addClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
-		                $('.ui-dialog-titlebar-close').append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span>');
-		            }});
+    	
+    	$('#myitem').val(selItem);
+    	
+    	if(selItem) { 
+			$('#myitem').trigger('change');
+    	}
+		
     }
 </script>
 

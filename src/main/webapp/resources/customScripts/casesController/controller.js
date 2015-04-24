@@ -1,30 +1,27 @@
 app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$upload,$timeout,$filter,$compile) {
-		console.log("yogesh patil");
-		console.log("------"); 
-		 
 		
-		/*$scope.getCaseId = function(){
-			console.log($('#myitem').val());
-			
-		}*/
-		var value = 21;
-		$rootScope.caseId = value;
-		var data;
-		console.log(value);
-		  $http({method:'GET',url:'findCaseFile',params:{id:$rootScope.caseId}}).success(function(data) {
-				console.log("Ok----");
-				console.log(data);
+	$scope.showEditButton = function() {
+		if(!($scope.selectedValue === undefined || $scope.selectedValue === 'undefined')) {
+			$http({method:'GET',url:'findCaseFile',params:{id:$scope.selectedValue}}).success(function(data) {
+				$( "#dialog" ).dialog({"width":686,"top": 20,"height":560,open: function(){
+	                $('.ui-dialog-titlebar-close').addClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+	                $('.ui-dialog-titlebar-close').append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span>');
+	            }});
 				$scope.fileAttachData = data.caseFlexi;
 				$scope.comment = data.comment;
 					angular.forEach($scope.comment, function(obj, index){
-					
 						$scope.comment[index].commetDate = $filter('date')($scope.comment[index].commetDate, "dd-MM-yyyy");
 					return;
 				});
-				
-				console.log($scope.fileAttachData);
-				
-		  });		
+		  });
+		}
+		
+	};
+	
+	
+		
+		
+		  		
 		
 		 $scope.downloadNotesfile = function(id){
 			 
