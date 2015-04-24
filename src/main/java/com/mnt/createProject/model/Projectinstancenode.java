@@ -170,4 +170,8 @@ public class Projectinstancenode extends Model{
 		return find.where().eq("projectinstanceid", id).eq("projecttypeid", typeId).findList();
 	}
 	
+	public static Projectinstancenode getByClassNodeAndInstance(Projectclassnode projectclassnode,Long instanceId) {
+		return find.where().eq("Projectclassnode", projectclassnode).eq("projectinstanceid", instanceId).findUnique();
+	}
+	
 }

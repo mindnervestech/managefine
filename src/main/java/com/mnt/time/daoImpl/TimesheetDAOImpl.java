@@ -70,10 +70,12 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						} else {
 							schedularTodayVM.color = "#FF7519";
 						}
-						Task task = Task.findByTaskCode(row.getTaskCode());
-						schedularTodayVM.visitType = task.getTaskName();
-						schedularTodayVM.taskCode = row.getTaskCode();
-						schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
+						Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+						Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+						schedularTodayVM.status = instance.getStatus();
+						schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+						schedularTodayVM.taskCode = task.getProjectTypes();
+						schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 						schedularTodayVM.taskId = task.getId();
 						vmList.add(schedularTodayVM);
 					}
@@ -145,10 +147,12 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								} else {
 									schedularTodayVM.color = "#FF7519";
 								}
-								Task task = Task.findByTaskCode(row.getTaskCode());
-								schedularTodayVM.visitType = task.getTaskName();
-								schedularTodayVM.taskCode = row.getTaskCode();
-								schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
+								Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+								Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+								schedularTodayVM.status = instance.getStatus();
+								schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+								schedularTodayVM.taskCode = task.getProjectTypes();
+								schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 								schedularTodayVM.taskId = task.getId();
 								vmList.add(schedularTodayVM);
 							}
@@ -589,11 +593,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							} else {
 								schedularTodayVM.color = "#FF7519";
 							}
-							Task task = Task.findByTaskCode(row.getTaskCode());
-							schedularTodayVM.visitType = task.getTaskName();
-							schedularTodayVM.projectId = Project.findByProjectCode(row.getProjectCode()).getId();
+							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+							Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+							schedularTodayVM.status = instance.getStatus();
+							schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+							schedularTodayVM.taskCode = task.getProjectTypes();
+							schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 							schedularTodayVM.taskId = task.getId();
-							schedularTodayVM.taskCode = row.getTaskCode();
 							vmList.add(schedularTodayVM);
 						}
 					}

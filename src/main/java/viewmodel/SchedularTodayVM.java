@@ -8,7 +8,7 @@ public class SchedularTodayVM {
 	public String staffId;
 	public String customerId;
 	public String visitType;
-	public String appoitmentDate;
+	public String status;
 	public String notes;
 	public String color;
 	public String type;

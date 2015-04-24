@@ -13,8 +13,11 @@ import javax.persistence.OneToOne;
 
 import models.Supplier;
 import models.User;
-import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
+import play.db.ebean.Model;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 import com.custom.helpers.ProjectSearchContext;
 import com.mnt.core.helper.SearchContext;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
@@ -214,7 +217,13 @@ public class Projectinstance extends Model{
 		return  ProjectSearchContext.getInstance().withFieldNamePrefix(onFieldNamePrefix);
 	}
 
-
+	public static List<SqlRow> getProjectsOfUser(Long id) {
+		String sql = "select projectinstance_user.projectinstance_id from projectinstance_user where projectinstance_user.user_id = :id";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("id", id);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
 
 
 	

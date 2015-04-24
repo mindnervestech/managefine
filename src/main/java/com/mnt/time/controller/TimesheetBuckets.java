@@ -38,6 +38,8 @@ import viewmodel.TimesheetVM;
 import com.custom.domain.TimesheetStatus;
 import com.custom.helpers.TimesheetBucketSearchContext;
 import com.custom.workflow.timesheet.TimesheetWorkflowUtils;
+import com.mnt.createProject.model.Projectinstance;
+import com.mnt.projectHierarchy.model.Projectclassnode;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -196,8 +198,8 @@ public class TimesheetBuckets  {
 			List<TimesheetRowVM> timesheetRowVMList = new ArrayList<>();
 			for(TimesheetRowActual row : timesheetRowList) {
 				TimesheetRowVM rowVM = new TimesheetRowVM();
-				rowVM.projectName = Project.findByProjectCode(row.getProjectCode()).getProjectName();
-				rowVM.taskName = Task.findByTaskCode(row.getTaskCode()).getTaskName();
+				rowVM.projectName = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+				rowVM.taskName = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode())).getProjectTypes();
 				rowVM.tCode = row.getTaskCode();
 				List<TimesheetDaysActual> timesheetDaysList = TimesheetDaysActual.getByTimesheetRow(row);
 				List<TimesheetDaysVM> daysList = new ArrayList<>();
