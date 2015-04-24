@@ -121,7 +121,7 @@
 					</div>
 				</div>
 				
-			<p style="margin-left:2%;color:red;margin-bottom:-15px;" ng-show="timeMsg"><b>Please Enter time in HH:MM 24 Hrs format</b></p>
+			
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
 				 <div class="innerInputDiv" style="margin-top:20px;">
 					<div class="innerChainSelect">
@@ -159,8 +159,8 @@
 											<input type="text"
 												ng-model="row.monFrom"
 												ng-blur="checkTime(row.monFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:20%;width:30px;"> 
-											<input type="text" placeholder="to" ng-blur="checkTime(row.monTo)" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
+												placeholder="From" class="smallInput dayName" style="margin-top:20%;width:30px;"> 
+											<input type="text" placeholder="To" ng-blur="checkTime(row.monTo)" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
 												<span class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -172,8 +172,8 @@
 											<input type="text"
 												ng-model="row.tueFrom"
 												ng-blur="checkTime(row.tueFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.tueTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.tueTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -186,8 +186,8 @@
 											<input type="text"
 												ng-model="row.wedFrom"
 												ng-blur="checkTime(row.wedFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.wedTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.wedTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -199,8 +199,8 @@
 											<input type="text"
 												ng-model="row.thuFrom"
 												ng-blur="checkTime(row.thuFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.thuTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.thuTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -212,8 +212,8 @@
 											<input type="text"
 												ng-model="row.friFrom"
 												ng-blur="checkTime(row.friFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.friTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.friTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -225,8 +225,8 @@
 											<input type="text"
 												ng-model="row.satFrom"
 												ng-blur="checkTime(row.satFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.satTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.satTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -238,8 +238,8 @@
 											<input type="text"
 												ng-model="row.sunFrom"
 												ng-blur="checkTime(row.sunFrom)"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" ng-blur="checkTime(row.sunTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> <span
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												<input type="text" placeholder="To" ng-blur="checkTime(row.sunTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -270,19 +270,19 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
 							
 							</div>
 				
 					</div>
 				
 				<div class="actions">
-			<input type="button" id="copyFromLastWeek" class="btn btn-warning" ng-click="copyFromLastWeek()"
+			<input type="button" id="copyFromLastWeek" class="btn btn-warning" ng-click="confirmCopy()"
 				Value="Copy last week"> <input type="button"
 				id="saveTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Draft')" value="Save">
 			<input type="button" id="submitTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Submitted')"
 				value="Submit"> <input type="button"
-				id="retractTimesheetForm" class="btn btn-warning" ng-click="retractTimesheet()" value="Retract">
+				id="retractTimesheetForm" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>
@@ -295,10 +295,83 @@
 		
 		</div>
 	</div>
-	
+	<button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
+</button>
+<button id="popupBtn2" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2" style="display: none;">
+</button>
+<button id="popupBtn3" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal3" style="display: none;">
+</button>
+<button id="popupBtn4" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal4" style="display: none;">
+</button>
 </body>
 </html>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="retractClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to retract?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="retractTimesheet()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="lastWeekClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to copy from last week?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="copyFromLastWeek()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="nodataClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>No data found for last week</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="deleteClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to delete?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="removeRow($index,row.rowId)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <style>
 .largeInputLabel_First {
 	margin-right: -3px;
@@ -339,7 +412,9 @@
 .ui-pnotify-history-container.well {
 top: -130.3125px;
 }
-
+.modal-header {
+ border-bottom: 0px;
+}
 </style>
 <script>
 

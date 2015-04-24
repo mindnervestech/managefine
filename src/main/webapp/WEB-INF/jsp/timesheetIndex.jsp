@@ -6,14 +6,10 @@
 <head>
 <link rel="stylesheet" media="screen"
 	href='<c:url value="/resources/customCSS/customTimesheet.css"/>'>
-	<link rel="stylesheet" media="screen"
-	href='<c:url value="/resources/customCSS/jquery.timeentry.css"/>'>
 <%-- <script src='<c:url value="/resources/customScripts/timesheet.js"/>'
 	type="text/javascript"></script> --%>
 <script src='<c:url value="/resources/customScripts/jquery.plugin.js"/>'
-	type="text/javascript"></script>		
-<script src='<c:url value="/resources/customScripts/jquery.timeentry.js"/>'
-	type="text/javascript"></script>	
+	type="text/javascript"></script>			
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
@@ -262,19 +258,19 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
 							
 							</div>
 				
 					</div>
 				
 				<div class="actions">
-			<input type="button" id="copyFromLastWeek" class="btn btn-warning" ng-click="copyFromLastWeek()"
+			<input type="button" id="copyFromLastWeek" class="btn btn-warning" ng-click="confirmCopyFromLast()"
 				Value="Copy last week"> <input type="button"
 				id="saveTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Draft')" value="Save">
 			<input type="button" id="submitTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Submitted')"
 				value="Submit"> <input type="button"
-				id="retractTimesheetForm" class="btn btn-warning" ng-click="retractTimesheet()" value="Retract">
+				id="retractTimesheetForm" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>
@@ -287,9 +283,83 @@
 		
 		</div>
 	</div>
-	
+	<button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
+</button>
+<button id="popupBtn2" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2" style="display: none;">
+</button>
+<button id="popupBtn3" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal3" style="display: none;">
+</button>
+<button id="popupBtn4" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal4" style="display: none;">
+</button>
 </body>
+
 </html>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="retractClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to retract?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="retractTimesheet()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="lastWeekClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to copy from last week?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="copyFromLastWeek()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="nodataClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>No data found for last week</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="deleteClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure to delete?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="removeRow($index,row.rowId)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <style>
 .largeInputLabel_First {
 	margin-right: -3px;
@@ -326,60 +396,12 @@
 	margin-left: 1%;
 	padding-right: 0% !important;
 }
+
+.ui-pnotify-history-container.well {
+top: -130.3125px;
+}
+
+.modal-header {
+ border-bottom: 0px;
+}
 </style>
-<script>
-
-		$(document).ready(function() {
-			 var startOfWeek;
-		/*	Date.prototype.getWeek = function() {
-			    var onejan = new Date(this.getFullYear(),0,1);
-			    return Math.floor((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-			}
-			
-			Date.prototype.getStartOfWeek = function() {
-				var day =   this.getDay() - 1;
-				var startOfWeek;
-				if (day != -1) {
-					startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * day ));
-				} else {
-					startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * 6 ));
-				}
-				return startOfWeek;
-			}
-
-			$('.week-picker').datepicker({
-				chooseWeek:true,
-				calendarWeeks:true,
-				weekStart:1,
-				format: 'dd M yy'
-			}).on('changeDate',function(ev){
-				$("#weekValue").val(ev.date.getWeek()+1);
-				$("#yearValue").val(ev.date.getFullYear());
-				$("#selectedWeekRange").html($(".week-picker").val());
-				startOfWeek = ev.date.getStartOfWeek();
-				console.log(ev.date.getWeek()+1);
-			});
-			
-			var today = new Date();
-			var todaysWeek = today.getWeek() + 1;
-			$("#weekValue").val(today.getWeek() + 1);
-			$("#yearValue").val(today.getFullYear());
-			var day =   today.getDay() - 1;
-			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
-			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
-			
-			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-					$.datepicker.formatDate('dd M yy', endOfWeek)); */
-			
-		});
-		
-		$('.timeRange').timeEntry({beforeShow: customRange}); 
-		 
-		function customRange(input) { 
-		    return {minTime: (input.id === 'timeTo' ? 
-		        $('#timeFrom').timeEntry('getTime') : null),  
-		        maxTime: (input.id === 'timeFrom' ? 
-		        $('#timeTo').timeEntry('getTime') : null)}; 
-		}
-		
-</script>

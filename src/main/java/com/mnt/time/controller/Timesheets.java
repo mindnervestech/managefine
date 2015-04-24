@@ -618,6 +618,10 @@ public class Timesheets{
 		String week[] = {"sunday","monday","tuesday","wednesday","thursday","friday","saturday"};
 		String day = week[cal.get(Calendar.DAY_OF_WEEK)-1];
 		
+		if(day.equals("sunday")) {
+			weekOfYear = weekOfYear - 1;
+		}
+		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, yearVal);
 		List<WeekDayVM> weekDayList = new ArrayList<>();
 		if(timesheet != null) {
@@ -1269,7 +1273,7 @@ public class Timesheets{
 			timesheetRow.setOverTime(rowVM.isOverTime);
 			timesheetRow.save();
 			
-			
+			cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 			TimesheetDaysActual monday = new TimesheetDaysActual();
 			cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 			monday.setTimesheetDate(cal.getTime());
@@ -1491,7 +1495,7 @@ public class Timesheets{
 					timesheetRow.setOverTime(row.isOverTime);
 					timesheetRow.save();
 					
-					
+					cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 					TimesheetDaysActual monday = new TimesheetDaysActual();
 					cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 					monday.setTimesheetDate(cal.getTime());
@@ -1673,7 +1677,7 @@ public class Timesheets{
 			timesheetRow.setOverTime(rowVM.isOverTime);
 			timesheetRow.save();
 			
-			
+			cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 			TimesheetDays monday = new TimesheetDays();
 			cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 			monday.setTimesheetDate(cal.getTime());
@@ -1895,7 +1899,7 @@ public class Timesheets{
 					timesheetRow.setOverTime(row.isOverTime);
 					timesheetRow.save();
 					
-					
+					cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 					TimesheetDays monday = new TimesheetDays();
 					cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 					monday.setTimesheetDate(cal.getTime());

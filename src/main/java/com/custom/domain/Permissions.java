@@ -32,7 +32,6 @@ public enum Permissions {
 	Today(routes.Schedule.schedularToday.url,Schedule,"Today View"),
 	Week(routes.Schedule.schedularWeek.url,Schedule,"Week View"),
 	Month(routes.Schedule.schedularMonth.url,Schedule,"Month View"),
-	Holiday(routes.Schedule.setupHoliday.url,Schedule,"Setup Holiday"),
 	TodayAll(routes.Schedule.todayAll.url,Schedule,"Today All"),
 	WeekReport(routes.Schedule.weekReport.url,Schedule,"Week Report"),
 	
@@ -67,6 +66,7 @@ public enum Permissions {
 	LeaveSettings(routes.Leaves.leaveSettings.url,Setting,"Leave Settings"),
 	OrgHierarchy(routes.Roles.OrgHierarchy.url,Setting,"Org Hierarchy"),
 	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy"),
+	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
 	
 	ProjectHealth("#",null,"ProjectHealth"),
 	GanttView(routes.ProjectHealth.gantt.url,ProjectHealth,"Show Gantt");

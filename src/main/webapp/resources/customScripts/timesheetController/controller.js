@@ -195,17 +195,22 @@ app.controller("TimeSheetController", function($scope,$http) {
 			}
 			
 		});
+		
+	}
+	
+	$scope.confirmCopyFromLast = function() {
+		$('#popupBtn2').click();
 	}
 	
 	$scope.copyFromLastWeek = function() {
 		
-		if (confirm("Are you sure to copy from last week?") == true) {
 		
 			$scope.weekOfYear = $('#weekValue').val();
 			$scope.year = $('#yearValue').val();
 			$http({method:'GET',url:'getTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
+				$('#lastWeekClose').click();
 				console.log(data);
 				if(data.id != null) {
 					$scope.weekOfYear = data.weekOfYear;
@@ -215,20 +220,21 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$scope.timesheetData = data.timesheetRows;
 					$scope.isCopyFromLastweek = true;
 					console.log($scope.timesheetData);
+					
 					for(var i=0;i<$scope.timesheetData.length;i++) {
 						$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
 						$scope.timesheetData[i].rowId = 0;
 					}
 					
 				} else {
-					alert("No data found for last week");
+					$('#popupBtn3').click();
 				}
 				
 				
 				
 			});
 		
-		}
+		
 		
 	}
 	
@@ -237,11 +243,17 @@ app.controller("TimeSheetController", function($scope,$http) {
 		$scope.timesheetData.push({});
     }
 	
-	$scope.removeRow = function(index,rowId) {
-		if (confirm("Are you sure to delete?") == true) {
-			if(!angular.isUndefined(rowId) && rowId != 0) {
+	$scope.confirmDelete = function(index,rowId) {
+		$scope.deleteIndex = index;
+		$scope.deleteRowId = rowId;
+		$('#popupBtn4').click();
+	}
+	
+	$scope.removeRow = function() {
+		
+			if(!angular.isUndefined($scope.deleteRowId) && $scope.deleteRowId != 0) {
 					
-					$http({method:'GET',url:'deleteTimesheetRow',params:{rowId:rowId}})
+					$http({method:'GET',url:'deleteTimesheetRow',params:{rowId:$scope.deleteRowId}})
 					.success(function(data) {
 						console.log('success');
 						$.pnotify({
@@ -252,15 +264,20 @@ app.controller("TimeSheetController", function($scope,$http) {
 					});
 					
 				}
-			$scope.timesheetData.splice(index,1);
-		} 
+			$('#deleteClose').click();
+			$scope.timesheetData.splice($scope.deleteIndex,1);
+		 
+	}
+	
+	$scope.confirmRetract = function() {
+		$('#popupBtn').click();
 	}
 	
 	$scope.retractTimesheet = function() {
 		$scope.userId = $('#employeeID').val();
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
-		if (confirm("Are you sure to retract?") == true) {
+		
 			$http({method:'GET',url:'timesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
@@ -276,7 +293,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$scope.timesheetStatus = "Draft";
 			});
 			$("#addMore").show();
-		}
+		$('#retractClose').click();
 	}
 	
 	
@@ -378,7 +395,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
-			$scope.timesheetStatus = "Submitted";
+			$scope.timesheetStatus = status;
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");
 				$("#timeSheetTable select").attr("disabled","disabled");
@@ -827,7 +844,7 @@ app.controller("SchedularMonthController", function($scope,$http,$compile) {
 					$scope.dayName = "Tuesday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in tuesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
 				}
-				if(data[0].day == 'Wednesday') {
+				if(data[0].day == 'wednesday') {
 					$scope.wednesdayData = data;
 					$scope.dayName = "Wednesday";
 					htmlTemplate = '<table class="table"><tr><td>Project Code</td><td>Task Code</td><td>From</td><td>To</td></tr><tr ng-repeat="dayData in wednesdayData"><td>{{dayData.projectCode}}</td><td>{{dayData.taskCode}}</td><td>{{dayData.from}}</td><td>{{dayData.to}}</td></tr></table>';
@@ -958,7 +975,7 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 				$scope.staffLeaveVM.fromDate ='';
 				$scope.staffLeaveVM.reason = '';
 				$scope.staffLeaveVM.selectType = '1';
-				closePopDiv('markHoliday');
+				
 				//notificationService.success("Leaves saved!");
 		    });
 		} else {
@@ -1186,9 +1203,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		});
 	}
 	
+	$scope.confirmCopy = function() {
+		$('#popupBtn2').click();
+	}
+	
 	$scope.copyFromLastWeek = function() {
 		
-		if (confirm("Are you sure to copy from last week?") == true) {
+		
 		
 			$scope.weekOfYear = $('#weekValue').val();
 			$scope.year = $('#yearValue').val();
@@ -1196,6 +1217,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$http({method:'GET',url:'getActualTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
+				$('#lastWeekClose').click();
 				console.log(data);
 				if(data.id != null) {
 					$scope.weekOfYear = data.weekOfYear;
@@ -1211,14 +1233,14 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					}
 					
 				} else {
-					alert("No data found for last week");
+					$('#popupBtn3').click();
 				}
 				
 				
 				
 			});
 		
-		}
+		
 		
 	}
 	
@@ -1227,11 +1249,17 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$scope.timesheetData.push({});
     }
 	
-	$scope.removeRow = function(index,rowId) {
-		if (confirm("Are you sure to delete?") == true) {
-			if(!angular.isUndefined(rowId) && rowId != 0) {
+	$scope.confirmDelete = function(index,rowId) {
+		$scope.deleteIndex = index;
+		$scope.deleteRowId = rowId;
+		$('#popupBtn4').click();
+	}
+	
+	$scope.removeRow = function() {
+		
+			if(!angular.isUndefined($scope.deleteRowId) && $scope.deleteRowId != 0) {
 					
-					$http({method:'GET',url:'deleteActualTimesheetRow',params:{rowId:rowId}})
+					$http({method:'GET',url:'deleteActualTimesheetRow',params:{rowId:$scope.deleteRowId}})
 					.success(function(data) {
 						console.log('success');
 						$.pnotify({
@@ -1242,15 +1270,20 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					});
 					
 				}
-			$scope.timesheetData.splice(index,1);
-		} 
+			$('#deleteClose').click();
+			$scope.timesheetData.splice($scope.deleteIndex,1);
+		
+	}
+	
+	$scope.confirmRetract = function() {
+		$('#popupBtn').click();
 	}
 	
 	$scope.retractTimesheet = function() {
 		$scope.userId = $('#employeeID').val();
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
-		if (confirm("Are you sure to retract?") == true) {
+		
 			$http({method:'GET',url:'actualTimesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
@@ -1265,7 +1298,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$scope.isShow = true;
 				$scope.timesheetStatus = "Draft";
 			});
-		}
+		$('#retractClose').click();
 	}
 	
 	
@@ -1279,12 +1312,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	}
 	
 	$scope.checkTime = function(time) {
-		console.log(time);
-		if(time != null) {
-			var arr = time.split(':');
-			console.log(arr[0]);
-			console.log(arr[1]);
-		}
+		
 	}
 	
 	$scope.getWeekDayData = function(day) {
@@ -1439,7 +1467,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveActualTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
-			$scope.timesheetStatus = "Submitted";
+			$scope.timesheetStatus = status;
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");
 				$("#timeSheetTable select").attr("disabled","disabled");
