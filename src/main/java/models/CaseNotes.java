@@ -1,25 +1,14 @@
 package models;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import javax.persistence.Version;
 
-import play.data.format.Formats;
 import play.db.ebean.Model;
 
-import com.avaje.ebean.Expr;
-import com.custom.domain.TimesheetStatus;
-import com.mnt.core.ui.annotation.SearchColumnOnUI;
-import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.WizardCardUI;
 
@@ -55,6 +44,9 @@ public class CaseNotes extends Model{
 		return find.where().eq("casedata.id", id).findList();
 	}
 	
+	public static CaseNotes getById(Long id) {
+		return find.byId(id);
+	}
 	
 	public Long getId() {
 		return id;

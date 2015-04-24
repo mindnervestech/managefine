@@ -5,6 +5,9 @@ import static com.google.common.collect.Lists.transform;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Attachment;
 import models.CaseData;
 import models.CaseFlexi;
 import models.CaseNotes;
@@ -27,6 +31,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -34,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 import play.libs.Json;
@@ -49,7 +56,9 @@ import com.mnt.core.ui.component.AutoComplete;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.vm.CaseDateVM;
 import com.mnt.createProject.vm.Case_flexiVM;
-import com.mnt.createProject.vm.ProjectCommentVM;
+import com.mnt.createProject.vm.CasesNotsAndAttVM;
+import com.mnt.createProject.vm.ProjectAttachmentVM;
+import com.mnt.createProject.vm.caseSupportVM;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -58,6 +67,10 @@ import dto.fixtures.MenuBarFixture;
 
 @Controller
 public class Cases {
+	
+	
+	@Value("${imageRootDir}")
+	String rootDir;
 	
 	@RequestMapping( value="/caseSearch", method= RequestMethod.GET )
 	public @ResponseBody String search(HttpServletRequest request,@CookieValue("username") String username) {
@@ -251,15 +264,26 @@ public class Cases {
 		}
 		
 		List<CaseNotes> casenote = CaseNotes.getCasesNotesId(id);
-		List<ProjectCommentVM>  pList = new ArrayList<ProjectCommentVM>();
+		List<CasesNotsAndAttVM>  pList = new ArrayList<CasesNotsAndAttVM>();
 		
 		for(CaseNotes cNotes:casenote){
-			ProjectCommentVM pVm = new ProjectCommentVM();
-			pVm.setProjectComment(cNotes.getCasenote());
+			CasesNotsAndAttVM pVm = new CasesNotsAndAttVM();
+			pVm.setCaseComment(cNotes.getCasenote());
 			pVm.setCommetDate(cNotes.getNoteDate());
 			User user = User.findById(cNotes.getNoteUser());
 			pVm.setUserName(user.getFirstName());
 			pVm.setUserId(user.getId());
+			
+			List<Attachment> attachment1 = Attachment.getAttachmentByNotesId(cNotes.getId());
+			List<ProjectAttachmentVM> attachment = new ArrayList<ProjectAttachmentVM>();
+			for(Attachment att:attachment1){
+				ProjectAttachmentVM projVm = new ProjectAttachmentVM();
+				projVm.setDocName(att.getFileName());
+				projVm.setDocDate(att.getFileDate());
+				projVm.setId(att.getId());
+				attachment.add(projVm);
+			}
+			pVm.setProjectAtt(attachment);
 			pList.add(pVm);
 		}
 		
@@ -270,6 +294,119 @@ public class Cases {
 		
 	}
 	
+	
+	@RequestMapping(value="/saveFileAndNotes",method=RequestMethod.POST) 
+	public @ResponseBody Long saveFileAndNotes(@RequestParam("file")MultipartFile file,caseSupportVM caseSVM,@CookieValue("username")String username) {
+		
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		createDir(rootDir,caseSVM.getType(),caseSVM.getCaseId());
+			String[] filenames = file.getOriginalFilename().split("\\.");
+			String filename = rootDir+File.separator+ caseSVM.getType() + File.separator +caseSVM.getCaseId()+  File.separator + file.getOriginalFilename();
+			
+			File f = new File(filename);
+			try {
+				file.transferTo(f);
+		
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			
+			User user = User.findByEmail(username);
+			CaseNotes cNotes = new CaseNotes();
+			cNotes.setCasenote(caseSVM.getComment());
+			cNotes.setCasedata(CaseData.findById(Long.parseLong(caseSVM.caseId)));
+			cNotes.setNoteUser(user.getId());
+			try {
+				cNotes.setNoteDate(format.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cNotes.save();
+			
+			Attachment attachment = new Attachment();
+			attachment.setFileName(file.getOriginalFilename());
+			try {
+				attachment.setFileDate(format.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			attachment.setCaseNotes(CaseNotes.getById(cNotes.getId()));
+			attachment.setType(caseSVM.getType());
+			attachment.save();
+			
+		return null;
+		
+		//return null;
+		
+	}
+	
+	public static void createDir(String rootDir,String caseType, String casaId) {
+        File file1 = new File(rootDir + File.separator+ caseType +File.separator+ casaId);
+        if (!file1.exists()) {
+                file1.mkdirs();
+        }
+	}
+	
+	@RequestMapping(value = "/downloadCaseNotesFile", method = RequestMethod.POST)
+	@ResponseBody
+	public FileSystemResource downloadCaseNotesFile(final HttpServletResponse response, @RequestParam(value = "attchId", required = true) final String attchId)
+	{
+	
+		 Attachment attachment = Attachment.getById(Long.parseLong(attchId));
+		 response.setContentType("application/x-download");
+         response.setHeader("Content-Transfer-Encoding", "binary"); 
+         response.setHeader("Content-disposition","attachment; filename=\""+attachment.getFileName());
+         File file = new File(rootDir+File.separator+ attachment.getType() + File.separator + attachment.getCaseNotes().getCasedata().getId() +  File.separator + attachment.getFileName());
+         
+         return new FileSystemResource(file);
+		//return null;
+		
+	}
+	
+	@RequestMapping(value = "/downloadCaseFile", method = RequestMethod.POST)
+	@ResponseBody
+	public FileSystemResource getattchfile(final HttpServletResponse response, @RequestParam(value = "attchId", required = true) final String attchId)
+	{
+	
+		CaseFlexi cFlexi = CaseFlexi.getById(Long.parseLong(attchId));
+		
+		List<FileAttachmentMeta> list = null;
+		try {
+			
+			list = new ObjectMapper().readValue(cFlexi.getValue(),
+					TypeFactory.defaultInstance().constructCollectionType(List.class,FileAttachmentMeta.class));
+			
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
+		 response.setContentType("application/x-download");
+         response.setHeader("Content-Transfer-Encoding", "binary"); 
+         response.setHeader("Content-disposition","attachment; filename=\""+list.get(0).n);
+         File file = new File(rootDir+File.separator+ "caseData" + File.separator + cFlexi.getCaseData().getId()  + File.separator + list.get(0).n);
+         
+         return new FileSystemResource(file);
+		
+		
+	}
 	
 
 	@RequestMapping(value="/caseToIndex", method = RequestMethod.GET)

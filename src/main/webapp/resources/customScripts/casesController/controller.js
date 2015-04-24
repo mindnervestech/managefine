@@ -26,7 +26,24 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 				
 		  });		
 		
-		
+		 $scope.downloadNotesfile = function(id){
+			 
+			  console.log(id);
+			   $.fileDownload('downloadCaseNotesFile',
+				{	   	
+					   httpMethod : "POST",
+					   data : {
+						   attchId : id,
+						  
+					   }
+				}).done(function(e, response)
+						{
+						}).fail(function(e, response)
+						{
+							// failure
+						});
+		 }
+		  
 		  $scope.downloadfile = function(id){
 			  console.log("Doc.....Id");
 			  console.log(id);
@@ -45,7 +62,7 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 						});
 		    
 		   }
-		  //
+		
 		  
 		    var file = null;
 		    $scope.selectFile = function(files) {
@@ -53,8 +70,8 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 		    	console.log(file);
 		    };
 		    $scope.saveCaseInfo = function(){
-		    	//console.log($('#myitem').val());
 		    	$scope.caseData.caseId = $('#myitem').val();
+		    	$scope.caseData.type = "case";
 		    	console.log($scope.caseData);
 		    	$upload.upload({
 		            url: 'saveFileAndNotes',
@@ -66,7 +83,11 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 		            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 		        }).success(function (data, status, headers, config) {
 		            console.log(data);
-		           
+		            $.pnotify({
+                        title: "Success",
+                        type:'Success',
+                        text: "File and Activity save Successfully",
+                    });
 		           
 		        });
 		    	
