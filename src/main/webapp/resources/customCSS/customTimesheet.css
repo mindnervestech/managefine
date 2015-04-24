@@ -1,3 +1,7 @@
+.ng-invalid {
+	border: 1px solid #DA3434 !important;
+}
+
 legend {
     display: inline-block;
 }

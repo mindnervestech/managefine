@@ -19,6 +19,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
+
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
@@ -158,9 +160,12 @@
 										<div style="margin-top: 8%;"class="input">
 											<input type="text"
 												ng-model="row.monFrom"
+												mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
 												ng-blur="checkTime(row.monFrom)"
 												placeholder="From" class="smallInput dayName" style="margin-top:20%;width:30px;"> 
-											<input type="text" placeholder="To" ng-blur="checkTime(row.monTo)" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
+											<input type="text" placeholder="To" 
+											mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
+											ng-blur="checkTime(row.monTo)" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
 												<span class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -171,9 +176,12 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.tueFrom"
+												mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
 												ng-blur="checkTime(row.tueFrom)"
 												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="To" ng-blur="checkTime(row.tueTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
+												<input type="text" placeholder="To" 
+												mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
+												ng-blur="checkTime(row.tueTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -186,8 +194,11 @@
 											<input type="text"
 												ng-model="row.wedFrom"
 												ng-blur="checkTime(row.wedFrom)"
+												mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
 												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="To" ng-blur="checkTime(row.wedTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
+												<input type="text" placeholder="To" ng-blur="checkTime(row.wedTo)" 
+												mask="29:59" restrict="reject"" clean="true" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>

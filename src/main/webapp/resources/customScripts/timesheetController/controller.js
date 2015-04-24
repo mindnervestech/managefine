@@ -1011,6 +1011,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.weekDayData;
 	$scope.isCopyFromLastweek = false;
 	
+	$scope.timeRegexp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+	
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
 		$scope.getTimesheetByWeek();
