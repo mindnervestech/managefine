@@ -46,15 +46,14 @@
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/moment.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/bootbox.min.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/bower_components/angular/angular.js"/>'></script>
-       
+         <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/jquery.fileDownload.js"/>'></script>       
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min1.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ui-bootstrap-tpls-0.12.1.js"/>'></script>
 		 
 		 
     </head>
-    <body  style="background-color: rgba(245, 245, 245, 0.71);box-shadow: 0 1px 30px #CCC;padding-bottom: 2%;
-border-radius: 36px;">
+    <body  style="background-color: rgba(245, 245, 245, 0.71);">
     	<div id="loading" style='position:fixed;
     							top:50%;
     							left:50%;
@@ -63,7 +62,8 @@ border-radius: 36px;">
     	</div>
     
     	<tiles:insertAttribute name="header" />
-		
+		<div class="container" style="box-shadow: 0 5px 118px #CCC;">
+		</div>
 		<div class="container" style="box-shadow: 0 5px 118px #CCC;">
 			<tiles:insertAttribute name="content" />
 		</div>

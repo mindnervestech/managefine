@@ -75,14 +75,26 @@ public class Users {
 		try{
 			id = Long.valueOf(form.get("query"));
 			User user = User.findById(id);
-			RoleX role = RoleX.find.where(Expr.eq("company", user.companyobject)).findUnique();
+			List<RoleLevel> role = RoleLevel.getRoleList();
+			
 			List<DomainEnum> roleX = new ArrayList<DomainEnum>();
 			if(role != null){
-				for(int i=0; i<role.roleLevels.size(); i++){
-					roleX.add(new RoleDomain(role.roleLevels.get(i).getId()+"",role.roleLevels.get(i).getRole_name(),false));
+				for(int i=0; i<role.size(); i++){
+					roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 				}
 			}
 			user.rolex = roleX;
+			
+			List<DomainEnum> dept = new ArrayList<DomainEnum>();
+			List<Department> deptr = Department.findAll();
+				
+			if(deptr != null){
+				for(int i=0; i<deptr.size(); i++){
+					dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
+				}
+			}
+			
+			
 			model.addAttribute("_searchContext", new UserSearchContext(user).build());
 			return "editWizard";
 			/*return ok(editWizard.render(new UserSearchContext(user).build()));*/

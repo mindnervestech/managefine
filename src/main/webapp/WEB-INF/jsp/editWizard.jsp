@@ -5,7 +5,7 @@
 	<c:forEach var="wizard" items='${_searchContext.getWizards()}'>
 		<div class="wizard-card" data-cardname='${wizard.name()}${"_edit"}'
 			data-validate='${"form_"}${_searchContext.entityName()}${"_edit_wizard"}'>
-			
+			<h3>${wizard.name()}</h3>
 			<c:forEach var="fieldType" items="${wizard.card().iterator()}">
 				<c:choose>
 					<c:when test='${fieldType.ctype().name()=="INPUT"}'>
@@ -215,10 +215,15 @@
     				
     			  
     				<c:forEach var="fileAttachment" items="${flexiType.getValue()}">
-    					<button type="button" class="btn btn-link" onclick='downloadFile("${flexiType.getModel().concat("/").concat(flexiType.getModelId()).concat("/").concat(fileAttachment.name())}");'>
-    						${fileAttachment.name()}
-    					</button>   
     					
+    					<c:if test="${fileAttachment.contentType().indexOf('image') != -1}">
+    						<img style="width:'100px'" onclick='downloadFile("${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}");' src='${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}'/>
+    					</c:if>
+    					<c:if test="${fileAttachment.contentType().indexOf('image') == -1}">
+    						<button type="button" class="btn btn-link" onclick='downloadFile("${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}");'>
+    						   ${fileAttachment.name()}
+    					    </button>   
+    					</c:if>
     				</c:forEach>
     			
     			</c:if>
@@ -259,8 +264,8 @@
 			<c:forEach var="option" items="${fieldType.options()}">
 
 				<c:choose>
-					<c:when test='${option.name().equals(fieldType.value().display)}'>
-						<option value='${option}' selected>${option.getName()}</option>
+					<c:when test='${option.getName().equals(fieldType.value().display)}'>
+						<option value='${option}' selected>${option.getName()} </option>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${option.uiHidden()== false}">
@@ -357,7 +362,11 @@
 </div>
 <script>
 function downloadFile(url) {
-		console.log(url);
+	 $.fileDownload(url, {
+	        preparingMessageHtml: "We are preparing your report, please wait...",
+	        failMessageHtml: "There was a problem generating your report, please try again."
+	    });	
+
 }
 
 function viewFile(url) {

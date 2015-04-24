@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>TimeMinder</title>
+<title>Manage Fine</title>
 
 <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -46,7 +46,7 @@
 	<div class="container">
 		<div class="heading">
 			
-			<h1>TimeMinder</h1>
+			<img src="resources/images/logo.png">
 			<br> <br> <br>
 			
 			<br> <br>

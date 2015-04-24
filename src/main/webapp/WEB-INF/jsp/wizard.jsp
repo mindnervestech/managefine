@@ -7,7 +7,7 @@
 		<div class="wizard-card"
 			data-cardname="${_searchContext.entityName()}${wizard.name()}"
 			data-validate='${"form_"}${_searchContext.entityName()}${"_add_wizard"}'>
-			
+			<h3>${wizard.name()}</h3>
 			<c:forEach var="fieldType" items="${wizard.card().iterator()}">
 				<%--I Open --%>
 

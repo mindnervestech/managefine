@@ -87,6 +87,14 @@ public class UserFlexi extends Model implements FlexiAttributes {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public static Model.Finder<Long,UserFlexi> find = new Model.Finder<Long,UserFlexi>(Long.class, UserFlexi.class);
+	
+	public static UserFlexi getUserIdById(Long id) {
+		// TODO , handle nullpointer
+		return find.byId(id);
+	}
+  	  
 
 	
 	

@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>TimeMinder</title>
+<title>Manage File</title>
 
 		<meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -51,7 +51,7 @@
 		<div class="heading">
 			<form:form action="complete" method="POST" id="registerCompanyForm">
 				
-				<h1>TimeMinder</h1>
+				<img src="resources/images/logo.png">
 				<br>
 				<br>
 				<br>
