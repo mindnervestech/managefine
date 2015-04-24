@@ -22,13 +22,12 @@
 </h3>
 
 <label style="  margin-left: 22px;">Entities :</label>
-    <select style="  margin-left: 22px;" ng-change="selectEntityFirst(selecteditem)"							
+    <select style="  margin-left: 22px;width: 166px;" ng-change="selectEntityFirst(selecteditem)"							
 							ng-model="selecteditem">
-	  <option ng-selected="selectedItem == User">User</option>
 	  <option ng-selected="selectedItem == Project">Project</option>
-	  <option ng-selected="selectedItem == Client">Client</option>
+	  <option ng-selected="selectedItem == Client">Customer</option>
 	   <option ng-selected="selectedItem == Supplier">Supplier</option>
-	  <option ng-selected="selectedItem == Task">Task</option>
+	    <option ng-selected="selectedItem == User">User</option>
 </select>
 
 
@@ -37,23 +36,24 @@
       		<label>Name</label>
       		<input class="input-medium" ng-model="w.name" type="text">
       	</div>
+      	<input class="input-medium" ng-model="w.nid" type="hidden">
       	<div style="float: left;margin-left: 23px;margin-top: 10px;">
       		<label>Type</label>
       		<select ng-model="w.type">
-			  <option>string</option>
-			  <option>textarea</option>
-			  <option>date</option>
-			  <option>FILE</option>
+			  <option value="string">String</option>
+			  <option value="textarea">Text Area</option>
+			  <option value="date">Date</option>
+			  <option value="FILE">File Type</option>
 			</select>
 		</div>	
 		<div>
-				<button type="button" style="float: left;margin-left: 35px;margin-top: 35px;" ng-click="romove($index)" class="btn btn-danger">Remove</button>
+				<button ng-if="w.id == undefined" type="button" style="float: left;margin-left: 35px;margin-top: 35px;color: gray;" ng-click="romove($index)" class="btn ">Remove</button>
 			</div>
       </div>
       	
-      	<div style=" float: right;margin-bottom: 10px;">
-      		<button type="button" style="float: left;margin-left: 35px;margin-top: 18px;margin-right: 10px;" ng-click="addMore()" class="btn btn-primary">Add More</button>
-      		<button type="button" style="float: right;margin-top: 7%;margin-right: 77px;" ng-click="submitFlexiAttribute()" class="btn btn-success">Save</button>
+      	<div>
+      		<button type="button" style="float: left;margin-left: 35px;margin-top: 18px;margin-right: 10px;" ng-click="addMore()" class="btn btn-warning">Add More</button>
+      		<button type="button" style="  margin-top: 18px;" ng-click="submitFlexiAttribute()" class="btn btn-warning">Save</button>
       	</div> 
 
 

@@ -158,6 +158,10 @@ public interface Users {
 	public interface findDelegateTos {
 		public static String url="/findDelegatedTo";
 	}
+	
+	public interface findOrganizations {
+		public static String url="/findOrganizations";
+	}
 
 }
 
@@ -443,6 +447,10 @@ public interface Leaves {
 	
 	public interface saveLeavesCredit{
 		public static String url="/saveLeavesCredit";
+	}
+	
+	public interface getLeavesCredit{
+		public static String url="/getLeavesCredit";
 	}
 	
 	public interface leaveSettings{

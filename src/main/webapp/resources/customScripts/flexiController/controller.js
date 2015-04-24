@@ -6,11 +6,21 @@ app.controller("FlexiAttributeController",function($scope,$http) {
 	  console.log("---FlexiAttributeController load data-----");
   };
   
+  
+  $scope.selecteditem = "User";
+  
+  $http({url:'getUserFlexiAttribute',method:'POST',params:{userId:$scope.selecteditem}}).success(function(response){
+	  console.log("GET flxexi");
+		console.log(response);
+		$scope.item = response;
+	});
+  
+  
   $scope.selectEntityFirst = function(value){
 	  console.log("select entity");
 	  console.log(value);
 	  $scope.selecteditem = value;
-	  
+	 
 	  $http({url:'getUserFlexiAttribute',method:'POST',params:{userId:$scope.selecteditem}}).success(function(response){
 		  console.log("GET flxexi");
 			console.log(response);
@@ -44,6 +54,11 @@ app.controller("FlexiAttributeController",function($scope,$http) {
 	  $http({url:'saveFlexiAttribute',method:'POST',data:$scope.item}).success(function(response){
 		  console.log("save flxexi");
 			console.log(response);
+			$.pnotify({
+                title: "Success",
+                type:'success',
+                text: "Flexiattribute Save Successfully",
+            });
 		});
 	  
 	

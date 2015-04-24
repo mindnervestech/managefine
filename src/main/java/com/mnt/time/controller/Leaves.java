@@ -410,6 +410,28 @@ public class Leaves {
 			}else{
 				/*leaveXForm.get().setCompany(user.getCompanyobject());
 				leaveXForm.get().save();*/
+				
+				for(LeaveLevel _rl : leaveXForm.get().getLeaveLevels()){
+					if(_rl.getId()!=null)
+					{
+						_rl.update();
+					} else {
+						_rl.setLeaveX(leaveX);
+						_rl.save();
+					}
+					updateLeaveBalance(_rl, user);
+					List<RoleLevel> rl1 = RoleLevel.find.all();
+					for(RoleLevel r:rl1) {
+						if(RoleLeave.find.where().eq("company", user.getCompanyobject()).eq("roleLevel", r).eq("leaveLevel", _rl).findUnique() == null){
+							RoleLeave Rleave = new RoleLeave();
+							Rleave.roleLevel = r;
+							Rleave.company = user.getCompanyobject();
+							Rleave.leaveLevel = _rl;
+							Rleave.total_leave = 0l;
+							Rleave.save();
+						}
+					}
+				}
 			}
 			
 			List<LeaveLevel> ll=LeaveLevel.findListByCompany(user.getCompanyobject().getId());
@@ -462,6 +484,17 @@ public class Leaves {
 		//extra.put("companyobject", User.findByEmail(username).companyobject);
 		lc.save();
 		return "leave credit saved";
+	}	
+	
+	@RequestMapping(value="/getLeavesCredit " ,method=RequestMethod.POST)		
+	public @ResponseBody LeavesCredit getLeavesCredit(@CookieValue("username")String username,HttpServletRequest request)
+	{
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		User user = User.findByEmail(username);
+	
+		System.out.println("comny---"+user.getCompanyobject().getId());
+		LeavesCredit lvc = LeavesCredit.findByCompany(user.getCompanyobject());	
+		return lvc;
 	}	
 	
 	

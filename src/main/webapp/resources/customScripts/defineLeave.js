@@ -8,10 +8,12 @@ var renumber = function() {
 }
 
 $(document).ready(function() { 
-		
+	 $('.removeLeave').css('display','none');
+	 
 	$("a.addMore").click(function(e) {
 	   	var template = $('.leaveLevel_template')
 	    template.before('<div class="twipsies well leaveLevel">' + template.html() + '</div>')
+	    console.log(e);
 	    renumber();
 	});
 	

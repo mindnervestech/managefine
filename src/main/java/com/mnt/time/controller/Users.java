@@ -52,6 +52,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.ui.component.AutoComplete;
+import com.mnt.orghierarchy.controller.OrgHierarchyController;
+import com.mnt.orghierarchy.model.Organization;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -231,7 +233,6 @@ public class Users {
 				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 			}
 		}
-		
 		if(deptr != null){
 			for(int i=0; i<deptr.size(); i++){
 				dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
@@ -255,13 +256,25 @@ public class Users {
 	
 	@RequestMapping(value="/findPM", method=RequestMethod.GET)
 	public @ResponseBody String findProjectManagers(@CookieValue("username") String username,HttpServletRequest requset){
+		
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		User user = User.findByEmail(username);
+		String query = form.get("query");
+		System.out.println(query);
+		ObjectNode result = Json.newObject();
+		List<AutoComplete> results = transform(User.findByManagerBycompny(user, query), toAutoCompleteFormatForPM());
+		result.put("results", Json.toJson(results));
+		return Json.toJson(result).toString();
+		
+		
+		/*DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		User user = User.findByEmail(username);
 		String designation = form.get("param");
 		String query = form.get("query");
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results;
 		try {
-			results = transform(findUpperLevelUser(username, query, designation, true), toAutoCompleteFormatForPM());
+			results = transform(User.findByManagerBycompny(user, query), toAutoCompleteFormatForPM());
 		} catch(Exception e) {
 			results = null;
 		}
@@ -271,6 +284,30 @@ public class Users {
 			result.put("results", Json.toJson(Lists.newArrayList()));
 		}
 		return Json.toJson(result).toString();
+		
+		*/
+	}
+	
+	@RequestMapping(value="/findOrganizations", method=RequestMethod.GET)
+	public @ResponseBody String findOrganizations(@CookieValue("username") String username,HttpServletRequest requset){
+		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		String query = form.get("query");
+		System.out.println(query);
+		ObjectNode result = Json.newObject();
+		List<AutoComplete> results = transform(OrgHierarchyController.findOrgByName(query, username), toAutoCompleteFormatForOrganization());
+		System.out.println("resultsssssssss==="+Json.toJson(results));
+		System.out.println("resultsssssssss===11"+results);
+		result.put("results", Json.toJson(results));
+		return Json.toJson(result).toString();
+	}
+	
+	private  Function<Organization,AutoComplete> toAutoCompleteFormatForOrganization() {
+		return new Function<Organization, AutoComplete>() {
+			@Override
+			public AutoComplete apply(Organization org) {
+					return new AutoComplete(org.getOrganizationName(),org.getOrganizationType(),org.getOrganizationProfileUrl(),org.getId());
+			}
+		};
 	}
 	
 	@RequestMapping(value="/findHRUser", method=RequestMethod.GET)
@@ -413,6 +450,7 @@ public class Users {
 			String password = Application.generatePassword();
 			RoleLevel roleLevel = RoleLevel.findById(Long.parseLong(form.get("rolex")));
 			RoleLevel role = RoleLevel.getRoleById(Long.parseLong(form.get("rolex")));
+			Organization org = Organization.getOrganizationById(Long.parseLong(form.get("organization_id")));
 			Department deptr = Department.departmentById(Long.parseLong(form.get("dept")));
 			LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
 	    	Map<String, Object> extra = new HashMap<String, Object>();
@@ -422,6 +460,7 @@ public class Users {
 			extra.put("password", password);
 			extra.put("tempPassword", 1);
 			extra.put("role", roleLevel);
+			extra.put("organization", org);
 			extra.put("designation", role.getRole_name());
 			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());

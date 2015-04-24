@@ -270,8 +270,6 @@ public abstract class SearchUIHelper implements SearchUI {
 		 }
 		 
 			 filter.add(new FieldType() {
-				 
-				 
 				
 				@Override
 				public Type ctype() {

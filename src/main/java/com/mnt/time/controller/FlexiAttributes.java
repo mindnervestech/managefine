@@ -71,8 +71,13 @@ public class FlexiAttributes {
 					flexiAttribute.setModel("models.TaskFlexi");
 					flexiAttribute.setUniqueid(4L);
 				}
-				flexiAttribute.save();
-			
+				//flexiAttribute.save();
+				if(flexi.getId() == null) {
+					flexiAttribute.save();
+				} else {
+					flexiAttribute.setId(flexi.getId());
+					flexiAttribute.update();
+				}
 				flexiattributeVM.setName(flexi.getName());
 				flexiattributeVM.setType(flexi.getType());
 			}
@@ -101,6 +106,7 @@ public class FlexiAttributes {
 		 
 		 for(FlexiAttribute flexi : fl) {
 			 FlexiattributeVM flexiattributeVM = new FlexiattributeVM();
+			 flexiattributeVM.setId(flexi.getId());
 			 flexiattributeVM.setModel(flexi.getModel());
 			 flexiattributeVM.setName(flexi.getName());
 			 flexiattributeVM.setType(flexi.getType());

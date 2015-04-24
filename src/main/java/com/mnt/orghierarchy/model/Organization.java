@@ -12,22 +12,31 @@ import play.db.ebean.Model;
 public class Organization extends Model {
 
 	@Id
-	private Long id;
+	public Long id;
 	@Column(length=255)
-	private String organizationName;
+	public String organizationName;
 	@Column(length=255)
-	private String organizationType;
+	public String organizationType;
 	@Column(length=255)
-	private String organizationLocation;
+	public String organizationLocation;
 	@Column(length=255)
-	private String organizationProfileUrl;
-	private Long companyId;
-	private Long parent;
+	public String organizationProfileUrl;
+	public Long companyId;
+	public Long parent;
 	
 	public static Finder<Long,Organization> find = new Finder<Long,Organization>(Long.class,Organization.class);
 	
 	public static Organization getOrganizationById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static Organization findById(Long id) {
+        return find.where().eq("id", id).findUnique();
+    }
+
+	public static List<Organization> getOrganizationByNameNId(Long companyId,String query) {
+		return find.where().eq("companyId",companyId).ilike("organizationName", query+"%")
+	       		.findList();
 	}
 	
 	public static Organization getOrganizationByName(String name) {

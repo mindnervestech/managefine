@@ -38,6 +38,15 @@ public class FlexiAttribute extends Model{
 		return find.where().eq("model", model.getName()).findList();
 	}
 
+
+	public static List<FlexiAttribute> getFieldsByUid(Long uniqueid) {
+		return find.where().eq("uniqueid", uniqueid).findList();
+	}
+	
+	public static List<FlexiAttribute> getFieldsByid() {
+		return find.all();
+	}
+	
 	public static List<FlexiAttribute> getFieldsByUniqueId(Long uniqueid) {
 		return find.where().eq("uniqueid", uniqueid).findList();
 	}

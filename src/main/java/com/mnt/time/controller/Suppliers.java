@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import models.RoleLevel;
 import models.Supplier;
 import models.User;
 
@@ -120,9 +121,24 @@ public class Suppliers {
 	@RequestMapping(value = "/supplierCreate", method = RequestMethod.POST)
 	public @ResponseBody String create(HttpServletRequest request,
 			@CookieValue("username") String username) {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		String userName = form.get("email");
+		
+		RoleLevel r = RoleLevel.getRoleByName("Supplier");
+		String password = Application.generatePassword();
+		User u = new User();
+		u.setEmail(userName);
+		u.setCompanyobject(User.findByEmail(username).companyobject);
+		u.setRole(r);
+		u.setTempPassword(1);
+		u.setUsertype("Supplier User");
+		u.setPassword(password);
+		u.setUserStatus(com.custom.domain.Status.Approved);
+		u.save();
 		try {
 			Map<String, Object> extra = new HashMap<String, Object>();
 			extra.put("company", User.findByEmail(username).companyobject);
+			extra.put("user", u);
 			SupplierSave saveUtils = new SupplierSave(extra);
 			saveUtils.doSave(false, request);
 		} catch (Exception e) {

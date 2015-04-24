@@ -127,8 +127,8 @@ public class UserSearchContext extends ASearchContext<User>{
 		
 		User user1 = User.findByEmail(email);
 		Expression exp1 = Expr.eq("companyobject.companyCode", user1.companyobject.getCompanyCode());
-		Expression exp2 = Expr.and(Expr.ne("designation", "Admin"),
-									Expr.and(Expr.eq("userStatus", Status.Approved),Expr.ne("email", user1.email)));
+		Expression exp2 = Expr.and(Expr.ne("designation", "Admin"),Expr.and(Expr.ne("designation", "Supplier"),Expr.and(Expr.ne("designation", "Customer"),
+									Expr.and(Expr.eq("userStatus", Status.Approved),Expr.ne("email", user1.email)))));
 		int count=0;
 		if(exp == null ){
 			count = models.User.find.where().add(exp1).add(exp2).findRowCount();

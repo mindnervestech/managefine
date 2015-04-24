@@ -32,7 +32,7 @@
 							<option class="largeInput largeInputFirst required" value="NO">NO</option>
 							<option class="largeInput largeInputFirst required" selected
 								value="${leaves.getCarry_forward()}">${leaves.getCarry_forward()}</option>
-						</select> <a class="removeLeave btn danger pull-right btnColor">Remove</a>
+						</select> <a class="removeLeave btn danger pull-right btnColor" id="removeLeave">Remove</a>
 					</div>
 					<div class="clearfix" style="margin-right: 4%; float: left;">
 						<input type="hidden" name="leaveLevels[${loopIndex.index}].id"
@@ -60,7 +60,7 @@
 						<option class="largeInput largeInputFirst required" value="">-select-</option>
 						<option class="largeInput largeInputFirst required" value="YES">YES</option>
 						<option class="largeInput largeInputFirst required" value="NO">NO</option>
-					</select> <a class="removeLeave btn danger pull-right btnColor">Remove</a>
+					</select> <a class="removeLeave btn danger pull-right btnColor" id="removeLeave">Remove</a>
 				</div>
 				<div class="clearfix" style="margin-right: 4%; float: left;">
 					<input type="hidden" name="leaveLevels[x].id" value=""

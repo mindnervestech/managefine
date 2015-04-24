@@ -111,6 +111,9 @@ public class Supplier extends Model {
 	@OneToOne(cascade=CascadeType.ALL)
 	public Company company;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	public User user;
+	
 	public static Model.Finder<Long,Supplier> find = new Model.Finder<Long,Supplier>(Long.class, Supplier.class);
 	
 	
@@ -253,5 +256,13 @@ public class Supplier extends Model {
 
 	public void setFlexiAttributes(List<SupplierFlexi> flexiAttributes) {
 		this.flexiAttributes = flexiAttributes;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

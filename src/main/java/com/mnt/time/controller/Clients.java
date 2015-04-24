@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import models.Client;
+import models.RoleLevel;
 import models.User;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -120,10 +121,25 @@ public class Clients {
 	@RequestMapping(value = "/clientCreate", method = RequestMethod.POST)
 	public @ResponseBody String create(HttpServletRequest request,
 			@CookieValue("username") String username) {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		String userName = form.get("email");
+		
+		RoleLevel r = RoleLevel.getRoleByName("Customer");
+		String password = Application.generatePassword();
+		User u = new User();
+		u.setEmail(userName);
+		u.setCompanyobject(User.findByEmail(username).companyobject);
+		u.setRole(r);
+		u.setTempPassword(1);
+		u.setUserStatus(com.custom.domain.Status.Approved);
+		u.setUsertype("Customer User");
+		u.setPassword(password);
+		u.save();
 		try {
 			Map<String, Object> extra = new HashMap<String, Object>();
 			extra.put("company", User.findByEmail(username).companyobject);
 			ClientSave saveUtils = new ClientSave(extra);
+			extra.put("user", u);
 			saveUtils.doSave(false, request);
 		} catch (Exception e) {
 			// ExceptionHandler.onError(request().uri(),e);

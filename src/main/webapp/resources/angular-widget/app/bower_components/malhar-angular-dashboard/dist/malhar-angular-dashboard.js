@@ -24,7 +24,6 @@ angular.module('ui.dashboard')
     return {
       restrict: 'A',
       templateUrl: function(element, attr) {
-    	
         return attr.templateUrl ? attr.templateUrl : 'components/directives/dashboard/dashboard.html';
       },
       scope: true,

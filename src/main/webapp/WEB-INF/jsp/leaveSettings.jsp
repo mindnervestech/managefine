@@ -52,7 +52,7 @@
 					<td><label style="margin-top: 3%;"><strong>${map.key}</strong></label></td>
     				<c:forEach var="cell" items="${map.value}">
     					<td>
-    						<label style="  margin-left: 25px;"><small>${cell.leaveType}</small></label>
+    						<label style="  margin-left: 10px;"><small>${cell.leaveType}</small></label>
     						<input class="input-small"  type="hidden" name="roleLeaves[${count}].id" value="${cell.id}">
     						<input class="input-mini" style="height: 20px;" type="number" name="roleLeaves[${count}].total_leave" value="${cell.totalLeave}">
     				 		<c:set var="count" value="${count + 1}" scope="page"/>
@@ -80,7 +80,7 @@
 	id="form1">
 	<fieldset>
 		<div id="leavex" style="  margin-top: 15px;">
-			<select name="policy">
+			<select style=" margin-left: 10px;" name="policy" id="policy">
 			  <option value="Pro rata basis">Pro rata basis</option>
 			  <option value="Annual Credit Policy">Annual Credit Policy</option>
 			</select>
@@ -131,16 +131,34 @@
 				data : $("#form1").serialize(),
 				url : "${pageContext.request.contextPath}/saveLeavesCredit",
 				success : function(data) {
+					document.getElementById("submitButton1").disabled = true;
 					$.pnotify({
 						history : false,
-						text : data
+						 type:'success',
+			                text: "CreditPolicy Save Successfully"
 					});
 				}
 			});
 		});
 		
+		
+		$.ajax({
+			type : "POST",
+			data : $("#form1").serialize(),
+			url : "${pageContext.request.contextPath}/getLeavesCredit",
+			success : function(data) {
+				console.log("get policy");
+				console.log(data);
+				if(data != "" ){
+					$('#policy').val(data.policyName);
+					document.getElementById("submitButton1").disabled = true;
+				} 
+			}
+		});
+		
+		
 	});
-	$('#li2').css('background-color','#000000');
+	$('#li2').css('background-color','#5c5c5c');
 	$('#myTab a').click(function (e) {
 		  e.preventDefault();
 		  $(this).tab('show');

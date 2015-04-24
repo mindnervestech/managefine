@@ -106,6 +106,9 @@ public class Client extends Model {
 	@OneToOne(cascade=CascadeType.ALL)
 	public Company company;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	public User user;
+	
 	public static Model.Finder<Long,Client> find = new Model.Finder<Long,Client>(Long.class, Client.class);
 	
 	
@@ -220,6 +223,12 @@ public class Client extends Model {
 		this.contactPhone = contactPhone;
 	}
 
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public String getContactEmail() {
 		return contactEmail;
 	}

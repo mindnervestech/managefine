@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import play.libs.Json;
 
+import com.avaje.ebean.Expr;
+import com.mnt.orghierarchy.model.Organization;
 import com.mnt.orghierarchy.service.OrgHierarchyService;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 
@@ -78,4 +80,13 @@ public class OrgHierarchyController {
 	public @ResponseBody FileSystemResource orgProfile(@PathVariable("id")Long id) {
 		return new FileSystemResource(orgHierarchyService.orgProfile(id));
 	}
+	
+	public static List<Organization> findOrgByName(String query, String username) {
+		User user = User.findByEmail(username);
+		System.out.println("queary ---"+query);
+		List<Organization> orgs =  Organization.find.where().and(Expr.eq("companyId", user.companyobject.getId()),Expr.or(Expr.ilike("organizationName", query+"%"),Expr.ilike("organizationType", query+"%")))
+	       		.findList();
+		return orgs;
+	}
+	
 }

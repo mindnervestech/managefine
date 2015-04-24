@@ -21,6 +21,7 @@ import javax.persistence.Version;
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Expr;
 import com.custom.domain.EmployeeStatus;
 import com.custom.domain.Gender;
 import com.custom.domain.Salutation;
@@ -34,6 +35,7 @@ import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
 import com.mnt.createProject.model.Projectinstance;
+import com.mnt.orghierarchy.model.Organization;
 import com.mnt.time.controller.routes;
 
 @Entity
@@ -42,6 +44,8 @@ public class User extends Model {
 	public static final String ENTITY = "User";
 	
 	private static final String REPORTING_MANAGER = "Reporting Manager";
+	
+	private static final String ORGINIZATION = "Organization";
 
 	private static final String HR_MANAGER = "HR Manager";
 	@Version
@@ -127,7 +131,7 @@ public class User extends Model {
 	
 	@Transient
 	@WizardCardUI(name="Other Info",step=2)
-	@UIFields(order=9,label="Department")
+	@UIFields(order=8,label="Department")
 	@Validation(required = true)
 	public static List<DomainEnum> dept;
 	
@@ -145,6 +149,8 @@ public class User extends Model {
 	@SearchColumnOnUI(rank=6,colName="Department")
 	public String department;
 	
+	public String usertype;
+	
 	@OneToOne
 	public RoleLevel role;
 	
@@ -159,9 +165,15 @@ public class User extends Model {
 	public User manager;
 	
 	@WizardCardUI(name="Other Info",step=2)
-	@UIFields(order=8,label="Date of Release")
+	@UIFields(order=7,label="Date of Release")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date releaseDate;
+	
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=9,label=ORGINIZATION, autocomplete=true)
+	@Validation(required = true)
+	@OneToOne
+	public Organization organization;
 	
 	//@WizardCardUI(name="Other Info",step=2)
 	//@UIFields(order=6,label=HR_MANAGER, autocomplete=true)
@@ -228,6 +240,12 @@ public class User extends Model {
 		return find.where().eq("manager", user).findList();
 	}
 	
+	public static List<User> findByManagerBycompny(User user,String query) {
+		return find.where().and(Expr.eq("companyobject", user.companyobject),Expr.or(Expr.ilike("firstName", query+"%"),Expr.ilike("lastName", query+"%")))
+	       		.findList();
+	}
+	
+	
 	public static User authenticate(String email, String password, String companyCode) {
 		User user= find.where().eq("email", email).eq("password", password).findUnique();
 				
@@ -245,7 +263,15 @@ public class User extends Model {
 			return null;
 	}
 	
-    /**
+    public String getUsertype() {
+		return usertype;
+	}
+
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+
+	/**
      * Retrieve a User from email.
      */
     public static User findByEmail(String email) {
@@ -269,6 +295,7 @@ public class User extends Model {
 
 	static {
 		autoCompleteAction.put(HR_MANAGER, routes.Users.findHRUser.url);
+		autoCompleteAction.put(ORGINIZATION, routes.Users.findOrganizations.url);
 		autoCompleteAction.put(REPORTING_MANAGER, routes.Users.findProjectManagers.url);
 	}
 	
@@ -331,6 +358,14 @@ public class User extends Model {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public String getEmail() {
