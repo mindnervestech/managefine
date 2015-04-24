@@ -5,6 +5,7 @@ public class UserVM {
 	
 	public String id;
 	public String firstName;
+	public String lastName;
 	public String email;
 	public String getId() {
 		return id;
@@ -24,6 +25,12 @@ public class UserVM {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	

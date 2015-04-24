@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.persistence.Version;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
+import scala.Array;
 
 import com.avaje.ebean.Expr;
 import com.custom.domain.EmployeeStatus;
@@ -35,6 +37,7 @@ import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
 import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.vm.UserVM;
 import com.mnt.orghierarchy.model.Organization;
 import com.mnt.time.controller.routes;
 
@@ -240,9 +243,29 @@ public class User extends Model {
 		return find.where().eq("manager", user).findList();
 	}
 	
-	public static List<User> findByManagerBycompny(User user,String query) {
-		return find.where().and(Expr.eq("companyobject", user.companyobject),Expr.or(Expr.ilike("firstName", query+"%"),Expr.ilike("lastName", query+"%")))
-	       		.findList();
+	public static List<User> findByManagerBycompny(User user,String query, Long projectId) {
+		List<User> uList = new ArrayList<User>();
+		Projectinstance projectinstance = Projectinstance.findById(projectId);
+		for(User us:projectinstance.getUser()){
+			
+			User user2  = User.findByMember(user, query, us.getId());
+			if(user2 != null){
+			User uVm = new User();
+			uVm.setFirstName(user2.getFirstName());
+			uVm.setLastName(user2.getLastName());
+			uVm.setEmail(user2.getEmail());
+			uVm.setId(user2.getId());
+			uList.add(uVm);
+			}
+		}
+		return uList;
+		
+	}
+	
+	public static User findByMember(User user,String query, Long userId) {
+				
+		return find.where().and(Expr.eq("id", userId),Expr.or(Expr.ilike("firstName", query+"%"),Expr.ilike("lastName", query+"%")))
+	       		.findUnique();
 	}
 	
 	

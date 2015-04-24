@@ -47,11 +47,13 @@ public class CaseData extends Model {
 	
 	@SearchColumnOnUI(rank=2,colName="Title")
 	@WizardCardUI(name="Basic Info",step=1)
+	@Validation(required = true)
 	@UIFields(order=1,label="Title")
 	public String title;
 	
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="Description",uitype="textarea")
+	@Validation(required = true)
 	@SearchColumnOnUI(rank=3,colName="Description")
 	public String description;
 	
@@ -62,21 +64,21 @@ public class CaseData extends Model {
 	public String status;
     
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=3,label="Notes", mandatory = true)
+	@UIFields(order=5,label="Notes", mandatory = true)
     public String notes;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<CaseNotes> casenotes;
     
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=4,label=PROJECTS, autocomplete=true)
+	@UIFields(order=3,label=PROJECTS, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne(cascade = CascadeType.ALL)
 	public Projectinstance projects;
 	
 	@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=5,label=ASSIGNTO_USER, autocomplete=true,ajaxDependantField="projects")
+	@UIFields(order=4,label=ASSIGNTO_USER, autocomplete=true,ajaxDependantField="projects")
 	@OneToOne(cascade = CascadeType.ALL)
 	@Validation(required=true)
 	public User assignto;
