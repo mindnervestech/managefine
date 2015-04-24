@@ -41,16 +41,6 @@
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/app.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/services/datamodel.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/services/service.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/services/gateway.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/services/widgets.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/main.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/simple.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/serverdata.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/rest.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/apps.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/discovery.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/topics.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/resources/angular-widget/app/scripts/controllers/widgetOptions.js"/>'></script>
         <!-- endbuild -->
 
 
@@ -72,7 +62,7 @@
 
 angular.module('app')
   .controller('MainCtrl'
-		  , function ($scope,$http, $interval, stackedAreaChartSampleData, pieChartSampleData,RestFunnelDataModel, RandomTimeSeriesDataModel, RandomTopNDataModel, ProjectDataModel, TaskDataModel)
+		  , function ($scope,$http, $interval, RestFunnelDataModel,  ProjectDataModel, TaskDataModel)
 		  {
 
        $scope.userId = 1;
@@ -86,7 +76,7 @@ angular.module('app')
 	    title: 'Health',
 	    attrs: {
 	      label:"${project.name}", 	
-	      value: '${project.percentage}',
+	      value: '${project.percent}',
 	      size: '100'
 	    },
 	    style: {
@@ -94,14 +84,43 @@ angular.module('app')
 	    }
 	  },
 </c:forEach>
+	  {
+          name: 'Tasks',
+          title: 'Tasks',
+          directive: 'wt-tasks',
+          dataAttrName: 'data',
+          dataModelOptions: {
+        	  userId: $scope.userId
+          },
+          dataModelType: TaskDataModel,
+          style: {
+            width: '40%'
+          }
+      },
+      
+      {
+          name:'Projects',
+          title:'Projects',
+          directive: 'wt-projects',
+          dataAttrName: 'data',
+          dataModelOptions: {
+        	  userId: $scope.userId
+          },
+          dataModelType: ProjectDataModel,
+          style: {
+            width: '40%'
+          }
+        },	  
+	  
 <c:forEach var="projectType" items="${myProjectTypes}">	  
 	  {
           directive: 'wt-funnel',
           name: '${projectType.name}',
+          title: '${projectType.name}',
           dataAttrName: 'data',
-          dataModelType: FunnelDataModel,
+          dataModelType: RestFunnelDataModel,
           dataModelOptions: {
-          	  projectType: '${projectType.name}'
+          	  projectType: '${projectType.id}'
           },
           style: {
             width: '33%'
@@ -109,33 +128,7 @@ angular.module('app')
       },  
  </c:forEach>                        
                         
-                        {
-                            name: 'Tasks',
-                            title: 'Tasks',
-                            directive: 'wt-tasks',
-                            dataAttrName: 'data',
-                            dataModelOptions: {
-                          	  userId: $scope.userId
-                            },
-                            dataModelType: TaskDataModel,
-                            style: {
-                              width: '40%'
-                            }
-                        },
                         
-                        {
-                            name:'Projects',
-                            title:'Projects',
-                            directive: 'wt-projects',
-                            dataAttrName: 'data',
-                            dataModelOptions: {
-                          	  userId: $scope.userId
-                            },
-                            dataModelType: ProjectDataModel,
-                            style: {
-                              width: '40%'
-                            }
-                          },
                         
                       ];
        

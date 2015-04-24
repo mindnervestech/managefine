@@ -1979,12 +1979,10 @@ angular.module('ui.widgets')
           { id: 'name', key: 'name', label: 'Project Name' },
           { id: 'startDate', key: 'startDate', label: 'Start Date' },
           { id: 'endDate', key: 'endDate', label: 'End Date' },
-          { id: 'status', key: 'status', label: 'Status' }
+          { id: 'status', key: 'status', label: 'Status' },
+          { id: 'percentage', key: 'percentage', label: 'Percent' }
         ];
-        $scope.items = [
-                {name:"S",startDate:"s",endDate:"s",status:"sd"},
-                {name:"S",startDate:"s",endDate:"s",status:"sd"}
-                        ];
+        
       },
       link: function postLink(scope) {
         scope.$watch('data', function (data) {
@@ -2015,7 +2013,8 @@ angular.module('ui.widgets')
         { id: 'name', key: 'name', label: 'Project Name' },
         { id: 'startDate', key: 'startDate', label: 'Start Date' },
         { id: 'endDate', key: 'endDate', label: 'End Date' },
-        { id: 'status', key: 'status', label: 'Status' }
+        { id: 'status', key: 'status', label: 'Status' },
+        { id: 'percentage', key: 'percentage', label: 'Percent' }
       ];
     },
     link: function postLink(scope) {

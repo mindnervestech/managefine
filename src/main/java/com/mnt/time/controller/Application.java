@@ -66,6 +66,9 @@ public class Application  {
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", User.findByEmail(username));
     	model.addAttribute("leaves",leavebal);
+    	
+    	model.addAttribute("myProjects", Wdgets.getProjectForGauge(username));
+    	model.addAttribute("myProjectTypes",Wdgets.getProjectTypeForFunnel(username));
     	//return "views/home";
     	return "home";
     }
