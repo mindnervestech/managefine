@@ -299,6 +299,13 @@ public  abstract class UIModelHelper<M extends ProxyUI> implements UIModel {
 				return field.multiselect();
 			}
 
+
+			@Override
+			public String ajaxDependantField() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 			
 		};
 	}

@@ -191,8 +191,6 @@ public class Projectinstance extends Model{
 
 	public static List<Projectinstance> getProjectUser(String username) {
 		User user = User.findByEmail(username);
-		System.out.println("-------");
-		System.out.println(user.getId());
 		return find.where().eq("userid.id", user.getId()).findList();
 	}
 

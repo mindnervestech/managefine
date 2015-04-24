@@ -51,7 +51,7 @@ public class CaseData extends Model {
 	public String title;
 	
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=2,label="Description")
+	@UIFields(order=2,label="Description",uitype="textarea")
 	@SearchColumnOnUI(rank=3,colName="Description")
 	public String description;
 	
@@ -76,7 +76,7 @@ public class CaseData extends Model {
 	
 	@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=5,label=ASSIGNTO_USER, autocomplete=true)
+	@UIFields(order=5,label=ASSIGNTO_USER, autocomplete=true,ajaxDependantField="projects")
 	@OneToOne(cascade = CascadeType.ALL)
 	@Validation(required=true)
 	public User assignto;

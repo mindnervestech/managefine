@@ -22,6 +22,7 @@ public interface FieldType extends Comparable<FieldType>{
 	int col();
 	String cssClass();
 	String htmlAttrib();
+	String ajaxDependantField();
 	
 	public interface JQValidation{
 		boolean required() ;
@@ -41,6 +42,6 @@ public interface FieldType extends Comparable<FieldType>{
 		LIST,
 		SEARCH,
 		DATE,
-		CHECKBOX, FLEXI
+		CHECKBOX, FLEXI, TEXTAREA
 	}
 }

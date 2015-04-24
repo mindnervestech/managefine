@@ -238,8 +238,13 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 							e.printStackTrace();
 						} 
 					}
+					if(fieldUI.uitype().equalsIgnoreCase(FieldType.Type.TEXTAREA.name())) {
+						addWizard(wizardCardUI,fieldUI,validation,fieldNameWithPrefix(f.getName()),
+								Type.TEXTAREA,null,value);
+					} else {
 					addWizard(wizardCardUI,fieldUI,validation,fieldNameWithPrefix(f.getName()),
 							Type.INPUT,null,value);
+					}
 				}
 				if(f.getType().isAssignableFrom(Date.class)){
 					value.setDt((Date)value.getO());
@@ -570,25 +575,32 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 			@Override
 			public int row() {
 				// TODO Auto-generated method stub
-				return 0;
+				return field.row();
 			}
 
 
 			@Override
 			public int col() {
-				return 0;
+				return field.col();
 			}
 
 
 			@Override
 			public String cssClass() {
-				return null;
+				return field.cssClass();
 			}
 
 
 			@Override
 			public String htmlAttrib() {
 				return field.htmlAttrib();
+			}
+
+
+			@Override
+			public String ajaxDependantField() {
+				return field.ajaxDependantField();
+				
 			}
 
 			
@@ -931,6 +943,12 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 				@Override
 				public boolean multiselect(){
 					return false;
+				}
+
+				@Override
+				public String ajaxDependantField() {
+					// TODO Auto-generated method stub
+					return null;
 				}
 			});
 		 

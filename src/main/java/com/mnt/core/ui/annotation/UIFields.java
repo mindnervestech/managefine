@@ -19,6 +19,8 @@ public @interface UIFields {
 	boolean mandatory() default false;
 	int row() default 0;
 	int col() default 0;
+	String uitype() default "";
+	String ajaxDependantField() default "";
 	String cssClass() default "";
 	String htmlAttrib() default "";
 	 

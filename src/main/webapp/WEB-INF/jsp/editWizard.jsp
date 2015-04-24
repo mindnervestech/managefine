@@ -309,6 +309,49 @@
 	</div>
 </c:when>
 
+<c:when test='${fieldType.ctype().name()=="TEXTAREA"}'>
+    <c:if test="${fieldType.order() %2 == 1}">
+		<div class="control-group"
+			style="float: left; width: 46%; margin: 0px; height: 75px;">
+	</c:if>
+	<c:if test="${fieldType.order() % 2 != 1}">
+		<div class="control-group" style="height: 75px;">
+	</c:if>
+	<label class="control-label" for="textinput">${fieldType.label()}
+		<c:if
+			test="${fieldType.validation()!=null && fieldType.validation().required()}">
+
+			<sup style="color: red"> *</sup>
+		</c:if>
+	</label>
+	
+	
+	<c:choose>
+		<c:when
+			test="${fieldType.validation() !=null && fieldType.validation().required()}">
+			<textarea
+				id="${_searchContext.entityName()}${fieldType.name()}"
+				name="${fieldType.name()}"
+				placeholder="${fieldType.label()}"
+				${fieldType.htmlAttrib()} required class="input-large"
+				 rel="popover">${fieldType.value().getO().toString()}
+				 </textarea>
+		</c:when>
+		<c:otherwise>
+			<textarea
+				id="${_searchContext.entityName()}${fieldType.name()}"
+				name="${fieldType.name()}"
+				placeholder="${fieldType.label()}"
+				${fieldType.htmlAttrib()} class="input-large" type="text">
+				${fieldType.value().getO().toString()}
+				</textarea>
+		</c:otherwise>
+	</c:choose>
+	</div>
+	
+</c:when>
+
+
 <c:when test='${fieldType.ctype().name()=="DATE"}'>
 	<c:choose>
 		<c:when test='${fieldType.order() % 2 == 1}'>

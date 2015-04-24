@@ -15,19 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.CaseData;
+import models.CaseFlexi;
 import models.CaseNotes;
 import models.Department;
-import models.Project;
 import models.RoleLevel;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import play.data.DynamicForm;
@@ -39,15 +44,12 @@ import com.custom.helpers.CaseSearchContext;
 import com.custom.helpers.CaseToSearchContext;
 import com.google.common.base.Function;
 import com.mnt.core.domain.DomainEnum;
+import com.mnt.core.domain.FileAttachmentMeta;
 import com.mnt.core.ui.component.AutoComplete;
-<<<<<<< HEAD
 import com.mnt.createProject.model.Projectinstance;
-import com.mnt.roleHierarchy.model.Role;
-import com.mnt.time.controller.Application.Login;
-import com.mnt.time.controller.routes.Application.login;
-import com.mnt.time.controller.routes.Status.companyIndex;
-=======
->>>>>>> b7af703564f9abd555eeacd3a8b6fb6f32c67546
+import com.mnt.createProject.vm.CaseDateVM;
+import com.mnt.createProject.vm.Case_flexiVM;
+import com.mnt.createProject.vm.ProjectCommentVM;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -124,8 +126,6 @@ public class Cases {
 	@RequestMapping(value="/findPro", method=RequestMethod.GET)
 	public @ResponseBody String findProject(@CookieValue("username") String username,HttpServletRequest requset){
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
-		String query = form.get("query");
-		System.out.println(query);
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results = transform(Projectinstance.getProjectUser(username), toAutoCompleteFormatForProject());
 		result.put("results", Json.toJson(results));

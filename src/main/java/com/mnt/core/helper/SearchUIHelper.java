@@ -270,6 +270,8 @@ public abstract class SearchUIHelper implements SearchUI {
 		 }
 		 
 			 filter.add(new FieldType() {
+				 
+				 
 				
 				@Override
 				public Type ctype() {
@@ -352,6 +354,11 @@ public abstract class SearchUIHelper implements SearchUI {
 
 				@Override
 				public String htmlAttrib() {
+					return null;
+				}
+				@Override
+				public String ajaxDependantField() {
+					// TODO Auto-generated method stub
 					return null;
 				}
 			});
