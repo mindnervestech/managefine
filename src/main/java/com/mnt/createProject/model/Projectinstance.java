@@ -41,7 +41,6 @@ public class Projectinstance extends Model{
 	
 	
 	@SearchColumnOnUI(rank=1,colName="Project Name",width=20)
-	@UIFields(order=6,label=PROJECTS, autocomplete=true)
 	@SearchFilterOnUI(label="Project Name")
 	public String projectName;
 	
@@ -66,7 +65,7 @@ public class Projectinstance extends Model{
 	@SearchColumnOnUI(rank=6,colName="Status")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=6,label="Due Date")
-	private String status;
+	public String status;
 	
 	public Long clientId;
 	public Long projectid;

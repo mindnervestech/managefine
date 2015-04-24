@@ -172,7 +172,7 @@
 	
 	<fieldset ng-controller="flexiAttributeController" 
 		 >
-    <legend>Flexi Attributes</legend>
+    
     
     <c:forEach var="flexiType" items="${fieldType.value().getO()}" varStatus="index">
     		<c:if test="${index.index %2 != 1}">
