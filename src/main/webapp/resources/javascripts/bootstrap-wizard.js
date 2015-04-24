@@ -372,9 +372,10 @@
 						'</div>',
 						'<div class="wizard-modal-footer">',
 							'<div class="wizard-buttons-container">',
-								'<button class="btn wizard-back" type="button">Back</button>',
-								'<button class="btn btn-primary wizard-close" type="button">Close</button>',
+								'<button class="btn wizard-back" style="float:left; margin-left: 2%; " type="button">Back</button>',
+								
 								'<button class="btn btn-primary wizard-next" type="button">Next</button>',
+								'<button class="btn wizard-close" type="button">Close</button>',
 							'</div>',
 						'</div>',
 					'</div>',

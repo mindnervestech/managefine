@@ -274,7 +274,7 @@ public class User extends Model {
 	
 	@Override
 	public String toString() {
-		return getFirstName() + ","  + "("+getEmail() +")" + "," + "("+getDesignation()+")";
+		return getFirstName() + ","  + getLastName() + "("+getDesignation()+")";
 	}
 
 	public Timestamp getLastUpdate() {

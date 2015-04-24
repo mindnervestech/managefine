@@ -7,7 +7,7 @@
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/slimScroll/prettify/prettify.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
-<link rel="stylesheet" media="screen" href='<c:url value="/resources/stylesheets/bootstrap.min.css"/>'>
+
 <div ng-app="ProjectHierarchyApp" ng-controller="createProjectController">
 <%-- <span style="font-size: large;margin-left: 19px;margin-top: 12px;"><u><b>${createProject.projectName} </b></u>  (Client Name :${createProject.clientName}, Start Date : ${createProject.startDate} / End Date : ${createProject.endDate})</span> --%>
 

@@ -5,12 +5,10 @@ import static com.google.common.collect.Lists.transform;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import models.ApplyLeave;
 import models.CaseData;
 import models.User;
 
@@ -21,12 +19,10 @@ import utils.ExceptionHandler;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
-import com.custom.domain.LeaveStatus;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
 import com.mnt.core.ui.component.BuildUIButton;
 import com.mnt.core.ui.component.UIButton;
-import com.mnt.core.ui.component.UIButton.ButtonActionType;
 import com.mnt.core.utils.GridViewModel;
 import com.mnt.core.utils.GridViewModel.PageData;
 import com.mnt.core.utils.GridViewModel.RowViewModel;
@@ -198,5 +194,12 @@ private static CaseToSearchContext searchContext = null;
 	protected void buildButton() {
 		//super.getButtonActions().add(new AddButton());
 	}
+	
+	@Override
+
+		public UIButton showAddButton() {
+			
+			return BuildUIButton.me();
+		}
 	
 }
