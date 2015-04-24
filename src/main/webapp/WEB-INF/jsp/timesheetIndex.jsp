@@ -16,6 +16,8 @@
 	type="text/javascript"></script>	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
@@ -70,7 +72,7 @@
 			<div id="timeSheetTable" style="float: left;width: 100%;"> 
 
 				<div class="worksheetHeader">
-					<h5>Work/Absence Hours Reporting</h5>
+					<h5>Calendar Planning</h5>
 					<div id="statusInfo">
 						<%-- <h6>With :</h6>
 						<label style="margin: 4px 10px 0 0; padding: 4px 0; float: left;">
@@ -114,7 +116,7 @@
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
-						<a class="btn" id="addMore" ng-show="timesheetStatus !='Submitted'" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
+						<a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
 					</div>
 				</div>
 				
@@ -260,7 +262,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="timesheetStatus !='Submitted'" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
 							
 							</div>
 				

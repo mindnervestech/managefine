@@ -59,6 +59,13 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+		
+		if($scope.timesheetStatus == "Submitted" || $scope.timesheetStatus == "Approved") {
+			$scope.isShow = false;
+		} else {
+			$scope.isShow = true;
+		}
+		
 		if($scope.timesheetStatus == "Submitted") {
 			$("#timeSheetTable :input").attr("readonly","readonly");
 			$("#timeSheetTable select").attr("disabled","disabled");
@@ -67,14 +74,27 @@ app.controller("TimeSheetController", function($scope,$http) {
 			$("#saveTimesheetForm").attr("disabled","disabled");
 			$("#submitTimesheetForm").attr("disabled","disabled");
 			$("#retractTimesheetForm").removeAttr("disabled","disabled");
+			$("#addMore").hide();
 		} else {
-			$("#timeSheetTable :input").removeAttr("readonly","readonly");
-			$("#timeSheetTable select").removeAttr("disabled","disabled");
-			$("input:checkbox").removeAttr("disabled","disabled");
-			$("#copyFromLastWeek").removeAttr("disabled","disabled");
-			$("#saveTimesheetForm").removeAttr("disabled","disabled");
-			$("#submitTimesheetForm").removeAttr("disabled","disabled");
-			$("#retractTimesheetForm").attr("disabled","disabled");
+			if($scope.timesheetStatus == "Approved") {
+				$("#timeSheetTable :input").attr("readonly","readonly");
+				$("#timeSheetTable select").attr("disabled","disabled");
+				$("input:checkbox").attr("disabled","disabled");
+				$("#copyFromLastWeek").attr("disabled","disabled");
+				$("#saveTimesheetForm").attr("disabled","disabled");
+				$("#submitTimesheetForm").attr("disabled","disabled");
+				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").hide();
+			} else {
+				$("#timeSheetTable :input").removeAttr("readonly","readonly");
+				$("#timeSheetTable select").removeAttr("disabled","disabled");
+				$("input:checkbox").removeAttr("disabled","disabled");
+				$("#copyFromLastWeek").removeAttr("disabled","disabled");
+				$("#saveTimesheetForm").removeAttr("disabled","disabled");
+				$("#submitTimesheetForm").removeAttr("disabled","disabled");
+				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+			}
 		}
 	});
 	
@@ -115,6 +135,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				}
 				
 				if(data.status == "Submitted") {
+					$scope.isShow = false;
 					$("#timeSheetTable :input").attr("readonly","readonly");
 					$("#timeSheetTable select").attr("disabled","disabled");
 					$("input:checkbox").attr("disabled","disabled");
@@ -122,8 +143,23 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$("#saveTimesheetForm").attr("disabled","disabled");
 					$("#submitTimesheetForm").attr("disabled","disabled");
 					$("#retractTimesheetForm").removeAttr("disabled","disabled");
+					$("#addMore").hide();
 				} else {
-					$("#retractTimesheetForm").attr("disabled","disabled");
+					if(data.status == "Approved") {
+						$scope.isShow = false;
+						$("#timeSheetTable :input").attr("readonly","readonly");
+						$("#timeSheetTable select").attr("disabled","disabled");
+						$("input:checkbox").attr("disabled","disabled");
+						$("#copyFromLastWeek").attr("disabled","disabled");
+						$("#saveTimesheetForm").attr("disabled","disabled");
+						$("#submitTimesheetForm").attr("disabled","disabled");
+						$("#retractTimesheetForm").attr("disabled","disabled");
+						$("#addMore").hide();
+					} else {
+						$scope.isShow = true;
+						$("#retractTimesheetForm").attr("disabled","disabled");
+						$("#addMore").show();
+					}
 				}
 				
 				
@@ -132,6 +168,8 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$scope.addMore();
 				$scope.timesheetStatus = "";
 				$scope.timesheetId = null;
+				$("#addMore").show();
+				$scope.isShow = true;
 			}
 		});	
 	}
@@ -233,7 +271,11 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$("#saveTimesheetForm").removeAttr("disabled","disabled");
 				$("#submitTimesheetForm").removeAttr("disabled","disabled");
 				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+				$scope.isShow = true;
+				$scope.timesheetStatus = "Draft";
 			});
+			$("#addMore").show();
 		}
 	}
 	
@@ -336,6 +378,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
+			$scope.timesheetStatus = "Submitted";
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");
 				$("#timeSheetTable select").attr("disabled","disabled");
@@ -344,13 +387,23 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$("#saveTimesheetForm").attr("disabled","disabled");
 				$("#submitTimesheetForm").attr("disabled","disabled");
 				$("#retractTimesheetForm").removeAttr("disabled","disabled");
+				$("#addMore").hide();
+				$scope.isShow = false;
 			} else {
 				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+				$scope.isShow = true;
 			}
+			if($scope.timesheet.status == "Submitted") {
+				$scope.msg = "Timesheet Submitted Successfully";
+			} else {
+				$scope.msg = "Timesheet Saved Successfully";
+			}
+			
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "Timesheet Saved Successfully",
+			    text: $scope.msg,
 			});
 		});
 		
@@ -359,7 +412,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 });
 
 
-app.controller("SchedularTodayController", function($scope,$http) {
+app.controller("SchedularTodayController", function($scope,$http,ngDialog,$upload) {
 	
 	$scope.editStartTime ="";
 	$scope.editEndTime = "";
@@ -381,7 +434,6 @@ app.controller("SchedularTodayController", function($scope,$http) {
 	$scope.getSchedulerDay = function(dateString) {
 		var temp = dateString.split("/");
 		$scope.currentDateObject.setFullYear(parseInt(temp[2]),parseInt(temp[0])-1,parseInt(temp[1]));
-		$scope.getUserProjects();
 		$scope.getSchedulerDataByDate();
 	}
 	
@@ -413,41 +465,110 @@ app.controller("SchedularTodayController", function($scope,$http) {
 		}
 	}
 	
-	$scope.getUserProjects = function() {
-		$scope.userId = $('#userID').val();
-		$http({method:'GET',url:contextPath+'/getProjectCodes',params:{userId:$scope.userId}})
-		.success(function(data) {
-			console.log('success');
-			console.log(data);
-			$scope.projectList = data;
-			
-		});
-		
-	}
-	
-	$scope.setTaskOfProject = function(projectId) {
-		console.log(projectId);
-		for(var i=0;i<$scope.projectList.length;i++) {
-			if($scope.projectList[i].id == projectId) {
-				$scope.taskList = $scope.projectList[i].tasklist;
-			}
-		}
-	}
-	
 	
 	$scope.editFunction = function(e,data) {
 		
 		console.log(data);
-		$scope.projectCode = data.projectId;
-		$scope.taskCode = data.taskId;
-		$scope.setTaskOfProject($scope.projectCode);
+		$scope.projectCode = data.visitType;
+		$scope.taskCode = data.taskCode;
+		
 		$scope.editStartTime = data.startTime;
 		$scope.editEndTime = data.endTime;
+		$scope.status = data.status;
+		$scope.userId = $('#userID').val();
+		 $scope.showMsg = false;
+		 $scope.fileErr = false;
+		
+		$scope.taskDetail = {
+			projectId:data.projectId,
+			taskId:data.taskId,
+			startTime:data.startTime,
+			endTime:data.endTime,
+			status:data.status,
+			date:$scope.currentDate,
+			userId:$scope.userId
+		}
+		
+		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:$scope.userId,projectId:data.projectId,taskId:data.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.documentsData = data.taskDetails;
+			$scope.commentsList = data.commentDetails;
+		});
 		
 		console.log($scope.editStartTime);
 		
-		$('#showPopup').click();
+		ngDialog.open({
+            template:contextPath+'/editSchedule',
+            scope:$scope,
+            closeByDocument:false
+            
+		});
 		e.stopPropagation();
+	}
+	
+	var file = null;
+    $scope.selectFile = function(files) {
+    	file = files[0];
+    };
+    $scope.fileErr = false;
+    $scope.showMsg = false;
+	$scope.saveAttachment = function() {
+	
+		if(file != null) {
+			$scope.fileErr = false;
+			$upload.upload({
+	            url: contextPath+'/saveFile',
+	            data: $scope.taskDetail,
+	            file: file,
+	            method:'post'
+	        }).progress(function (evt) {
+	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+	        }).success(function (data, status, headers, config) {
+	        	$scope.documentsData = data;
+	        	$scope.showMsg = true;
+	        });   
+		} else {
+			$scope.fileErr = true;
+			$scope.showMsg = false;
+		}
+	}
+	
+	$scope.downloadfile = function(id) {
+		$.fileDownload(contextPath+'/downloadTaskFile',
+				{	   	
+					   httpMethod : "POST",
+					   data : {
+						   attchId : id
+					   }
+				}).done(function(e, response)
+						{
+						}).fail(function(e, response)
+						{
+							// failure
+						});
+	}
+	
+	$scope.saveComment = function(comment) {
+		$scope.userId = $('#userID').val();
+		$http({method:'GET',url:contextPath+'/saveComment',params:{userId:$scope.userId,comment:comment,projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.commentsList = data;
+			$scope.comment = "";
+		});
+	}
+	
+	$scope.setStatus = function(status) {
+		
+			$scope.userId = $('#userID').val();
+			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
+			.success(function(data) {
+				console.log('success');
+			});
 	}
 	
 	$scope.addFunction = function(e) {
@@ -472,7 +593,7 @@ app.controller("SchedularTodayController", function($scope,$http) {
 	
 });
 
-app.controller("SchedularWeekController", function($scope,$http) {
+app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload) {
 	
 	$scope.startTime = "";
 	$scope.endTime = "";
@@ -548,8 +669,106 @@ app.controller("SchedularWeekController", function($scope,$http) {
 	}
 	
 	$scope.editFunction = function(e,data) {
-		console.log('edit');
+		console.log(data);
+		$scope.projectCode = data.visitType;
+		$scope.taskCode = data.taskCode;
+		$scope.editStartTime = data.startTime;
+		$scope.editEndTime = data.endTime;
+		$scope.status = data.status;
+		$scope.userId = $('#userID').val();
+		 $scope.showMsg = false;
+		 $scope.fileErr = false;
+		
+		$scope.taskDetail = {
+			projectId:data.projectId,
+			taskId:data.taskId,
+			startTime:data.startTime,
+			endTime:data.endTime,
+			status:data.status,
+			date:$scope.currentDate,
+			userId:$scope.userId
+		}
+		
+		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:$scope.userId,projectId:data.projectId,taskId:data.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.documentsData = data.taskDetails;
+			$scope.commentsList = data.commentDetails;
+		});
+		
+		console.log($scope.editStartTime);
+		
+		ngDialog.open({
+            template:contextPath+'/editSchedule',
+            scope:$scope,
+            closeByDocument:false
+            
+		});
 		e.stopPropagation();
+	}
+	
+	var file = null;
+    $scope.selectFile = function(files) {
+    	file = files[0];
+    };
+    $scope.fileErr = false;
+    $scope.showMsg = false;
+	$scope.saveAttachment = function() {
+	
+		if(file != null) {
+			$scope.fileErr = false;
+			$upload.upload({
+	            url: contextPath+'/saveFile',
+	            data: $scope.taskDetail,
+	            file: file,
+	            method:'post'
+	        }).progress(function (evt) {
+	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+	        }).success(function (data, status, headers, config) {
+	        	$scope.documentsData = data;
+	        	$scope.showMsg = true;
+	        });   
+		} else {
+			$scope.fileErr = true;
+			$scope.showMsg = false;
+		}
+	}
+	
+	$scope.downloadfile = function(id) {
+		$.fileDownload(contextPath+'/downloadTaskFile',
+				{	   	
+					   httpMethod : "POST",
+					   data : {
+						   attchId : id
+					   }
+				}).done(function(e, response)
+						{
+						}).fail(function(e, response)
+						{
+							// failure
+						});
+	}
+	
+	$scope.saveComment = function(comment) {
+		$scope.userId = $('#userID').val();
+		$http({method:'GET',url:contextPath+'/saveComment',params:{userId:$scope.userId,comment:comment,projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.commentsList = data;
+			$scope.comment = "";
+		});
+	}
+	
+	$scope.setStatus = function(status) {
+		
+			$scope.userId = $('#userID').val();
+			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
+			.success(function(data) {
+				console.log('success');
+			});
 	}
 	
 	$scope.addFunction = function(e) {
@@ -825,8 +1044,15 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		
 	}
-	
+	$scope.isShow = true;
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+		
+		if($scope.timesheetStatus == "Submitted" || $scope.timesheetStatus == "Approved") {
+			$scope.isShow = false;
+		} else {
+			$scope.isShow = true;
+		}
+		
 		if($scope.timesheetStatus == "Submitted") {
 			$("#timeSheetTable :input").attr("readonly","readonly");
 			$("#timeSheetTable select").attr("disabled","disabled");
@@ -835,14 +1061,27 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$("#saveTimesheetForm").attr("disabled","disabled");
 			$("#submitTimesheetForm").attr("disabled","disabled");
 			$("#retractTimesheetForm").removeAttr("disabled","disabled");
+			$("#addMore").hide();
 		} else {
-			$("#timeSheetTable :input").removeAttr("readonly","readonly");
-			$("#timeSheetTable select").removeAttr("disabled","disabled");
-			$("input:checkbox").removeAttr("disabled","disabled");
-			$("#copyFromLastWeek").removeAttr("disabled","disabled");
-			$("#saveTimesheetForm").removeAttr("disabled","disabled");
-			$("#submitTimesheetForm").removeAttr("disabled","disabled");
-			$("#retractTimesheetForm").attr("disabled","disabled");
+			if($scope.timesheetStatus == "Approved") {
+				$("#timeSheetTable :input").attr("readonly","readonly");
+				$("#timeSheetTable select").attr("disabled","disabled");
+				$("input:checkbox").attr("disabled","disabled");
+				$("#copyFromLastWeek").attr("disabled","disabled");
+				$("#saveTimesheetForm").attr("disabled","disabled");
+				$("#submitTimesheetForm").attr("disabled","disabled");
+				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").hide();
+			} else {
+				$("#timeSheetTable :input").removeAttr("readonly","readonly");
+				$("#timeSheetTable select").removeAttr("disabled","disabled");
+				$("input:checkbox").removeAttr("disabled","disabled");
+				$("#copyFromLastWeek").removeAttr("disabled","disabled");
+				$("#saveTimesheetForm").removeAttr("disabled","disabled");
+				$("#submitTimesheetForm").removeAttr("disabled","disabled");
+				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+			}
 		}
 	});
 	
@@ -867,6 +1106,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$("#saveTimesheetForm").removeAttr("disabled","disabled");
 		$("#submitTimesheetForm").removeAttr("disabled","disabled");
 		
+		
 		$http({method:'GET',url:'getActualTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
 			console.log('success');
@@ -883,6 +1123,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				}
 				
 				if(data.status == "Submitted") {
+					$scope.isShow = false;
 					$("#timeSheetTable :input").attr("readonly","readonly");
 					$("#timeSheetTable select").attr("disabled","disabled");
 					$("input:checkbox").attr("disabled","disabled");
@@ -890,8 +1131,23 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					$("#saveTimesheetForm").attr("disabled","disabled");
 					$("#submitTimesheetForm").attr("disabled","disabled");
 					$("#retractTimesheetForm").removeAttr("disabled","disabled");
+					$("#addMore").hide();
 				} else {
-					$("#retractTimesheetForm").attr("disabled","disabled");
+					if(data.status == "Approved") {
+						$scope.isShow = false;
+						$("#timeSheetTable :input").attr("readonly","readonly");
+						$("#timeSheetTable select").attr("disabled","disabled");
+						$("input:checkbox").attr("disabled","disabled");
+						$("#copyFromLastWeek").attr("disabled","disabled");
+						$("#saveTimesheetForm").attr("disabled","disabled");
+						$("#submitTimesheetForm").attr("disabled","disabled");
+						$("#retractTimesheetForm").attr("disabled","disabled");
+						$("#addMore").hide();
+					} else {
+						$scope.isShow = true;
+						$("#retractTimesheetForm").attr("disabled","disabled");
+						$("#addMore").show();
+					}
 				}
 				
 				
@@ -900,6 +1156,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$scope.addMore();
 				$scope.timesheetStatus = "";
 				$scope.timesheetId = null;
+				$("#addMore").show();
+				$scope.isShow = true;
 			}
 		});	
 	}
@@ -919,6 +1177,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
 				}
+				
 				
 			} else {
 				$scope.addMore();
@@ -1002,6 +1261,9 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$("#saveTimesheetForm").removeAttr("disabled","disabled");
 				$("#submitTimesheetForm").removeAttr("disabled","disabled");
 				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+				$scope.isShow = true;
+				$scope.timesheetStatus = "Draft";
 			});
 		}
 	}
@@ -1016,6 +1278,14 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		}
 	}
 	
+	$scope.checkTime = function(time) {
+		console.log(time);
+		if(time != null) {
+			var arr = time.split(':');
+			console.log(arr[0]);
+			console.log(arr[1]);
+		}
+	}
 	
 	$scope.getWeekDayData = function(day) {
 		var htmlTemplate = "";
@@ -1169,6 +1439,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveActualTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
+			$scope.timesheetStatus = "Submitted";
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");
 				$("#timeSheetTable select").attr("disabled","disabled");
@@ -1177,13 +1448,22 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$("#saveTimesheetForm").attr("disabled","disabled");
 				$("#submitTimesheetForm").attr("disabled","disabled");
 				$("#retractTimesheetForm").removeAttr("disabled","disabled");
+				$("#addMore").hide();
+				$scope.isShow = false;
 			} else {
 				$("#retractTimesheetForm").attr("disabled","disabled");
+				$("#addMore").show();
+				$scope.isShow = true;
+			}
+			if($scope.timesheet.status == "Submitted") {
+				$scope.msg = "Timesheet Submitted Successfully";
+			} else {
+				$scope.msg = "Timesheet Saved Successfully";
 			}
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "Timesheet Saved Successfully",
+			    text: $scope.msg,
 			});
 		});
 		

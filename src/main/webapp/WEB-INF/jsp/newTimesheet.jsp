@@ -17,6 +17,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/pnotify/pnotify.custom.min.js"/>'></script>	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
@@ -115,11 +117,11 @@
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
-						<a class="btn" id="addMore" ng-show="timesheetStatus !='Submitted'" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
+						<a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
 					</div>
 				</div>
 				
-		
+			<p style="margin-left:2%;color:red;margin-bottom:-15px;" ng-show="timeMsg"><b>Please Enter time in HH:MM 24 Hrs format</b></p>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
 				 <div class="innerInputDiv" style="margin-top:20px;">
 					<div class="innerChainSelect">
@@ -156,8 +158,9 @@
 										<div style="margin-top: 8%;"class="input">
 											<input type="text"
 												ng-model="row.monFrom"
+												ng-blur="checkTime(row.monFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:20%;width:30px;"> 
-											<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
+											<input type="text" placeholder="to" ng-blur="checkTime(row.monTo)" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
 												<span class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -168,8 +171,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.tueFrom"
+												ng-blur="checkTime(row.tueFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.tueTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -181,8 +185,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.wedFrom"
+												ng-blur="checkTime(row.wedFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.wedTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -193,8 +198,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.thuFrom"
+												ng-blur="checkTime(row.thuFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.thuTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -205,8 +211,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.friFrom"
+												ng-blur="checkTime(row.friFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.friTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -217,8 +224,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.satFrom"
+												ng-blur="checkTime(row.satFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.satTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -229,8 +237,9 @@
 										<div class="input">
 											<input type="text"
 												ng-model="row.sunFrom"
+												ng-blur="checkTime(row.sunFrom)"
 												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> <span
+												<input type="text" placeholder="to" ng-blur="checkTime(row.sunTo)" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> <span
 												class="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
@@ -261,7 +270,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="timesheetStatus !='Submitted'" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="removeRow($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
 							
 							</div>
 				

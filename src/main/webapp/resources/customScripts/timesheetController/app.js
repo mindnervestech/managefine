@@ -1,4 +1,4 @@
-var app = angular.module('timeSheetApp', ['ngDialog','angularCharts'])
+var app = angular.module('timeSheetApp', ['ngDialog','angularCharts','angularFileUpload'])
 .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',

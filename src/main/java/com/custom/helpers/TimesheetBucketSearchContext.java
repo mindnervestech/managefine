@@ -35,6 +35,7 @@ import com.mnt.core.ui.component.UIButton;
 import com.mnt.core.utils.GridViewModel;
 import com.mnt.core.utils.GridViewModel.PageData;
 import com.mnt.core.utils.GridViewModel.RowViewModel;
+import com.mnt.createProject.model.Projectinstance;
 import com.mnt.time.controller.routes;
 
 import dto.TimeSheetBucket;
@@ -323,7 +324,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				TimeSheetBucket myBucket = new TimeSheetBucket();
 				myBucket.setFirstName(timesheets.get(i).getUser().getFirstName());
 				myBucket.setLastName(timesheets.get(i).user.getLastName());
-				myBucket.setProjectName(Project.findByProjectCode(timesheets.get(i).timesheetRowsActual.get(0).getProjectCode()).getProjectName());
+				myBucket.setProjectName(Projectinstance.getById(Long.parseLong(timesheets.get(i).timesheetRowsActual.get(0).getProjectCode())).getProjectName());
 				myBucket.setId(timesheets.get(i).getId());
 				myBucket.setWeekOfYear(timesheets.get(i).getWeekOfYear());
 				myBucket.setYear(timesheets.get(i).getYear());

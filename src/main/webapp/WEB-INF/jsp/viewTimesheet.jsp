@@ -97,7 +97,7 @@
 			<c:forEach var="row" items="${timesheetVM.timesheetRowsList}">
 				<tr>
 					<td>${row.projectName}</td>
-					<td>${row.taskName} (${row.tCode})</td>
+					<td>${row.taskName}</td>
 					<c:forEach var="dayObj" items="${row.timesheetRowDays}">
 					<td>
 						<c:choose>

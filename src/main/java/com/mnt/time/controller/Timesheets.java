@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import models.MailSetting;
 import models.Project;
 import models.Task;
+import models.TaskComment;
+import models.TaskDetails;
 import models.Timesheet;
 import models.TimesheetActual;
 import models.TimesheetDays;
@@ -33,6 +35,8 @@ import models.User;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.codehaus.jackson.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -55,6 +60,8 @@ import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.ProjectVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.TaskCommentVM;
+import viewmodel.TaskDetailVM;
 import viewmodel.TaskVM;
 import viewmodel.TimesheetRowVM;
 import viewmodel.TimesheetVM;
@@ -70,6 +77,11 @@ import com.custom.exception.NoTimeSheetFoudException;
 import com.custom.helpers.TimesheetSearchContext;
 import com.custom.workflow.timesheet.TimesheetWorkflowUtils;
 import com.google.common.collect.Lists;
+import com.mnt.createProject.model.ProjectAttachment;
+import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.model.Projectinstancenode;
+import com.mnt.projectHierarchy.model.Projectclassnode;
+import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
 import com.mnt.time.service.TimesheetService;
 
 import dto.fixtures.MenuBarFixture;
@@ -81,6 +93,9 @@ import dto.fixtures.MenuBarFixture;
 public class Timesheets{
 	
 	private static HashMap<String,Integer> timesheetRowsMap = null;
+	
+	@Value("${imageRootDir}")
+	String imageRootDir;
 	
 	@Autowired
 	TimesheetService timesheetService;
@@ -98,6 +113,16 @@ public class Timesheets{
 //		return ok(timesheetIndex.render(MenuBarFixture.build(request().username()),user,timesheetForm));
     }
     
+	@RequestMapping(value="/editSchedule", method = RequestMethod.GET)
+	public String editSchedule(ModelMap model, @CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+		
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		return "editSchedule";
+    }
+	
 	@RequestMapping(value="/timesheetNew", method = RequestMethod.GET)
 	public String timesheetNew(ModelMap model, @CookieValue("username") String username) {
 		User user = User.findByEmail(username);
@@ -295,23 +320,35 @@ public class Timesheets{
 	@RequestMapping(value="/getProjectCodes", method = RequestMethod.GET)
 	public @ResponseBody JsonNode getProjectCodes(ModelMap model,@RequestParam("userId") String userId) {
 		User user = User.findById(Long.parseLong(userId));
-		List<SqlRow> sqlRows = Project.getProjectsOfUser(user.id);
+		List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.id);
 		List<ProjectVM> vmList = new ArrayList<>();
 		for(SqlRow row: sqlRows) {
-			Project project = Project.findById(row.getLong("project_id"));
+			Projectinstance projectInstance = Projectinstance.getById(row.getLong("projectinstance_id"));
 			ProjectVM vm = new ProjectVM();
-			List<TaskVM> taskVMList = new ArrayList<>();
-			List<SqlRow> taskRows = Project.getTasksOfProject(project.id);
+			vm.projectCode = projectInstance.getProjectName();
+			vm.id = projectInstance.getId();
 			
-			for(SqlRow taskRow : taskRows) {
-				TaskVM taskVM = new TaskVM();
-				Task task = Task.findById(taskRow.getLong("task_id"));
-				taskVM.id = task.id;
-				taskVM.taskCode = task.taskCode;
-				taskVMList.add(taskVM);
+			List<Projectinstancenode> instanceNodeList = Projectinstancenode.getProjectInstanceByIdAndType(projectInstance.getId(), projectInstance.getProjectid());
+			
+			List<TaskVM> taskVMList = new ArrayList<>();
+			for(Projectinstancenode node : instanceNodeList) {
+				Projectclassnode classNode = node.getProjectclassnode();
+				boolean flag = false;
+				for(Projectinstancenode nodeData : instanceNodeList) {
+					Projectclassnode classNodeData = nodeData.getProjectclassnode();
+					if(classNodeData.getParentId() == classNode.getId()) {
+						flag = true;
+						break;
+					} 
+				}
+				 if(flag == false) {
+					 TaskVM taskVM = new TaskVM();
+					 taskVM.id = classNode.getId();
+					 taskVM.taskCode = classNode.getProjectTypes();
+					 taskVMList.add(taskVM);
+				 }
 			}
-			vm.id = project.id;
-			vm.projectCode = project.projectCode;
+			
 			vm.tasklist = taskVMList;
 			vmList.add(vm);
 		}
@@ -430,6 +467,139 @@ public class Timesheets{
 		return timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime());
 	}
 	
+	@RequestMapping(value="/saveFile",method=RequestMethod.POST) 
+	public @ResponseBody JsonNode saveFile(@RequestParam("file")MultipartFile file,TaskDetailVM taskVM) {
+		
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		
+		User user = User.findById(taskVM.getUserId());
+		
+			String[] filenames = file.getOriginalFilename().split("\\.");
+			String filename = imageRootDir+File.separator+ "taskAttachment" + File.separator +filenames[0]+ "_" + user.getId() +"."+filenames[filenames.length-1];
+			
+			File f = new File(filename);
+			try {
+				file.transferTo(f);
+		
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			TaskDetails taskDetails = new TaskDetails();
+			taskDetails.projectId = taskVM.getProjectId();
+			taskDetails.taskId = taskVM.getTaskId();
+			taskDetails.startTime = taskVM.getStartTime();
+			taskDetails.endTime = taskVM.getEndTime();
+			taskDetails.status = taskVM.getStatus();
+			Calendar cal = Calendar.getInstance();
+			try {
+				taskDetails.date = format.parse(taskVM.getDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			taskDetails.fileName = filenames[0];
+			taskDetails.filePath = filename;
+			taskDetails.user = user;
+			
+			taskDetails.save();
+			
+			List<TaskDetailVM> vmList = new ArrayList<>();
+			List<TaskDetails> taskDetailList = TaskDetails.getDetailsByUser(user);
+			for(TaskDetails task : taskDetailList) {
+				TaskDetailVM vm = new TaskDetailVM();
+				vm.id = task.getId();
+				vm.date = format.format(task.getDate());
+				vm.fileName = task.getFileName();
+				vmList.add(vm);
+			}
+			
+			return Json.toJson(vmList);
+	}
+	
+	@RequestMapping(value="/getTaskDetails",method=RequestMethod.GET) 
+	public @ResponseBody JsonNode getTaskDetails(@RequestParam("userId") String userId,@RequestParam("projectId") String projectId,@RequestParam("taskId") String taskId) {
+		User user = User.findById(Long.parseLong(userId));
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		List<TaskDetailVM> vmList = new ArrayList<>();
+		List<TaskDetails> taskDetailList = TaskDetails.getDetailsByUser(user);
+		for(TaskDetails task : taskDetailList) {
+			TaskDetailVM vm = new TaskDetailVM();
+			vm.id = task.getId();
+			vm.date = format.format(task.getDate());
+			vm.fileName = task.getFileName();
+			vmList.add(vm);
+		}
+		
+		List<TaskComment> commentList = TaskComment.getByUserAndTask(user, Long.parseLong(projectId), Long.parseLong(taskId));
+		List<TaskCommentVM> commentVMList = new ArrayList<>();
+		for(TaskComment comment : commentList) {
+			TaskCommentVM commentVM = new TaskCommentVM();
+			commentVM.userName = comment.getUser().getFirstName()+" "+comment.getUser().getLastName();
+			commentVM.date = format.format(comment.getDate());
+			commentVM.comment = comment.getComment();
+			commentVMList.add(commentVM);
+		}
+		
+		Map map = new HashMap();
+		map.put("taskDetails", vmList);
+		map.put("commentDetails", commentVMList);
+		
+		return Json.toJson(map);
+	}
+	
+	@RequestMapping(value = "/downloadTaskFile", method = RequestMethod.POST)
+	@ResponseBody
+	public FileSystemResource downloadTaskFile(HttpServletResponse response, @RequestParam("attchId") String attchId)
+	{
+		TaskDetails taskdetails = TaskDetails.getById(Long.parseLong(attchId));
+		
+		 response.setContentType("application/x-download");
+         response.setHeader("Content-Transfer-Encoding", "binary"); 
+         response.setHeader("Content-disposition","attachment; filename=\""+taskdetails.getFileName());
+         File file = new File(taskdetails.getFilePath());
+         
+         return new FileSystemResource(file);
+		
+	}
+	
+	@RequestMapping(value="/saveComment", method = RequestMethod.GET)
+	public @ResponseBody JsonNode saveComment(ModelMap model,@RequestParam("userId") String userId,@RequestParam("comment") String comment,@RequestParam("projectId") String projectId,@RequestParam("taskId") String taskId) {
+		User user = User.findById(Long.parseLong(userId));
+		TaskComment taskComment = new TaskComment();
+		taskComment.comment = comment;
+		taskComment.date = new Date();
+		taskComment.projectId = Long.parseLong(projectId);
+		taskComment.taskId = Long.parseLong(taskId);
+		taskComment.user = user;
+		taskComment.save();
+		
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		List<TaskComment> commentList = TaskComment.getByUserAndTask(user, Long.parseLong(projectId), Long.parseLong(taskId));
+		List<TaskCommentVM> commentVMList = new ArrayList<>();
+		for(TaskComment commentObj : commentList) {
+			TaskCommentVM commentVM = new TaskCommentVM();
+			commentVM.userName = commentObj.getUser().getFirstName()+" "+commentObj.getUser().getLastName();
+			commentVM.date = format.format(commentObj.getDate());
+			commentVM.comment = commentObj.getComment();
+			commentVMList.add(commentVM);
+		}
+		
+		return Json.toJson(commentVMList);
+		
+	}	
+	
+	@RequestMapping(value="/updateTaskStatus", method = RequestMethod.GET)
+	public @ResponseBody void updateTaskStatus(ModelMap model,@RequestParam("projectId") String projectId,@RequestParam("taskId") String taskId,@RequestParam("status") String status) {
+		Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(taskId)); 
+		Projectinstancenode node = Projectinstancenode.getByClassNodeAndInstance(classNode, Long.parseLong(projectId));
+		node.setStatus(status);
+		node.update();
+	}	
+	
 	@RequestMapping(value="/getDayDetails", method = RequestMethod.GET)
 	public @ResponseBody JsonNode getDayDetails(ModelMap model,@RequestParam("date") String date,@RequestParam("userId") String userId) {
 		Calendar cal = Calendar.getInstance();
@@ -455,8 +625,8 @@ public class Timesheets{
 			
 			for(TimesheetRow row: timesheetRowList) {
 				WeekDayVM vm = new WeekDayVM();
-				vm.projectCode = row.getProjectCode();
-				vm.taskCode = row.getTaskCode();
+				vm.projectCode = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+				vm.taskCode = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode())).getProjectTypes();
 				TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
 				vm.from = timesheetDay.getTimeFrom();
 				vm.to = timesheetDay.getTimeTo();
@@ -488,7 +658,7 @@ public class Timesheets{
 	
 	@RequestMapping(value="/getMonthSchedule", method = RequestMethod.GET)
 	public @ResponseBody Map getMonthSchedule(ModelMap model,@RequestParam("date") String date,@RequestParam("userId") String userId) {
-		System.out.println(".....Date..........."+date+".........user id ........"+userId);
+		
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("MMM yyyy");
 		Date dt;
@@ -528,8 +698,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode = Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDaysActual day : timesheetDaysList) {
@@ -604,8 +774,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode = Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDays day : timesheetDaysList) {
@@ -682,8 +852,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode = Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDaysActual day : timesheetDaysList) {
@@ -763,8 +933,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDays day : timesheetDaysList) {
@@ -879,8 +1049,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode = Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDaysActual day : timesheetDaysList) {
@@ -951,8 +1121,8 @@ public class Timesheets{
 			
 			for(TimesheetRow row: timesheetRowList) {
 				WeekDayVM vm = new WeekDayVM();
-				vm.projectCode = row.getProjectCode();
-				vm.taskCode = row.getTaskCode();
+				vm.projectCode = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+				vm.taskCode = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode())).getProjectTypes();
 				TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
 				vm.from = timesheetDay.getTimeFrom();
 				vm.to = timesheetDay.getTimeTo();
@@ -1005,8 +1175,8 @@ public class Timesheets{
 				
 				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
 				timesheetRowVM.rowId = timesheetRow.getId();
-				timesheetRowVM.projectCode = Project.findByProjectCode(timesheetRow.getProjectCode()).getId();
-				timesheetRowVM.taskCode = Task.findByTaskCode(timesheetRow.getTaskCode()).getId();
+				timesheetRowVM.projectCode = Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
 				for(TimesheetDays day : timesheetDaysList) {
@@ -1093,10 +1263,8 @@ public class Timesheets{
 		
 		for(TimesheetRowVM rowVM : timesheet.timesheetRows) {
 			TimesheetRowActual timesheetRow = new TimesheetRowActual();
-			Project project = Project.findById(rowVM.projectCode);
-			timesheetRow.setProjectCode(project.projectCode);
-			Task task = Task.findById(rowVM.taskCode);
-			timesheetRow.setTaskCode(task.taskCode);
+			timesheetRow.setProjectCode(rowVM.projectCode.toString());
+			timesheetRow.setTaskCode(rowVM.taskCode.toString());
 			timesheetRow.setTimesheetActual(timesheetObj);
 			timesheetRow.setOverTime(rowVM.isOverTime);
 			timesheetRow.save();
@@ -1224,10 +1392,8 @@ public class Timesheets{
 			for(TimesheetRowVM row: timesheet.timesheetRows) {
 				if(row.rowId != 0L) {
 				TimesheetRowActual timesheetRow =  TimesheetRowActual.findById(row.rowId);
-				Project project = Project.findById(row.projectCode);
-				timesheetRow.setProjectCode(project.projectCode);
-				Task task = Task.findById(row.taskCode);
-				timesheetRow.setTaskCode(task.taskCode);
+				timesheetRow.setProjectCode(row.projectCode.toString());
+				timesheetRow.setTaskCode(row.taskCode.toString());
 				timesheetRow.setOverTime(row.isOverTime);
 				timesheetRow.update();
 				
@@ -1319,10 +1485,8 @@ public class Timesheets{
 				} else {
 					
 					TimesheetRowActual timesheetRow = new TimesheetRowActual();
-					Project project = Project.findById(row.projectCode);
-					timesheetRow.setProjectCode(project.projectCode);
-					Task task = Task.findById(row.taskCode);
-					timesheetRow.setTaskCode(task.taskCode);
+					timesheetRow.setProjectCode(row.projectCode.toString());
+					timesheetRow.setTaskCode(row.taskCode.toString());
 					timesheetRow.setTimesheetActual(timesheetSavedObj);
 					timesheetRow.setOverTime(row.isOverTime);
 					timesheetRow.save();
@@ -1503,10 +1667,8 @@ public class Timesheets{
 		
 		for(TimesheetRowVM rowVM : timesheet.timesheetRows) {
 			TimesheetRow timesheetRow = new TimesheetRow();
-			Project project = Project.findById(rowVM.projectCode);
-			timesheetRow.setProjectCode(project.projectCode);
-			Task task = Task.findById(rowVM.taskCode);
-			timesheetRow.setTaskCode(task.taskCode);
+			timesheetRow.setProjectCode(rowVM.projectCode.toString());
+			timesheetRow.setTaskCode(rowVM.taskCode.toString());
 			timesheetRow.setTimesheet(timesheetObj);
 			timesheetRow.setOverTime(rowVM.isOverTime);
 			timesheetRow.save();
@@ -1634,10 +1796,8 @@ public class Timesheets{
 			for(TimesheetRowVM row: timesheet.timesheetRows) {
 				if(row.rowId != 0L) {
 				TimesheetRow timesheetRow =  TimesheetRow.findById(row.rowId);
-				Project project = Project.findById(row.projectCode);
-				timesheetRow.setProjectCode(project.projectCode);
-				Task task = Task.findById(row.taskCode);
-				timesheetRow.setTaskCode(task.taskCode);
+				timesheetRow.setProjectCode(row.projectCode.toString());
+				timesheetRow.setTaskCode(row.taskCode.toString());
 				timesheetRow.setOverTime(row.isOverTime);
 				timesheetRow.update();
 				
@@ -1729,10 +1889,8 @@ public class Timesheets{
 				} else {
 					
 					TimesheetRow timesheetRow = new TimesheetRow();
-					Project project = Project.findById(row.projectCode);
-					timesheetRow.setProjectCode(project.projectCode);
-					Task task = Task.findById(row.taskCode);
-					timesheetRow.setTaskCode(task.taskCode);
+					timesheetRow.setProjectCode(row.projectCode.toString());
+					timesheetRow.setTaskCode(row.taskCode.toString());
 					timesheetRow.setTimesheet(timesheetSavedObj);
 					timesheetRow.setOverTime(row.isOverTime);
 					timesheetRow.save();

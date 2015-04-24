@@ -10,6 +10,8 @@
 
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/d3.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/jquery-ui.js"/>'></script>

@@ -271,6 +271,8 @@
 	<definition name="viewFeedback" template="/WEB-INF/jsp/viewFeedback.jsp">
   	</definition>
   	
+  	<definition name="editSchedule" template="/WEB-INF/jsp/editSchedule.jsp"/>
+  	
   	<definition name="orgHierarchy" extends="base.definition">
     	<put-attribute name="title" value="Organization Hierarchy" />
     	<put-attribute name="content" value="/WEB-INF/jsp/org-hierarchy.jsp" />
