@@ -186,10 +186,12 @@ public class UserSearchContext extends ASearchContext<User>{
 	
 	@Override
 	protected void doMappingforDropdown(String fieldName, ValueWrapper value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		try{
 		if(fieldName.equalsIgnoreCase("rolex"))
 			   value.display = model.getClass().getField("designation").get(model).toString();//((RoleLevel)model.getClass().getField("role").get(model)).getid + "";
-		    if(fieldName.equalsIgnoreCase("dept"))
+		if(fieldName.equalsIgnoreCase("dept"))
 		    	value.display = model.getClass().getField("department").get(model).toString();
+		} catch(NullPointerException e){}
 	}
 	
 //	@Override

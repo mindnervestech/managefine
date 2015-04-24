@@ -5,15 +5,19 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -26,9 +30,25 @@ import com.mnt.core.ui.annotation.UIFields;
 
 public abstract class SaveModel<model extends Model> {
 	
+	public static String imageRootDir;
+	static {
+		Properties prop = new Properties();
+		String filename = "app.properties";
+		InputStream input = SaveModel.class.getClassLoader().getResourceAsStream(filename);
+		try {
+			prop.load(input);
+			imageRootDir = prop.getProperty("imageRootDir");
+		} catch (IOException e) {
+			e.printStackTrace();
+			imageRootDir = "/time-images";
+		}
+		
+	}
+	
 	protected Class<model> ctx; 
 	
-	public String fileRootPath = "C:\\managefile\\";
+	
+	
 	
 	public SaveModel(Class<model> ctx){
 		this.ctx=ctx;
@@ -79,7 +99,7 @@ public abstract class SaveModel<model extends Model> {
 				file.getContentType();
 				;
 				OutputStream outputStream = null;
-				String filePath = fileRootPath + File.separator +ctx.getSimpleName()+ File.separator + id;
+				String filePath = imageRootDir + File.separator +ctx.getSimpleName()+ File.separator + id + File.separator + "flexi";
 				new File(filePath).mkdirs();
 				outputStream = 
 	                    new FileOutputStream(new File(filePath + 

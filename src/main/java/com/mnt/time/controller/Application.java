@@ -369,7 +369,7 @@ public class Application  {
     	if("models.UserFlexi".equalsIgnoreCase(klass)) {
     		UserFlexi useFlex = UserFlexi.getUserIdById(id);
            return new FileSystemResource(new File(imageRootDir + File.separator + "User" + File.separator + 
-    			   useFlex.user.id + File.separator +imagename));
+    			   useFlex.user.id + File.separator + "flexi" + File.separator + imagename));
    		}
     	
     	//

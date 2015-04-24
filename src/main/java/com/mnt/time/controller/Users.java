@@ -231,6 +231,7 @@ public class Users {
 				roleX.add(new RoleDomain(role.get(i).getId()+"",role.get(i).getRole_name(),false));
 			}
 		}
+		
 		if(deptr != null){
 			for(int i=0; i<deptr.size(); i++){
 				dept.add(new RoleDomain(deptr.get(i).getId()+"",deptr.get(i).getName(),false));
