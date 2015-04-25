@@ -158,6 +158,10 @@ public class Projectinstancenode extends Model{
 		return find.where().eq("Projectclassnode.id", id).findList();
 	}
 	
+	public static List<Projectinstancenode> getProjectTaskList() {
+		return find.all();
+	}
+	
 	public static Projectinstancenode getProjectParentId(Long pnodeid,Long ptypeid) {
 		// TODO Auto-generated method stub
 		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid), Expr.eq("projectinstanceid", ptypeid))).findUnique();
@@ -182,5 +186,10 @@ public class Projectinstancenode extends Model{
 		this.user.clear();
 		this.deleteManyToManyAssociations("user");
 	}
+	
+		public static Projectinstancenode getProjectInprogressStatus(Long pnodeid,Long ptypeid,String status) {
+		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid),Expr.and(Expr.eq("projectinstanceid", ptypeid), Expr.eq("status", status)))).findUnique();
+	}
+
 	
 }

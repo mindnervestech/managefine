@@ -8,19 +8,15 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
-import com.mnt.orghierarchy.model.Organization;
-
 import models.User;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import scala.collection.script.Remove;
-
+import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
+import com.mnt.orghierarchy.model.Organization;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 
 @Service

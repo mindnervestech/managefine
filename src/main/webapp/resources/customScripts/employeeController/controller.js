@@ -15,6 +15,7 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
     				parent: value.parent,
     				employeeName: value.employeeName,
     				designation: value.designation,
+    				image: "employeeProfile/"+value.id,
        				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
     		});
@@ -94,11 +95,11 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
             + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="background:{{itemTitleColor}};top: 2px; left: 2px; width: 216px; height: 20px;">'
                 + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 144px; height: 18px;">{{itemConfig.employeeName}}</div>'
             + '</div>'
-            + '<div class="bp-item bp-photo-frame" style="display:none;top: 26px; left: 2px; width: 50px; height: 60px;">'
-                + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
+            + '<div class="bp-item bp-photo-frame" style="top: 27px !important; left: 2px; width: 50px; height: 46px;">'
+                + '<img name="photo" src="{{itemConfig.image}}" style="height: 60px; width:50px;" />'
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
-            + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.designation}}</div>'
+            + '<div name="description" class="bp-item" style="top: 40px; left: 62px; width: 100%;height:36px; font-size: 16px;">{{itemConfig.designation}}</div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",

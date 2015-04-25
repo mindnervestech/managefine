@@ -5,9 +5,11 @@ import java.util.List;
 import models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,5 +41,9 @@ public class employeeHierarchyController {
 		return "employeeHierarchy";
 	}
 	
+	@RequestMapping(value="/employeeProfile/{id}",method=RequestMethod.GET)
+	public @ResponseBody FileSystemResource employeeProfile(@PathVariable("id")Long id) {
+		return new FileSystemResource(employeeHierarchyService.employeeProfile(id));
+	}
 	
 }

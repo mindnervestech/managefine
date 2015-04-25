@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -10,6 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import play.db.ebean.Model;
 
 import com.mnt.core.domain.FlexiAttributes;
+import com.mnt.createProject.model.Projectinstance;
 
 @Entity
 public class UserFlexi extends Model implements FlexiAttributes {
@@ -95,6 +98,9 @@ public class UserFlexi extends Model implements FlexiAttributes {
 		return find.byId(id);
 	}
   	  
+	public static UserFlexi getProjectUser(Long id) {
+		return find.where().eq("user.id", id).findUnique();
+	}
 
 	
 	

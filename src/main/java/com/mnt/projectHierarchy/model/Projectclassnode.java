@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
+import com.mnt.createProject.model.Projectinstancenode;
 @Entity
 public class Projectclassnode extends Model{
 	@Id
@@ -97,6 +98,10 @@ public class Projectclassnode extends Model{
 	
 	public static List<Projectclassnode> getprojectByprojectId(Long id) {
 		return find.where().eq("projectId.id", id).findList();
+	}
+	
+	public static List<Projectclassnode> getProjectAndLevel(Long id,int level) {
+		return find.where().eq("projectId.id", id).eq("level", level).findList();
 	}
 	
 	public static List<Projectclassnode> getparentByprojectId(Long id) {

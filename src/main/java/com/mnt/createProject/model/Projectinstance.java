@@ -28,6 +28,7 @@ import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.WizardCardUI;
+import com.mnt.projectHierarchy.model.Projectclass;
 import com.mnt.time.controller.routes;
 @Entity
 
@@ -73,6 +74,7 @@ public class Projectinstance extends Model{
 	
 	public Long clientId;
 	public Long projectid;
+	public Long percentage;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<User> user;
@@ -194,9 +196,22 @@ public class Projectinstance extends Model{
 		this.user.clear();
 		this.deleteManyToManyAssociations("user");
 	}
-	
-	public User getUserid() {
+
+		public User getUserid() {
 		return userid;
+	}
+
+		public Long getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(Long percentage) {
+		this.percentage = percentage;
+	}
+
+
+	public void setPercentage(Long percentage) {
+		this.percentage = percentage;
 	}
 
 	public void setUserid(User userid) {
@@ -243,8 +258,14 @@ public class Projectinstance extends Model{
 		return find.where().eq("userid.id", user.getId()).findList();
 	}
 
-
-
+	public static List<Projectinstance> getProjectList() {
+		return find.all();
+	}
+	
+	public static List<Projectinstance> getProjectTypeById(Long projectTypeId) {
+		return find.where().eq("projectid", projectTypeId).findList();
+	}
+	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	
 	static {

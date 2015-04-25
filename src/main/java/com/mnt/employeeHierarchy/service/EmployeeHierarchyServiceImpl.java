@@ -1,5 +1,6 @@
 package com.mnt.employeeHierarchy.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class EmployeeHierarchyServiceImpl implements EmployeeHierarchyService{
 		return employeeHierarchyRepository.getEmployeeHierarchy(username, id);
 	}
 
+	@Override
+	public File employeeProfile(Long id) {
+		return employeeHierarchyRepository.employeeProfile(id);
+	}
 
 }

@@ -1,5 +1,7 @@
 package com.mnt.time.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
+import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.model.Projectinstancenode;
+import com.mnt.projectHierarchy.model.Projectclass;
+import com.mnt.projectHierarchy.model.Projectclassnode;
 
 @Controller
 public class Wdgets {
@@ -60,10 +66,33 @@ public class Wdgets {
 		}
 		
 		public static List<TaskForWidgetVM> toDummy(){
-			return Lists.newArrayList(new TaskForWidgetVM("Scheduler","Time","01-04-2015","25-04-2015","InProgress","60%"),
-					new TaskForWidgetVM("Timesheet","Time","01-04-2015","25-04-2015","InProgress","70%"),
-					new TaskForWidgetVM("Leave","Time","01-04-2015","25-04-2015","InProgress","50%"),
-					new TaskForWidgetVM("Dashboard","Time","01-04-2015","25-04-2015","InProgress","10%"));
+			DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+			
+			List<Projectinstancenode> pList = Projectinstancenode.getProjectTaskList();
+			List<TaskForWidgetVM> tsList = new ArrayList<Wdgets.TaskForWidgetVM>();
+			
+			for(Projectinstancenode pIntNode:pList){
+				TaskForWidgetVM tVm = new TaskForWidgetVM();
+				
+				List<Projectclassnode> projectclassnode = Projectclassnode.getparentByprojectId(pIntNode.getProjectclassnode().getId());
+				
+				if(projectclassnode.size() == 0){
+					
+					Projectinstance projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
+					tVm.name = projectinstance.getProjectName();
+					tVm.taskName = pIntNode.getProjectclassnode().getProjectTypes();
+					tVm.startDate = format.format(pIntNode.getStartDate());
+					tVm.endDate = format.format(pIntNode.getEndDate());
+					tVm.status = pIntNode.getStatus();
+					tVm.percentage = String.valueOf(pIntNode.getTaskCompilation());
+					tsList.add(tVm);
+					
+				}
+				
+			}
+			
+			return tsList;
+			
 		}
 	}
 	
@@ -75,7 +104,7 @@ public class Wdgets {
 	public List<ProjectForWidgetVM> projectsForWidget(ModelMap model, @CookieValue("username") String username) {
 		List<ProjectForWidgetVM> list = new ArrayList<>();
 		//TODO Look into Projectinstance
-		list = ProjectForWidgetVM.toDummy();
+		list = ProjectForWidgetVM.toDummy(); 
     	return list;
     }
 	
@@ -99,10 +128,23 @@ public class Wdgets {
 		}
 		
 		public static List<ProjectForWidgetVM> toDummy(){
-			return Lists.newArrayList(new ProjectForWidgetVM("Time","01-04-2015","25-04-2015","InProgress","60%"),
-					new ProjectForWidgetVM("Roque","01-03-2015","25-06-2015","InProgress","70%"),
-					new ProjectForWidgetVM("Liabily","01-04-2015","25-04-2015","InProgress","50%"),
-					new ProjectForWidgetVM("Mini Bean","01-04-2014","25-04-2015","InProgress","90%"));
+			
+			List<Projectinstance> pList = Projectinstance.getProjectList();
+			List<ProjectForWidgetVM> tsList = new ArrayList<Wdgets.ProjectForWidgetVM>();
+			
+			for(Projectinstance projectinstance:pList){
+				ProjectForWidgetVM tVm = new ProjectForWidgetVM();
+				tVm.name = projectinstance.getProjectName();
+				tVm.startDate = projectinstance.getStartDate();
+				tVm.endDate = projectinstance.getEndDate();
+				tVm.status = projectinstance.getStatus();
+				tVm.percentage = String.valueOf(projectinstance.getPercentage());
+				tsList.add(tVm);
+			}
+			
+			return tsList;
+			
+			
 		}
 		
 	}
@@ -144,16 +186,22 @@ public class Wdgets {
 		}
 		
 		public static List<GaugeForWidgetVM> toDummy(){
-			return Lists.newArrayList(new GaugeForWidgetVM("Time",60),
-					new GaugeForWidgetVM("Roque",70),
-					new GaugeForWidgetVM("Liabily",50),
-					new GaugeForWidgetVM("Mini Bean",90));
+			
+			List<Projectinstance> pList = Projectinstance.getProjectList();
+			List<GaugeForWidgetVM> gWList = new ArrayList<Wdgets.GaugeForWidgetVM>();
+			
+			for(Projectinstance projectinstance:pList){
+				GaugeForWidgetVM gVm = new GaugeForWidgetVM();
+				gVm.name = projectinstance.getProjectName();
+				gVm.percent= projectinstance.getPercentage().intValue();
+				gWList.add(gVm);
+			}
+			
+			return gWList;
+			
 		}
 		
-		
-		
 	}
-	
 	
 	//========================================================================================
 	
@@ -161,23 +209,32 @@ public class Wdgets {
     @ResponseBody
 	public List<List> saleFunnelForWidget(@RequestParam int projectType) {
 		// TODO: do query on projectType 
+		Long projectTypeId = Long.parseLong(String.valueOf(projectType));
+		
 		List<List> funnelMap = new ArrayList<List>();
-		List map0 = new ArrayList<>();
-		map0.add("sales");
-		map0.add(100);
-		funnelMap.add(map0);
 		
-		List map1 = new ArrayList<>();
-		map1.add("lead");map1.add(200L);
-		funnelMap.add(map1);
+		List<Projectclassnode> pList = Projectclassnode.getProjectAndLevel(projectTypeId,1);
+		int a = 0;
 		
-		List map2 = new ArrayList<>();
-		map2.add("development");map2.add(50L);
-		funnelMap.add(map2);
+		for(Projectclassnode projectclassnode:pList){
+			 a = 0;
+			 List map0 = new ArrayList<Object>();
+			List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId);
+			
+			  map0.add(projectclassnode.getProjectTypes());
+			   for(Projectinstance projectI:projectinstance){
+				   Projectinstancenode projectinstancenode = Projectinstancenode.getProjectInprogressStatus(projectclassnode.getId(), projectI.getId(), "Inprogress");
+				   if(projectinstancenode != null){
+					   a = a + 1;		   		
+				   }
+				   
+			    }
+			   map0.add(a);
+			funnelMap.add(map0);
+		}
+	
 		
-		List map3 = new ArrayList<>();
-		map3.add("testing");map3.add(2L);
-		funnelMap.add(map3);
+		
 		
 		return funnelMap;
 		//[[],[]]
@@ -213,10 +270,22 @@ public class Wdgets {
 		}
 		
 		public static List<FunnelForWidgetVM> toDummy(){
-			return Lists.newArrayList(new FunnelForWidgetVM("Commercial Construction",60),
-					new FunnelForWidgetVM("Retails",70),
+			List<Projectclass> pList =  Projectclass.getProjectList();
+			List<FunnelForWidgetVM> forWidgetVMs = new ArrayList<Wdgets.FunnelForWidgetVM>();
+			
+			for(Projectclass projectclass:pList){
+				FunnelForWidgetVM fWidgetVM = new FunnelForWidgetVM();
+				fWidgetVM.name = projectclass.getProjectTypes();
+				fWidgetVM.id = projectclass.getId().intValue();
+				forWidgetVMs.add(fWidgetVM);
+			}
+			
+			return forWidgetVMs;
+			
+			/*return Lists.newArrayList(new FunnelForWidgetVM("Commercial Construction",60),
+					new FunnelForWidgetVM("Retails",70), //project type name, Id
 					new FunnelForWidgetVM("Auto-Manufacturing",50),
-					new FunnelForWidgetVM("Civil Construction",90));
+					new FunnelForWidgetVM("Civil Construction",90));*/
 		}
 		
 		
