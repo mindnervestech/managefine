@@ -316,8 +316,8 @@ function loadFromLocalStorage() {
 
     //actualiza data
     var offset=new Date().getTime()-ret.tasks[0].start;
-    for (var i=0;i<ret.tasks.length;i++)
-      ret.tasks[i].start=ret.tasks[i].start+offset;
+    //for (var i=0;i<ret.tasks.length;i++)
+    //  ret.tasks[i].start=ret.tasks[i].start+offset;
 
 
   }
