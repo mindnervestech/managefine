@@ -527,10 +527,13 @@
 							// Thursday of this week
 							th = new Date(+ws + (7 + 4 - ws.getUTCDay()) % 7 * 864e5),
 							// First Thursday of year, year from thursday
-							yth = new Date(+(yth = UTCDate(th.getUTCFullYear(), 0, 1)) + (7 + 4  - yth.getUTCDay())%7*864e5),
+							yth = new Date(+(yth = UTCDate(th.getUTCFullYear(), 3, 4)) + (7 + 4  - yth.getUTCDay())%7*864e5),
 							// Calendar week: ms between thursdays, div ms per day, div 7 days
 							calWeek =  (th - yth) / 864e5 / 7 ;
-						html.push('<td class="cw">'+ (calWeek + 1) +'</td>');
+						    if(calWeek + 1 <= 0) {
+						    	calWeek = 53 + calWeek;
+						    }
+						html.push('<td class="cw">'+ (calWeek + 1 ) +'</td>');
 
 					}
 				}

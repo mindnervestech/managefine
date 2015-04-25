@@ -1012,7 +1012,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.isCopyFromLastweek = false;
 	
 	$scope.timeRegexp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-	
+	$scope.ftTimeRegexp =  /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
 		$scope.getTimesheetByWeek();
@@ -1315,6 +1315,32 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	
 	$scope.checkTime = function(time) {
 		
+	}
+	
+	$scope.splitToFTTime = function (row, day) {
+		
+		if(day === 'wed'){
+			if(row.wedFromTo) {
+				var from = row.wedFromTo.split('-')[0];
+				if(from) {
+				   row.wedFrom = from;	
+				}
+				
+				var to = row.wedFromTo.split('-')[1];
+				if(to) {
+					row.wedTo = to;
+				}
+			}
+		}
+		
+	}
+	
+	$scope.initFTTime = function (row, day) {
+		if(day === 'wed') {
+			if(row.wedFrom && row.wedTo) {
+				row.wedFromTo = row.wedFrom + '-' + row.wedTo;
+			}
+		}
 	}
 	
 	$scope.getWeekDayData = function(day) {

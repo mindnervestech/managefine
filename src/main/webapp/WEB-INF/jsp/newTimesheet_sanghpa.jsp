@@ -191,22 +191,14 @@
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.wedTime">{{row.wedTime}}</div>
 										<label></label>
 				
-										<div class="input" ng-init="initFTTime(row,'wed')">
-										    <input type="text"
-										    ng-model="row.wedFromTo"
-										    ng-blur="splitToFTTime(row,'wed')"
-										    mask="29:59-29:59" restrict="reject" clean="false"
-										    ng-pattern="ftTimeRegexp"
-										    class="smallInput dayName" style="margin-top:20%;width:65px;"
-										    placeholder="From-To"
-										    >
+										
 											
-											<input type="hidden"
+											<input type="text"
 												ng-model="row.wedFrom"
 												ng-blur="checkTime(row.wedFrom)"
 												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
 												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
-											<input type="hidden" 
+											<input type="text" 
 											    placeholder="To" ng-blur="checkTime(row.wedTo)" 
 												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
 												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> 
