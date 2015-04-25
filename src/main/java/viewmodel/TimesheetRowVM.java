@@ -34,6 +34,13 @@ public class TimesheetRowVM {
 	public String taskName;
 	public Integer totalHrs;
 	public String tCode;
+	public String monFromTo;
+	public String tueFromTo;
+	public String wedFromTo;
+	public String thuFromTo;
+	public String friFromTo;
+	public String satFromTo;
+	public String sunFromTo;
 	public List<TimesheetDaysVM> timesheetRowDays;
 	
 	
@@ -222,6 +229,48 @@ public class TimesheetRowVM {
 	}
 	public void settCode(String tCode) {
 		this.tCode = tCode;
+	}
+	public String getMonFromTo() {
+		return monFromTo;
+	}
+	public void setMonFromTo(String monFromTo) {
+		this.monFromTo = monFromTo;
+	}
+	public String getTueFromTo() {
+		return tueFromTo;
+	}
+	public void setTueFromTo(String tueFromTo) {
+		this.tueFromTo = tueFromTo;
+	}
+	public String getWedFromTo() {
+		return wedFromTo;
+	}
+	public void setWedFromTo(String wedFromTo) {
+		this.wedFromTo = wedFromTo;
+	}
+	public String getThuFromTo() {
+		return thuFromTo;
+	}
+	public void setThuFromTo(String thuFromTo) {
+		this.thuFromTo = thuFromTo;
+	}
+	public String getFriFromTo() {
+		return friFromTo;
+	}
+	public void setFriFromTo(String friFromTo) {
+		this.friFromTo = friFromTo;
+	}
+	public String getSatFromTo() {
+		return satFromTo;
+	}
+	public void setSatFromTo(String satFromTo) {
+		this.satFromTo = satFromTo;
+	}
+	public String getSunFromTo() {
+		return sunFromTo;
+	}
+	public void setSunFromTo(String sunFromTo) {
+		this.sunFromTo = sunFromTo;
 	}
 	
 	

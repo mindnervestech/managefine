@@ -18,6 +18,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/jquery.fileDownload.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
+
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>

@@ -15,6 +15,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/d3.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/jquery-ui.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
+
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 

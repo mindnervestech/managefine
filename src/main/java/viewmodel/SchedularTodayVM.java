@@ -15,4 +15,5 @@ public class SchedularTodayVM {
 	public Long projectId;
 	public Long taskId;
 	public String taskCode;
+	public boolean isHoliday;
 }

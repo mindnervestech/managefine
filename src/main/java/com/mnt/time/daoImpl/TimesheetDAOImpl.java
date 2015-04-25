@@ -48,6 +48,24 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	@Override
 	public JsonNode getScheduleByDate(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		Boolean flag = false;
+		UserLeave leave = UserLeave.getLeave(user, date);
+		if(leave != null) {
+			flag = true;
+		} else {
+			flag = false;
+			if(userLeaveList != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				for(UserLeave userLeave: userLeaveList) {
+					if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+						flag = true;
+					} 
+				}
+			}	
+		}
+		Map map = new HashMap<>();
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
 		List<SchedularTodayVM> emptyList = new ArrayList<>();
 		if(timesheet != null) {
@@ -65,12 +83,39 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						schedularTodayVM.endTime = timesheetDay.getTimeTo();
 						schedularTodayVM.notes = timesheet.getStatus().getName();
 						schedularTodayVM.type = "A";
-						if(timesheet.getStatus().getName().equals("Approved")) {
-							schedularTodayVM.color = "#009933";
+						
+						/*if(userLeaveList != null && schedularTodayVM.isHoliday == false) {
+							String day = "";
+							for(UserLeave userLeave: userLeaveList) {
+								switch (userLeave.getLeaveType()) {
+									case 0 : day = "sunday";
+											break;
+									case 1 : day = "monday";
+											break;
+									case 2 : day = "tuesday";
+											break;
+									case 3 : day = "wednesday";
+											break;
+									case 4 : day = "thursday";
+											break;
+									case 5 : day = "friday";
+											break;
+									case 6 : day = "saturday";
+											break;
+								}
+								if(timesheetDay.getDay().equals(day)) {
+									schedularTodayVM.isHoliday = true;
+								} else {
+									schedularTodayVM.isHoliday = false;
+								}
+							}
+						}*/
+						Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+						if(task.getProjectColor() != null) {
+							schedularTodayVM.color = task.getProjectColor();
 						} else {
 							schedularTodayVM.color = "#FF7519";
 						}
-						Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
 						Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
 						schedularTodayVM.status = instance.getStatus();
 						schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
@@ -82,10 +127,14 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				}
 			}
 		}
-			return Json.toJson(vmList);
+			map.put("isHoliday", flag);
+			map.put("todayData", vmList);
+			return Json.toJson(map);
 	
 		} else {
-			return Json.toJson(emptyList);
+			map.put("isHoliday", flag);
+			map.put("todayData", emptyList);
+			return Json.toJson(map);
 		}
 		
 	}
@@ -142,12 +191,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								schedularTodayVM.endTime = timesheetDayObj.getTimeTo();
 								schedularTodayVM.notes = timesheet.getStatus().getName();
 								schedularTodayVM.type = "A";
-								if(timesheet.getStatus().getName().equals("Approved")) {
-									schedularTodayVM.color = "#009933";
+								
+								Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+								if(task.getProjectColor() != null) {
+									schedularTodayVM.color = task.getProjectColor();
 								} else {
 									schedularTodayVM.color = "#FF7519";
 								}
-								Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
 								Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
 								schedularTodayVM.status = instance.getStatus();
 								schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
@@ -588,12 +638,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							schedularTodayVM.endTime = timesheetDay.getTimeTo();
 							schedularTodayVM.notes = timesheet.getStatus().getName();
 							schedularTodayVM.type = "A";
-							if(timesheet.getStatus().getName().equals("Approved")) {
-								schedularTodayVM.color = "#009933";
+							
+							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+							if(task.getProjectColor() != null) {
+								schedularTodayVM.color = task.getProjectColor();
 							} else {
 								schedularTodayVM.color = "#FF7519";
 							}
-							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
 							Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
 							schedularTodayVM.status = instance.getStatus();
 							schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();

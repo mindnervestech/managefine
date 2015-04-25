@@ -17,6 +17,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
+
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
@@ -221,11 +223,11 @@
             </tr>
             <tr>
               <td>&nbsp;</td>
-              <td><section class="field nomargin-cbox"> <span ng-class="staffLeaveVM.leaveType==8 ? 'cbox-selected' : 'cbox'" ng-click="setleaveType()">
+             <!-- <td><section class="field nomargin-cbox"> <span ng-class="staffLeaveVM.leaveType==8 ? 'cbox-selected' : 'cbox'" ng-click="setleaveType()">
                   <input name="" type="checkbox" checked id="repeatE" />
                   </span>
                   <label for="repeatE" class="checklabel">Repeat Every Year</label>
-                </section></td>
+                </section></td> -->
             </tr>
           </table>
         </aside>

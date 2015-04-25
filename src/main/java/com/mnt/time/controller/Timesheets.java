@@ -31,6 +31,7 @@ import models.TimesheetDaysActual;
 import models.TimesheetRow;
 import models.TimesheetRowActual;
 import models.User;
+import models.UserLeave;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.codehaus.jackson.JsonNode;
@@ -919,6 +920,22 @@ public class Timesheets{
 		
 		User user = User.findById(Long.parseLong(userId));
 		Calendar cal = Calendar.getInstance();
+		/*Boolean[] holidayList = {false,false,false,false,false,false,false};
+		
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		if(userLeaveList != null) {
+			int i = 0;
+			int week = cal.get(Calendar.WEEK_OF_YEAR);
+			for(UserLeave userLeave: userLeaveList) {
+				holidayList[userLeave.getLeaveType()] = true;
+				i++;
+			}
+		}	
+		
+		for(int j=0;j<=6;j++) {
+			
+		}*/
+		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
 		
 		TimesheetVM timesheetVM = new TimesheetVM();
