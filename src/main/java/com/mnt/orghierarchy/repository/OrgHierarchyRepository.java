@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 
 public interface OrgHierarchyRepository {
@@ -14,4 +15,5 @@ public interface OrgHierarchyRepository {
 	File orgProfile(Long id);
 	List<OrganizationVM> getOrgHierarchy(String username);
 	Boolean deleteOrgChild(Long id);
+	List<EmployeeHierarchyVM> orgEmployee(String user,Long id);
 }

@@ -3,7 +3,7 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 	$scope.showEditButton = function() {
 		if(!($scope.selectedValue === undefined || $scope.selectedValue === 'undefined')) {
 			$http({method:'GET',url:'findCaseFile',params:{id:$scope.selectedValue}}).success(function(data) {
-				$( "#dialog" ).dialog({"width":686,"top": 20,"height":560,open: function(){
+				$( "#dialog" ).dialog({"width":686,"top": 10,"height":560,open: function(){
 	                $('.ui-dialog-titlebar-close').addClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
 	                $('.ui-dialog-titlebar-close').append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span>');
 	            }});

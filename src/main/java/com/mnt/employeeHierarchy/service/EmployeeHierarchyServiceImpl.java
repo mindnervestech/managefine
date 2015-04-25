@@ -15,9 +15,9 @@ public class EmployeeHierarchyServiceImpl implements EmployeeHierarchyService{
 	@Autowired
 	com.mnt.employeeHierarchy.repository.EmployeeHierarchyRepository employeeHierarchyRepository;
 	@Override
-	public List<EmployeeHierarchyVM> getEmployeeHierarchy(String username) {
+	public List<EmployeeHierarchyVM> getEmployeeHierarchy(String username, Long id) {
 		// TODO Auto-generated method stub
-		return employeeHierarchyRepository.getEmployeeHierarchy(username);
+		return employeeHierarchyRepository.getEmployeeHierarchy(username, id);
 	}
 
 

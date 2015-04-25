@@ -1,4 +1,4 @@
-app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) {
+app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$window) {
 	$scope.index = 10;
     $scope.Message = "";
     maximumId = 2;
@@ -42,6 +42,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
 		buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
 		buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 		buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
+		buttons.push(new primitives.orgdiagram.ButtonConfig("employee", "ui-icon-gear", "Employee"));
 		options.buttons = buttons;
 		options.onButtonClick = function (e, data) {
 			switch (data.name) {
@@ -114,6 +115,12 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload) 
             			scope:$scope,
             			closeByDocument:false
             		});
+            		break;	
+            	case "employee":
+            			$scope.currentParentId = data.context.id;
+            			
+            			$window.location.href = "employeeHierarchy?id="+$scope.currentParentId;
+            			
             		break;	
 			}
 		};

@@ -32,10 +32,10 @@ public class employeeHierarchyController {
 	com.mnt.employeeHierarchy.service.EmployeeHierarchyService employeeHierarchyService;
 	
 	@RequestMapping(value="/employeeHierarchy",method=RequestMethod.GET)
-	public String orgHierarchy(@CookieValue("username")String username,Model model) {
+	public String orgHierarchy(@CookieValue("username")String username,Model model,@RequestParam("id")Long id) {
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", User.findByEmail(username));
-    	model.addAttribute("data",Json.toJson(employeeHierarchyService.getEmployeeHierarchy(username)));
+    	model.addAttribute("data",Json.toJson(employeeHierarchyService.getEmployeeHierarchy(username,id)));
 		return "employeeHierarchy";
 	}
 	
