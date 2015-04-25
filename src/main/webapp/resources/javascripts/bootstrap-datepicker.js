@@ -530,10 +530,12 @@
 							yth = new Date(+(yth = UTCDate(th.getUTCFullYear(), 3, 4)) + (7 + 4  - yth.getUTCDay())%7*864e5),
 							// Calendar week: ms between thursdays, div ms per day, div 7 days
 							calWeek =  (th - yth) / 864e5 / 7 ;
-						    if(calWeek + 1 <= 0) {
-						    	calWeek = 53 + calWeek;
+						    var uicalWeek = calWeek; 	
+						    if(uicalWeek + 1 <= 0) {
+						    	
+						    	uicalWeek = 53 + uicalWeek;
 						    }
-						html.push('<td class="cw">'+ (calWeek + 1 ) +'</td>');
+						html.push('<td class="cw">'+ (uicalWeek + 1 ) +'</td>');
 
 					}
 				}
