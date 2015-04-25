@@ -1,5 +1,6 @@
 package com.mnt.createProject.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,11 @@ import models.User;
 
 import com.avaje.ebean.Ebean;
 import play.db.ebean.Model;
+import scala.Array;
+
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.SqlUpdate;
 import com.custom.helpers.ProjectSearchContext;
 import com.mnt.core.helper.SearchContext;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
@@ -156,6 +160,41 @@ public class Projectinstance extends Model{
 		this.user = user;
 	}
 	
+	public void addUser(List<User> user) {
+		this.user.addAll(user);
+	}
+	
+	public void removeAllUser() {
+		String sql = "DELETE FROM projectinstancenode_user";
+		String pinIds = "(";
+		for(int i = 0 ;i<Projectinstancenode.getprojectinstanceById(this.id).size(); i++){
+			if(i == Projectinstancenode.getprojectinstanceById(this.id).size()-1){
+				pinIds = pinIds + Projectinstancenode.getprojectinstanceById(this.id).get(i).getId() + ")";
+				sql = sql+" WHERE projectinstancenode_id IN "+pinIds;
+				break;
+			} 
+			pinIds = pinIds + Projectinstancenode.getprojectinstanceById(this.id).get(i).getId() + ",";
+			
+		}
+		String userIds ="(";
+		for(int i = 0 ;i<this.user.size(); i++){
+			if(i == this.user.size()-1){
+				userIds = userIds + this.user.get(i).getId() + ")";
+				sql = sql + " and user_id IN " + userIds; 
+				break; 
+			}
+			userIds = userIds + this.user.get(i).getId() + ",";
+		}
+		if(!(Projectinstancenode.getprojectinstanceById(this.id).isEmpty() || this.user.isEmpty())){
+			SqlUpdate sqlQuery = Ebean.createSqlUpdate(sql);
+			sqlQuery.execute(); 
+		}
+		if(this.user == null)
+			return;
+		this.user.clear();
+		this.deleteManyToManyAssociations("user");
+	}
+	
 	public User getUserid() {
 		return userid;
 	}
@@ -170,6 +209,17 @@ public class Projectinstance extends Model{
 
 	public void setSupplier(List<Supplier> supplier) {
 		this.supplier = supplier;
+	}
+	
+	public void addSupplier(List<Supplier> supplier) {
+		this.supplier.addAll(supplier);
+	}
+	
+	public void removeAllSupplier() {
+		if(this.supplier == null)
+			return;
+		this.supplier.clear();
+		this.deleteManyToManyAssociations("supplier");
 	}
 
 	public static Projectinstance getById(Long id) {

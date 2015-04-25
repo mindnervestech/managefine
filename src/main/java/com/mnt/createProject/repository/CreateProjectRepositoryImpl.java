@@ -46,7 +46,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	
 	public ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance) {
-		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
@@ -63,12 +63,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 		if(projectinstance.getUserid() != null){
-		pVm.setProjectManager(projectinstance.getUserid().getFirstName());
+			pVm.setProjectManager(projectinstance.getUserid().getFirstName());
 		}
 		Projectinstancenode projectinstancenodeDate= Projectinstancenode.getProjectParentId(projectclassnode.getParentId(),mainInstance);
-		
+
 		if(projectinstancenodeDate != null){
-		
+
 			if(projectinstancenodeDate.getStartDate() != null){
 				pVm.setStartDateLimit(format.format(projectinstancenodeDate.getStartDate()));
 			}
@@ -77,26 +77,19 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
 		}
-		
+
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
 		Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(id,mainInstance);
 		if(projectinstancenode != null){
-		if(projectinstancenode.getStartDate() != null){
-		pVm.setStartDate(format.format(projectinstancenode.getStartDate()));
-		}
-		if(projectinstancenode.getEndDate() != null){
-		pVm.setEndDate(format.format(projectinstancenode.getEndDate()));
-		}
-		
-		if(projectinstancenode.getSupplier() != null){
-			pVm.setSupplier(String.valueOf(projectinstancenode.getSupplier().getId()));
-		}
-		if(projectinstancenode.getUser() != null){
-			pVm.setUser(String.valueOf(projectinstancenode.getUser().getId()));
-		}
-		
-		pVm.setWeightage(projectinstancenode.getWeightage());
-		
+			if(projectinstancenode.getStartDate() != null){
+				pVm.setStartDate(format.format(projectinstancenode.getStartDate()));
+			}
+			if(projectinstancenode.getEndDate() != null){
+				pVm.setEndDate(format.format(projectinstancenode.getEndDate()));
+			}
+
+			pVm.setWeightage(projectinstancenode.getWeightage());
+
 		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){
@@ -105,20 +98,20 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			projectclassnodeattributVM.setName(proAtt.getName());
 			projectclassnodeattributVM.setType(proAtt.getType());
 			projectclassnodeattributVM.setValue(proAtt.getValue());
-			
+
 			Saveattributes saveattributes = null;
-			
-			
+
+
 			if(projectinstancenode != null){
-			saveattributes = Saveattributes.getProjectAttriId(projectinstancenode.getId(),proAtt.getId());
-			
-			if(saveattributes!=null){
-				
-				if(!proAtt.getType().equals("Checkbox")){
-					projectclassnodeattributVM.setAttriValue(saveattributes.getAttributValue());
-				}else{
-				
-				/*	String[] gvalue = saveattributes.getAttributValue().split(",");
+				saveattributes = Saveattributes.getProjectAttriId(projectinstancenode.getId(),proAtt.getId());
+
+				if(saveattributes!=null){
+
+					if(!proAtt.getType().equals("Checkbox")){
+						projectclassnodeattributVM.setAttriValue(saveattributes.getAttributValue());
+					}else{
+
+						/*	String[] gvalue = saveattributes.getAttributValue().split(",");
 					List<String> lines = new ArrayList<String>();
 					for(int i=0; i < gvalue.length; i++){
 						lines.add(gvalue[i]);
@@ -126,52 +119,52 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					 	System.out.println(gvalue[i]);
 						}
 					projectclassnodeattributVM.setCheckBoxValue(lines);*/
-				
-				}
 
+					}
+
+				}
 			}
-			}
-			 
-			
+
+
 			if(proAtt.getValue() != null){
-			String[] gvalue = proAtt.getValue().split("\n");
-			List<ProjectattributSelect> lines = new ArrayList<ProjectattributSelect>();
-			for(int i=0; i < gvalue.length; i++){
-				ProjectattributSelect pSelect = new ProjectattributSelect();
-				if(saveattributes!=null){
-				  if(proAtt.getType().equals("Checkbox")){
-					  String[] gvalue1 = saveattributes.getAttributValue().split(",");
-					  for(int j=0; j < gvalue1.length; j++){
-						  if(gvalue[i].equals(gvalue1[j])){
-							  pSelect.setSelect("checked");
-						  }
-					  }
-					  pSelect.setValue(gvalue[i]);
-					  
+				String[] gvalue = proAtt.getValue().split("\n");
+				List<ProjectattributSelect> lines = new ArrayList<ProjectattributSelect>();
+				for(int i=0; i < gvalue.length; i++){
+					ProjectattributSelect pSelect = new ProjectattributSelect();
+					if(saveattributes!=null){
+						if(proAtt.getType().equals("Checkbox")){
+							String[] gvalue1 = saveattributes.getAttributValue().split(",");
+							for(int j=0; j < gvalue1.length; j++){
+								if(gvalue[i].equals(gvalue1[j])){
+									pSelect.setSelect("checked");
+								}
+							}
+							pSelect.setValue(gvalue[i]);
+
+						}else{
+							pSelect.setValue(gvalue[i]);
+							pSelect.setSelect("");
+
+						}
 					}else{
 						pSelect.setValue(gvalue[i]);
 						pSelect.setSelect("");
-						
 					}
-				}else{
-					pSelect.setValue(gvalue[i]);
-					pSelect.setSelect("");
+
+					lines.add(pSelect);
+					System.out.println(gvalue[i]);
 				}
-				
-				lines.add(pSelect);
-			 	System.out.println(gvalue[i]);
-				}
-			projectclassnodeattributVM.setValueSlice(lines);
+				projectclassnodeattributVM.setValueSlice(lines);
 			}
 			// projectclassnodeattributVM.setProjectnode(proAtt.getProjectnode().getId());
 			pList2.add(projectclassnodeattributVM);
 		}
 		pVm.setProjectValue(pList2);
-		
-		
-		
+
+
+
 		return pVm;
-		
+
 	}
 	
 	@Override
@@ -257,7 +250,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		projectinstance.setUserid(User.findById(Long.parseLong(form.data().get("projectManager"))));
 		
 		List<User> uList = new ArrayList<User>();
-		for(String s:supplierValues){
+		for(String s:memberValues){
 			User user = User.findById(Long.parseLong(s));
 			uList.add(user);
 		}
@@ -357,9 +350,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	
 	@Override
-	public List<UserVM> getselectedUser(Long mainInstance) {
+	public List<String> getselectedUser(Long mainInstance, Long projectId) {
 		
-		List<UserVM> result = new ArrayList<UserVM>();
+		/*List<UserVM> result = new ArrayList<UserVM>();
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 		
@@ -372,15 +365,31 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				result.add(userVM);
 			}
 		
-		return result;
+		return result;*/
+		
+		List<String> users = new ArrayList<>();
+		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(projectId, mainInstance);
+		if(projectnode == null){
+			Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+	
+			for(User lUser :projectinstance.getUser()) {
+				users.add(lUser.getId().toString());
+			}
+			return users;
+		} else {
+			for(User lUser :projectnode.getUser()) {
+				users.add(lUser.getId().toString());
+			}
+			return users;
+		}
 		
 	}
 	
 	
 	@Override
-	public List<SupplierDataVM> getselectedSupplier(Long mainInstance) {
+	public List<String> getselectedSupplier(Long mainInstance) {
 		
-		List<SupplierDataVM> result = new ArrayList<SupplierDataVM>();
+		/*List<SupplierDataVM> result = new ArrayList<SupplierDataVM>();
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 		
@@ -393,7 +402,16 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				result.add(supplierVM);
 			}
 		
-		return result;
+		return result;*/
+		
+		List<String> supps = new ArrayList<>();
+		
+		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+		
+			for(Supplier lSupplier :projectinstance.getSupplier()) {
+				supps.add(lSupplier.getId().toString());
+			}
+		return supps;
 		
 	}
 	

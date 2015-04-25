@@ -118,13 +118,22 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         		break;
         	case "edit":
         		
-        		console.log($rootScope.MainInstance);
-        		console.log(data.context.id);
-        		
-        		$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
-        			console.log(data);
-        			
-        			        			
+    			$http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response) {
+    				console.log(response);
+	    	    	var selectedUsers = [];
+        	    	angular.forEach($scope.allUser,function(user,key) {
+	        	    	angular.forEach(response,function(value,key1) {
+	        	    		if(user.id == value){
+	        	    			selectedUsers.push(user);
+	        	    		}
+	        	    	});
+        	    	});
+        	    	$scope.findSelectedUser = response;
+        	    	$scope.findUser = selectedUsers;
+        	    	if(data.context.id == 1)
+        	    		$scope.findUser = $scope.allUser;
+	    	    });
+    			$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
         			ngDialog.open({
             			template:data,
             			plain:true,
@@ -133,15 +142,17 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
             			closeByDocument:false,
             			className: 'ngdialog-theme-plain'
             		});
-        			        			
-        			
         		});
+
         		
         		break;	
 		}
 	};
-   
-	    
+	
+	$scope.closeThisDialog  = function(){
+		console.log("HERE :::::::::::::::::::::: ");
+		ngDialog.close();
+	} 
     var items = [
     ];
     
@@ -164,6 +175,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     $http({method:'GET',url:'findUser'}).success(function(response) {
     	console.log(response);
     	$scope.findUser = response;
+    	$scope.allUser = response;
     });
     
   
@@ -269,32 +281,6 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	  $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
   	    	console.log(response);
   	    	$scope.findSelectedSupplier = response;
-  	    	
-         	    angular.forEach($scope.findSupplier, function(obj, index){
-         	    	var flag = true;
-     				angular.forEach($scope.findSelectedSupplier, function(obj1, index){
-     					
-     					
-     					if ((obj.id == obj1.id)) {
-     						flag =false;
-     						$scope.selectSupplier.push({
-     							id: obj.id,
-     							supplierName : obj.supplierName,
-     							selected : "selected"
-     							
-     						});
-     												
-     					};
-     				});
-     				if(flag) {
-     					$scope.selectSupplier.push({
- 							id: obj.id,
- 							supplierName : obj.supplierName,
- 							selected : ""
- 							
- 						});
-     				}
-     			});
      	    });
   	    	
   	    	
@@ -305,42 +291,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	    $http({method:'GET',url:'/time/findUser'}).success(function(response) {
     	    	console.log(response);
     	    	$scope.findUser = response;
-    	    	
-    	    	
-    	    	 $http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
-    	    	    	console.log(response);
-    	    	    	$scope.findSelectedUser = response;
-    	    	    	
-    	    	    	
-    	    	    	
-    	    	        angular.forEach($scope.findUser, function(obj, index){
-    	         	    	var flag = true;
-    	     				angular.forEach($scope.findSelectedUser, function(obj1, index){
-    	     					
-    	     					
-    	     					if ((obj.id == obj1.id)) {
-    	     						flag =false;
-    	     						$scope.selectUser.push({
-    	     							id: obj.id,
-    	     							firstName : obj.firstName,
-    	     							selected : "selected"
-    	     							
-    	     						});
-    	     												
-    	     					};
-    	     				});
-    	     				if(flag) {
-    	     					$scope.selectUser.push({
-    	 							id: obj.id,
-    	 							firstName : obj.firstName,
-    	 							selected : ""
-    	 							
-    	 						});
-    	     				}
-    	     			});
-    	    	    	
-    	    	    });
-    	    	
+    	    	$scope.allUser = $scope.findUser; 
     	    });
     	   
     	    

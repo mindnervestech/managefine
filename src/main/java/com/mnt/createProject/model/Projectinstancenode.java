@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -31,9 +32,10 @@ public class Projectinstancenode extends Model{
 	private String projectManager;
 	private String status;
 	private String color;
+
+	@ManyToMany(cascade=CascadeType.ALL)
+	public List<User> user;
 	
-	@OneToOne
-	private User user;
 	@OneToOne
 	private Supplier supplier;
 	
@@ -116,11 +118,11 @@ public class Projectinstancenode extends Model{
 		this.projectManager = projectManager;
 	}
 
-	public User getUser() {
+	public List<User> getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(List<User> user) {
 		this.user = user;
 	}
 
@@ -172,6 +174,13 @@ public class Projectinstancenode extends Model{
 	
 	public static Projectinstancenode getByClassNodeAndInstance(Projectclassnode projectclassnode,Long instanceId) {
 		return find.where().eq("Projectclassnode", projectclassnode).eq("projectinstanceid", instanceId).findUnique();
+	}
+
+	public void removeAllUser() {
+		if(this.user == null)
+			return;
+		this.user.clear();
+		this.deleteManyToManyAssociations("user");
 	}
 	
 }

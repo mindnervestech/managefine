@@ -85,13 +85,13 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	}
 	
 	@Override
-	public List<UserVM> getselectedUser(Long mainInstance) {
+	public List<String> getselectedUser(Long mainInstance,Long projectId) {
 		// TODO Auto-generated method stub
-		return createProjectRepository.getselectedUser(mainInstance);
+		return createProjectRepository.getselectedUser(mainInstance,projectId);
 	}
 	
 	@Override
-	public List<SupplierDataVM> getselectedSupplier(Long mainInstance) {
+	public List<String> getselectedSupplier(Long mainInstance) {
 		// TODO Auto-generated method stub
 		return createProjectRepository.getselectedSupplier(mainInstance);
 	}

@@ -140,8 +140,8 @@ public class CreateProjectController {
 	}
 	
 	@RequestMapping(value="/selectedUser",method=RequestMethod.GET)
-	public @ResponseBody List selectedUser(@RequestParam("mainInstance")Long mainInstance) {
-		return createProjectService.getselectedUser(mainInstance);
+	public @ResponseBody List selectedUser(@RequestParam("mainInstance")Long mainInstance, @RequestParam("projectId")Long projectId) {
+		return createProjectService.getselectedUser(mainInstance,projectId);
 	}
 	
 	@RequestMapping(value="/selectedSupplier",method=RequestMethod.GET)
@@ -169,9 +169,10 @@ public class CreateProjectController {
 			HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-	
-		
-		
+
+		String supplierValues[] = request.getParameterValues("supplier");
+		String memberValues[] = request.getParameterValues("member");
+
 		List<Projectclassnodeattribut> attributesArray = null;
 		Projectinstancenode projectnode = null;
 		if(form.data().get("projectId") != null){
@@ -183,22 +184,41 @@ public class CreateProjectController {
 			
 			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
 			if(projectclassnode.getParentId() == null){
-			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
-		  
-					
-			projectinstance.setStartDate(form.data().get("startDate"));
-			projectinstance.setEndDate(form.data().get("endDate"));
-			
-		    projectinstance.update();
+				
+				Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
+				projectinstance.setStartDate(form.data().get("startDate"));
+				projectinstance.setEndDate(form.data().get("endDate"));
+				projectinstance.update();
+				projectinstance.removeAllUser();
+				List<User> uList = new ArrayList<User>();
+				if(memberValues != null)
+					for(String s:memberValues){
+						User user = User.findById(Long.parseLong(s));
+						uList.add(user);
+					}
+				projectinstance.setUser(uList);
+				projectinstance.saveManyToManyAssociations("user");
+
+				projectinstance.removeAllSupplier();
+				List<Supplier> sList = new ArrayList<Supplier>();
+				if(supplierValues != null)
+					for(String sid:supplierValues){
+						Supplier supplier = Supplier.findById(Long.parseLong(sid));
+						sList.add(supplier);
+					}
+				projectinstance.setSupplier(sList);
+				projectinstance.saveManyToManyAssociations("supplier");
+
 			}
 			Projectinstancenode projectinstancenode= new Projectinstancenode();
 			projectinstancenode.setProjecttypeid(Long.parseLong(form.data().get("projecttypeId")));
 			projectinstancenode.setProjectclassnode(Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId"))));
 			projectinstancenode.setProjectinstanceid(Long.parseLong(form.data().get("projectInstance")));
-		    projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
-		    projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
-		    projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
-		    
+			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
+
+			//projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
+			//projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
+
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -206,53 +226,84 @@ public class CreateProjectController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
+
+
 			projectinstancenode.save();
-		   
-			
-		    for(Projectclassnodeattribut attr : attributesArray){
-		    	
+			projectinstancenode.removeAllUser();
+			List<User> uList = new ArrayList<User>();
+			if(memberValues != null)
+				for(String s:memberValues){
+					User user = User.findById(Long.parseLong(s));
+					uList.add(user);
+				}
+			projectinstancenode.setUser(uList);
+			projectinstancenode.saveManyToManyAssociations("user");
+
+
+
+			for(Projectclassnodeattribut attr : attributesArray){
+
 				Saveattributes saveattri = new Saveattributes();
 				String checkboxValue = null;
 				checkboxValue = "";
 				if(attr.getType().equalsIgnoreCase("Checkbox")) {
-					
-		    		String values[] = request.getParameterValues(attr.getName());
-		    		System.out.println(values);
-		    		for(String s:values){
-		    			System.out.println(s);
-		    			checkboxValue = checkboxValue + s +",";
-		    			System.out.println(checkboxValue);
-		    		}
-		    		
-		    		System.out.println(checkboxValue);
-		    		saveattri.setAttributValue(checkboxValue);
-		    	} else {
-		    		saveattri.setAttributValue(form.data().get(attr.getName()));
-		    	}
+
+					String values[] = request.getParameterValues(attr.getName());
+					System.out.println(values);
+					for(String s:values){
+						System.out.println(s);
+						checkboxValue = checkboxValue + s +",";
+						System.out.println(checkboxValue);
+					}
+
+					System.out.println(checkboxValue);
+					saveattri.setAttributValue(checkboxValue);
+				} else {
+					saveattri.setAttributValue(form.data().get(attr.getName()));
+				}
 				saveattri.setProjectattrid(attr.getId());
 				saveattri.setProjectinstancenode_id(projectinstancenode.getId());
-				
+
 				saveattri.save();
-				
+
 			}
-			
+
 		}else{
-			
+
 			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
 			if(projectclassnode.getParentId() == null){
-			Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
-		  
-		    projectinstance.setStartDate(form.data().get("startDate"));
-			projectinstance.setEndDate(form.data().get("endDate"));
-		    projectinstance.update();
+				Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
+
+				projectinstance.setStartDate(form.data().get("startDate"));
+				projectinstance.setEndDate(form.data().get("endDate"));
+				projectinstance.update();
+
+				projectinstance.removeAllUser();
+				List<User> uList = new ArrayList<User>();
+				if(memberValues != null)
+					for(String s:memberValues){
+						User user = User.findById(Long.parseLong(s));
+						uList.add(user);
+					}
+				projectinstance.setUser(uList);
+				projectinstance.saveManyToManyAssociations("user");
+
+				projectinstance.removeAllSupplier();
+				List<Supplier> sList = new ArrayList<Supplier>();
+				if(supplierValues != null)
+					for(String sid:supplierValues){
+						Supplier supplier = Supplier.findById(Long.parseLong(sid));
+						sList.add(supplier);
+					}
+				projectinstance.setSupplier(sList);
+				projectinstance.saveManyToManyAssociations("supplier");
 			}
-			
 			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
-		    projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
-		    projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
+
+			//projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
+			//projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
+
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -262,6 +313,17 @@ public class CreateProjectController {
 			}
 			
 			projectinstancenode.update();
+			projectinstancenode.removeAllUser();
+			List<User> uList = new ArrayList<User>();
+			if(memberValues != null)
+				for(String s:memberValues){
+					User user = User.findById(Long.parseLong(s));
+					uList.add(user);
+				}
+			projectinstancenode.setUser(uList);
+			projectinstancenode.saveManyToManyAssociations("user");
+
+
 			for(Projectclassnodeattribut attr : attributesArray){
 				
 				Saveattributes saveattri = Saveattributes.getProjectAttriId(projectinstancenode.getId(),attr.getId());

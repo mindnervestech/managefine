@@ -26,7 +26,7 @@ public interface CreateProjectRepository {
 	List<ClientVM> getfindCliect();
 	List<UserVM> getfindUser();
 	List<SupplierDataVM> getfindSupplier();
-	List<UserVM> getselectedUser(Long mainInstance);
-	List<SupplierDataVM> getselectedSupplier(Long mainInstance);
+	List<String> getselectedUser(Long mainInstance, Long projectId);
+	List<String> getselectedSupplier(Long mainInstance);
 
 }
