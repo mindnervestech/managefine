@@ -14,6 +14,8 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
+
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
@@ -89,25 +91,25 @@
 							<div class="largeInputLabel clearfix">Task Codes</div>
 						</div>
 					<div class="innerDaysDiv">
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="monLabel">
 							Mon<br> <span id="dayLabel_0"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="tueLabel">
 							Tue<br> <span id="dayLabel_1"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="wedLabel">
 							Wed<br> <span id="dayLabel_2"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="thuLabel">
 							Thu<br> <span id="dayLabel_3"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="friLabel">
 							Fri<br> <span id="dayLabel_4"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="satLabel">
 							Sat<br> <span id="dayLabel_5"></span>
 						</div>
-						<div class="smallInputLabel clearfix">
+						<div class="smallInputLabel clearfix" id="sunLabel">
 							Sun<br> <span id="dayLabel_6"></span>
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
@@ -146,89 +148,187 @@
 					</div>
 				</div>
 				
-								<div style="margin-left:32px;"class="innerHrsDiv">
+								<div style="margin-left:40px;"class="innerHrsDiv">
 									<div class="clearfix">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.monTime">{{row.monTime}}</div>
 										<label></label>
-										<div style="margin-top: 8%;"class="input">
-											<input type="text"
+										
+										<div style="margin-top: 8%;" class="input" ng-init="initFTTime(row,'mon')">
+										    <input type="text"
+										    ng-model="row.monFromTo"
+										    ng-blur="splitToFTTime(row,'mon')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.monFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:20%;width:30px;"> 
-											<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:20%;width:30px;" ng-model="row.monTo">	
-												<span class="help-inline"></span> <span class="help-block"></span>
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.monTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.tueTime">{{row.tueTime}}</div>
 										<label></label>
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'tue')">
+										    <input type="text"
+										    ng-model="row.tueFromTo"
+										    ng-blur="splitToFTTime(row,'tue')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.tueFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.tueFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.tueTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.wedTime">{{row.wedTime}}</div>
 										<label></label>
 				
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'wed')">
+										    <input type="text"
+										    ng-model="row.wedFromTo"
+										    ng-blur="splitToFTTime(row,'wed')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.wedFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.wedFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.wedTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.thuTime">{{row.thuTime}}</div>
 										<label></label>
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'thu')">
+										    <input type="text"
+										    ng-model="row.thuFromTo"
+										    ng-blur="splitToFTTime(row,'thu')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.thuFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.thuFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.thuTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.friTime">{{row.friTime}}</div>
 										<label></label>
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'fri')">
+										    <input type="text"
+										    ng-model="row.friFromTo"
+										    ng-blur="splitToFTTime(row,'fri')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.friFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.friFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.friTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.satTime">{{row.satTime}}</div>
 										<label></label>
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'sat')">
+										    <input type="text"
+										    ng-model="row.satFromTo"
+										    ng-blur="splitToFTTime(row,'sat')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.satFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.satFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.satTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									
-									<div class="clearfix" style="margin-left:1px;">
+									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.sunTime">{{row.sunTime}}</div>
 										<label></label>
-										<div class="input">
-											<input type="text"
+										<div class="input" ng-init="initFTTime(row,'sun')">
+										    <input type="text"
+										    ng-model="row.sunFromTo"
+										    ng-blur="splitToFTTime(row,'sun')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
 												ng-model="row.sunFrom"
-												placeholder="from" class="smallInput dayName" style="margin-top:22%;width:30px;">
-												<input type="text" placeholder="to" class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> <span
-												class="help-inline"></span> <span class="help-block"></span>
+												ng-blur="checkTime(row.sunFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.sunTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
 									</div>
 									

@@ -7,6 +7,9 @@ app.controller("TimeSheetController", function($scope,$http) {
 	$scope.taskList = [];
 	$scope.isCopyFromLastweek = false;
 	
+	$scope.timeRegexp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+	$scope.ftTimeRegexp =  /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+	
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
 		$scope.getTimesheetByWeek();
@@ -297,6 +300,141 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	
+	$scope.splitToFTTime = function (row, day) {
+		if(day === 'mon'){
+			if(row.monFromTo) {
+				var from = row.monFromTo.split('-')[0];
+				if(from) {
+				   row.monFrom = from;	
+				}
+				
+				var to = row.monFromTo.split('-')[1];
+				if(to) {
+					row.monTo = to;
+				}
+			}
+		}
+		if(day === 'tue'){
+			if(row.tueFromTo) {
+				var from = row.tueFromTo.split('-')[0];
+				if(from) {
+				   row.tueFrom = from;	
+				}
+				
+				var to = row.tueFromTo.split('-')[1];
+				if(to) {
+					row.tueTo = to;
+				}
+			}
+		}
+		if(day === 'wed'){
+			if(row.wedFromTo) {
+				var from = row.wedFromTo.split('-')[0];
+				if(from) {
+				   row.wedFrom = from;	
+				}
+				
+				var to = row.wedFromTo.split('-')[1];
+				if(to) {
+					row.wedTo = to;
+				}
+			}
+		}
+		
+		if(day === 'thu'){
+			if(row.thuFromTo) {
+				var from = row.thuFromTo.split('-')[0];
+				if(from) {
+				   row.thuFrom = from;	
+				}
+				
+				var to = row.thuFromTo.split('-')[1];
+				if(to) {
+					row.thuTo = to;
+				}
+			}
+		}
+		if(day === 'fri'){
+			if(row.friFromTo) {
+				var from = row.friFromTo.split('-')[0];
+				if(from) {
+				   row.friFrom = from;	
+				}
+				
+				var to = row.friFromTo.split('-')[1];
+				if(to) {
+					row.friTo = to;
+				}
+			}
+		}
+		if(day === 'sat'){
+			if(row.satFromTo) {
+				var from = row.satFromTo.split('-')[0];
+				if(from) {
+				   row.satFrom = from;	
+				}
+				
+				var to = row.satFromTo.split('-')[1];
+				if(to) {
+					row.satTo = to;
+				}
+			}
+		}
+		if(day === 'sun'){
+			if(row.sunFromTo) {
+				var from = row.sunFromTo.split('-')[0];
+				if(from) {
+				   row.sunFrom = from;	
+				}
+				
+				var to = row.sunFromTo.split('-')[1];
+				if(to) {
+					row.sunTo = to;
+				}
+			}
+		}
+	}
+	
+	$scope.initFTTime = function (row, day) {
+		console.log(row);
+		if(day === 'mon') {
+			if(row.monFrom && row.monTo) {
+				row.monFromTo = row.monFrom + '-' + row.monTo;
+			}
+		}
+		if(day === 'tue') {
+			if(row.tueFrom && row.tueTo) {
+				row.tueFromTo = row.tueFrom + '-' + row.tueTo;
+			}
+		}
+		if(day === 'wed') {
+			if(row.wedFrom && row.wedTo) {
+				row.wedFromTo = row.wedFrom + '-' + row.wedTo;
+			}
+		}
+		if(day === 'thu') {
+			if(row.thuFrom && row.thuTo) {
+				row.thuFromTo = row.thuFrom + '-' + row.thuTo;
+			}
+		}
+		if(day === 'fri') {
+			if(row.friFrom && row.friTo) {
+				row.friFromTo = row.friFrom + '-' + row.friTo;
+			}
+		}
+		if(day === 'sat') {
+			if(row.satFrom && row.satTo) {
+				row.satFromTo = row.satFrom + '-' + row.satTo;
+			}
+		}
+		if(day === 'sun') {
+			if(row.sunFrom && row.sunTo) {
+				row.sunFromTo = row.sunFrom + '-' + row.sunTo;
+			}
+		}
+	}
+	
+	
 	$scope.setTaskOfProject = function(projectId) {
 		console.log(projectId);
 		for(var i=0;i<$scope.projectList.length;i++) {
@@ -469,8 +607,12 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 			.success(function(data) {
 				console.log('success');
 				console.log(data);
-				
-				$scope.myString = JSON.stringify(data);
+				if(data.isHoliday == true) {
+					$('#isHoliday').css("color","red");
+				} else {
+					$('#isHoliday').removeAttr("style");
+				}
+				$scope.myString = JSON.stringify(data.todayData);
 				$scope.data.data = $scope.myString;
 			});
 		} else{
@@ -895,7 +1037,7 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 			reason : '',
 			userId : $('#userID').val(),
 			selectType : '1',
-			leaveType : 8,
+			leaveType : 7,
 			toDate : '',
 			fromDate : ''
 	};
@@ -1318,7 +1460,32 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	}
 	
 	$scope.splitToFTTime = function (row, day) {
-		
+		if(day === 'mon'){
+			if(row.monFromTo) {
+				var from = row.monFromTo.split('-')[0];
+				if(from) {
+				   row.monFrom = from;	
+				}
+				
+				var to = row.monFromTo.split('-')[1];
+				if(to) {
+					row.monTo = to;
+				}
+			}
+		}
+		if(day === 'tue'){
+			if(row.tueFromTo) {
+				var from = row.tueFromTo.split('-')[0];
+				if(from) {
+				   row.tueFrom = from;	
+				}
+				
+				var to = row.tueFromTo.split('-')[1];
+				if(to) {
+					row.tueTo = to;
+				}
+			}
+		}
 		if(day === 'wed'){
 			if(row.wedFromTo) {
 				var from = row.wedFromTo.split('-')[0];
@@ -1333,12 +1500,94 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			}
 		}
 		
+		if(day === 'thu'){
+			if(row.thuFromTo) {
+				var from = row.thuFromTo.split('-')[0];
+				if(from) {
+				   row.thuFrom = from;	
+				}
+				
+				var to = row.thuFromTo.split('-')[1];
+				if(to) {
+					row.thuTo = to;
+				}
+			}
+		}
+		if(day === 'fri'){
+			if(row.friFromTo) {
+				var from = row.friFromTo.split('-')[0];
+				if(from) {
+				   row.friFrom = from;	
+				}
+				
+				var to = row.friFromTo.split('-')[1];
+				if(to) {
+					row.friTo = to;
+				}
+			}
+		}
+		if(day === 'sat'){
+			if(row.satFromTo) {
+				var from = row.satFromTo.split('-')[0];
+				if(from) {
+				   row.satFrom = from;	
+				}
+				
+				var to = row.satFromTo.split('-')[1];
+				if(to) {
+					row.satTo = to;
+				}
+			}
+		}
+		if(day === 'sun'){
+			if(row.sunFromTo) {
+				var from = row.sunFromTo.split('-')[0];
+				if(from) {
+				   row.sunFrom = from;	
+				}
+				
+				var to = row.sunFromTo.split('-')[1];
+				if(to) {
+					row.sunTo = to;
+				}
+			}
+		}
 	}
 	
 	$scope.initFTTime = function (row, day) {
+		if(day === 'mon') {
+			if(row.monFrom && row.monTo) {
+				row.monFromTo = row.monFrom + '-' + row.monTo;
+			}
+		}
+		if(day === 'tue') {
+			if(row.tueFrom && row.tueTo) {
+				row.tueFromTo = row.tueFrom + '-' + row.tueTo;
+			}
+		}
 		if(day === 'wed') {
 			if(row.wedFrom && row.wedTo) {
 				row.wedFromTo = row.wedFrom + '-' + row.wedTo;
+			}
+		}
+		if(day === 'thu') {
+			if(row.thuFrom && row.thuTo) {
+				row.thuFromTo = row.thuFrom + '-' + row.thuTo;
+			}
+		}
+		if(day === 'fri') {
+			if(row.friFrom && row.friTo) {
+				row.friFromTo = row.friFrom + '-' + row.friTo;
+			}
+		}
+		if(day === 'sat') {
+			if(row.satFrom && row.satTo) {
+				row.satFromTo = row.satFrom + '-' + row.satTo;
+			}
+		}
+		if(day === 'sun') {
+			if(row.sunFrom && row.sunTo) {
+				row.sunFromTo = row.sunFrom + '-' + row.sunTo;
 			}
 		}
 	}
