@@ -6,10 +6,15 @@
 <!-- <div id="basicdiagram2" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;">
 </div> -->
 <div ng-app="RoleApp" ng-controller="EmployeeController" ng-init='loadData(${data})'>
-    <div id="centerpanel"  style="overflow: hidden; padding: 0px; margin: 0px; border: 0px;">
-        <div bp-org-diagram data-options="myOptions" data-on-highlight-changed="onMyHighlightChanged()"  data-on-cursor-changed="onMyCursorChanged()" style="width: 100%; height: 600px; border-style: dotted; border-width: 1px;"></div>
-    </div>
-</div>
+<div>
+	 <button type="submit" class="btn btn-primary" style="margin-left: 20px;" onclick="window.location.href='orgHierarchy'">Back</button>
+	</div>
+	<div>
+   		 <div id="centerpanel"  style="overflow: hidden; padding: 0px; margin: 0px; border: 0px;">
+       			 <div bp-org-diagram data-options="myOptions" data-on-highlight-changed="onMyHighlightChanged()"  data-on-cursor-changed="onMyCursorChanged()" style="width: 100%; height: 600px;border-width: 1px;"></div>
+   		 </div>
+	</div>
+	</div>
 <%-- <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script> --%>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/primitives/primitives.latest.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/js/ngDialog.min.js"/>'></script>

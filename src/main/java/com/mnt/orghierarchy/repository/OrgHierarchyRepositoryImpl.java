@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
 import com.mnt.orghierarchy.model.Organization;
 
 import models.User;
@@ -133,6 +134,29 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 		}
 		return new File(imageRootDir+File.separator+"default.jpg");
 	}
+	
+	@Override
+	public List<EmployeeHierarchyVM> orgEmployee(String user,Long id) {
+
+		List<EmployeeHierarchyVM> result = new ArrayList<EmployeeHierarchyVM>();
+		List<User> userList = User.findByOrganizationId(id);
+		
+			for(User user2 :userList) {
+				EmployeeHierarchyVM eVm = new EmployeeHierarchyVM();
+				eVm.setId(user2.getId());
+				if(user2.getManager() != null){
+					eVm.setParent(user2.getManager().getId());
+				}else{
+					eVm.setParent(null);
+				}	
+				eVm.setEmployeeName(user2.getFirstName());
+				eVm.setDesignation(user2.getDesignation());
+		
+				result.add(eVm);
+			}
+		
+			return result;
+		}
 
 	@Override
 	public List<OrganizationVM> getOrgHierarchy(String username) {

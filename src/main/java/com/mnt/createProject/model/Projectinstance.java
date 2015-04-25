@@ -207,7 +207,7 @@ public class Projectinstance extends Model{
 	
 	@Override
 	public String toString() {
-		return id + "," + projectName ;
+		return getProjectName() ;
 	}
 	
 	public static SearchContext  getSearchContext(String onFieldNamePrefix){

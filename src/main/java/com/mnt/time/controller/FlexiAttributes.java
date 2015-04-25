@@ -70,7 +70,11 @@ public class FlexiAttributes {
 				}else if(flexi.getModel().equals("Task")){
 					flexiAttribute.setModel("models.TaskFlexi");
 					flexiAttribute.setUniqueid(4L);
+				}else if(flexi.getModel().equals("Case")){
+					flexiAttribute.setModel("models.CaseFlexi");
+					flexiAttribute.setUniqueid(6L);
 				}
+				
 				//flexiAttribute.save();
 				if(flexi.getId() == null) {
 					flexiAttribute.save();
@@ -102,7 +106,10 @@ public class FlexiAttributes {
 			 fl = FlexiAttribute.getFieldsByUniqueId(4L);
 		}else if(userid.equals("Supplier")){
 			 fl = FlexiAttribute.getFieldsByUniqueId(5L);
+		}else if(userid.equals("Case")){
+			 fl = FlexiAttribute.getFieldsByUniqueId(6L);
 		}
+		 
 		 
 		 for(FlexiAttribute flexi : fl) {
 			 FlexiattributeVM flexiattributeVM = new FlexiattributeVM();

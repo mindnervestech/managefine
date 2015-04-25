@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
 import com.mnt.orghierarchy.repository.OrgHierarchyRepository;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 
@@ -37,6 +38,12 @@ public class OrgHierarchyServiceImpl implements OrgHierarchyService {
 	public List<OrganizationVM> getOrgHierarchy(String username) {
 		return orgHierarchyRepository.getOrgHierarchy(username);
 	}
+	
+	@Override
+	public List<EmployeeHierarchyVM> orgEmployee(String user,Long id) {
+		return orgHierarchyRepository.orgEmployee(user,id);
+	}
+	
 	@Override
 	public Boolean deleteOrgChild(Long id) {
 		return orgHierarchyRepository.deleteOrgChild(id);

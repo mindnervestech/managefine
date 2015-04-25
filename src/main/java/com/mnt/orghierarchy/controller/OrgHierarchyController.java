@@ -49,6 +49,11 @@ public class OrgHierarchyController {
 	public @ResponseBody List loadAllData(@CookieValue("username")String username) {
 		return orgHierarchyService.getOrgHierarchy(username);
 	}
+	
+	@RequestMapping(value="/orgEmployee",method=RequestMethod.GET)
+	public @ResponseBody List orgEmployee(@CookieValue("username")String username, @RequestParam("id")Long id) {
+		return orgHierarchyService.orgEmployee(username,id);
+	}
 
 	@RequestMapping(value="/addOrganization",method=RequestMethod.GET)
 	public String addOrganization(Model model) {

@@ -78,7 +78,6 @@ private static CaseSearchContext searchContext = null;
 	@Override
 	public HSSFWorkbook doExcel(DynamicForm form) {
 		Expression exp =  super.doSearchExpression(form, SearchType.Like);
-
 		String email = form.data().get("email");
 		User user1 = User.findByEmail(email);
 		
@@ -150,9 +149,31 @@ private static CaseSearchContext searchContext = null;
 		}
 		
 		int start = limit*page - limit;//orderBy(sidx+" "+sord)
-		List<CaseData> results =  exp == null ?CaseData.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).findList()
-				:CaseData.find.where().add(exp).add(exp1).setFirstRow(start).setMaxRows(limit).findList();
-		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
+		List<CaseData> results =  exp == null ?CaseData.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).setOrderBy("dueDate").findList()
+				:CaseData.find.where().add(exp).add(exp1).setOrderBy("dueDate").setFirstRow(start).setMaxRows(limit).findList();
+		
+		
+		Date startTo;
+		List<CaseData> caseResult= new ArrayList<CaseData>(results.size());
+		for(int i=0; i<results.size();i++)
+		{
+			CaseData case1 = new CaseData();
+			case1.id = results.get(i).id;
+			startTo = results.get(i).getDueDate();
+			System.out.println("dateeeeee===="+startTo);
+			String startDate= OrignaldateFormat.format(startTo);
+			System.out.println("dateeeeee====1111"+startDate);
+			case1.startDateGrid = startDate;
+			case1.assignto = results.get(i).assignto;
+			case1.title = results.get(i).title;
+			case1.description = results.get(i).description;
+			case1.status = results.get(i).status;
+			caseResult.add(case1);
+			
+		}
+		
+		
+		List<GridViewModel.RowViewModel> rows = transform(caseResult, toJqGridFormat()) ;
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
 	}

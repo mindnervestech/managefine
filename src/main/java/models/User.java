@@ -21,6 +21,7 @@ import javax.persistence.Version;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
+import scala.Array;
 
 import com.avaje.ebean.Expr;
 import com.custom.domain.EmployeeStatus;
@@ -228,6 +229,10 @@ public class User extends Model {
 	
 	public static List<User> findByCompanyId(Long id) {
         return find.where().eq("companyobject.id", id).findList();
+    }
+	
+	public static List<User> findByOrganizationId(Long id) {
+        return find.where().eq("organization.id", id).findList();
     }
 	
 	public static List<User> findByIds(List<Long> ids) {

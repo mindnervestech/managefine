@@ -13,27 +13,28 @@ import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
 public class EmployeeHierarchyRepositoryImpl implements EmployeeHierarchyRepository {
 
 	@Override
-	public List<EmployeeHierarchyVM> getEmployeeHierarchy(String username) {
+	public List<EmployeeHierarchyVM> getEmployeeHierarchy(String username, Long id) {
 		
 		List<EmployeeHierarchyVM> result = new ArrayList<EmployeeHierarchyVM>();
 	
 			User user = User.findByEmail(username);
-			List<User> uList = User.findByCompanyId(user.getCompanyobject().getId());
+					
+			List<User> userList = User.findByOrganizationId(id);
 			
-			
-			for(User user2 :uList) {
+			for(User user2 :userList) {
 				EmployeeHierarchyVM eVm = new EmployeeHierarchyVM();
 				eVm.setId(user2.getId());
 				if(user2.getManager() != null){
-				eVm.setParent(user2.getManager().getId());
+					eVm.setParent(user2.getManager().getId());
 				}else{
 					eVm.setParent(null);
-				}
+				}	
 				eVm.setEmployeeName(user2.getFirstName());
 				eVm.setDesignation(user2.getDesignation());
-			
+		
 				result.add(eVm);
 			}
+		
 		
 		return result;
 		

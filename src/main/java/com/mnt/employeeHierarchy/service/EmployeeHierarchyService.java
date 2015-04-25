@@ -9,6 +9,6 @@ import com.mnt.roleHierarchy.vm.RoleVM;
 
 public interface EmployeeHierarchyService {
 	
-	List<EmployeeHierarchyVM> getEmployeeHierarchy(String username);
+	List<EmployeeHierarchyVM> getEmployeeHierarchy(String username, Long id);
 	
 }

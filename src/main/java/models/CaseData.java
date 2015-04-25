@@ -86,7 +86,7 @@ public class CaseData extends Model {
 	@Validation(required = true)
 	public Long userid;
     
-	@SearchColumnOnUI(rank=5,colName="Due Date")
+	//@SearchColumnOnUI(rank=5,colName="Due Date")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=6,label="Due Date")
 	@Validation(required = true)
@@ -111,13 +111,17 @@ public class CaseData extends Model {
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date endDateWindow;
 	
-	@WizardCardUI(name="Flexi Attribute",step=2)
-	@UIFields(order=8,label="flexiAttributes")
+	@WizardCardUI(name="Flexi Attributes",step=2)
+	@UIFields(order=8)
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<CaseFlexi> flexiAttributes;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	public Company company;
+	
+	@Transient
+	@SearchColumnOnUI(rank=5,colName="Due Date")
+	public String startDateGrid;
     
 	public static Model.Finder<Long,CaseData> find = new Model.Finder<Long,CaseData>(Long.class, CaseData.class);
 	
@@ -234,6 +238,7 @@ public class CaseData extends Model {
 		this.assignto = assignto;
 	}
 
+
 	public Projectinstance getProjects() {
 		return projects;
 	}
@@ -256,6 +261,14 @@ public class CaseData extends Model {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public String getStartDateGrid() {
+		return startDateGrid;
+	}
+
+	public void setStartDateGrid(String startDateGrid) {
+		this.startDateGrid = startDateGrid;
 	}
 
 	
