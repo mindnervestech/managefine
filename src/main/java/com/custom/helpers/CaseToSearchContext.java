@@ -5,6 +5,7 @@ import static com.google.common.collect.Lists.transform;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -158,10 +159,29 @@ private static CaseToSearchContext searchContext = null;
 		}*/
 		
 		
-		List<CaseData> results =  exp == null ?CaseData.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).findList()
-				:CaseData.find.where().add(exp).add(exp1).setFirstRow(start).setMaxRows(limit).findList();
+		List<CaseData> results =  exp == null ?CaseData.find.setFirstRow(start).setMaxRows(limit).where().add(exp1).setOrderBy("dueDate").findList()
+				:CaseData.find.where().add(exp).add(exp1).setOrderBy("dueDate").setFirstRow(start).setMaxRows(limit).findList();
 		
-		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
+		Date startTo;
+		List<CaseData> caseResult= new ArrayList<CaseData>(results.size());
+		for(int i=0; i<results.size();i++)
+		{
+			CaseData case1 = new CaseData();
+			case1.id = results.get(i).id;
+			startTo = results.get(i).getDueDate();
+			System.out.println("dateeeeee===="+startTo);
+			String startDate= OrignaldateFormat.format(startTo);
+			System.out.println("dateeeeee====1111  "+startDate);
+			case1.startDateGrid = startDate;
+			case1.assignto = results.get(i).assignto;
+			case1.title = results.get(i).title;
+			case1.description = results.get(i).description;
+			case1.status = results.get(i).status;
+			caseResult.add(case1);
+			
+		}
+		
+		List<GridViewModel.RowViewModel> rows = transform(caseResult, toJqGridFormat()) ;
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
 	}

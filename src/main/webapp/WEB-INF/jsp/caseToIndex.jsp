@@ -167,13 +167,6 @@
 		margin: 4px 10px 0px 15px;
 	}
 	
-	.date {
-    float: right;
-    font-size: 0.85em;
-    color: #454545;
-    margin-top: 0px;
-    margin-right: 15px;
-	}
 	
 .offtheScreen {	width: 0px;
   height: 0px;

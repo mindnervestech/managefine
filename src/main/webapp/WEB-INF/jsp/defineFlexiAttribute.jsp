@@ -27,6 +27,7 @@
 	  <option ng-selected="selectedItem == Project">Project</option>
 	  <option ng-selected="selectedItem == Client">Customer</option>
 	   <option ng-selected="selectedItem == Supplier">Supplier</option>
+	    <option ng-selected="selectedItem == Case">Case</option>
 	    <option ng-selected="selectedItem == User">User</option>
 </select>
 
