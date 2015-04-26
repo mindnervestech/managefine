@@ -75,7 +75,7 @@
 								<label class="col-md-12">Start Date</label>
 								<div class="col-md-6">
 								   <div class="dropdown">
-								   	  <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+								   	  <a class="dropdown-toggle" id="dropdownstartdate" role="button" data-toggle="dropdown" data-target="#" href="#">
 									    <div class="input-group">
 									    <input type="text" class="form-control" 
 									    	name= "startDate"
@@ -85,7 +85,7 @@
 									  </a>
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}')">
 									    <datetimepicker data-ng-model="data.startDate" 
-									    data-datetimepicker-config="{ dropdownSelector: '#dropdown2',minView: 'day' }"/>
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day' }"/>
 									  </ul>
 								   </div>
 									<%-- <input type="date" name="startDate" style="width: 100%;"
