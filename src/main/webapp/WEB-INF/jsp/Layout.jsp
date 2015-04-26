@@ -69,9 +69,10 @@
 		</div>
 		<div class="container" style="box-shadow: 0 5px 118px #CCC;">
 			<tiles:insertAttribute name="content" />
+			<tiles:insertAttribute name="footer" />
 		</div>
 		
-		<%-- <tiles:insertAttribute name="footer" /> --%>
+		
     </body>
     <%-- <script src='<c:url value="/resources/javascripts/bootstrap-dropdown.js"/>' type="text/javascript"></script> --%>
     <script type="text/javascript">

@@ -145,10 +145,10 @@
 							<c:forEach var="col" items="${_searchContext.getColumn()}" varStatus="loopIndex">
 							<c:choose>
 			             	 	<c:when test="${loopIndex.index == 0}">
-			             	 	{name:'${col.name()}', index:'${loopIndex.index}', width:'${col.width()}' ,align:'center'}
+			             	 	{name:'${col.name()}', index:'${loopIndex.index}', width:'${col.width()}' ,align:'center',sortable: false}
 			             	 	</c:when>
 				             	 <c:otherwise>
-			    	         	,{name:'${col.name()}', index:'${loopIndex.index}', width:'${col.width()}',align:'center'}
+			    	         	,{name:'${col.name()}', index:'${loopIndex.index}', width:'${col.width()}',align:'center',sortable: false}
 			        	     	 </c:otherwise>
 			             	</c:choose> 	
 							
