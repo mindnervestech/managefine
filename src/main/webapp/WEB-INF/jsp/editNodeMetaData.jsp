@@ -47,9 +47,8 @@
 
 			<div class="modal-body" style="max-height:800px;">
 				<div class="form-group">
-					<form method="POST" commandName="createProjectForm"
-						action="${pageContext.request.contextPath}<%=com.mnt.time.controller.routes.CreateProject.saveCreateProjectAttributes.url%>"
-						id="form">
+					<form method="POST" commandName="createProjectForm" onsubmit="return myFunction()"
+						id="form" method="post">
 						<div class="form-group">
 							<div class="col-md-6">
 								<label class="col-md-12">Project Type</label>
@@ -78,7 +77,7 @@
 								<label class="col-md-12">Start Date</label>
 								<div class="col-md-12">
 									<input type="date" name="startDate" style="width: 100%;"
-										value='${editNodeMetaData.startDate}' required  /> <label
+										value='${editNodeMetaData.startDate}' required /> <label
 										style="color: red" ng-if="projectT == 1">type is
 										required</label>
 								</div>
@@ -144,6 +143,7 @@
 									</select>
 								</div>
 							</div>
+							<div style="display:none;" id="closeDialog" ng-click="closeThisDialog()"></div>
 						</div>
 
 						<%-- <div class="form-group">
@@ -345,8 +345,7 @@
 						<div class="col-md-12">
 							<button type="button" class="btn btn-default"
 								style="float: right;" ng-click="closeThisDialog()">Close</button>
-							<input type="button" class="btn btn-primary"
-								onClick="myFunction()" ng-click="closeThisDialog()"
+							<input type="submit" value="Submit" class="btn btn-primary"
 								value="Submit" style="margin: 0% 2%; float: right;">
 						</div>
 					</form>

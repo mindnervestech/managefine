@@ -165,7 +165,7 @@ public class CreateProjectController {
 	}
 	
 	@RequestMapping(value="/saveCreateProjectAttributes" ,method=RequestMethod.POST)		
-	public @ResponseBody String saveCreateProjectAttributes(@CookieValue("username")String username,
+	public @ResponseBody Long saveCreateProjectAttributes(@CookieValue("username")String username,
 			HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
@@ -347,7 +347,7 @@ public class CreateProjectController {
 			}
 		}
 	
-		return null;
+		return Long.parseLong(form.data().get("projectId"));
 	}
 	
 	@RequestMapping(value="/edit/project/addProjectNotsAndAtt",method=RequestMethod.GET)

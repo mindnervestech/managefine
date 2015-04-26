@@ -85,13 +85,15 @@ function myFunction() {
 		data : $("#form").serialize(),
 		url : "${pageContext.request.contextPath}/saveCreateProjectAttributes",
 		success : function(data) {
-			$.pnotify({
+			$("#closeDialog").trigger("click");
+			/* $.pnotify({
                 title: "Error",
                 type:'error',
                 text: "First Add Data",
-            });
+            }); */
 		}
 	});
+	return false;
 }
 
 

@@ -19,7 +19,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     var buttons = [];
     
      
-    buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
+    //buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("editInfo", "ui-icon-close", "EditInfo"));
 	
@@ -133,6 +133,12 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	    	if(data.context.id == 1)
         	    		$scope.findUser = $scope.allUser;
 	    	    });
+    			
+    			 $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
+    		  	    	console.log(response);
+    		  	    	$scope.findSelectedSupplier = response;
+    		     	    });
+    			
     			$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
         			ngDialog.open({
             			template:data,
