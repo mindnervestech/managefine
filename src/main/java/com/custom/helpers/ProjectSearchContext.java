@@ -112,7 +112,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}else{
 			count = Project.find.where().add(exp1).add(exp).findRowCount();
 		}*/
-		
+		count = Projectinstance.find.where().findRowCount();
 		String sidx = form.get("sidx");
 		String sord = form.get("sord");
 		double min = Double.parseDouble(form.get("rows"));
