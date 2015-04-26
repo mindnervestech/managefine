@@ -3,9 +3,11 @@
 
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
-<link rel="stylesheet"  href='<c:url value="/resources/stylesheets/datepicker.css"/>'>
+<!-- TODO -->
+<%-- <link rel="stylesheet"  href='<c:url value="/resources/stylesheets/datepicker.css"/> --%>
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
-<script src='<c:url value="/resources/javascripts/bootstrap-datepicker.js"/>' type="text/javascript"></script>
+<!-- TODO -->
+<%-- <script src='<c:url value="/resources/javascripts/bootstrap-datepicker.js"/>' type="text/javascript"></script> --%>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
 

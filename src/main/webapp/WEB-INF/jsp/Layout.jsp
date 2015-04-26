@@ -50,6 +50,9 @@
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min1.js"/>'></script>
     	 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/angular-charts.js"/>'></script>
 		 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ui-bootstrap-tpls-0.12.1.js"/>'></script>
+		 <link rel="stylesheet" href='<c:url value="/resources/javascripts/app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>'/>
+         <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"/>'></script>
+		 
 		 
 		 
     </head>
@@ -70,7 +73,7 @@
 		
 		<%-- <tiles:insertAttribute name="footer" /> --%>
     </body>
-    <script src='<c:url value="/resources/javascripts/bootstrap-dropdown.js"/>' type="text/javascript"></script>
+    <%-- <script src='<c:url value="/resources/javascripts/bootstrap-dropdown.js"/>' type="text/javascript"></script> --%>
     <script type="text/javascript">
     	$("#loading").hide();
     	$(document).bind("ajaxSend", function(){

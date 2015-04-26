@@ -3,9 +3,7 @@
 
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
-<link rel="stylesheet"  href='<c:url value="/resources/stylesheets/datepicker.css"/>'>
-<script src='<c:url value="/resources/javascripts/bootstrap-datepicker.js"/>' type="text/javascript"></script>
- <script type="text/javascript" src='<c:url value="/resources/javascripts/bootstrap-datetimepicker.min.js"/>'></script>
+ 
  <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 
 <c:set var="projectName" value='${editNodeMetaData.projectTypes}'/>   
@@ -75,18 +73,46 @@
 						<div class="form-group">
 							<div class="col-md-6" style="margin-top: 15px;">
 								<label class="col-md-12">Start Date</label>
-								<div class="col-md-12">
-									<input type="date" name="startDate" style="width: 100%;"
+								<div class="col-md-6">
+								   <div class="dropdown">
+								   	  <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+									    <div class="input-group">
+									    <input type="text" class="form-control" 
+									    	name= "startDate"
+									    value="{{data.startDate | date:'dd-MM-yyyy'}}">
+									    
+									    </div>
+									  </a>
+									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}')">
+									    <datetimepicker data-ng-model="data.startDate" 
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdown2',minView: 'day' }"/>
+									  </ul>
+								   </div>
+									<%-- <input type="date" name="startDate" style="width: 100%;"
 										value='${editNodeMetaData.startDate}' required /> <label
 										style="color: red" ng-if="projectT == 1">type is
-										required</label>
+										required</label> --%>
 								</div>
 							</div>
 							<div class="col-md-6" style="margin-top: 15px;">
 								<label for="org-type" class="col-md-12">End Date</label>
-								<div class="col-md-12">
-									<input type="date" name="endDate" style="width: 100%;"
-										value='${editNodeMetaData.endDate}' required  />
+								<div class="col-md-6">
+									<div class="dropdown">
+								   	  <a class="dropdown-toggle" id="dropdownendDate" role="button" data-toggle="dropdown" data-target="#" href="#">
+									    <div class="input-group">
+									    <input type="text" class="form-control" 
+									    	name= "endDate"
+									    value="{{data.endDate | date:'dd-MM-yyyy'}}">
+									    
+									    </div>
+									  </a>
+									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" >
+									    <datetimepicker data-ng-model="data.endDate" 
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdownendDate',minView: 'day' }"/>
+									  </ul>
+								   </div>
+									<%-- <input type="date" name="endDate" style="width: 100%;"
+										value='${editNodeMetaData.endDate}' required  /> --%>
 								</div>
 							</div>
 						</div>
@@ -376,10 +402,5 @@ z-index:10000;
  
  
  
-$(".form_datetime").datetimepicker({
-format: "dd MM yyyy - hh:ii",
-autoclose: true,
-todayBtn: true,
-pickerPosition: "bottom-left"
-});
+
 </script>

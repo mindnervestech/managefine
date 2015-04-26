@@ -1,5 +1,5 @@
 //var app = angular.module('ProjectHierarchyApp', ['BasicPrimitives','ngDialog','angularFileUpload']);
-var app = angular.module('ProjectHierarchyApp', ['BasicPrimitives','ngDialog','angularFileUpload','ui.bootstrap','ui.select2']);
+var app = angular.module('ProjectHierarchyApp', ['BasicPrimitives','ngDialog','angularFileUpload','ui.bootstrap','ui.select2','ui.bootstrap.datetimepicker']);
 angular.module('BasicPrimitives', [], function ($compileProvider) {
     $compileProvider.directive('bpOrgDiagram', function ($compile) {
         function link(scope, element, attrs) {

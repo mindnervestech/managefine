@@ -22,8 +22,13 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     //buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("editInfo", "ui-icon-close", "EditInfo"));
-	
-
+	$scope.data = {};
+    $scope.initDate = function (startTime, endTime) {
+    	console.log("endTime" + endTime) ;
+    	$scope.data.startDate = new Date(moment(startTime,"YYYY-MM-DD")); 
+    	$scope.data.endDate =	new Date(moment(endTime,"YYYY-MM-DD"));
+    		
+    }
 	$scope.myOptions = {
     		cursorItem : 0,
     		highlightItem : 0,
