@@ -817,8 +817,8 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 		ganttVM.tasks = tasklist;
 		ganttVM.selectedRow = 0;
-		ganttVM.canWrite = true;
-		ganttVM.canWriteOnParent = true;
+		ganttVM.canWrite = false;
+		ganttVM.canWriteOnParent = false;
 		
 		return ganttVM;
 	}

@@ -446,7 +446,7 @@ function editResources(){
     <tr style="height:40px">
       <th class="gdfColHeader" style="width:35px;"></th>
       <th class="gdfColHeader" style="width:25px;"></th>
-      <th class="gdfColHeader gdfResizable" style="width:30px;">code/short name</th>
+      <th class="gdfColHeader gdfResizable h" style="width:30px;">code/short name</th>
 
       <th class="gdfColHeader gdfResizable" style="width:150px;">name</th>
       <th class="gdfColHeader gdfResizable" style="width:80px;">start</th>
@@ -462,11 +462,13 @@ function editResources(){
   <div class="__template__" type="TASKROW"><!--
   <tr taskId="(#=obj.id#)" class="taskEditRow" level="(#=level#)">
     <th class="gdfCell edit" align="right" style="cursor:pointer;">
-      <span class="taskRowIndex h">(#=obj.getRow()+1#)</span> 
+      <span class="taskRowIndex">(#=obj.getRow()+1#)</span> 
       <span class="teamworkIcon h" style="font-size:12px;" >e</span>
     </th>
     <td class="gdfCell noClip" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
-    <td class="gdfCell"><input type="text" name="code" value="(#=obj.code?obj.code:''#)"></td>
+    
+    <td class="gdfCell h"><input type="text" name="code" value="(#=obj.code?obj.code:''#)"></td>
+    
     <td class="gdfCell indentCell" style="padding-left:(#=obj.level*10#)px;">
       <div class="(#=obj.isParent()?'exp-controller expcoll exp':'exp-controller'#)" align="center"></div>
       <input type="text" name="name" value="(#=obj.name#)">

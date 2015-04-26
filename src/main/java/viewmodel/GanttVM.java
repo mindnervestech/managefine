@@ -6,7 +6,7 @@ public class GanttVM {
 
 	public List<GanttTask> tasks;
 	public int selectedRow;
-	public boolean canWrite;
-	public boolean canWriteOnParent;
+	public boolean canWrite = false;
+	public boolean canWriteOnParent = false;
 	
 }

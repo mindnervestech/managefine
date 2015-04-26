@@ -231,49 +231,49 @@ public class TimesheetRowVM {
 		this.tCode = tCode;
 	}
 	public String getMonFromTo() {
-		monFromTo = monFrom + "-" + monTo;
+		if(monFrom !=null) monFromTo = monFrom + "-" + monTo;
 		return monFromTo;
 	}
 	public void setMonFromTo(String monFromTo) {
 		this.monFromTo = monFromTo;
 	}
 	public String getTueFromTo() {
-		tueFromTo = tueFrom + "-" + tueTo;
+		if(tueFrom !=null) tueFromTo = tueFrom + "-" + tueTo;
 		return tueFromTo;
 	}
 	public void setTueFromTo(String tueFromTo) {
 		this.tueFromTo = tueFromTo;
 	}
 	public String getWedFromTo() {
-		wedFromTo = wedFrom + "-" + wedTo;
+		if(wedFrom !=null) wedFromTo = wedFrom + "-" + wedTo;
 		return wedFromTo;
 	}
 	public void setWedFromTo(String wedFromTo) {
 		this.wedFromTo = wedFromTo;
 	}
 	public String getThuFromTo() {
-		thuFromTo = thuFrom + "-" + thuTo;
+		if(thuFrom !=null)  thuFromTo = thuFrom + "-" + thuTo;
 		return thuFromTo;
 	}
 	public void setThuFromTo(String thuFromTo) {
 		this.thuFromTo = thuFromTo;
 	}
 	public String getFriFromTo() {
-		friFromTo = friFrom + "-" + friTo; 
+		if(friFrom !=null) friFromTo = friFrom + "-" + friTo; 
 		return friFromTo;
 	}
 	public void setFriFromTo(String friFromTo) {
 		this.friFromTo = friFromTo;
 	}
 	public String getSatFromTo() {
-		satFromTo = satFrom + "-" + satTo;
+		if(satFrom !=null) satFromTo = satFrom + "-" + satTo;
 		return satFromTo;
 	}
 	public void setSatFromTo(String satFromTo) {
 		this.satFromTo = satFromTo;
 	}
 	public String getSunFromTo() {
-		sunFromTo = sunFrom + "-" + sunTo;
+		if(sunFrom !=null) sunFromTo = sunFrom + "-" + sunTo;
 		return sunFromTo;
 	}
 	public void setSunFromTo(String sunFromTo) {

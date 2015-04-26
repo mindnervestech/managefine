@@ -11,7 +11,7 @@ public class GanttTask {
 	public String code;
 	public int level;
 	public String status;
-	public boolean canWrite;
+	public boolean canWrite = false;
 	public Long start;
 	public Long duration;
 	public Long end;
