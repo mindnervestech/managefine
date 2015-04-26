@@ -205,9 +205,7 @@ public class Projectinstance extends Model{
 		return percentage;
 	}
 
-	public void setPercentage(Long percentage) {
-		this.percentage = percentage;
-	}
+	
 
 
 	public void setPercentage(Long percentage) {
