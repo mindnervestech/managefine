@@ -111,4 +111,8 @@ public class UserLeave extends Model {
 		return find.where().eq("user", user).eq("leaveType", leaveType).findUnique();
 	}
 	
+	public static UserLeave getLeave(User user,Date fromDate) {
+		return find.where().eq("user", user).eq("fromDate", fromDate).findUnique();
+	}
+	
 }
