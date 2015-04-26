@@ -5,6 +5,7 @@
 <head>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/customCSS/customTimesheet.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/stylesheets/ruler.css"/>'>	
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/customCSS/ngDialog.min.css"/>'>	
 	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/plugin.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/schedular/week.js"/>'></script>
@@ -13,6 +14,7 @@
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/jquery.fileDownload.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ngMask.min.js"/>'></script>
 
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>

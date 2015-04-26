@@ -21,12 +21,19 @@ var app = angular.module('timeSheetApp', ['ngDialog','angularCharts','angularFil
 		link: function(scope, element, attrs,$scope) {
 			scope.$watch('data', function(newValue, oldValue) {
 				element.borderify(newValue);
+				var hr = new Date().getHours();
+				if(hr>1) {
+					hr= hr-1;
+				}
+				
+				$("#scheduler-wrapper").scrollTop(hr*(scope.data.unitValueInMin/scope.data.gradationBetweenPerUnit)*scope.data.gradationBetweenPerUnitpx);
 		      }, true);
 			element.borderify(scope.data);
 			var hr = new Date().getHours();
 			if(hr>1) {
 				hr= hr-1;
 			}
+		
 			$("#scheduler-wrapper").scrollTop(hr*(scope.data.unitValueInMin/scope.data.gradationBetweenPerUnit)*scope.data.gradationBetweenPerUnitpx);
 		}
 	}

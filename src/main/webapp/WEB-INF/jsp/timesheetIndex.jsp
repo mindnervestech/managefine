@@ -135,7 +135,7 @@
 						<div class="clearfix"
 							id="timesheetRows_1__taskCode_field">
 							<label for="timesheetRows_1__taskCode"></label>
-							<div class="input">
+							<div class="input" ng-init="setTaskOfProject(row.projectCode)">
 										<select id="timesheetRows_1__taskCode"
 											name="timesheetRows[1].taskCode"
 											class="largeInput taskInput" ng-model="row.taskCode">

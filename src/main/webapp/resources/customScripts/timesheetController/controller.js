@@ -12,7 +12,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
-		$scope.getTimesheetByWeek();
+		//$scope.getTimesheetByWeek();
 		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
 		Date.prototype.getWeek = function() {
@@ -41,7 +41,13 @@ app.controller("TimeSheetController", function($scope,$http) {
 			$("#yearValue").val(ev.date.getFullYear());
 			$("#selectedWeekRange").html($(".week-picker").val());
 			startOfWeek = ev.date.getStartOfWeek();
-			$scope.getByWeek(ev.date.getWeek()+1,ev.date.getFullYear());
+			if(ev.date.getDay() == 0 || ev.date.getDay() == 6) {
+				$scope.getByWeek(ev.date.getWeek(),ev.date.getFullYear());
+				$scope.weekOfYear = ev.date.getWeek();
+			} else {
+				$scope.getByWeek(ev.date.getWeek()+1,ev.date.getFullYear());
+				$scope.weekOfYear = ev.date.getWeek()+1;
+			}
 			$scope.weekOfYear = ev.date.getWeek()+1;
 			$scope.year = ev.date.getFullYear();
 			console.log(startOfWeek);
@@ -51,12 +57,18 @@ app.controller("TimeSheetController", function($scope,$http) {
 		var todaysWeek = today.getWeek() + 1;
 		$("#weekValue").val(today.getWeek() + 1);
 		$("#yearValue").val(today.getFullYear());
-		var day =   today.getDay() - 1;
-		startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
-		var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
-		
-		$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-				$.datepicker.formatDate('dd M yy', endOfWeek));
+		var day =   today.getDay();
+		if(day == 0) {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var endOfWeek = today;
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		} else {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		}
 		
 		
 	}
@@ -108,7 +120,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 			console.log('success');
 			console.log(data);
 			$scope.projectList = data;
-			
+			$scope.getTimesheetByWeek();
 		});
 		
 	}
@@ -396,7 +408,6 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.initFTTime = function (row, day) {
-		console.log(row);
 		if(day === 'mon') {
 			if(row.monFrom && row.monTo) {
 				row.monFromTo = row.monFrom + '-' + row.monTo;
@@ -436,7 +447,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	
 	
 	$scope.setTaskOfProject = function(projectId) {
-		console.log(projectId);
+		
 		for(var i=0;i<$scope.projectList.length;i++) {
 			if($scope.projectList[i].id == projectId) {
 				$scope.taskList = $scope.projectList[i].tasklist;
@@ -585,10 +596,18 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 	$scope.isManage = true;
 	$scope.offsetVal = ($scope.unitValue/$scope.gradationBetweenPerUnit)*$scope.gradationBetweenPerUnitpx;
 	$scope.currentDate = ($scope.currentDateObject.getMonth()+1)+"/"+$scope.currentDateObject.getDate()+"/"+$scope.currentDateObject.getFullYear();
+	$scope.userId = $('#userID').val();
+	$http({method:'GET',url:contextPath+'/getUserStaffData',params:{userId:$scope.userId}})
+	.success(function(data) {
+		console.log('success');
+		$scope.staffs = data;
+		$scope.selectedStaff = data[0].id;
+	});
 	
 	$scope.getSchedulerDay = function(dateString) {
 		var temp = dateString.split("/");
 		$scope.currentDateObject.setFullYear(parseInt(temp[2]),parseInt(temp[0])-1,parseInt(temp[1]));
+		
 		$scope.getSchedulerDataByDate();
 	}
 	
@@ -602,8 +621,12 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 		console.log(data);
 		
 		
+		if(angular.isUndefined($scope.selectedStaff)) {
+			$scope.selectedStaff = $scope.userId;
+		}
+		
 		if(angular.isUndefined(data)) {
-			$http({method:'GET',url:contextPath+'/getSchedularDay',params:{date:$scope.currentDate,userId:$scope.userId}})
+			$http({method:'GET',url:contextPath+'/getSchedularDay',params:{date:$scope.currentDate,userId:$scope.selectedStaff}})
 			.success(function(data) {
 				console.log('success');
 				console.log(data);
@@ -612,16 +635,39 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 				} else {
 					$('#isHoliday').removeAttr("style");
 				}
+				
 				$scope.myString = JSON.stringify(data.todayData);
 				$scope.data.data = $scope.myString;
 			});
 		} else{
+			if(data.isHoliday == true) {
+				$('#isHoliday').css("color","red");
+			} else {
+				$('#isHoliday').removeAttr("style");
+			}
 			$scope.currentDate = $scope.dateStr;
 			var temp = $scope.dateStr.split("/");
 			$scope.currentDateObject.setFullYear(parseInt(temp[2]),parseInt(temp[0])-1,parseInt(temp[1]));
-			$scope.myString = JSON.stringify(data);
+			$scope.myString = JSON.stringify(data.todayData);
 			$scope.data.data = $scope.myString;
 		}
+	}
+	
+	$scope.getSchedulerDataByStaff = function(selectedStaff,currentDate) {
+		console.log(selectedStaff);
+		console.log(currentDate);
+		$http({method:'GET',url:contextPath+'/getSchedularDay',params:{date:currentDate,userId:selectedStaff}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			if(data.isHoliday == true) {
+				$('#isHoliday').css("color","red");
+			} else {
+				$('#isHoliday').removeAttr("style");
+			}
+			$scope.myString = JSON.stringify(data.todayData);
+			$scope.data.data = $scope.myString;
+		});
 	}
 	
 	
@@ -648,7 +694,11 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 			userId:$scope.userId
 		}
 		
-		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:$scope.userId,projectId:data.projectId,taskId:data.taskId}})
+		if(angular.isUndefined($scope.selectedStaff)) {
+			$scope.selectedStaff = $scope.userId;
+		}
+		
+		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:$scope.selectedStaff,projectId:data.projectId,taskId:data.taskId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -801,16 +851,74 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 	};
 	
 	$scope.init = function() {
+		var d = new Date();
 		$scope.currentDateObject = new Date();
+		$scope.currentDateObject.setHours(0);
+		$scope.currentDateObject.setMinutes(0);
+		$scope.currentDateObject.setSeconds(0);
+		$scope.currentDateObject.setMilliseconds(0);
+		console.log($scope.currentDateObject);
 		$scope.currentDate = ($scope.currentDateObject.getMonth()+1)+"/"+$scope.currentDateObject.getDate()+"/"+$scope.currentDateObject.getFullYear();
 		console.log($scope.currentDateObject.getFullYear());
 		//console.log($scope.data);
 		//$scope.drawWeeklyAppointment($scope.data);
 		$scope.getDataByWeek();
+		/*Date.prototype.getWeek = function() {
+		    var onejan = new Date(this.getFullYear(),0,1);
+		    return Math.floor((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+		}*/
+		Date.prototype.getWeek = function() {
+			var onejan = new Date(this.getFullYear(),0,1);
+			var w = Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
+			if(w>52) {
+				w -=52;
+			}
+			return w;
+		};
+		var startOfWeek;
+		Date.prototype.getStartOfWeek = function() {
+			var day =   this.getDay() - 1;
+			var startOfWeek;
+			if (day != -1) {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * day ));
+			} else {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			}
+			return startOfWeek;
+		};
+
+		$('.week-picker').datepicker({
+			chooseWeek:true,
+			calendarWeeks:true,
+			weekStart:1,
+			format: 'dd M yy'
+		}).on("changeDate",function(ev){
+			console.log(ev.date);
+			$scope.currentDateObject = ev.date;
+			$scope.changeWeek($scope.currentDateObject);
+		});
+		
+		var today = new Date();
+		var todaysWeek = today.getWeek();
+		var day =   today.getDay();
+		if(day == 0) {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var endOfWeek = today;
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		} else {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		}
+		
 	}
 	
 	$scope.changeWeek = function(date) {
-		$scope.currentDateObject = date;
+		/*console.log(moment(date));
+		
+		$scope.currentDateObject = moment(date)._d;*/
 		$scope.currentDate= (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
 		$scope.getDataByWeek();
 	};
@@ -1139,8 +1247,7 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 	};
 	
 	
-	//$scope.months = [{"year":2015,"monthName":"APRIL","monthIndex":3,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"MAY","monthIndex":4,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"JUNE","monthIndex":5,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"JULY","monthIndex":6,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"31","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"AUGUST","monthIndex":7,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"SEPTEMBER","monthIndex":8,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"OCTOBER","monthIndex":9,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"NOVEMBER","monthIndex":10,"monthDays":[{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2015,"monthName":"DECEMBER","monthIndex":11,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2016,"monthName":"JANUARY","monthIndex":0,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2016,"monthName":"FEBRUARY","monthIndex":1,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"","leaveType":9,"isLeave":false},{"day":"4","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"","leaveType":9,"isLeave":false},{"day":"11","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"","leaveType":9,"isLeave":false},{"day":"18","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"","leaveType":9,"isLeave":false},{"day":"25","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]},{"year":2016,"monthName":"MARCH","monthIndex":2,"monthDays":[{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"1","reason":"","leaveType":9,"isLeave":false},{"day":"2","reason":"","leaveType":9,"isLeave":false},{"day":"3","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"4","reason":"","leaveType":9,"isLeave":false},{"day":"5","reason":"","leaveType":9,"isLeave":false},{"day":"6","reason":"","leaveType":9,"isLeave":false},{"day":"7","reason":"","leaveType":9,"isLeave":false},{"day":"8","reason":"","leaveType":9,"isLeave":false},{"day":"9","reason":"","leaveType":9,"isLeave":false},{"day":"10","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"11","reason":"","leaveType":9,"isLeave":false},{"day":"12","reason":"","leaveType":9,"isLeave":false},{"day":"13","reason":"","leaveType":9,"isLeave":false},{"day":"14","reason":"","leaveType":9,"isLeave":false},{"day":"15","reason":"","leaveType":9,"isLeave":false},{"day":"16","reason":"","leaveType":9,"isLeave":false},{"day":"17","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"18","reason":"","leaveType":9,"isLeave":false},{"day":"19","reason":"","leaveType":9,"isLeave":false},{"day":"20","reason":"","leaveType":9,"isLeave":false},{"day":"21","reason":"","leaveType":9,"isLeave":false},{"day":"22","reason":"","leaveType":9,"isLeave":false},{"day":"23","reason":"","leaveType":9,"isLeave":false},{"day":"24","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"25","reason":"","leaveType":9,"isLeave":false},{"day":"26","reason":"","leaveType":9,"isLeave":false},{"day":"27","reason":"","leaveType":9,"isLeave":false},{"day":"28","reason":"","leaveType":9,"isLeave":false},{"day":"29","reason":"","leaveType":9,"isLeave":false},{"day":"30","reason":"","leaveType":9,"isLeave":false},{"day":"31","reason":"Weekly Leaves","leaveType":4,"isLeave":true},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false},{"day":"","reason":"","leaveType":9,"isLeave":false}]}];
-	//$scope.weeks = [false,false,false,false,true,false,false];
+	
 	
 	
 });
@@ -1157,7 +1264,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.ftTimeRegexp =  /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	$scope.getTimesheetData = function(data) {
 		$scope.getUserProjects();
-		$scope.getTimesheetByWeek();
+		
 		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
 		Date.prototype.getWeek = function() {
@@ -1186,8 +1293,14 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$("#yearValue").val(ev.date.getFullYear());
 			$("#selectedWeekRange").html($(".week-picker").val());
 			startOfWeek = ev.date.getStartOfWeek();
-			$scope.getByWeek(ev.date.getWeek()+1,ev.date.getFullYear());
-			$scope.weekOfYear = ev.date.getWeek()+1;
+			if(ev.date.getDay() == 0 || ev.date.getDay() == 6) {
+				$scope.getByWeek(ev.date.getWeek(),ev.date.getFullYear());
+				$scope.weekOfYear = ev.date.getWeek();
+			} else {
+				$scope.getByWeek(ev.date.getWeek()+1,ev.date.getFullYear());
+				$scope.weekOfYear = ev.date.getWeek()+1;
+			}
+			
 			$scope.year = ev.date.getFullYear();
 			console.log(startOfWeek);
 		});
@@ -1196,12 +1309,18 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		var todaysWeek = today.getWeek() + 1;
 		$("#weekValue").val(today.getWeek() + 1);
 		$("#yearValue").val(today.getFullYear());
-		var day =   today.getDay() - 1;
-		startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
-		var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
-		
-		$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-				$.datepicker.formatDate('dd M yy', endOfWeek));
+		var day =   today.getDay();
+		if(day == 0) {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var endOfWeek = today;
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		} else {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		}
 		
 		
 	}
@@ -1253,7 +1372,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			console.log('success');
 			console.log(data);
 			$scope.projectList = data;
-			
+			$scope.getTimesheetByWeek();
 		});
 		
 	}
@@ -1776,7 +1895,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	
 });
 
-app.controller("SchedularTodayAllController", function($scope,$http) {
+app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$upload) {
 	
 	var d = new Date();
 	$scope.currentDate = (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
@@ -1789,9 +1908,106 @@ app.controller("SchedularTodayAllController", function($scope,$http) {
 		
 	};
 	
-	$scope.editFunction = function() {
+	$scope.editFunction = function(e,data) {
+		$scope.projectCode = data.visitType;
+		$scope.taskCode = data.taskCode;
+		$scope.editStartTime = data.startTime;
+		$scope.editEndTime = data.endTime;
+		$scope.status = data.status;
+		$scope.userId = $('#userID').val();
+		 $scope.showMsg = false;
+		 $scope.fileErr = false;
 		
+		$scope.taskDetail = {
+			projectId:data.projectId,
+			taskId:data.taskId,
+			startTime:data.startTime,
+			endTime:data.endTime,
+			status:data.status,
+			date:$scope.currentDate,
+			userId:$scope.userId
+		}
+		
+		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:data.staffId,projectId:data.projectId,taskId:data.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.documentsData = data.taskDetails;
+			$scope.commentsList = data.commentDetails;
+		});
+		
+		console.log($scope.editStartTime);
+		
+		ngDialog.open({
+            template:contextPath+'/editSchedule',
+            scope:$scope,
+            closeByDocument:false
+            
+		});
 	};
+	
+	var file = null;
+    $scope.selectFile = function(files) {
+    	file = files[0];
+    };
+    $scope.fileErr = false;
+    $scope.showMsg = false;
+	$scope.saveAttachment = function() {
+	
+		if(file != null) {
+			$scope.fileErr = false;
+			$upload.upload({
+	            url: contextPath+'/saveFile',
+	            data: $scope.taskDetail,
+	            file: file,
+	            method:'post'
+	        }).progress(function (evt) {
+	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+	        }).success(function (data, status, headers, config) {
+	        	$scope.documentsData = data;
+	        	$scope.showMsg = true;
+	        });   
+		} else {
+			$scope.fileErr = true;
+			$scope.showMsg = false;
+		}
+	}
+	
+	$scope.downloadfile = function(id) {
+		$.fileDownload(contextPath+'/downloadTaskFile',
+				{	   	
+					   httpMethod : "POST",
+					   data : {
+						   attchId : id
+					   }
+				}).done(function(e, response)
+						{
+						}).fail(function(e, response)
+						{
+							// failure
+						});
+	}
+	
+	$scope.saveComment = function(comment) {
+		$scope.userId = $('#userID').val();
+		$http({method:'GET',url:contextPath+'/saveComment',params:{userId:$scope.userId,comment:comment,projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId}})
+		.success(function(data) {
+			console.log('success');
+			console.log(data);
+			$scope.commentsList = data;
+			$scope.comment = "";
+		});
+	}
+	
+	$scope.setStatus = function(status) {
+		
+			$scope.userId = $('#userID').val();
+			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
+			.success(function(data) {
+				console.log('success');
+			});
+	}
 	
 	$scope.init = function(data) {
 		$scope.dataList = data;
@@ -1857,6 +2073,51 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 			}
 		}
 		$scope.staffs = data;
+		Date.prototype.getWeek = function() {
+			var onejan = new Date(this.getFullYear(),0,1);
+			var w = Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
+			if(w>52) {
+				w -=52;
+			}
+			return w;
+		};
+		var startOfWeek;
+		Date.prototype.getStartOfWeek = function() {
+			var day =   this.getDay() - 1;
+			var startOfWeek;
+			if (day != -1) {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * day ));
+			} else {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			}
+			return startOfWeek;
+		};
+
+		$('.week-picker').datepicker({
+			chooseWeek:true,
+			calendarWeeks:true,
+			weekStart:1,
+			format: 'dd M yy'
+		}).on("changeDate",function(ev){
+			console.log(ev.date);
+			$scope.currentDateObject = ev.date;
+			$scope.changeWeek($scope.currentDateObject);
+		});
+		
+		var today = new Date();
+		var todaysWeek = today.getWeek();
+		var day =   today.getDay();
+		if(day == 0) {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var endOfWeek = today;
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		} else {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		}
 		console.log(data);
 	}
 	

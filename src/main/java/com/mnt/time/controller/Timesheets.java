@@ -61,6 +61,7 @@ import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.ProjectVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.StaffVM;
 import viewmodel.TaskCommentVM;
 import viewmodel.TaskDetailVM;
 import viewmodel.TaskVM;
@@ -184,6 +185,10 @@ public class Timesheets{
 			e.printStackTrace();
 		}
 		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		
 		model.addAttribute("weekReport", Json.toJson(timesheetService.getWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, date)));
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
 		model.addAttribute("user", user);
@@ -239,7 +244,25 @@ public class Timesheets{
 		
 	}
 	
-	
+	@RequestMapping(value="/getUserStaffData", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getUserStaffData(ModelMap model,@RequestParam("userId") String userId) {
+		User user = User.findById(Long.parseLong(userId));
+		List<User> userList = User.findByManager(user);
+		List<StaffVM> staffList = new ArrayList<>();
+		StaffVM staffVM = new StaffVM();
+		staffVM.id = user.getId();
+		staffVM.name = user.getFirstName()+" "+user.getLastName();
+		staffList.add(staffVM);
+		for(User userObj : userList) {
+			StaffVM staffObj = new StaffVM();
+			staffObj.id = userObj.getId();
+			staffObj.name = userObj.getFirstName()+" "+userObj.getLastName();
+			staffList.add(staffObj);
+		}
+		
+		return Json.toJson(staffList);
+	}	
+		
 	@RequestMapping(value="/setupHoliday", method = RequestMethod.GET)
 	public String setupHoliday(ModelMap model, @CookieValue("username") String username) {
 		User user = User.findByEmail(username);
@@ -653,6 +676,13 @@ public class Timesheets{
 		try {
 			dt = df.parse(date);
 			cal.setTime(dt);
+			if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+				cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+				//cal.add(Calendar.DATE, 7);
+				//cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+			} /*else {
+				cal.add(Calendar.DATE, -(cal.get(Calendar.DAY_OF_WEEK)-2));
+			}*/
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -839,6 +869,9 @@ public class Timesheets{
 		
 		User user = User.findById(Long.parseLong(userId));
 		Calendar cal = Calendar.getInstance();
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		} 
 		TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
 		
 		TimesheetVM timesheetVM = new TimesheetVM();
@@ -935,6 +968,10 @@ public class Timesheets{
 		for(int j=0;j<=6;j++) {
 			
 		}*/
+		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		} 
 		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
 		

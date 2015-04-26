@@ -20,17 +20,38 @@
 </head>
 <body ng-controller="SchedularTodayController" ng-init='getSchedulerDataByDate(${userJson})'>
 <jsp:include page="menuContext.jsp" />
-		<div class="input-append date datepicker" style="margin-left:2%;">
+		<div class="input-append date datepicker" style="margin-left:2%;float:left;">
 			<input data-date-autoclose="true" data-provide="datepicker"  style="width: 70%;" type="text" ng-change="getSchedulerDay(currentDate)" ng-model="currentDate"/>
-			<div class="add-on" style="height:24px;"><i class="icon-calendar"></i></div> 
+			<div class="add-on" style="height:29px;"><i class="icon-calendar"></i></div> 
 		</div>
-		
+		<div style="float:right;">
+			<select 
+					ng-change="getSchedulerDataByStaff(selectedStaff,currentDate)"
+					ng-model="selectedStaff"
+					class="designer w100per" id="secDoc">
+						<!-- <option value="{{selectedStaff}}">{{staffName}}</option> -->
+						<option ng-selected="selectedStaff == staff.id" ng-repeat="staff in staffs" value="{{staff.id}}">{{staff.name}}</option>
+						
+				</select>
+		</div>
+		<!-- <div class="right" style="height: 26px;display: inline;float: right;">
+			<div class="field w200" style="float: left;">
+				<span class="dd-text"></span> <select
+					ng-change="getSchedulerDataByStaff(selectedStaff,currentDate)"
+					ng-model="selectedStaff"
+					class="designer w100per" id="secDoc">
+						<option value="{{selectedStaff}}">{{staffName}}</option>
+						<option ng-selected="selectedStaff == staff.id" ng-repeat="staff in staffs" value="{{staff.id}}">{{staff.name}}</option>
+						
+				</select>
+			</div>
+		</div> -->
 		<input type="hidden" id="userID" ng-model="userId" value="${user.id}">
 		<input type="hidden" id="dateID" ng-model="dateStr" value="${dateStr}">
 		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="showPopup" style="display: none;">
 		  Launch demo modal
 		</button>
-		<div id="int_doctor_view">
+		<div id="int_doctor_view" style="margin-top:5%;">
 		<h4 id="isHoliday">{{currentDateObject|date:'fullDate'}}</h4>
 			<div class="col-md-12 col-sm-12" id="int_doctor_view">
 				<div id="scheduler-wrapper" style="height: 454px;">

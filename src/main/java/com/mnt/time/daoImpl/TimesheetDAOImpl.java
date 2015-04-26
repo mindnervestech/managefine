@@ -31,6 +31,7 @@ import viewmodel.MonthVM;
 import viewmodel.ReportEvent;
 import viewmodel.SchedularTodayVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.StaffVM;
 import viewmodel.StaffWeekReportVM;
 import viewmodel.TodayAllVM;
 import viewmodel.WeekReportVM;
@@ -638,6 +639,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							schedularTodayVM.endTime = timesheetDay.getTimeTo();
 							schedularTodayVM.notes = timesheet.getStatus().getName();
 							schedularTodayVM.type = "A";
+							schedularTodayVM.staffId = userObj.getId().toString();
 							
 							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
 							if(task.getProjectColor() != null) {

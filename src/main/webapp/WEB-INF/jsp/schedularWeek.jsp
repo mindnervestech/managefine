@@ -27,11 +27,13 @@
 <jsp:include page="menuContext.jsp" />
 <input type="hidden" id="userID" ng-model="userId" value="${user.id}">
 <aside class="date-arrow" style="width: 11%;margin-left: 2%;margin-bottom: 10px;float: none;display: inline-block;">
-		<span><input style="height: 26px;border: 1;width: 170px;" type="week" ng-change="changeWeek(currentDateObject)" name="input" ng-model="currentDateObject"
-		placeholder="YYYY-W##"  /></span> <!-- <a href="javascript:void(0);"
+		<span><!-- <input style="height: 26px;border: 1;width: 170px;" type="week" ng-change="changeWeek(currentDateObject)" name="input" ng-model="currentDateObject"
+		 /> --><input class="week-picker" type="text" value="" readonly ng-change="changeWeek(currentDateObject)"> <!-- <input
+						type="button" style="display: none;" id="getEmployeeTimesheet"
+						value="Go" class="btn"> --></span> <!-- <a href="javascript:void(0);"
 								class="cal13 tip" title="Change Date"></a> -->
 	</aside>
-
+	
 	<div id="scheduler1" style="width: 100%;"></div>
 </body>
 </html>

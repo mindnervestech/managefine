@@ -29,8 +29,8 @@
 	<section class="inner-content-full">
 		<div class="row" style="margin: 0px 0px 0px 0px; position: relative;">
 			<aside style="margin-bottom: 10px;">
-				<span><input style="height: 26px;background: #037CA9;border: none;width: 140px;color: white;" type="week" ng-change="changeWeek(currentDate)" name="input" ng-model="currentDate"
-			      	placeholder="YYYY-W##"  /></span> <!-- <a href="javascript:void(0);"
+				<span><!-- <input style="height: 26px;background: #037CA9;border: none;width: 140px;color: white;" type="week" ng-change="changeWeek(currentDate)" name="input" ng-model="currentDate"
+			      	placeholder="YYYY-W##"  /> --><input class="week-picker" type="text" value="" readonly ng-change="changeWeek(currentDateObject)"></span> <!-- <a href="javascript:void(0);"
 					class="cal13 tip" title="Change Date"></a> -->
 			</aside>
 			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
