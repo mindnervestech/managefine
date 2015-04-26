@@ -139,6 +139,13 @@ public class CreateProjectController {
 		return createProjectService.getfindUser();
 	}
 	
+	
+	@RequestMapping(value="/findselectedAllUser",method=RequestMethod.GET)
+	public @ResponseBody List findselectedAllUser(@RequestParam("mainInstance")Long mainInstance, @RequestParam("projectId")Long projectId) {
+		return createProjectService.getfindselectedAllUser(mainInstance,projectId);
+	}
+	
+	
 	@RequestMapping(value="/selectedUser",method=RequestMethod.GET)
 	public @ResponseBody List selectedUser(@RequestParam("mainInstance")Long mainInstance, @RequestParam("projectId")Long projectId) {
 		return createProjectService.getselectedUser(mainInstance,projectId);

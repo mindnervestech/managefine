@@ -19,7 +19,7 @@
 				  <div class="col-md-3">
 				        <label class="col-md-12">Type</label>
 					        <select class="col-md-12" name="type{{$index}}" data-ng-model="find.type" ng-change="selectValue(find.type)" placeholder="Select Project type.">
-								<option value="String">String</option>
+								<option value="String" selected>String</option>
 								<option value="Integer">Integer</option>
 								<option value="Date">Date</option>
 								<option value="Radio">Radio</option>
@@ -37,7 +37,7 @@
 				   </div>
 				  <div class="col-md-1">
 				  <span ng-show="projectsearch.projectValue.length > 1">
-				  	<button class="btn btn-default col-md-1" style="margin-top: 25px;" ng-click="projectsearch.projectValue.splice($index, 1)"><i class="icon-remove"></i></button>
+				  	<button class="btn btn-default" style="margin-top: 25px;" ng-click="projectsearch.projectValue.splice($index, 1)"><i class="icon-remove"></i></button>
 				  	</span>
 				  </div>
 					 

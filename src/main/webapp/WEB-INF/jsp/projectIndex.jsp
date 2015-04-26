@@ -18,7 +18,7 @@
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width:100%;height:100%;">
 			<div class="modal-content" style="width:100%;height:100%;">
-				<div class="modal-header" style="height:5%;background:#f6a828;">
+				<div class="modal-header" style="height:5%;background:#005580;">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>

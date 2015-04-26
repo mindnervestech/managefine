@@ -70,6 +70,8 @@
 								</div>
 							</div>
 						</div>
+						
+						${editNodeMetaData.startDateLimit}
 						<div class="form-group">
 							<div class="col-md-6" style="margin-top: 15px;">
 								<label class="col-md-12">Start Date</label>

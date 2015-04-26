@@ -30,6 +30,7 @@ public interface CreateProjectService {
 	List<ProjectclassnodeVM> saveTask(Long id,Long mainInstance, Long task);
 	List<ClientVM> getfindCliect();
 	List<UserVM> getfindUser();
+	List<UserVM> getfindselectedAllUser(Long mainInstance, Long projectId);
 	List<SupplierDataVM> getfindSupplier();
 	List<String> getselectedUser(Long mainInstance, Long projectId);
 	List<String> getselectedSupplier(Long mainInstance);

@@ -3,6 +3,8 @@
 <jsp:include page="menuContext.jsp" />
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/primitives/primitives.latest.css"/>'>
 <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
+
 <div ng-app="ProjectHierarchyApp" ng-controller="ProjectHierarchyController">
 	<div class="form-group">
 						<label class="col-md-12" style="margin-left: 3px;">Project type</label>

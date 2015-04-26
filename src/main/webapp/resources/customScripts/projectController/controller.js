@@ -359,7 +359,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
-            + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.projectDescription}}</div>'
+            + '<div name="description" class="bp-item" style="top: 31px; left: 0px; width: 100%;height:36px; font-size: 10px;text-align: center;">{{itemConfig.projectDescription}}</div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",

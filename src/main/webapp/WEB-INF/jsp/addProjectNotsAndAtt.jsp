@@ -2,8 +2,8 @@
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog">
 		<div class="modal-content" style="height: 551px;">
-			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 37px;padding: 6px;">
-				<button type="button" class="close" ng-click="closeThisDialog()"
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 37px;padding: 1px;">
+				<button type="button" style="float: right;" ng-click="closeThisDialog()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -150,6 +150,11 @@
 	
 		height: 486px !important;;
 		}
+		
+		.ngdialog-content{
+		 width: 660px;
+		 }
+		
 </style>
 
 
@@ -167,50 +172,4 @@
 
 
 
-	<!-- ------------- -->
-					
-					<!--   <div class="container">
-      <h2>Collapse</h2>
-      <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" id="coll1" class="collapsed" data-target="#collapse1" ng-click="opencoll()" aria-expanded="true" aria-controls="collapse1" style="cursor: pointer;">Collapsible Group 1</a>
-            </h4>
-          </div>
-          <div id="collapse1" class="collapse in">
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Collapsible Group 2</a>
-            </h4>
-          </div>
-          <div id="collapse2" class="panel-collapse collapse">
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
-            </h4>
-          </div>
-          <div id="collapse3" class="collapse in">
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-          </div>
-        </div>
-      </div> 
-    </div>   -->
-					
-				<!-- -------------- -->	
-				
 			

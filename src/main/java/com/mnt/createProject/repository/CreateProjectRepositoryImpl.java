@@ -349,6 +349,45 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	}
 	
 	
+
+	@Override
+	public List<UserVM> getfindselectedAllUser(Long mainInstance, Long projectId) {
+		
+		List<UserVM> result = new ArrayList<UserVM>();
+		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(projectId, mainInstance);
+		
+		Projectclassnode projectclassnode = Projectclassnode.getProjectById(projectId);
+		
+		if(projectclassnode.getParentId() == null){
+			List<User> uList = User.getUserList();
+			for(User lUser :uList) {
+				UserVM userVM = new UserVM();
+				userVM.setId(String.valueOf(lUser.getId()));
+				userVM.setEmail(lUser.getEmail());
+				userVM.setFirstName(lUser.getFirstName());
+			
+				result.add(userVM);
+			}
+			
+		}else{
+			
+			Projectinstancenode projectnode1 = Projectinstancenode.getProjectParentId(projectclassnode.getParentId(), mainInstance);
+			
+			//Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+			for(User lUser :projectnode1.getUser()) {
+				
+				UserVM userVM = new UserVM();
+				userVM.setId(String.valueOf(lUser.getId()));
+				userVM.setEmail(lUser.getEmail());
+				userVM.setFirstName(lUser.getFirstName());
+			
+				result.add(userVM);
+			}
+		}
+		return result;
+		
+	}
+	
 	@Override
 	public List<String> getselectedUser(Long mainInstance, Long projectId) {
 		
@@ -365,7 +404,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				result.add(userVM);
 			}
 		
-		return result;*/
+		return result;
+		
+		*/
 		
 		List<String> users = new ArrayList<>();
 		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(projectId, mainInstance);

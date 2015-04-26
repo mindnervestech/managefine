@@ -125,7 +125,32 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         		
     			$http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response) {
     				console.log(response);
-	    	    	var selectedUsers = [];
+    				
+    				
+    				$http({method:'GET',url:'/time/findselectedAllUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response1) {
+        	    		console.log(response1);
+        	    		var selectedUsers = [];
+        	    		$scope.allUser = response1;
+        	    		angular.forEach($scope.allUser,function(user,key) {
+        	    			console.log(user.id);
+    	        	    	angular.forEach(response,function(value,key1) {
+    	    	    			console.log(value);
+    	        	    		if(user.id == value){
+    	        	    			selectedUsers.push(user);
+    	        	    		}
+    	        	    	});
+            	        	});
+            	    	$scope.findSelectedUser = response;
+            	    	$scope.findUser = $scope.allUser;
+            	    	console.log($scope.findUser);
+            	    	console.log($scope.findSelectedUser);
+            	    	if(data.context.id == 1)
+            	    		$scope.findUser = $scope.allUser;
+        	    	});
+    				
+	    	    	/*var selectedUsers = [];
+	    	    	//console.log($scope.allUser);
+	    	    	
         	    	angular.forEach($scope.allUser,function(user,key) {
 	        	    	angular.forEach(response,function(value,key1) {
 	        	    		if(user.id == value){
@@ -135,9 +160,34 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	    	});
         	    	$scope.findSelectedUser = response;
         	    	$scope.findUser = selectedUsers;
+        	    	
+        	    	if(data.context.id == 1)
+        	    		$scope.findUser = $scope.allUser;*/
+	    	    });
+    			
+    			
+    			/*
+    			$http({method:'GET',url:'/time/findselectedAllUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response1) {
+    	    		console.log(response1);
+    	    		$scope.allUser = response1;
+    	    		angular.forEach($scope.allUser,function(user,key) {
+    	    			console.log(user.id);
+	        	    	angular.forEach(response,function(value,key1) {
+	    	    			console.log(value);
+	        	    		if(user.id == value){
+	        	    			selectedUsers.push(user);
+	        	    		}
+	        	    	});
+        	    	});
+        	    	$scope.findSelectedUser = response;
+        	    	$scope.findUser = selectedUsers;
+        	    	console.log($scope.findUser);
+        	    	console.log($scope.findSelectedUser);
         	    	if(data.context.id == 1)
         	    		$scope.findUser = $scope.allUser;
-	    	    });
+    	    	});*/
+    			
+    			
     			
     			 $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
     		  	    	console.log(response);
@@ -547,7 +597,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
-            + '<div name="description" class="bp-item" style="top: 40px; left: 0px; width: 100%;height:36px; font-size: 16px;text-align: center;">{{itemConfig.projectDescription}}</div>'
+            + '<div name="description" class="bp-item" style="top: 35px; left: 0px; width: 100%;height:36px; font-size: 10px;text-align: center;">{{itemConfig.projectDescription}}</div>'
             + '<div><progressbar id="progressBar" class="progress-striped active" style="height: 20px;margin-top: 71px;" animate="true" max="100" value="itemConfig.projectCompleted" type="{{itemConfig.status}}"><i>{{itemConfig.projectCompleted}}</i></progressbar></div>'
         + '</div>'
         ).css({

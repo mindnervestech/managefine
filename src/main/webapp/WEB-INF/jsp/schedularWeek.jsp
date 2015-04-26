@@ -33,7 +33,7 @@
 						value="Go" class="btn"> --></span> <!-- <a href="javascript:void(0);"
 								class="cal13 tip" title="Change Date"></a> -->
 	</aside>
-	
+
 	<div id="scheduler1" style="width: 100%;"></div>
 </body>
 </html>

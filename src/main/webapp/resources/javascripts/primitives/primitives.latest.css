@@ -28,7 +28,7 @@ background-position-y: 3px ! important;
 .edit{
    background-position: center center;
 
-background-image: url(http://localhost:7080/time/resources/images//icon/edit.png) ! important;
+background-image: url('resources/images//icon/edit.png') ! important;
 background-size:13px 13px  ! important;
 background-repeat: no-repeat ! important;
 background-position-y: 3px ! important;
@@ -38,7 +38,7 @@ background-position-y: 3px ! important;
 .employee{
    background-position: center center;
 
-background-image: url(http://localhost:8080/time/resources/images//icon/people.jpg) ! important;
+background-image: url('resources/images//icon/people.jpg') ! important;
 background-size:13px 13px  ! important;
 background-repeat: no-repeat ! important;
 background-position-y: 3px ! important;s
