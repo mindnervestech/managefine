@@ -138,7 +138,9 @@ public class Wdgets {
 				tVm.startDate = projectinstance.getStartDate();
 				tVm.endDate = projectinstance.getEndDate();
 				tVm.status = projectinstance.getStatus();
-				tVm.percentage = String.valueOf(projectinstance.getPercentage());
+				if(projectinstance.getPercentage() != null){
+					tVm.percentage = String.valueOf(projectinstance.getPercentage());
+				}
 				tsList.add(tVm);
 			}
 			
@@ -193,7 +195,9 @@ public class Wdgets {
 			for(Projectinstance projectinstance:pList){
 				GaugeForWidgetVM gVm = new GaugeForWidgetVM();
 				gVm.name = projectinstance.getProjectName();
-				gVm.percent= projectinstance.getPercentage().intValue();
+				if(projectinstance.getPercentage() != null){
+					gVm.percent= projectinstance.getPercentage().intValue();
+				}
 				gWList.add(gVm);
 			}
 			
