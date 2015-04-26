@@ -2,6 +2,10 @@
 	border: 1px solid #DA3434 !important;
 }
 
+.timesheetRow  {
+	margin-top: -2%;
+}
+
 legend {
     display: inline-block;
 }
