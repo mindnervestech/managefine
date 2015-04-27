@@ -64,6 +64,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
 					$.datepicker.formatDate('dd M yy', endOfWeek));
 		} else {
+			day = day - 1;
 			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
 			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
@@ -833,13 +834,22 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 		$scope.weeks = [{
 			data:data
 			}];
+		var d = $scope.currentDateObject.getDay();
+		var weekStart;
+		if(d == 0) {
+			weekStart = new Date($scope.currentDateObject.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+		} else {
+			d = d - 1;
+			weekStart = new Date($scope.currentDateObject.getTime() - (24 * 60 * 60 * 1000 * d ));
+		}
 		var yourData = JSON.stringify($scope.weeks);
 		$("#scheduler1").matrixWrapper({
-			day:[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"],
+			day:[ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"],
 			widthofday:(100/7)+"%",
 			data: yourData,
 			year:$scope.currentDateObject.getFullYear(),
 			week:$scope.currentDateObject.getWeek(),
+			date:weekStart,
 			addFunction:$scope.addFunction,
 			editFunction:$scope.editFunction
 		});
@@ -907,6 +917,7 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
 					$.datepicker.formatDate('dd M yy', endOfWeek));
 		} else {
+			day = day - 1;
 			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
 			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
@@ -1316,6 +1327,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
 					$.datepicker.formatDate('dd M yy', endOfWeek));
 		} else {
+			day = day - 1;
 			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
 			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
@@ -2113,6 +2125,7 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
 					$.datepicker.formatDate('dd M yy', endOfWeek));
 		} else {
+			day = day - 1;
 			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
 			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
 			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +

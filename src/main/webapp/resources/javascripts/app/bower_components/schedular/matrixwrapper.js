@@ -14,6 +14,7 @@
 			main.empty();
 			var day = opts.day;
 			var width = opts.widthofday;
+			var date = opts.date;
 			setHeaders();
 			
 			function setHeaders(){
@@ -23,12 +24,23 @@
 				/*var names = $("<div class='name'></div>");*/
 				var week = $("<div class='week' style='margin-bottom:-3px;'></div>");
 				var header = $("<div id='week-header' style='height:20px;display: -webkit-inline-box;width:97%;'></div>");
-				for(var i = 0; i <day.length; i++){
-					newTickLabel = "<div style='position: relative;float:left;background:#0067b0;'><span>"+day[i] + "</span></div>";
-					if(i==0) {
-						$(newTickLabel).css( "width",(1.4*(100/(day.length+0.4)))+"%" ).appendTo(week);
-					} else {
-						$(newTickLabel).css( "width",(100/(day.length+0.4))+"%" ).appendTo(week);
+				if(date != null){
+					var weekDay = date.getDay();
+					for(var i = 0; i <day.length; i++){
+						if(weekDay == 0) {
+							dateToBeShown = new Date(date.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+						} else {
+							dateToBeShown = new Date(date.getTime() + (24 * 60 * 60 * 1000 * i+1 ));
+						}
+						
+						var dateObj = new Date(dateToBeShown.getMonth()+1 + "/" + dateToBeShown.getDate() + "/" +dateToBeShown.getFullYear());
+						
+						newTickLabel = "<div style='position: relative;float:left;background:#0067b0;'><span>"+day[i] + " ("+moment(dateObj).format("DD MMM")+")"+"</span></div>";
+						if(i==0) {
+							$(newTickLabel).css( "width",(1.4*(100/(day.length+0.4)))+"%" ).appendTo(week);
+						} else {
+							$(newTickLabel).css( "width",(100/(day.length+0.4))+"%" ).appendTo(week);
+						}
 					}
 				}
 				//header.append(names,week);

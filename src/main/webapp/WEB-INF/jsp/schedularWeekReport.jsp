@@ -33,14 +33,26 @@
 			      	placeholder="YYYY-W##"  /> --><input class="week-picker" type="text" value="" readonly ng-change="changeWeek(currentDateObject)"></span> <!-- <a href="javascript:void(0);"
 					class="cal13 tip" title="Change Date"></a> -->
 			</aside>
+			
 			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
+				<div>
+                     <label style="width: 305px;float:left;" ng-show="$first">Staffs</label>        
+                     <label style="width: 155px;margin-left: -1%;float:left;" ng-show="$first">Mon  ({{s.weekReport[0].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue  ({{s.weekReport[1].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed  ({{s.weekReport[2].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Thu  ({{s.weekReport[3].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Fri  ({{s.weekReport[4].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sat  ({{s.weekReport[5].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sun  ({{s.weekReport[6].date}})</label>
+                </div>
+			<div id="do_name">{{s.name}}</div>
 				<div class="col-md-3 col-sm-12"
 					style="padding: 0px; position: relative;">
-					<label ng-show="$first">Staffs</label>
 					<div class="col-md-3 col-sm-12">
 						<!-- <img src="get-staff-profile/{{s.id}}"
 							style="width: 75px; border: 1px solid #ccc; margin: 0px 10px 0px 0px;" /> -->
 					</div>
+						
 					<div class="col-md-8 col-sm-12" id="weekly_doc_view">
 						<h1> {{s.name}}</h1>
 						<h3>{{s.speciality}}</h3>
@@ -50,12 +62,11 @@
 								456 780</span>
 						</p> -->
 					</div>
-					<hr
-						style="background-color: #0167b1; width: 1px; height: 112%; position: absolute; right: 10px; top: 9px;" ng-show="s.flag">
+					
+					<hr	style="background-color: #0167b1; width: 1px; height: 112%; position: absolute; right: 10px; top: 9px;" ng-show="s.flag">
 				</div>
 				<div class="col-md-9 col-sm-12" style="padding: 0px;">
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Monday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<div class="col-md-12 col-sm-12" style="padding: 0px;">
@@ -79,7 +90,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Tuesday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<div class="col-md-12 col-sm-12" style="padding: 0px;">
@@ -103,7 +113,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Wednesday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<p ng-show="s.flag == false" style="margin-top:38%;"><b>No Calendar defined</b></p>
@@ -127,7 +136,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Thursday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 								<div 
@@ -149,7 +157,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Friday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<div 
@@ -171,7 +178,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Saturday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<div 
@@ -193,7 +199,6 @@
 							style="background-color: #0167b1; width: 1px; height: 89%; position: absolute; right: 3px; top: 9px;" ng-show="s.flag">
 					</div>
 					<div class="col-md-2 col-sm-12" style="padding: 0px;">
-						<label ng-show="$first">Sunday</label>
 						<div class="col-md-12 col-sm-12" style="padding: 0px;"
 							id="doctor_schedule">
 							<div 
@@ -215,7 +220,7 @@
 					</div>
 
 				</div>
-				<div id="do_name">{{s.name}}</div>
+			     
 			</div>
 		</div>
 	</section>

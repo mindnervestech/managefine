@@ -1053,6 +1053,7 @@ public class Timesheets{
 		User user = User.findById(Long.parseLong(userId));
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, Integer.parseInt(week), Integer.parseInt(year));
 		timesheet.setStatus(TimesheetStatus.Draft);
+		timesheet.setTimesheetWith(user);
 		timesheet.update();
 		return "";
 	}
@@ -1063,6 +1064,7 @@ public class Timesheets{
 		User user = User.findById(Long.parseLong(userId));
 		TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, Integer.parseInt(week), Integer.parseInt(year));
 		timesheet.setStatus(TimesheetStatus.Draft);
+		timesheet.setTimesheetWith(user);
 		timesheet.update();
 		return "";
 	}
@@ -1444,6 +1446,12 @@ public class Timesheets{
 		}
 		
 		} else {
+			
+			if(timesheet.status.equals("Submitted")) {
+				timesheetSavedObj.setTimesheetWith(user.getManager());
+			} else {
+				timesheetSavedObj.setTimesheetWith(user);
+			}
 			timesheetSavedObj.setStatus(TimesheetStatus.valueOf(timesheet.status));
 			timesheetSavedObj.update();
 			
@@ -1848,6 +1856,11 @@ public class Timesheets{
 		}
 		
 		} else {
+			if(timesheet.status.equals("Submitted")) {
+				timesheetSavedObj.setTimesheetWith(user.getManager());
+			} else {
+				timesheetSavedObj.setTimesheetWith(user);
+			}
 			timesheetSavedObj.setStatus(TimesheetStatus.valueOf(timesheet.status));
 			timesheetSavedObj.update();
 			
