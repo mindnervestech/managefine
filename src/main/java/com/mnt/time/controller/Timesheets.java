@@ -198,15 +198,13 @@ public class Timesheets{
 	
 	
 	@RequestMapping(value="/showGantt", method = RequestMethod.GET)
-	public String showGantt(ModelMap model, @CookieValue("username") String username) {
+	public String showGantt(ModelMap model, @CookieValue("username") String username,@RequestParam("instanceId") String instanceId,@RequestParam("typeId") String typeId) {
 		User user = User.findByEmail(username);
 		
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
 		model.addAttribute("user", user);
 		
-		Long instanceId = 23L;
-		Long typeId = 11L;
-		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(instanceId,typeId)));
+		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(Long.parseLong(instanceId),Long.parseLong(typeId))));
 		return "showGantt";
     }
 	
