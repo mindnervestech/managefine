@@ -598,7 +598,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
             + '</div>'
             + '<div class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;">{{itemConfig.organizationType}}</div>'
             + '<div name="description" class="bp-item" style="top: 35px; left: 0px; width: 100%;height:36px; font-size: 10px;text-align: center;">{{itemConfig.projectDescription}}</div>'
-            + '<div><progressbar id="progressBar" class="progress-striped active" style="height: 20px;margin-top: 71px;" animate="true" max="100" value="itemConfig.projectCompleted" type="{{itemConfig.status}}"><i>{{itemConfig.projectCompleted}}</i></progressbar></div>'
+            + '<div style="text-align: center;"><progressbar id="progressBar" class="progress-striped active" style="height: 20px;margin-top: 71px;" animate="true" max="100" value="itemConfig.projectCompleted" type="{{itemConfig.status}}"><i>{{itemConfig.projectCompleted}}%</i></progressbar></div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",
