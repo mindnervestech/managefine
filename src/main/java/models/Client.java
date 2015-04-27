@@ -54,28 +54,28 @@ public class Client extends Model {
 	public Integer fax;
 	
 	//Second Wizard
-	@WizardCardUI(name="Location",step=2)
+	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=5,label="Address")
 	@Validation(required=true)
 	public String address;
 	
-	@WizardCardUI(name="Location",step=2)
+	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=6,label="Street")
 	public String street;
 	
-	@WizardCardUI(name="Location",step=2)
+	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=7,label="City")
 	@Validation(required=true)
 	public String city;
 	
-	@WizardCardUI(name="Location",step=2)
+	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=8,label="Country")
 	@SearchFilterOnUI(label="Country")
 	@SearchColumnOnUI(rank=4,colName="Country")
 	@Validation(required=true)
 	public String country;
 	
-	@WizardCardUI(name="Location",step=2)
+	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=9,label="PIN")
 	@Validation(required=true)
 	public String pin;

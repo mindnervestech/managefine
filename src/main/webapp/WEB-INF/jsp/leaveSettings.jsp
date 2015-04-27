@@ -54,7 +54,7 @@
     					<td>
     						<label style="  margin-left: 10px;"><small>${cell.leaveType}</small></label>
     						<input class="input-small"  type="hidden" name="roleLeaves[${count}].id" value="${cell.id}">
-    						<input class="input-mini" style="height: 20px;" type="number" name="roleLeaves[${count}].total_leave" value="${cell.totalLeave}">
+    						<input class="input-mini" min="0" style="height: 20px;" type="number" name="roleLeaves[${count}].total_leave" value="${cell.totalLeave}">
     				 		<c:set var="count" value="${count + 1}" scope="page"/>
     					 </td>  
     				</c:forEach>

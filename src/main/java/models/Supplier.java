@@ -48,40 +48,40 @@ public class Supplier extends Model {
 	@Validation(required=true,email=true)
 	public String email;
 	
-	@WizardCardUI(name="Basic Info",step=1)
+	/*@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=4,label="Password")
 	@SearchColumnOnUI(rank=4,colName="Password")
 	@Validation(required=true)
-	public String password;
+	public String password;*/
 	
 	@WizardCardUI(name="Basic Info",step=1)
-	@UIFields(order=5,label="Fax")
+	@UIFields(order=4,label="Fax")
 	public Integer fax;
 	
 	//Second Wizard
-	@WizardCardUI(name="Location",step=2)
-	@UIFields(order=6,label="Address")
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=5,label="Address")
 	@Validation(required=true)
 	public String address;
 	
-	@WizardCardUI(name="Location",step=2)
-	@UIFields(order=7,label="Street")
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=6,label="Street")
 	public String street;
 	
-	@WizardCardUI(name="Location",step=2)
-	@UIFields(order=8,label="City")
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=7,label="City")
 	@Validation(required=true)
 	public String city;
 	
-	@WizardCardUI(name="Location",step=2)
-	@UIFields(order=9,label="Country")
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=8,label="Country")
 	@SearchFilterOnUI(label="Country")
 	@SearchColumnOnUI(rank=4,colName="Country")
 	@Validation(required=true)
 	public String country;
 	
-	@WizardCardUI(name="Location",step=2)
-	@UIFields(order=10,label="PIN")
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=9,label="PIN")
 	@Validation(required=true)
 	public String pin;
 	
@@ -173,13 +173,13 @@ public class Supplier extends Model {
 		return address;
 	}
 
-	public String getPassword() {
+	/*public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
+	}*/
 
 	public void setAddress(String address) {
 		this.address = address;
