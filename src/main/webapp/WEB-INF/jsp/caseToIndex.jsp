@@ -10,6 +10,7 @@
 <jsp:include page="searchContext.jsp"/> 
 
 <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/css/ngDialog.css"/>'>
+<link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 
 
 
@@ -158,6 +159,7 @@
 		position: relative;
 	}
 	
+	
 	.fr {
 		float: right;
 	}
@@ -191,7 +193,8 @@
 
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload-shim.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-file-upload/angular-file-upload.min.js"/>'></script>
-
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/ng-dialog/js/ngDialog.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/projectController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/casesController/controller.js"/>'></script>

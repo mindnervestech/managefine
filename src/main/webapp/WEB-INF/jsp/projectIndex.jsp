@@ -21,8 +21,9 @@
 				<div class="modal-header" style="height:5%;background:#005580;">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
+						<b><span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span></b>
 					</button>
+					<h4 class="model-title" id="myModelLabel" style="line-height: 11px;color: white;">Create Project</h4>
 				</div>
 				<div class="modal-body">
 					<form name="myForm" method="post" action="saveprojectTypeandName">

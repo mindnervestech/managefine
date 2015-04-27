@@ -103,6 +103,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
         			$scope.level = data[0].level;
         			console.log($scope.level);
             		console.log($scope.currentParentId);
+            		$scope.pro.projectColor = "#e78f08";
             		ngDialog.open({
             			template:'addProjectTypeValue',
             			//controller: 'ProjectHierarchyController',

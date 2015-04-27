@@ -1,11 +1,11 @@
 <div  id="myModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
+	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;position: absolute;left: 343px;width: 621px;">
 	<div class="modal-dialog">
 		<div class="modal-content" style="height: 551px;">
 			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 37px;padding: 1px;">
-				<button type="button" style="float: right;" ng-click="closeThisDialog()"
+				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel">Project Progress</h4>
 			</div>

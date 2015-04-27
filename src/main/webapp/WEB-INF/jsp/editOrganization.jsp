@@ -1,11 +1,11 @@
 <div class="modal" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header" style="background: #005580;color: white;margin: 2px; border-bottom: 4px gray;">
+	<div class="modal-dialog" style="height: 420px;">
+		<div class="modal-content" style="height: 420px;">
+			<div class="modal-header" style="background: #005580;color: white;margin: 2px; border-bottom: 4px gray;height: 43px;padding: 3px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
 			</div>
@@ -35,15 +35,21 @@
 						<label for="org-profile" style="width: 40%;">Organization profile picture</label> <input
 							type="file" ng-file-select="selectFile($files)" id="org-profile">
 					</div>
-					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;" ng-if="overWrite == 1">
-						<label for="org-profile" style="width: 40%;color:red;">Organization Name already exists</label>
+					<div class="form-group" ng-if="overWrite == 1">
+						<label for="org-profile" style="width: 47%;color:red;">Organization Name already exists</label>
 					</div>
 					
 					</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
 				<button type="submit" class="btn btn-primary">Edit Organization</button>
-			</div>
+			</div> -->
+					<hr>
+					<div class="col-md-12">
+							<button type="button" class="btn btn-default"
+								style="float: right;" ng-click="closeThisDialog()">Close</button>
+							<button type="submit" class="btn btn-primary"  style="margin: 0% 2%; float: right;">Edit Organization</button>
+						</div>
 				</form>
 			
 		</div>

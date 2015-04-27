@@ -16,10 +16,10 @@
 	style="width: 80%; margin-left: 10%; display: block;">
 	<div class="modal-dialog" style="width: 100%; height: 100%;">
 		<div class="modal-content" style="width: 100%; height: 100%;">
-			<div class="modal-header" style="background: #005580; color: white;">
+			<div class="modal-header" style="background: #005580; color: white;height: 43px;padding: 3px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 				<c:choose>
 					<c:when test="${editNodeMetaData.level == 0}">

@@ -1,11 +1,11 @@
 <div class="modal" id="myModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">  <!-- ng-app="ProjectHierarchyApp" ng-controller="ProjectHierarchyController" -->
+	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;left: 45%;">  <!-- ng-app="ProjectHierarchyApp" ng-controller="ProjectHierarchyController" -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header" style="background: #005580;color: white;margin: 2px;padding: 1px;border-bottom: 4px gray;margin-bottom: -15px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 								<h4 ng-if="level == '0'" class="modal-title" id="myModalLabel" style="margin-left: 18px;">Project Type</h4>
 				<h4 ng-if="level == '1'" class="modal-title" id="myModalLabel" style="margin-left: 18px;">Project Stage</h4>

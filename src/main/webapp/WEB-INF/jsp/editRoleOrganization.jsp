@@ -1,11 +1,11 @@
 <div class="modal" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
-	<div class="modal-dialog">
-		<div class="modal-content">
+	<div class="modal-dialog" style="height: 400px;">
+		<div class="modal-content" style="  height: 400px;">
 			<div class="modal-header" style="background: #005580;;color: white;margin: 2px;height: 38px;padding: 2px; border-bottom: 4px gray;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel">Edit Role Description</h4>
 			</div>
@@ -41,10 +41,12 @@
 					</div>
 					
 					</div>
-			<div class="modal-footer" style="height: 42px;padding: 7px 15px 15px;">
-				<button type="button" class="btn btn-default" ng-click="closeThisDialog()">Close</button>
-				<button type="submit" class="btn btn-primary">Edit Role</button>
-			</div>
+			<hr>
+					<div class="col-md-12">
+							<button type="button" class="btn btn-default"
+								style="float: right;" ng-click="closeThisDialog()">Close</button>
+							<button type="submit" class="btn btn-primary"  style="margin: 0% 2%; float: right;">Edit Role</button>
+						</div>
 					
 				</form>
 			

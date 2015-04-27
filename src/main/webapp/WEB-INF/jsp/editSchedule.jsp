@@ -5,14 +5,14 @@
 			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 37px;padding: 6px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true" style="color: white;font-size: 25px;">&times;</span>
 				</button>
 				<h4 class="modal-title" id="myModalLabel" style="margin-top:3px;">Task Details</h4>
 			</div>
 			<div class="examples">
 
  				 <div id="testDiv3"> 
-				<div class="modal-body">
+				<div class="modal-body" style="max-height: 412px;">
 				
 					
 				 <div class="form-group">
