@@ -140,7 +140,37 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
     	$scope.org.parent = $scope.currentParentId;
     	
     	console.log($scope.org);
-    	$upload.upload({
+    	
+    	$http({method:'POST',url:'saveOrgChild',data:$scope.org}).success(function(data) {
+			console.log(data);
+		    if(data != null && data != ""){
+            	$scope.overWrite = 0;
+            	
+            	 if($scope.org.parent == 0){
+              		  items = [];
+              		  $scope.myOptions.items = [];
+              		
+              	  	}
+            	
+            	$scope.org.id = data;
+        	$scope.myOptions.items.push(new primitives.orgdiagram.ItemConfig({
+                id: data,
+                parent: $scope.org.parent,
+                organizationName: $scope.org.organizationName,
+                organizationLocation: $scope.org.organizationLocation,
+                image: "orgProfile/"+data,
+                organizationType:$scope.org.organizationType
+                
+            }));
+        	console.log($scope.myOptions.items);
+        	ngDialog.close();
+            }else{
+            	$scope.overWrite = 1;
+            }
+			
+    	});	
+    	
+    /*	$upload.upload({
             url: 'saveOrgChild',
             data: $scope.org,
             file: file,
@@ -174,7 +204,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
             }else{
             	$scope.overWrite = 1;
             }
-        });
+        });*/
     };
 
     $scope.orgEdit = [];
@@ -187,17 +217,18 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
     	console.log($scope.org);
     	if(file == null){
 
-    		$scope.orgEdit.push({
+    		$scope.org.id = $scope.org.parent;
+    		/*$scope.orgEdit.push({
 				id:$scope.org.parent,
 				organizationName:$scope.org.organizationName,
 				organizationType:$scope.org.organizationType,
 				organizationLocation:$scope.org.organizationLocation,
 				parent:$scope.org.parent
 				
-			});
+			});*/
     		
-    		console.log($scope.orgEdit[0]);  
-    		$http({method:'POST',url:'editOrgNotImgChild',data:$scope.orgEdit[0]}).success(function(response) {
+    		console.log($scope.org);  
+    		$http({method:'POST',url:'editOrgNotImgChild',data:$scope.org}).success(function(response) {
     			console.log(response);
     			
     			/*  if(response != null && response != ""){
@@ -209,7 +240,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
             			value.organizationName = $scope.org.organizationName;
             			value.organizationLocation = $scope.org.organizationLocation;
             			value.organizationType = $scope.org.organizationType;
-          		}
+          		   }
             	});
     			 /* }else{
     				  $scope.overWrite = 1;

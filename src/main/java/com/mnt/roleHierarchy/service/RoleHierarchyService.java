@@ -15,6 +15,7 @@ public interface RoleHierarchyService {
     Long editRoleChild(RoleVM roleVM, String username);
 	Long saveRoleChild(RoleVM roleVM, String username);
 	List<DepartmentDataVM> findDepartment();
+	RoleVM findSelectedDepartment(Long id);
 
 //	Long saveRoleChild(MultipartFile file, RoleVM roleVM, String username);
 }

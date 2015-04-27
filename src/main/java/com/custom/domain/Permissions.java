@@ -60,7 +60,7 @@ public enum Permissions {
 
 	Setting("#",null,"Settings"),
 	Mail(routes.Mail.index.url,Setting,"Mail Setting"),
-	Notification(routes.Notifications.index.url,Setting,"TimeSheet Notification"),
+	/*Notification(routes.Notifications.index.url,Setting,"TimeSheet Notification"),*/
 	DefineRoles(routes.Roles.defineRoles.url,Setting,"Define Roles"),
 	DefineDepartments(routes.Roles.defineDepartment.url,Setting,"Define Department"),
 	DefineLeaves(routes.Leaves.defineLeaves.url,Setting,"Define Leaves"),

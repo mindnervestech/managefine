@@ -65,9 +65,14 @@ public class OrgHierarchyController {
 		return "editOrganization";
 	}
 	
-	@RequestMapping(value="/saveOrgChild",method=RequestMethod.POST) 
+	/*@RequestMapping(value="/saveOrgChild",method=RequestMethod.POST) 
 	public @ResponseBody Long saveOrgChild(@RequestParam("file")MultipartFile file,OrganizationVM organizationVM,@CookieValue("username")String username) {
 		return orgHierarchyService.saveOrgChild(file, organizationVM,username);
+	}*/
+	
+	@RequestMapping(value="/saveOrgChild",method=RequestMethod.POST) 
+	public @ResponseBody Long saveOrgChild(@RequestBody OrganizationVM organizationVM, @CookieValue("username")String username) {
+		return orgHierarchyService.saveOrgChild(organizationVM, username);
 	}
 	
 	@RequestMapping(value="/editOrgChild",method=RequestMethod.POST) 

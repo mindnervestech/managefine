@@ -43,6 +43,12 @@ public class RoleHierarchyServiceImpl implements RoleHierarchyService{
 		return roleHierarchyRepository.findDepartment();
 	}
 	
+	//List<RoleVM> getRoleHierarchy(Long id);
+	@Override
+	public 	RoleVM findSelectedDepartment(Long id){
+		// TODO Auto-generated method stub
+		return roleHierarchyRepository.findSelectedDepartment(id);
+	}
 	
 	
 }

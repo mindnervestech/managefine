@@ -8,6 +8,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
     ];
 
     $scope.loadData = function(data) {
+    	console.log(data);
     	if(data.length>0) {
     		angular.forEach(data,function(value,key) {
     			items.push(new primitives.orgdiagram.ItemConfig({
@@ -98,17 +99,24 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             		});
             		break;
             	case "edit":
-            
-            		console.log(data);
-            		$scope.org.roleName = data.context.roleName;
-            		$scope.org.roleDescription = data.context.roleDescription;
-            		$scope.org.department = data.context.department;
-            		$scope.currentParentId = data.context.id;
-            		ngDialog.open({
-            			template:'editRoleOrganization',
-            			scope:$scope,
-            			closeByDocument:false
-            		});
+            		
+            		$http({method:'GET',url:'findSelectedDepartment',params:{id:data.context.id}}).success(function(response) {
+              	    	console.log(response);
+              	    	
+              	    	console.log(data);
+                		$scope.org.roleName = response.roleName;
+                		$scope.org.roleDescription = response.roleDescription;
+                		$scope.org.department = response.department;
+                		$scope.currentParentId = data.context.id;
+                		ngDialog.open({
+                			template:'editRoleOrganization',
+                			scope:$scope,
+                			closeByDocument:false
+                		});
+              	    	
+                 	 });
+            		
+            		
             		break;	
 			}
 		};

@@ -9,7 +9,8 @@ import com.mnt.employeeHierarchy.vm.EmployeeHierarchyVM;
 import com.mnt.orghierarchy.vm.OrganizationVM;
 
 public interface OrgHierarchyRepository {
-	Long saveOrgChild(MultipartFile file,OrganizationVM organizationVM,String username);
+	//Long saveOrgChild(MultipartFile file,OrganizationVM organizationVM,String username);
+	Long saveOrgChild(OrganizationVM organizationVM, String username);
 	Long editOrgChild(MultipartFile file,OrganizationVM organizationVM,String username);
 	Long editOrgNotImgChild(OrganizationVM organizationVM);
 	File orgProfile(Long id);

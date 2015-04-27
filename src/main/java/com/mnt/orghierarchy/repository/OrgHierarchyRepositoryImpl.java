@@ -24,8 +24,9 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 
 	@Value("${imageRootDir}")
 	String imageRootDir;
+	
 	@Override
-	public Long saveOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
+	public Long saveOrgChild(OrganizationVM organizationVM, String username) {
 		
 		Organization organization1= Organization.getOrganizationByName(organizationVM.getOrganizationName());
 		Organization organization = new Organization();
@@ -43,21 +44,7 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 			User user = User.findByEmail(username);
 			organization.setCompanyId(user.getCompanyobject().getId());
 			organization.save();
-			try {
-				String[] filenames = file.getOriginalFilename().split("\\.");
-				String filename = imageRootDir+File.separator+"org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1];
-				BufferedImage originalImage = ImageIO.read(file.getInputStream());
-				File f = new File(filename);
-				if(originalImage.getWidth()>120) {
-					Thumbnails.of(originalImage).size(124, 124).toFile(f);
-				} else {
-					Thumbnails.of(originalImage).scale(1.0).toFile(f);
-				}
-				organization.setOrganizationProfileUrl("org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1]);
-				organization.update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 		}else{
 			return null;
 		}
@@ -198,3 +185,49 @@ public class OrgHierarchyRepositoryImpl implements OrgHierarchyRepository {
 	}
 
 }
+
+
+
+
+/*
+@Override
+public Long saveOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
+	
+	Organization organization1= Organization.getOrganizationByName(organizationVM.getOrganizationName());
+	Organization organization = new Organization();
+	if(organization1 == null){
+		
+		organization.setOrganizationLocation(organizationVM.getOrganizationLocation());
+		organization.setOrganizationName(organizationVM.getOrganizationName());
+		organization.setOrganizationType(organizationVM.getOrganizationType());
+		if(organizationVM.getParent() == 0){
+			organization.setParent(null);
+		}else{
+			organization.setParent(organizationVM.getParent());
+		}
+		
+		User user = User.findByEmail(username);
+		organization.setCompanyId(user.getCompanyobject().getId());
+		organization.save();
+		try {
+			String[] filenames = file.getOriginalFilename().split("\\.");
+			String filename = imageRootDir+File.separator+"org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1];
+			BufferedImage originalImage = ImageIO.read(file.getInputStream());
+			File f = new File(filename);
+			if(originalImage.getWidth()>120) {
+				Thumbnails.of(originalImage).size(124, 124).toFile(f);
+			} else {
+				Thumbnails.of(originalImage).scale(1.0).toFile(f);
+			}
+			organization.setOrganizationProfileUrl("org"+organization.getCompanyId()+"_"+organization.getId()+"."+filenames[filenames.length-1]);
+			organization.update();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}else{
+		return null;
+	}
+	
+	
+	return organization.getId();
+}*/

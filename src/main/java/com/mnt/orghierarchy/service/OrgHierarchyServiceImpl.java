@@ -16,10 +16,16 @@ public class OrgHierarchyServiceImpl implements OrgHierarchyService {
 
 	@Autowired
 	OrgHierarchyRepository orgHierarchyRepository;
+	//@Override
+	//public Long saveOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
+	//	return orgHierarchyRepository.saveOrgChild(file, organizationVM,username);
+	//}
+	
 	@Override
-	public Long saveOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
-		return orgHierarchyRepository.saveOrgChild(file, organizationVM,username);
+	public Long saveOrgChild(OrganizationVM organizationVM, String username) {
+		return orgHierarchyRepository.saveOrgChild(organizationVM, username);
 	}
+	
 	@Override
 	public Long editOrgChild(MultipartFile file, OrganizationVM organizationVM,String username) {
 		return orgHierarchyRepository.editOrgChild(file, organizationVM,username);

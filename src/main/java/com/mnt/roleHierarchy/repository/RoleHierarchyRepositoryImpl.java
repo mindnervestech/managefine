@@ -38,6 +38,31 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		return result;
 		
 	}
+	
+	@Override
+	public RoleVM findSelectedDepartment(Long id) {
+		
+	
+			RoleLevel role = RoleLevel.findById(id);
+			
+				RoleVM roleVM = new RoleVM();
+				roleVM.setId(role.getId());
+				roleVM.setParent(role.getParentId());
+				roleVM.setRoleName(role.getRole_name());
+				roleVM.setRoleDescription(role.getRoleDescription());
+				if(role.getDepartment() != null){
+					roleVM.setDepartment(String.valueOf(role.getDepartment().getId()));
+					roleVM.setDepartmentName(role.getDepartment().getName());
+				}
+			
+		
+		return roleVM;
+		
+	}
+	
+	
+	
+	
 
 	@Override
 	public Boolean deleteRoleChild(Long id) {

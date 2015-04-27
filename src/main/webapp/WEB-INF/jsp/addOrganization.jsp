@@ -1,7 +1,7 @@
 <div class="modal" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
-	<div class="modal-dialog" style="height: 420px;">
-		<div class="modal-content" style="height: 420px;">
+	<div class="modal-dialog" style="height: 370px;">
+		<div class="modal-content" style="height: 370px;">
 			<div class="modal-header" style="background: #005580;color: white;margin: 2px;border-bottom: 4px gray;height: 43px;padding: 3px;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">
@@ -29,11 +29,11 @@
 						 placeholder="Enter organization address" required></textarea>
 							
 					</div>
-					<div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;">
+					<!-- <div class="form-group" style="display: -webkit-inline-box;width: 100%; margin-bottom: 15px;">
 						<label for="org-profile" style="width: 40%;">Organization profile picture</label> <input
 							type="file" ng-file-select="selectFile($files)" id="org-profile" required>
-					</div>
-					<div class="form-group" ng-if="overWrite == 1">
+					</div> -->
+					<div ng-if="overWrite == 1">
 						<label for="org-profile" style="width: 47%;color:red;">Organization Name already exists</label>
 					</div>
 					</div>

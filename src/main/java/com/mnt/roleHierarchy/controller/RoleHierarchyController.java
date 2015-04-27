@@ -74,4 +74,9 @@ public class RoleHierarchyController {
 	}
 	
 	
+	@RequestMapping(value="/findSelectedDepartment",method=RequestMethod.GET) 
+	public @ResponseBody RoleVM findSelectedDepartment(@RequestParam("id")Long id) {
+		return roleHierarchyService.findSelectedDepartment(id);
+	}
+	
 }

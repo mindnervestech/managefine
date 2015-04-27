@@ -112,6 +112,10 @@ public class RoleLevel extends Model{
 		return find.where().eq("role_name", name).findUnique();
 	}
 	
+	public static List<RoleLevel> getRoleByDepartment(Long id) {
+		return find.where().eq("department.id", id).findList();
+	}
+	
 	
 	
 	/*public static boolean checkUserLevel(Long id,RoleLevels currentLevel){
