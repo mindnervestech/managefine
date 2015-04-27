@@ -30,6 +30,8 @@ public enum Permissions {
 	
 	Timesheet("#",null,"Timesheet"),
 	CreateTimesheets(routes.Timesheet.timesheetCreate.url,Timesheet,"Create"),
+	SearchTimesheetActual(routes.Timesheet.searchIndex.url,Timesheet,"History"),
+	
 	
 	Schedule("#",null,"Schedule"),
 	Today(routes.Schedule.schedularToday.url,Schedule,"Today View"),
@@ -52,6 +54,7 @@ public enum Permissions {
 	UserRequest(routes.Status.userIndex.url,ActionBox,"On Users"),
 	CompanyRequest(routes.Status.companyIndex.url,ActionBox,"On Company"),
 	MyBucket(routes.TimesheetBuckets.index.url,ActionBox,"TimeSheet Requests"),
+	CalendarBucket(routes.CalendarBuckets.index.url,ActionBox,"Calendar Requests"),
 	LeaveBucket(routes.Leaves.bucketIndex.url,ActionBox,"Leaves Requests"),
 	
 	Report("#",null,"Report"),

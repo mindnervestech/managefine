@@ -216,9 +216,19 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/searchTimesheet.jsp" />
   	</definition> 
 
+	<definition name="searchActualTimesheet" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/searchActualTimesheet.jsp" />
+  	</definition> 
+
   	<definition name="timesheetsBucket" extends="base.definition">
     	<put-attribute name="title" value="Timesheet" />
     	<put-attribute name="content" value="/WEB-INF/jsp/timesheetsBucket.jsp" />
+  	</definition> 
+  	
+  	<definition name="calendarsBucket" extends="base.definition">
+    	<put-attribute name="title" value="Timesheet" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/calendarsBucket.jsp" />
   	</definition> 
   	
  	<definition name="reportIndex" extends="base.definition">
@@ -260,6 +270,9 @@
   	</definition> 
 
  	<definition name="viewTimesheet" template="/WEB-INF/jsp/viewTimesheet.jsp">
+  	</definition> 
+
+	<definition name="viewCalendar" template="/WEB-INF/jsp/viewCalendar.jsp">
   	</definition> 
 
   	<definition name="editWizard" template="/WEB-INF/jsp/editWizard.jsp">

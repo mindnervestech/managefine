@@ -16,6 +16,8 @@ import com.avaje.ebean.Expr;
 import com.custom.domain.TimesheetStatus;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
+import com.mnt.core.ui.annotation.UIFields;
+import com.mnt.core.ui.annotation.WizardCardUI;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -23,16 +25,32 @@ import play.db.ebean.Model;
 @Entity
 public class TimesheetActual extends Model {
 
+    public static final String ENTITY = "TimesheetActual";
+
+
+	public static String getEntity() {
+		return ENTITY;
+	}
+
 	@Id
+	@WizardCardUI(name="Timesheet Status Info",step=0)
+	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
     
     @ManyToOne
     public User user;
     
+    
+    @WizardCardUI(name="Timesheet Status Info",step=1)
+    @UIFields(order=1,label="Status")
+    @SearchColumnOnUI(rank=3,colName="Status")
+	@SearchFilterOnUI(label="Status")
     public TimesheetStatus status;
 
+    @SearchColumnOnUI(rank=2,colName="Week")
     public Integer weekOfYear;
     
+    @SearchColumnOnUI(rank=1,colName="Year")
     public Integer year;
     
     @OneToMany

@@ -76,6 +76,7 @@ import com.avaje.ebean.SqlRow;
 import com.custom.domain.TimesheetStatus;
 import com.custom.emails.Email;
 import com.custom.exception.NoTimeSheetFoudException;
+import com.custom.helpers.TimesheetActualSearchContext;
 import com.custom.helpers.TimesheetSearchContext;
 import com.custom.workflow.timesheet.TimesheetWorkflowUtils;
 import com.google.common.collect.Lists;
@@ -2394,11 +2395,32 @@ public class Timesheets{
 		//return ok(searchTimesheet.render(TimesheetSearchContext.getInstance().build(),MenuBarFixture.build(request().username()), user,timesheetForm));
 	}
 	
+	@RequestMapping(value = "/timesheetActualSearchIndex", method= RequestMethod.GET)
+	public String timesheetActualSearchIndex(ModelMap model, @CookieValue("username") String username){
+		User user = User.findByEmail(username);
+		Form<TimesheetActual> timesheetForm = form(TimesheetActual.class);
+		
+		model.addAttribute("context", TimesheetActualSearchContext.getInstance().build());
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		model.addAttribute("timesheetForm", timesheetForm);
+		
+		return "searchActualTimesheet";
+		//return ok(searchTimesheet.render(TimesheetSearchContext.getInstance().build(),MenuBarFixture.build(request().username()), user,timesheetForm));
+	}
+	
 	@RequestMapping(value = "/TimesheetSearch", method= RequestMethod.GET)
 	public @ResponseBody String search(@CookieValue("username") String username,HttpServletRequest request) {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		form.data().put("email", username);
 		return Json.toJson(TimesheetSearchContext.getInstance().build().doSearch(form)).toString();
+    }
+	
+	@RequestMapping(value = "/TimesheetActualSearch", method= RequestMethod.GET)
+	public @ResponseBody String TimesheetActualSearch(@CookieValue("username") String username,HttpServletRequest request) {
+		DynamicForm form = DynamicForm.form().bindFromRequest(request);
+		form.data().put("email", username);
+		return Json.toJson(TimesheetActualSearchContext.getInstance().build().doSearch(form)).toString();
     }
 	
 	@RequestMapping(value = "/timesheetEdit/{id}", method= RequestMethod.GET)

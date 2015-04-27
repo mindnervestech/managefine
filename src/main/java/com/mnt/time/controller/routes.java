@@ -430,6 +430,42 @@ public interface TimesheetBuckets {
 	}
 }
 
+public interface CalendarBuckets {
+	public interface index {
+		public static String url="/calendar/bucketIndex";
+	}
+	
+	public interface search {
+		public static String url="/calendar/bucketSearch";
+	}
+
+	public interface displaySelectedTimesheet {
+		public static String url="/calendar/displayTimesheet";
+	}
+
+	public interface approveTimesheets {
+		public static String url="/calendar/approveTimesheets";
+	}
+
+	public interface rejectTimesheets {
+		public static String url="/calendar/rejectTimesheets";
+	}
+
+	public interface approveTimesheetsOk {
+		public static String url="/calendar/approveTimesheetsOk";
+	}
+
+	public interface rejectTimesheetsOk {
+		public static String url="/calendar/rejectTimesheetsOk";
+	}
+	public interface excelReport {
+		public static String url="/calendarBucketExcelReport";
+	}
+	public interface timeSheetApprovalViaMail {
+		public static String url="/calendarApprovalViaMail";
+	}
+}
+
 
 
 public interface Leaves {
@@ -548,6 +584,18 @@ public interface Schedule {
 public interface Timesheet {
 	public interface timesheetCreate {
 		public static String url="/timesheetNew";
+	}
+	
+	public interface searchIndex {
+		public static String url="/timesheetActualSearchIndex";
+	}
+	
+	public interface search {
+		public static String url="/timesheetActualSearch";
+	}
+	
+	public interface excelReport {
+		public static String url="/timesheetActualExcelReport";
 	}
 }
 
