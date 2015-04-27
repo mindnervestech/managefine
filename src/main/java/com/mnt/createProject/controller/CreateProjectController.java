@@ -69,7 +69,7 @@ public class CreateProjectController {
 	@Value("${imageRootDir}")
 	String imageRootDir;
 	
-	@RequestMapping(value="/createProject",method=RequestMethod.GET)
+	/*@RequestMapping(value="/createProject",method=RequestMethod.GET)
 	public String orgHierarchy(@CookieValue("username")String username,Model model) {
 		System.out.println("hhhhhhhhh");
 		System.out.println(username);
@@ -77,7 +77,7 @@ public class CreateProjectController {
     	model.addAttribute("user", User.findByEmail(username));
     	//model.addAttribute("data",Json.toJson(roleHierarchyService.getRoleHierarchy()));
 		return "createProject";
-	}
+	}*/
 	
 	@RequestMapping(value="/selectAllProjectType",method=RequestMethod.GET) 
 	public @ResponseBody List selectAllProjectType(@RequestParam("id")Long id,@RequestParam("rootId")Long rootId) {
@@ -124,8 +124,7 @@ public class CreateProjectController {
 	public String saveprojectTypeandName(HttpServletRequest request,@CookieValue("username")String username,Model model) {
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", User.findByEmail(username));
-		model.addAttribute("createProject",createProjectService.saveprojectTypeandName(request));
-		return "createProject";
+		return "redirect:" + "/edit/project/"+createProjectService.saveprojectTypeandName(request).id;
 	}
 	
 	

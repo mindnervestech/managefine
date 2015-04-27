@@ -170,13 +170,17 @@
 		margin: 4px 10px 0px 15px;
 	}
 	
+	.ui-widget-header{
+	 	 background-color: #005580 !important;
+	 	 border: 1px solid #005580;
+	  }
 
 	
-.offtheScreen {	width: 0px;
-  height: 0px;
-  position: relative;
-  top: -87px;
-}	
+	.offtheScreen {	width: 0px;
+  		height: 0px;
+  		position: relative;
+  		top: -87px;
+	}	
     
     </style>
     

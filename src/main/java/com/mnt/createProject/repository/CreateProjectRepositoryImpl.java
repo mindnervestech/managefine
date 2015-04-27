@@ -235,41 +235,45 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		String supplierValues[] = request.getParameterValues("supplier");
 		String memberValues[] = request.getParameterValues("member");
 		
+		/*Projectinstance projectName =Projectinstance.getProjectByName(form.data().get("projectName"));
 		
+		if(projectName == null){*/
 		
-		Projectinstance projectinstance= new Projectinstance();
-		projectinstance.setProjectName(form.data().get("projectName"));
-		projectinstance.setClientId(Long.parseLong(form.data().get("client")));
-		projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
-		projectinstance.setProjectDescription(form.data().get("projectDescription"));
-		if(form.data().get("client") != null){
-		Client client = Client.findById(Long.parseLong(form.data().get("client")));
-		projectinstance.setClientName(client.getClientName());
-		}
+			Projectinstance projectinstance= new Projectinstance();
+			projectinstance.setProjectName(form.data().get("projectName"));
+			projectinstance.setClientId(Long.parseLong(form.data().get("client")));
+			projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
+			projectinstance.setProjectDescription(form.data().get("projectDescription"));
+			if(form.data().get("client") != null){
+				Client client = Client.findById(Long.parseLong(form.data().get("client")));
+				projectinstance.setClientName(client.getClientName());
+			}
 		
-		projectinstance.setUserid(User.findById(Long.parseLong(form.data().get("projectManager"))));
+			projectinstance.setUserid(User.findById(Long.parseLong(form.data().get("projectManager"))));
 		
-		List<User> uList = new ArrayList<User>();
-		for(String s:memberValues){
-			User user = User.findById(Long.parseLong(s));
-			uList.add(user);
-		}
+			List<User> uList = new ArrayList<User>();
+			for(String s:memberValues){
+				User user = User.findById(Long.parseLong(s));
+				uList.add(user);
+			}
 		
-		projectinstance.setUser(uList);
+			projectinstance.setUser(uList);
 		
-		List<Supplier> sList = new ArrayList<Supplier>();
-		for(String sid:supplierValues){
-			Supplier supplier = Supplier.findById(Long.parseLong(sid));
-			sList.add(supplier);
-		}
+			List<Supplier> sList = new ArrayList<Supplier>();
+			for(String sid:supplierValues){
+				Supplier supplier = Supplier.findById(Long.parseLong(sid));
+				sList.add(supplier);
+			}
 		
-		projectinstance.setSupplier(sList);
+			projectinstance.setSupplier(sList);
 		
-		projectinstance.save();
-	
-		
-		
-		return projectinstance;
+			projectinstance.save();
+			
+			return projectinstance;
+	//	}
+			/*else{
+			return projectName;
+		}*/
 		
 	}
 	

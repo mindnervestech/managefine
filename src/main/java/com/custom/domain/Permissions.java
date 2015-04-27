@@ -9,7 +9,6 @@ public enum Permissions {
 	ManageUser(routes.Users.index.url,Manage,"Users"),
 	ManageClient(routes.Clients.index.url,Manage,"Customers"),
 	ManageSupplier(routes.Suppliers.index.url,Manage,"Suppliers"),
-	ManageProject(routes.Projects.index.url,Manage,"Manage Projects"),
 	/*ManageTask(routes.Tasks.index.url,Manage,"Tasks"),*/
 	EmployeeHierarchy(routes.Projects.employeeHierarchy.url,Manage,"Employee Hierarchy"),
 	
@@ -24,6 +23,10 @@ public enum Permissions {
 	Calendar("#",null,"Calendar"),
 	CreateTimesheet(routes.Calendar.index.url,Calendar,"Create"),
 	SearchTimesheet(routes.Calendar.searchIndex.url,Calendar,"History"),
+	
+	Project("#",null,"Project"),
+	DefineProjects(routes.Projects.defineProjects.url,Project,"Define Projects"),
+	ManageProject(routes.Projects.index.url,Project,"Manage Projects"),
 	
 	Timesheet("#",null,"Timesheet"),
 	CreateTimesheets(routes.Timesheet.timesheetCreate.url,Timesheet,"Create"),
@@ -59,7 +62,6 @@ public enum Permissions {
 	Mail(routes.Mail.index.url,Setting,"Mail Setting"),
 	Notification(routes.Notifications.index.url,Setting,"TimeSheet Notification"),
 	DefineRoles(routes.Roles.defineRoles.url,Setting,"Define Roles"),
-	DefineProjects(routes.Roles.defineProjects.url,Setting,"Define Projects"),
 	DefineDepartments(routes.Roles.defineDepartment.url,Setting,"Define Department"),
 	DefineLeaves(routes.Leaves.defineLeaves.url,Setting,"Define Leaves"),
 	DefineFlexiAttribute(routes.FlexiAttribute.defineFlexiAttribute.url,Setting,"Define Flexi Attribute"),

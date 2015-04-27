@@ -363,6 +363,10 @@ public interface Projects {
 	public interface create {
 		public static String url="/projectCreate";
 	}
+	
+	public interface defineProjects {
+		public static String url="/defineProjects";
+	}
 
 	public interface edit {
 		public static String url="/projectEdit";

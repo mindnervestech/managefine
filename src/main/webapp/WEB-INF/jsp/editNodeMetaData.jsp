@@ -4,7 +4,7 @@
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
  
- <link rel="stylesheet" media="screen" href='<c:url value="resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
+ <link rel="stylesheet" media="screen" href='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.css"/>'>
 
 <c:set var="projectName" value='${editNodeMetaData.projectTypes}'/>   
 
@@ -71,7 +71,6 @@
 							</div>
 						</div>
 						
-						${editNodeMetaData.startDateLimit}
 						<div class="form-group">
 							<div class="col-md-6" style="margin-top: 15px;">
 								<label class="col-md-12">Start Date</label>

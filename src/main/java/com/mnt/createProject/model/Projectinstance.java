@@ -260,6 +260,10 @@ public class Projectinstance extends Model{
 		return find.all();
 	}
 	
+	public static Projectinstance getProjectByName(String  projectName) {
+		return find.where().eq("projectName", projectName).findUnique();
+	}
+	
 	public static List<Projectinstance> getProjectTypeById(Long projectTypeId) {
 		return find.where().eq("projectid", projectTypeId).findList();
 	}
