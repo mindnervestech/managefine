@@ -1676,11 +1676,7 @@ public class Timesheets{
 			
 		}
 			if(timesheet.status.equals("Submitted")) {
-				MailSetting smtpSetting = new MailSetting();
-				smtpSetting.hostName = "smtp.gmail.com";
-				smtpSetting.portNumber = "587";
-				smtpSetting.userName = "";
-				smtpSetting.password = "";
+				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
 		    	String subject = "";
 		    	String body = "";
@@ -2086,11 +2082,7 @@ public class Timesheets{
 		}
 			if(timesheet.status.equals("Submitted")) {
 				//MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
-				MailSetting smtpSetting = new MailSetting();
-				smtpSetting.hostName = "smtp.gmail.com";
-				smtpSetting.portNumber = "587";
-				smtpSetting.userName = "";
-				smtpSetting.password = "";
+				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
 		    	String subject = "";
 		    	String body = "";
