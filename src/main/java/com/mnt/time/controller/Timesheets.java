@@ -2398,7 +2398,6 @@ public class Timesheets{
 		model.addAttribute("timesheetForm", timesheetForm);
 		
 		return "searchActualTimesheet";
-		//return ok(searchTimesheet.render(TimesheetSearchContext.getInstance().build(),MenuBarFixture.build(request().username()), user,timesheetForm));
 	}
 	
 	@RequestMapping(value = "/TimesheetSearch", method= RequestMethod.GET)
@@ -2408,7 +2407,7 @@ public class Timesheets{
 		return Json.toJson(TimesheetSearchContext.getInstance().build().doSearch(form)).toString();
     }
 	
-	@RequestMapping(value = "/TimesheetActualSearch", method= RequestMethod.GET)
+	@RequestMapping(value = "/timesheetActualSearch", method= RequestMethod.GET)
 	public @ResponseBody String TimesheetActualSearch(@CookieValue("username") String username,HttpServletRequest request) {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		form.data().put("email", username);

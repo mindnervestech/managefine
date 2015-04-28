@@ -39,7 +39,7 @@ public class TimesheetActualSearchContext extends ASearchContext<TimesheetActual
 	}
 	
 	public String entityName(){
-		return Timesheet.ENTITY;
+		return TimesheetActual.ENTITY;
 	}
 
 	public TimesheetActualSearchContext() {
@@ -90,7 +90,7 @@ public class TimesheetActualSearchContext extends ASearchContext<TimesheetActual
 
 	@Override
 	public String searchUrl() {
-		return routes.Timesheet.searchIndex.url;
+		return routes.Timesheet.search.url;
 	}
 
 	@Override
