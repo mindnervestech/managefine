@@ -70,7 +70,6 @@
 								</div>
 							</div>
 						</div>
-						
 						<div class="form-group">
 							<div class="col-md-6" style="margin-top: 15px;">
 								<label class="col-md-12">Start Date</label>
@@ -86,7 +85,7 @@
 									  </a>
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}')">
 									    <datetimepicker data-ng-model="data.startDate" 
-									    data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day',minDate:'31-01-2015',maxDate:'01-05-2015' }"/>
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }"/>  
 									  </ul>
 								   </div>
 									<%-- <input type="date" name="startDate" style="width: 100%;"
@@ -109,7 +108,7 @@
 									  </a>
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" >
 									    <datetimepicker data-ng-model="data.endDate" 
-									    data-datetimepicker-config="{ dropdownSelector: '#dropdownendDate',minView: 'day' }"/>
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdownendDate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }"/>
 									  </ul>
 								   </div>
 									<%-- <input type="date" name="endDate" style="width: 100%;"

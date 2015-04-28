@@ -51,7 +51,6 @@ public class Projectinstance extends Model{
 	
 	
 	@SearchColumnOnUI(rank=2,colName="Description",width=40)
-	@SearchFilterOnUI(label="Description")
 	@Column(length=255)
 	public String projectDescription;
 	
@@ -67,8 +66,9 @@ public class Projectinstance extends Model{
 	@SearchFilterOnUI(label="End Date")
 	public String endDate;
 	
-	@SearchColumnOnUI(rank=6,colName="Status")
+	@SearchColumnOnUI(rank=6,colName="Status",width=20)
 	@WizardCardUI(name="Basic Info",step=1)
+	@SearchFilterOnUI(label="Status")
 	@UIFields(order=6,label="Due Date")
 	public String status;
 	
