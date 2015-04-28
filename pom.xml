@@ -295,7 +295,7 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<compilerArgument>-Xlint:all</compilerArgument>
-					<showWarnings>true</showWarnings>
+					<showWarnings>false</showWarnings>
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
@@ -306,6 +306,14 @@
 				<configuration>
 					<mainClass>org.test.int1.Main</mainClass>
 				</configuration>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.tomcat.maven</groupId>
+			  <artifactId>tomcat7-maven-plugin</artifactId>
+			  <version>2.1</version>
+			  <configuration>
+			    <path>/time</path>
+			  </configuration>
 			</plugin>
 		</plugins>
 	</build>
