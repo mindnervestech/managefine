@@ -40,7 +40,7 @@ public enum Permissions {
 	TodayAll(routes.Schedule.todayAll.url,Schedule,"Today All"),
 	WeekReport(routes.Schedule.weekReport.url,Schedule,"Week Report"),
 	
-	Delegate(routes.Delegate.index.url,null,"Delegates"),
+	//Delegate(routes.Delegate.index.url,null,"Delegates"),
 	
 	/*Feedback("#",null,"Feedback"),
 	FeedBackCreate(routes.Feedbacks.customIndex.url,Feedback,"Create"),
@@ -57,9 +57,9 @@ public enum Permissions {
 	CalendarBucket(routes.CalendarBuckets.index.url,ActionBox,"Calendar Requests"),
 	LeaveBucket(routes.Leaves.bucketIndex.url,ActionBox,"Leaves Requests"),
 	
-	Report("#",null,"Report"),
+	/*Report("#",null,"Report"),
 	TeamRate(routes.Reports.teamRateIndex.url,Report,"Team Rate"),
-	ProjectReport(routes.ProjectReports.projectReportIndex.url,Report,"ProjectReport"),
+	ProjectReport(routes.ProjectReports.projectReportIndex.url,Report,"ProjectReport"),*/
 
 	Setting("#",null,"Settings"),
 	//Mail(routes.Mail.index.url,Setting,"Mail Setting"),

@@ -6,6 +6,18 @@
 	font-size: 10px;
 }
 
+.ui-jqgrid tr.ui-row-ltr td {
+	text-align:center;
+}	
+
+.ui-state-default ui-th-column ui-th-ltr{
+	width: 158px;
+}
+
+.ui-state-default ui-th-column ui-th-ltr{
+	width: 699px;
+}
+
 .heading {
 	margin-left: 25px;
 }

@@ -196,7 +196,7 @@
 <c:when test='${fieldType.ctype().name() == "FLEXI"}'>
 	
 	<fieldset>
-    <legend>Flexi Attributes</legend>
+    <!-- <legend>Flexi Attributes</legend> -->
     <c:forEach var="flexiType" items="${fieldType.value().getO()}" varStatus="index">
     	<c:if test="${index.index %2 != 1}">
 				<div class="control-group"
