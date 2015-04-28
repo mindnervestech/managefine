@@ -221,7 +221,9 @@ public class Timesheets{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
 		return Json.toJson(timesheetService.getWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
 		
 	}
@@ -238,7 +240,9 @@ public class Timesheets{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		} 
 		return Json.toJson(timesheetService.getTodayAllTimesheet(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
 		
 	}
@@ -290,7 +294,9 @@ public class Timesheets{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
 		model.addAttribute("userJson",timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime()));
 		
 		return "schedularToday";
@@ -314,7 +320,9 @@ public class Timesheets{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
 		model.addAttribute("userJson",timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime()));
 		
 		return "schedularToday";
@@ -486,7 +494,9 @@ public class Timesheets{
 			e.printStackTrace();
 		}
 		
-		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
 		return timesheetService.getScheduleByDate(Long.parseLong(userId), cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), cal.getTime());
 	}
 	
@@ -677,11 +687,7 @@ public class Timesheets{
 			cal.setTime(dt);
 			if(cal.get(Calendar.DAY_OF_WEEK)==1) {
 				cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
-				//cal.add(Calendar.DATE, 7);
-				//cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
-			} /*else {
-				cal.add(Calendar.DATE, -(cal.get(Calendar.DAY_OF_WEEK)-2));
-			}*/
+			} 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

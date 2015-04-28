@@ -46,14 +46,14 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	@Override
 	public JsonNode getScheduleByDate(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
 		Boolean flag = false;
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
 		UserLeave leave = UserLeave.getLeave(user, date);
 		if(leave != null) {
 			flag = true;
 		} else {
 			flag = false;
-			if(userLeaveList != null) {
+			if(userLeaveList.size() != 0) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(date);
 				for(UserLeave userLeave: userLeaveList) {
@@ -64,6 +64,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			}	
 		}
 		Map map = new HashMap<>();
+		Boolean isHoliday = false;
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
 		List<SchedularTodayVM> emptyList = new ArrayList<>();
 		if(timesheet != null) {
@@ -77,10 +78,34 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 					if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
 						SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 						schedularTodayVM.id = timesheetDay.getId();
-						schedularTodayVM.startTime = timesheetDay.getTimeFrom();
-						schedularTodayVM.endTime = timesheetDay.getTimeTo();
 						schedularTodayVM.notes = timesheet.getStatus().getName();
-						schedularTodayVM.type = "A";
+						
+						if(leave != null) {
+							isHoliday = true;
+							schedularTodayVM.startTime = "00:00";
+							schedularTodayVM.endTime = "24:00";
+							schedularTodayVM.type = "L";
+							schedularTodayVM.color = "#d3d3d3";
+							schedularTodayVM.visitType = "Staff Leave!";
+							
+						} else {
+							isHoliday = false;
+							if(userLeaveList.size() != 0) {
+								Calendar cal = Calendar.getInstance();
+								cal.setTime(date);
+								for(UserLeave userLeave: userLeaveList) {
+									if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+										isHoliday = true;
+										schedularTodayVM.startTime = "00:00";
+										schedularTodayVM.endTime = "24:00";
+										schedularTodayVM.type = "L";
+										schedularTodayVM.color = "#d3d3d3";
+										schedularTodayVM.visitType = "Weekly Leave!";
+									} 
+								}
+							}	
+						}
+						
 						
 						/*if(userLeaveList != null && schedularTodayVM.isHoliday == false) {
 							String day = "";
@@ -109,27 +134,123 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							}
 						}*/
 						Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
-						if(task.getProjectColor() != null) {
-							schedularTodayVM.color = task.getProjectColor();
-						} else {
-							schedularTodayVM.color = "#FF7519";
+						
+						if(isHoliday == false) {
+							schedularTodayVM.startTime = timesheetDay.getTimeFrom();
+							schedularTodayVM.endTime = timesheetDay.getTimeTo();
+							schedularTodayVM.type = "A";
+							schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+							if(task.getProjectColor() != null) {
+								schedularTodayVM.color = task.getProjectColor();
+							} else {
+								schedularTodayVM.color = "#FF7519";
+							}
+							Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+							schedularTodayVM.status = instance.getStatus();
+							schedularTodayVM.taskCode = task.getProjectTypes();
+							schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
+							schedularTodayVM.taskId = task.getId();
 						}
-						Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
-						schedularTodayVM.status = instance.getStatus();
-						schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
-						schedularTodayVM.taskCode = task.getProjectTypes();
-						schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
-						schedularTodayVM.taskId = task.getId();
+						
 						vmList.add(schedularTodayVM);
+					} else {
+						SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+						schedularTodayVM.id = timesheetDay.getId();
+						schedularTodayVM.notes = timesheet.getStatus().getName();
+						
+						if(leave != null) {
+							if(vmList.size() == 0) {
+								schedularTodayVM.startTime = "00:00";
+								schedularTodayVM.endTime = "24:00";
+								schedularTodayVM.type = "L";
+								schedularTodayVM.color = "#d3d3d3";
+								schedularTodayVM.visitType = "Staff Leave!";
+								vmList.add(schedularTodayVM);
+							}
+							
+						} else {
+							if(userLeaveList.size() != 0) {
+								Calendar cal = Calendar.getInstance();
+								cal.setTime(date);
+								if(vmList.size() == 0) {
+									for(UserLeave userLeave: userLeaveList) {
+										if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+											schedularTodayVM.startTime = "00:00";
+											schedularTodayVM.endTime = "24:00";
+											schedularTodayVM.type = "L";
+											schedularTodayVM.color = "#d3d3d3";
+											schedularTodayVM.visitType = "Weekly Leave!";
+											vmList.add(schedularTodayVM);
+										} 
+									}
+								}
+							}	
+						}
+						
 					}
 				}
 			}
 		}
+		
+
+		SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+		
+		if(leave != null) {
+			schedularTodayVM.startTime = "00:00";
+			schedularTodayVM.endTime = "24:00";
+			schedularTodayVM.type = "L";
+			schedularTodayVM.color = "#d3d3d3";
+			schedularTodayVM.visitType = "Staff Leave!";
+			vmList.add(schedularTodayVM);
+		} else {
+			if(userLeaveList.size() != 0) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				for(UserLeave userLeave: userLeaveList) {
+					if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+						schedularTodayVM.startTime = "00:00";
+						schedularTodayVM.endTime = "24:00";
+						schedularTodayVM.type = "L";
+						schedularTodayVM.color = "#d3d3d3";
+						schedularTodayVM.visitType = "Weekly Leave!";
+						vmList.add(schedularTodayVM);
+					} 
+				}
+			}	
+		}
+		
 			map.put("isHoliday", flag);
 			map.put("todayData", vmList);
 			return Json.toJson(map);
 	
 		} else {
+			
+			SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+			
+			if(leave != null) {
+				schedularTodayVM.startTime = "00:00";
+				schedularTodayVM.endTime = "24:00";
+				schedularTodayVM.type = "L";
+				schedularTodayVM.color = "#d3d3d3";
+				schedularTodayVM.visitType = "Staff Leave!";
+				emptyList.add(schedularTodayVM);
+			} else {
+				if(userLeaveList.size() != 0) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					for(UserLeave userLeave: userLeaveList) {
+						if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+							schedularTodayVM.startTime = "00:00";
+							schedularTodayVM.endTime = "24:00";
+							schedularTodayVM.type = "L";
+							schedularTodayVM.color = "#d3d3d3";
+							schedularTodayVM.visitType = "Weekly Leave!";
+							emptyList.add(schedularTodayVM);
+						} 
+					}
+				}	
+			}
+			
 			map.put("isHoliday", flag);
 			map.put("todayData", emptyList);
 			return Json.toJson(map);
@@ -141,6 +262,9 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	@Override
 	public Map getScheduleByWeek(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
+		Boolean isHoliday = false;
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
 		Calendar cal = Calendar.getInstance();
 		Date dt = new Date();
@@ -181,28 +305,101 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				for(TimesheetRow row : timesheetRows) {
 					
 					TimesheetDays timesheetDayObj = TimesheetDays.findByDayAndTimesheet(day, row);
+					UserLeave leave = UserLeave.getLeave(user, timesheetDayObj.getTimesheetDate());
 							if(timesheetDayObj.getTimeFrom() != null && timesheetDayObj.getTimeTo() != null) {
 								SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 								dt = timesheetDayObj.getTimesheetDate();
 								schedularTodayVM.id = timesheetDayObj.getId();
-								schedularTodayVM.startTime = timesheetDayObj.getTimeFrom();
-								schedularTodayVM.endTime = timesheetDayObj.getTimeTo();
 								schedularTodayVM.notes = timesheet.getStatus().getName();
-								schedularTodayVM.type = "A";
+								
+								if(leave != null) {
+									isHoliday = true;
+									if(vmList.size() == 0) {
+										schedularTodayVM.startTime = "00:00";
+										schedularTodayVM.endTime = "24:00";
+										schedularTodayVM.type = "L";
+										schedularTodayVM.color = "#d3d3d3";
+										schedularTodayVM.visitType = "Staff Leave!";
+										vmList.add(schedularTodayVM);
+									}
+								} else {
+									isHoliday = false;
+									if(userLeaveList.size() != 0) {
+										Calendar cal2 = Calendar.getInstance();
+										cal2.setTime(timesheetDayObj.getTimesheetDate());
+										for(UserLeave userLeave: userLeaveList) {
+											if(userLeave.getLeaveType() == cal2.get(Calendar.DAY_OF_WEEK)-1) {
+												isHoliday = true;
+												if(vmList.size() == 0) {
+													schedularTodayVM.startTime = "00:00";
+													schedularTodayVM.endTime = "24:00";
+													schedularTodayVM.type = "L";
+													schedularTodayVM.color = "#d3d3d3";
+													schedularTodayVM.visitType = "Weekly Leave!";
+													vmList.add(schedularTodayVM);
+												}
+											} 
+										}
+									}	
+								}
 								
 								Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
-								if(task.getProjectColor() != null) {
-									schedularTodayVM.color = task.getProjectColor();
-								} else {
-									schedularTodayVM.color = "#FF7519";
+								
+								if(isHoliday == false) {
+									schedularTodayVM.startTime = timesheetDayObj.getTimeFrom();
+									schedularTodayVM.endTime = timesheetDayObj.getTimeTo();
+									schedularTodayVM.type = "A";
+									schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+									if(task.getProjectColor() != null) {
+										schedularTodayVM.color = task.getProjectColor();
+									} else {
+										schedularTodayVM.color = "#FF7519";
+									}
+									Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+									schedularTodayVM.status = instance.getStatus();
+									schedularTodayVM.taskCode = task.getProjectTypes();
+									schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
+									schedularTodayVM.taskId = task.getId();
+									vmList.add(schedularTodayVM);
 								}
-								Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
-								schedularTodayVM.status = instance.getStatus();
-								schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
-								schedularTodayVM.taskCode = task.getProjectTypes();
-								schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
-								schedularTodayVM.taskId = task.getId();
-								vmList.add(schedularTodayVM);
+								
+								
+							} else {
+
+								SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+								schedularTodayVM.id = timesheetDayObj.getId();
+								schedularTodayVM.notes = timesheet.getStatus().getName();
+								dt = timesheetDayObj.getTimesheetDate();
+								
+								if(leave != null) {
+									if(vmList.size() == 0) {
+										schedularTodayVM.startTime = "00:00";
+										schedularTodayVM.endTime = "24:00";
+										schedularTodayVM.type = "L";
+										schedularTodayVM.color = "#d3d3d3";
+										schedularTodayVM.visitType = "Staff Leave!";
+										vmList.add(schedularTodayVM);
+									}
+									
+								} else {
+									if(userLeaveList.size() != 0) {
+										Calendar cal3 = Calendar.getInstance();
+										cal3.setTime(timesheetDayObj.getTimesheetDate());
+										if(vmList.size() == 0) {
+											for(UserLeave userLeave: userLeaveList) {
+												if(userLeave.getLeaveType() == cal3.get(Calendar.DAY_OF_WEEK)-1) {
+													schedularTodayVM.startTime = "00:00";
+													schedularTodayVM.endTime = "24:00";
+													schedularTodayVM.type = "L";
+													schedularTodayVM.color = "#d3d3d3";
+													schedularTodayVM.visitType = "Weekly Leave!";
+													vmList.add(schedularTodayVM);
+												} 
+											}
+										}
+									}	
+								}
+							
 							}
 							
 						}
@@ -221,6 +418,77 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			map.put("0", new ArrayList());
 			
 	
+		} else {
+			cal.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+			cal.set(Calendar.YEAR, year);
+			for(int i = 0;i<= 6; i++) {
+				List<SchedularTodayVM> vmList = new ArrayList<>();
+				if(i == 0) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				}
+				if(i == 1) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+				}
+				if(i == 2) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+				}
+				if(i == 3) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+				}
+				if(i == 4) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+				}
+				if(i == 5) {
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+				}
+				if(i == 6) {
+					cal.set(Calendar.WEEK_OF_YEAR, weekOfYear+1);
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				}
+				
+				UserLeave leave = UserLeave.getLeave(user, cal.getTime());
+				SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+				
+				if(leave != null) {
+					if(vmList.size() == 0) {
+						schedularTodayVM.startTime = "00:00";
+						schedularTodayVM.endTime = "24:00";
+						schedularTodayVM.type = "L";
+						schedularTodayVM.color = "#d3d3d3";
+						schedularTodayVM.visitType = "Staff Leave!";
+						vmList.add(schedularTodayVM);
+					}
+				} else {
+					if(userLeaveList.size() != 0) {
+						
+						for(UserLeave userLeave: userLeaveList) {
+							if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+								isHoliday = true;
+								if(vmList.size() == 0) {
+									schedularTodayVM.startTime = "00:00";
+									schedularTodayVM.endTime = "24:00";
+									schedularTodayVM.type = "L";
+									schedularTodayVM.color = "#d3d3d3";
+									schedularTodayVM.visitType = "Weekly Leave!";
+									vmList.add(schedularTodayVM);
+								}
+							} 
+						}
+					}	
+				}
+				
+				int dateInt = cal.get(Calendar.DATE);
+				int month = cal.get(Calendar.MONTH)+1;
+				String d = dateInt<10?"0"+dateInt:dateInt+"";
+				String m = month<10?"0"+month:month+"";
+				if(vmList.size()>0) {
+					map.put(d+"/"+m+"/"+cal.get(Calendar.YEAR),vmList);
+				}
+				
+				
+			}
+			
+			map.put("0", new ArrayList());
 		}
 		
 		return map;
@@ -610,17 +878,23 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	}
 	
 	@Override
-	public List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
+	public Map getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
 		List<User> users = User.findByManager(user);
+		
+		Boolean flag = false;
+		
+		Map map = new HashMap<>();
+		
 		List<TodayAllVM> todayAllVMList = new ArrayList<>();
 		for(User userObj: users) {
 			TodayAllVM todayAllVM = new TodayAllVM();
 			todayAllVM.id = userObj.getId();
 			todayAllVM.name = userObj.getFirstName()+" "+userObj.getLastName();
 			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
-			
+			Boolean isHoliday = false;
 			List<SchedularTodayVM> vmList = new ArrayList<>();
-			
+			UserLeave leave = UserLeave.getLeave(userObj, date);
+			List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(userObj);
 			if(timesheet != null) {
 			
 			List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
@@ -628,29 +902,95 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			if(timesheetRows != null) {
 				for(TimesheetRow row : timesheetRows) {
 					TimesheetDays timesheetDay = TimesheetDays.findByDateAndTimesheet(date, row);
+					
 					if(timesheetDay != null) {
 						if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
 							SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 							schedularTodayVM.id = timesheetDay.getId();
-							schedularTodayVM.startTime = timesheetDay.getTimeFrom();
-							schedularTodayVM.endTime = timesheetDay.getTimeTo();
 							schedularTodayVM.notes = timesheet.getStatus().getName();
-							schedularTodayVM.type = "A";
 							schedularTodayVM.staffId = userObj.getId().toString();
 							
-							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
-							if(task.getProjectColor() != null) {
-								schedularTodayVM.color = task.getProjectColor();
+							if(leave != null) {
+								isHoliday = true;
+								schedularTodayVM.startTime = "00:00";
+								schedularTodayVM.endTime = "24:00";
+								schedularTodayVM.type = "L";
+								schedularTodayVM.color = "#d3d3d3";
+								schedularTodayVM.visitType = "Staff Leave!";
+								
 							} else {
-								schedularTodayVM.color = "#FF7519";
+								isHoliday = false;
+								if(userLeaveList.size() != 0) {
+									Calendar cal = Calendar.getInstance();
+									cal.setTime(date);
+									for(UserLeave userLeave: userLeaveList) {
+										if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+											isHoliday = true;
+											schedularTodayVM.startTime = "00:00";
+											schedularTodayVM.endTime = "24:00";
+											schedularTodayVM.type = "L";
+											schedularTodayVM.color = "#d3d3d3";
+											schedularTodayVM.visitType = "Weekly Leave!";
+										} 
+									}
+								}	
 							}
-							Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
-							schedularTodayVM.status = instance.getStatus();
-							schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
-							schedularTodayVM.taskCode = task.getProjectTypes();
-							schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
-							schedularTodayVM.taskId = task.getId();
+							
+							Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
+							
+							if(isHoliday == false) {
+								schedularTodayVM.startTime = timesheetDay.getTimeFrom();
+								schedularTodayVM.endTime = timesheetDay.getTimeTo();
+								schedularTodayVM.type = "A";
+								schedularTodayVM.visitType = Projectinstance.getById(Long.parseLong(row.getProjectCode())).getProjectName();
+								if(task.getProjectColor() != null) {
+									schedularTodayVM.color = task.getProjectColor();
+								} else {
+									schedularTodayVM.color = "#FF7519";
+								}
+								Projectinstancenode instance = Projectinstancenode.getByClassNodeAndInstance(task, Long.parseLong(row.getProjectCode()));
+								schedularTodayVM.status = instance.getStatus();
+								schedularTodayVM.taskCode = task.getProjectTypes();
+								schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
+								schedularTodayVM.taskId = task.getId();
+							}
+							
 							vmList.add(schedularTodayVM);
+					
+						} else {
+							SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+							schedularTodayVM.id = timesheetDay.getId();
+							schedularTodayVM.notes = timesheet.getStatus().getName();
+							schedularTodayVM.staffId = userObj.getId().toString();
+							
+							if(leave != null) {
+								if(vmList.size() == 0) {
+									schedularTodayVM.startTime = "00:00";
+									schedularTodayVM.endTime = "24:00";
+									schedularTodayVM.type = "L";
+									schedularTodayVM.color = "#d3d3d3";
+									schedularTodayVM.visitType = "Staff Leave!";
+									vmList.add(schedularTodayVM);
+								}
+							} else {
+								if(userLeaveList.size() != 0) {
+									Calendar cal = Calendar.getInstance();
+									cal.setTime(date);
+									if(vmList.size() == 0) {
+										for(UserLeave userLeave: userLeaveList) {
+											if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+												schedularTodayVM.startTime = "00:00";
+												schedularTodayVM.endTime = "24:00";
+												schedularTodayVM.type = "L";
+												schedularTodayVM.color = "#d3d3d3";
+												schedularTodayVM.visitType = "Weekly Leave!";
+												vmList.add(schedularTodayVM);
+											} 
+										}
+									}
+								}	
+							}
+							
 						}
 					}
 				}
@@ -659,12 +999,39 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			todayAllVM.data = vmList;
 		  } else {
 			  SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
+			  schedularTodayVM.staffId = userObj.getId().toString();
+				
+				if(leave != null) {
+					schedularTodayVM.startTime = "00:00";
+					schedularTodayVM.endTime = "24:00";
+					schedularTodayVM.type = "L";
+					schedularTodayVM.color = "#d3d3d3";
+					schedularTodayVM.visitType = "Staff Leave!";
+					
+				} else {
+					if(userLeaveList.size() != 0) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(date);
+						for(UserLeave userLeave: userLeaveList) {
+							if(userLeave.getLeaveType() == cal.get(Calendar.DAY_OF_WEEK)-1) {
+								schedularTodayVM.startTime = "00:00";
+								schedularTodayVM.endTime = "24:00";
+								schedularTodayVM.type = "L";
+								schedularTodayVM.color = "#d3d3d3";
+								schedularTodayVM.visitType = "Weekly Leave!";
+							} 
+						}
+					}	
+				}
 			  vmList.add(schedularTodayVM);
 			  todayAllVM.data = vmList;
 		  }
 			todayAllVMList.add(todayAllVM);
 	   }		
-		return todayAllVMList;
+		
+		map.put("isHoliday", flag);
+		map.put("todayAllData", todayAllVMList);
+		return map;
 	}
 	
 	@Override

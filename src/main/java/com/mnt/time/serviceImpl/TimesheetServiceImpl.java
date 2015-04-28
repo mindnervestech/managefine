@@ -51,7 +51,7 @@ public class TimesheetServiceImpl implements TimesheetService{
 		 timesheetDAO.markLeave(leaveVM, user);
 	}
 	
-	public List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
+	public Map getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date) {
 		return timesheetDAO.getTodayAllTimesheet(weekOfYear, year, user, date);
 	}
 	
