@@ -19,12 +19,14 @@ angular.module('ui.bootstrap.datetimepicker', [])
     minuteStep: 5,
     minView: 'minute',
     startView: 'day',
-    weekStart: 0
+    weekStart: 0,
+    minDate : undefined,
+    maxDate : undefined
   })
   .constant('dateTimePickerConfigValidation', function (configuration) {
     "use strict";
 
-    var validOptions = ['startView', 'minView', 'minuteStep', 'dropdownSelector', 'weekStart'];
+    var validOptions = ['startView', 'minView', 'minuteStep', 'dropdownSelector', 'weekStart','minDate','maxDate'];
 
     for (var prop in configuration) {
       if (configuration.hasOwnProperty(prop)) {
@@ -101,10 +103,17 @@ angular.module('ui.bootstrap.datetimepicker', [])
         "           </td>" +
         "       </tr>" +
         '       <tr data-ng-show=\'data.currentView == "day"\' data-ng-repeat=\'week in data.weeks\'>' +
-        "           <td data-ng-repeat='dateValue in week.dates' " +
+        "           <td ng-show='dateValue.isEdit' data-ng-repeat='dateValue in week.dates' " +
         "               data-ng-click=\"changeView(data.nextView, dateValue.date, $event)\"" +
         "               class='day' " +
-        "               data-ng-class='{active: dateValue.active, past: dateValue.past, future: dateValue.future}' >{{ dateValue.display }}</td>" +
+        "               data-ng-class='{active: dateValue.active, past: dateValue.past, future: dateValue.future}' >" +
+        "               {{ dateValue.display }}" +
+        "           </td>" +
+        "           <td ng-show='!dateValue.isEdit' data-ng-repeat='dateValue in week.dates' " +
+        "               style='color:rgb(187, 181, 104)' " +
+        "               data-ng-class='{active: dateValue.active, past: dateValue.past, future: dateValue.future}' >" +
+        "               {{ dateValue.display }}" +
+        "           </td>" +
         "       </tr>" +
         "   </tbody>" +
         "</table></div>",
@@ -126,7 +135,13 @@ angular.module('ui.bootstrap.datetimepicker', [])
         angular.extend(configuration, defaultConfig, directiveConfig);
 
         validateConfigurationFunction(configuration);
-
+        
+        var minDateMoment = configuration.minDate === undefined ? moment("01-01-2000","DD-MM-YYYY") : 
+        	moment(configuration.minDate,"DD-MM-YYYY");
+        console.log(minDateMoment); 
+        var maxDateMoment = configuration.maxDate === undefined ? moment("01-01-2100","DD-MM-YYYY") : 
+        	moment(configuration.maxDate,"DD-MM-YYYY");
+        
         var dataFactory = {
           year: function (unixDate) {
             var selectedDate = moment.utc(unixDate).startOf('year');
@@ -229,7 +244,8 @@ angular.module('ui.bootstrap.datetimepicker', [])
                   'display': monthMoment.format('D'),
                   'active': monthMoment.format('YYYY-MMM-DD') === activeDate,
                   'past': monthMoment.isBefore(startOfMonth),
-                  'future': monthMoment.isAfter(endOfMonth)
+                  'future': monthMoment.isAfter(endOfMonth),
+                  'isEdit': monthMoment.isAfter(minDateMoment) && monthMoment.isBefore(maxDateMoment)
                 };
                 week.dates.push(dateValue);
               }
