@@ -86,7 +86,7 @@
 									  </a>
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}')">
 									    <datetimepicker data-ng-model="data.startDate" 
-									    data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day' }"/>
+									    data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day',minDate:'31-01-2015',maxDate:'01-05-2015' }"/>
 									  </ul>
 								   </div>
 									<%-- <input type="date" name="startDate" style="width: 100%;"
