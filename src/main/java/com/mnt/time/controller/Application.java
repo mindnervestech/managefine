@@ -118,7 +118,7 @@ public class Application  {
 				body = "Company "+company.companyName + " is Registered Successfully. \nPlease Be Patient while SUPER ADMIN Approves It!";
 				
 				User superAdmin = User.find.where().eq("designation", "SuperAdmin").findUnique();
-				MailSetting smtpSetting = MailSetting.find.where().eq("companyObject",superAdmin.companyobject).findUnique();
+				MailSetting smtpSetting = MailSetting.find();
 				Email.sendOnlyMail(smtpSetting,recipients, subject, body);
 				//Send Email to super Admin
 				
@@ -293,7 +293,7 @@ public class Application  {
 		    	String body = "";
 		    	
 		    	//send email to user
-		    	MailSetting smtpSettings = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
+		    	MailSetting smtpSettings = MailSetting.find();
 		    	recipients = user.email;
 		    	subject = "Account Created Successfully.";
 		    	body = "Your Account is created Successfully.";
@@ -314,7 +314,7 @@ public class Application  {
 		    	body +="\nPlease take Necessary Action regarding Approval/Disapproval of User...";
 		    	
 		    	User superAdmin = User.find.where().eq("designation", "SuperAdmin").findUnique();
-				MailSetting smtpSetting = MailSetting.find.where().eq("companyObject",superAdmin.getCompanyobject()).findUnique();
+				MailSetting smtpSetting = MailSetting.find();
 				Email.sendOnlyMail(smtpSetting,recipients, subject, body);
     		}
     		catch (Exception e) {
@@ -396,7 +396,7 @@ public class Application  {
 			}
 			else
 			{		
-					MailSetting smtpSettings = MailSetting.find.where().eq("companyObject", userobject.getCompanyobject()).findUnique();
+					MailSetting smtpSettings = MailSetting.find();
 					String recipients = "";
 			    	String subject = "";
 			    	String body = "";

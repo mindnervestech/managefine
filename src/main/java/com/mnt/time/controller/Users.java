@@ -163,7 +163,7 @@ public class Users {
 				user.update();
 				updateLeaveBalance(user);
 				try{
-				MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
+				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
 				String subject = "";
 				String body = "";
@@ -525,7 +525,7 @@ public class Users {
 			}
 			
 			try {
-				MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
+				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
 		    	String subject = "";
 		    	String body = "";

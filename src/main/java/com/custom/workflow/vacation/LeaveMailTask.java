@@ -23,7 +23,7 @@ public class LeaveMailTask implements JavaDelegate {
 		User user = leave.getPendingWith();
 		Company company = user.getCompanyobject();
 		
-		MailSetting mailSetting = MailSetting.find.where().eq("companyObject", company).findUnique();
+		MailSetting mailSetting = MailSetting.find();
 	//	System.out.println(mailSetting.hostName);
 	//	System.out.println(mailWfObject.to);
 	//	System.out.println(mailWfObject.body);

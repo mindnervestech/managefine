@@ -77,7 +77,7 @@ public class Status {
 			user.update();
 			
 			//Send Email to User After Approval
-			MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
+			MailSetting smtpSetting = MailSetting.find();
 			String recipients = "";
 			String subject = "";
 			String body = "";
@@ -122,7 +122,7 @@ public class Status {
 			user.update();
 			
 			//Send Email to User After Approval
-			MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
+			MailSetting smtpSetting = MailSetting.find();
 			String recipients = "";
 			String subject = "";
 			String body = "";
@@ -165,7 +165,6 @@ public class Status {
 			company.update();
 			
 			User companyAdmin = new User();
-			MailSetting mailNew = new MailSetting();
 			Notification notification = new Notification();
 			String password = Application.generatePassword();
 			companyAdmin.firstName = company.getCompanyCode()+" Admin";
@@ -175,11 +174,8 @@ public class Status {
 			companyAdmin.userStatus = com.custom.domain.Status.Approved;
 			companyAdmin.password = password;
 			companyAdmin.tempPassword = 1;
-			mailNew.companyObject = company;
-			mailNew.userName = company.companyEmail;
 			notification.company = company;
 			notification.save();
-			mailNew.save();
 			companyAdmin.setPermissions(BlackListedPermissions.BLACKLISTED_PERMISSIONS_FOR_ADMIN);
 			companyAdmin.save();
 			
@@ -196,8 +192,7 @@ public class Status {
 					"\nPassword :"+ companyAdmin.password+
 					"\n\nNow You Can Login Timesheet Trotter!";
 			
-			User superAdmin = User.find.where().eq("designation", "SuperAdmin").findUnique();
-			MailSetting smtpSetting = MailSetting.find.where().eq("companyObject",superAdmin.companyobject).findUnique();
+			MailSetting smtpSetting = MailSetting.find();
 			try {
 			Email.sendOnlyMail(smtpSetting,recipients, subject, body);
 			} catch(Exception e) {
@@ -234,10 +229,7 @@ public class Status {
 			
 			User companyAdmin = User.find.where().and(Expr.eq("companyobject.companyCode",company.getCompanyCode()), Expr.eq("designation", "Admin")).findUnique();
 			if (companyAdmin != null) {
-				MailSetting mailDel = MailSetting.find.where().eq("companyObject", companyAdmin.companyobject).findUnique();
-				if(mailDel != null){
-					MailSetting.find.ref(mailDel.id).delete();
-				}
+				MailSetting mailDel = MailSetting.find();
 				Notification notify = Notification.find.where().eq("company", companyAdmin.companyobject).findUnique();
 				if(notify != null){
 					Notification.find.ref(notify.id).delete();
@@ -259,7 +251,7 @@ public class Status {
 			body = "Company "+company.companyName + " is Disapproved by Super Admin. \nPlease Contact Super Admin Regarding This!";
 			
 			User superAdmin = User.find.where().eq("designation", "SuperAdmin").findUnique();
-			MailSetting smtpSetting = MailSetting.find.where().eq("companyObject",superAdmin.companyobject).findUnique();
+			MailSetting smtpSetting = MailSetting.find();
 			Email.sendOnlyMail(smtpSetting,recipients, subject, body);
 		}
 		Integer count = Application.count(username);

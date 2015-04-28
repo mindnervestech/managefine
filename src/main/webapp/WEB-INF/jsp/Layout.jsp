@@ -56,7 +56,7 @@
 		 
 		 
     </head>
-    <body  style="background-color: rgba(245, 245, 245, 0.71);">
+    <body  style="  margin-top: -60px;background-color: rgba(245, 245, 245, 0.71);">
     	<div id="loading" style='position:fixed;
     							top:50%;
     							left:50%;

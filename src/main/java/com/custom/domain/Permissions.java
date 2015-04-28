@@ -62,7 +62,7 @@ public enum Permissions {
 	ProjectReport(routes.ProjectReports.projectReportIndex.url,Report,"ProjectReport"),
 
 	Setting("#",null,"Settings"),
-	Mail(routes.Mail.index.url,Setting,"Mail Setting"),
+	//Mail(routes.Mail.index.url,Setting,"Mail Setting"),
 	/*Notification(routes.Notifications.index.url,Setting,"TimeSheet Notification"),*/
 	DefineRoles(routes.Roles.defineRoles.url,Setting,"Define Roles"),
 	DefineDepartments(routes.Roles.defineDepartment.url,Setting,"Define Department"),

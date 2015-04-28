@@ -23,10 +23,7 @@ public class MailTask  implements JavaDelegate {
 		User user = ts.getTimesheetWith();
 		Company company = user.getCompanyobject();
 		
-		MailSetting mailSetting = MailSetting.find.where().eq("companyObject", company).findUnique();
-	//	System.out.println(mailSetting.getHostName());
-//		System.out.println(mailWfObject.to);
-//		System.out.println(mailWfObject.body);
+		MailSetting mailSetting = MailSetting.find();
 		
 		Email.sendOnlyMail(mailSetting, mailWfObject.getTo(), mailWfObject.getSubject(), mailWfObject.getBody());
 	}
