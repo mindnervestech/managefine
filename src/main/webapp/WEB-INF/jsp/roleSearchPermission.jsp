@@ -10,14 +10,6 @@
 	text-align:center;
 }	
 
-.ui-state-default ui-th-column ui-th-ltr{
-	width: 158px;
-}
-
-.ui-state-default ui-th-column ui-th-ltr{
-	width: 699px;
-}
-
 .heading {
 	margin-left: 25px;
 }
@@ -138,17 +130,17 @@
 						colModel : [ {
 							name : 'role_name',
 							index : 'role_name',
-							width : 30,
+							width : 35,
 							searchoptions : {
 								sopt : [ 'eq' ]
 							}
 						}, {
 							name : 'permissions',
 							index : 'permissions',
-							width : 150,
+							width : 145,
 							searchoptions : {
 								sopt : [ 'eq' ]
-							}
+							}.css("color","red")
 						}, {
 							name : 'action',
 							index : 'action',

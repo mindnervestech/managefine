@@ -78,6 +78,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
+		}else{
+			pVm.setStartDateLimit("01-01-2005");
+			pVm.setEndDateLimit("01-01-2035");
 		}
 
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);

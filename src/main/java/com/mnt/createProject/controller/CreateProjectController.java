@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.google.common.collect.Sets;
 import com.mnt.createProject.model.ProjectAttachment;
+import com.mnt.createProject.model.ProjectDateUserLogs;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
@@ -175,7 +177,10 @@ public class CreateProjectController {
 			HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = new Date();
+		
 		String supplierValues[] = request.getParameterValues("supplier");
 		String memberValues[] = request.getParameterValues("member");
 
@@ -273,6 +278,25 @@ public class CreateProjectController {
 				saveattri.save();
 
 			}
+			
+			//project log table for Date
+			ProjectDateUserLogs pDateUserLogs = new ProjectDateUserLogs();
+			try {
+				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
+				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
+				pDateUserLogs.setOldEndDate(format.parse(form.data().get("endDate")));
+				pDateUserLogs.setOldStartDate(format.parse(form.data().get("startDate")));
+				pDateUserLogs.setChangeDate(format1.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			User user = User.findByEmail(username);
+			pDateUserLogs.setUser(User.findById(user.getId()));
+			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
+			pDateUserLogs.save();
+			
 
 		}else{
 
@@ -307,9 +331,27 @@ public class CreateProjectController {
 			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 
-			//projectinstancenode.setSupplier(Supplier.findById(Long.parseLong(form.data().get("supplier"))));
-			//projectinstancenode.setUser(User.findById(Long.parseLong(form.data().get("member"))));
-
+			
+			ProjectDateUserLogs pDateUserLogs = new ProjectDateUserLogs();
+			try {
+				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
+				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
+				pDateUserLogs.setChangeDate(format1.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			pDateUserLogs.setOldEndDate(projectinstancenode.getEndDate());
+			pDateUserLogs.setOldStartDate(projectinstancenode.getStartDate());
+			User userId = User.findByEmail(username);
+			pDateUserLogs.setUser(User.findById(userId.getId()));
+			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
+			pDateUserLogs.save();
+			
+			
+			
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
