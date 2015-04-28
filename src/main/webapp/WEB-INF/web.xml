@@ -14,9 +14,9 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-	<listener>
+	<!-- <listener>
   		<listener-class>com.custom.helpers.EscapeXmlELResolverListener</listener-class>
-	</listener> 
+	</listener>  -->
 
 	<!-- Processes application requests -->
 	<servlet>
