@@ -99,6 +99,16 @@ public class ProjectFlexi extends Model implements FlexiAttributes {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	
+    public static Model.Finder<Long,ProjectFlexi> find = new Model.Finder<Long,ProjectFlexi>(Long.class, ProjectFlexi.class);
+	
+	public static ProjectFlexi getUserIdById(Long id) {
+		// TODO , handle nullpointer
+		return find.byId(id);
+	}
+  	  
+	
 
 
 

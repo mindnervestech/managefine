@@ -12,16 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.ApplyLeave;
 import models.CaseData;
+import models.ClientFlexi;
 import models.Company;
 import models.LeaveBalance;
 import models.MailSetting;
+import models.ProjectFlexi;
 import models.RoleLevel;
+import models.SupplierFlexi;
 import models.Timesheet;
 import models.User;
 import models.UserFlexi;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -46,10 +47,8 @@ import com.custom.domain.Status;
 import com.custom.domain.TimesheetStatus;
 import com.custom.emails.Email;
 import com.google.common.base.Function;
-import com.mnt.core.domain.FileAttachmentMeta;
 import com.mnt.core.ui.component.AutoComplete;
 import com.mnt.core.workflow.ActivitiHelper;
-import com.mnt.orghierarchy.vm.FlexiattributeVM;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -374,6 +373,24 @@ public class Application  {
            return new FileSystemResource(new File(imageRootDir + File.separator + "User" + File.separator + 
     			   useFlex.user.id + File.separator + "flexi" + File.separator + imagename));
    		}
+    	
+    	if("models.SupplierFlexi".equalsIgnoreCase(klass)) {
+    		SupplierFlexi useFlex = SupplierFlexi.getUserIdById(id);
+            return new FileSystemResource(new File(imageRootDir + File.separator + "Supplier" + File.separator + 
+     			   useFlex.supplier.id + File.separator + "flexi" + File.separator + imagename));
+    	}
+    	
+    	if("models.ProjectFlexi".equalsIgnoreCase(klass)) {
+    		ProjectFlexi useFlex = ProjectFlexi.getUserIdById(id);
+            return new FileSystemResource(new File(imageRootDir + File.separator + "Project" + File.separator + 
+     			   useFlex.project.id + File.separator + "flexi" + File.separator + imagename));
+    	}
+    	
+    	if("models.ClientFlexi".equalsIgnoreCase(klass)) {
+    		ClientFlexi useFlex = ClientFlexi.getUserIdById(id);
+            return new FileSystemResource(new File(imageRootDir + File.separator + "Client" + File.separator + 
+     			   useFlex.client.id + File.separator + "flexi" + File.separator + imagename));
+    	}
     	
     	//
     	

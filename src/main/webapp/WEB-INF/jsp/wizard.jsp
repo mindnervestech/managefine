@@ -76,7 +76,7 @@
 					<c:if
 						test="${fieldType.validation()!=null && fieldType.validation().required()}">
 						<sup style="color: red"> *</sup>
-					</c:if> <img alt="" src='<c:url value="images/browse.jpg" />'>
+					</c:if> <img alt="" src='<c:url value="/resources/images/browse.jpg" />'>
 				</label>
 
 				<c:choose>

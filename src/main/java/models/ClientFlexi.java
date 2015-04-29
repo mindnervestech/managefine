@@ -99,6 +99,13 @@ public class ClientFlexi extends Model implements FlexiAttributes {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+	
+    public static Model.Finder<Long,ClientFlexi> find = new Model.Finder<Long,ClientFlexi>(Long.class, ClientFlexi.class);
+	
+	public static ClientFlexi getUserIdById(Long id) {
+		// TODO , handle nullpointer
+		return find.byId(id);
+	}
 
 
 

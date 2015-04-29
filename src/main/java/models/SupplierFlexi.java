@@ -99,6 +99,17 @@ public class SupplierFlexi extends Model implements FlexiAttributes {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+	
+    public static Model.Finder<Long,SupplierFlexi> find = new Model.Finder<Long,SupplierFlexi>(Long.class, SupplierFlexi.class);
+	
+	public static SupplierFlexi getUserIdById(Long id) {
+		// TODO , handle nullpointer
+		return find.byId(id);
+	}
+  	  
+	public static SupplierFlexi getProjectUser(Long id) {
+		return find.where().eq("supplier.id", id).findUnique();
+	}
 
 
 
