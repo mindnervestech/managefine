@@ -1,9 +1,6 @@
 package com.mnt.createProject.controller;
 
-import static play.data.Form.form;
-
 import java.io.File;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,10 +11,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.LeaveLevel;
-import models.RoleLeave;
-import models.RoleLevel;
-import models.RoleX;
 import models.Supplier;
 import models.User;
 
@@ -35,31 +28,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
-import com.google.common.collect.Sets;
+import play.data.DynamicForm;
+
+import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.ProjectAttachment;
-import com.mnt.createProject.model.ProjectDateUserLogs;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
-import com.mnt.createProject.vm.ProjectinstanceVM;
-import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
-import com.mnt.projectHierarchy.vm.ProjectclassVM;
-import com.mnt.projectHierarchy.vm.ProjectclassnodeattributVM;
 import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
-import com.mnt.roleHierarchy.vm.RoleVM;
-
-
-
-
-import play.data.DynamicForm;
-import play.data.Form;
-import play.libs.Json;
-
-
 
 import dto.fixtures.MenuBarFixture;
 @Controller
@@ -280,7 +258,7 @@ public class CreateProjectController {
 			}
 			
 			//project log table for Date
-			ProjectDateUserLogs pDateUserLogs = new ProjectDateUserLogs();
+			AduitLog pDateUserLogs = new AduitLog();
 			try {
 				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
 				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
@@ -332,7 +310,7 @@ public class CreateProjectController {
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 
 			
-			ProjectDateUserLogs pDateUserLogs = new ProjectDateUserLogs();
+			AduitLog pDateUserLogs = new AduitLog();
 			try {
 				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
 				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));

@@ -133,7 +133,7 @@ public class CaseData extends Model {
 
 	static {
 		autoCompleteAction.put(PROJECTS, routes.Cases.findProject.url);
-		autoCompleteAction.put(ASSIGNTO_USER, routes.Users.findProjectManagers.url);
+		autoCompleteAction.put(ASSIGNTO_USER, routes.Users.findAssigntoProjectManagers.url);
 	}
 	
 	public static CaseData findById(Long id) {

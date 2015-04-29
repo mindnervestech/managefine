@@ -140,7 +140,7 @@
 							width : 145,
 							searchoptions : {
 								sopt : [ 'eq' ]
-							}.css("color","red")
+							}
 						}, {
 							name : 'action',
 							index : 'action',

@@ -139,6 +139,10 @@ public interface Users {
 		public static String url="/userShowEdit";
 	}
 
+	public interface findAssigntoProjectManagers {
+		public static String url="/findPM1";
+	}
+	
 	public interface findProjectManagers {
 		public static String url="/findPM";
 	}
