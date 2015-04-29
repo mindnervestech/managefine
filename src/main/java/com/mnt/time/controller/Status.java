@@ -167,7 +167,7 @@ public class Status {
 			User companyAdmin = new User();
 			Notification notification = new Notification();
 			String password = Application.generatePassword();
-			companyAdmin.firstName = company.getCompanyCode()+" Admin";
+			companyAdmin.firstName = company.getCompanyName()+" Admin";
 			companyAdmin.designation = "Admin";
 			companyAdmin.companyobject = company;
 			companyAdmin.email = company.companyEmail;

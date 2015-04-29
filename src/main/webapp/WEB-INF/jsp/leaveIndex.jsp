@@ -27,6 +27,26 @@
 
 <h5 id="Leave_caution" style="display:none;"> WILL YOU LIKE TO CONTINUE AND RETRACT ??</h5>
 
+<button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
+</button>
+
+<div class="modal fade" style="z-index: 999999 !important;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" id="retractClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">
+<b>Yor are not able to take this Type Of Leave Because you are not completed 6 months .</b>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+</div>
+</div>
+</div>
+</div>
+
+
 <script>
 
  $(document).ready(function(){
@@ -48,7 +68,8 @@
 		}else if(${usercheckleaves} == false){
 			alert("success");
 		}else{
-			alert("Yor are not able to take this Type Of Leave Because you are not completed 6 months ");
+			$('#popupBtn').click();
+			//alert("Yor are not able to take this Type Of Leave Because you are not completed 6 months ");
 			$('#Leaveleave_domain').val("Unpaid Leave");
 		} 
 		
