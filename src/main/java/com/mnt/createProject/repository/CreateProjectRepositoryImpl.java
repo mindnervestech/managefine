@@ -47,7 +47,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	public ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = new Date();
 		
 		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
 		
@@ -70,12 +72,15 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		if(projectinstancenodeDate != null){
 
 			if(projectinstancenodeDate.getStartDate() != null){
-				pVm.setStartDateLimit(format.format(projectinstancenodeDate.getStartDate()));
+				pVm.setStartDateLimit(format1.format(projectinstancenodeDate.getStartDate()));
 			}
 			if(projectinstancenodeDate.getEndDate() != null){
-				pVm.setEndDateLimit(format.format(projectinstancenodeDate.getEndDate()));
+				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
+		}else{
+			pVm.setStartDateLimit("01-01-2005");
+			pVm.setEndDateLimit("01-01-2035");
 		}
 
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
@@ -90,6 +95,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 
 			pVm.setWeightage(projectinstancenode.getWeightage());
 
+		}else{
+			pVm.setStartDate(sdf.format(dt));
+			pVm.setEndDate(sdf.format(dt));
 		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){

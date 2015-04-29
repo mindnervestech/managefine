@@ -37,6 +37,8 @@
 									<option value="Assigned">Assigned</option>
 									<option value="Inprogress">Inprogress</option>
 									<option value="Completed">Completed</option>
+									<option value="OnHold">On Hold</option>
+									<option value="NotStart">Not Start</option>
 
 								</select>
 

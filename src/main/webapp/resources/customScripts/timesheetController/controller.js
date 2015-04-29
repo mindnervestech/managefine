@@ -1915,6 +1915,7 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 	$scope.gradationBetweenPerUnit = 15;
 	$scope.gradationBetweenPerUnitpx = 50;
 	var d1 = new Date($scope.currentDate);
+	$scope.currentDateObject = new Date();
 	
 	$scope.addFunction = function() {
 		
@@ -2022,7 +2023,12 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 	}
 	
 	$scope.init = function(data) {
-		$scope.dataList = data;
+		$scope.dataList = data.todayAllData;
+		if(data.isHoliday == true) {
+			$('#isHoliday').css("color","red");
+		} else {
+			$('#isHoliday').removeAttr("style");
+		}
 		var myString = JSON.stringify($scope.dataList);
 		$("#horizontal-scheduler").weekHorizontal({
 			unitValueInMin:  $scope.unitValueInMin,
@@ -2044,12 +2050,20 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 	
 	$scope.getAllStaffAppointments = function(currentDate) {
 		console.log(currentDate);
+		var temp = currentDate.split("/");
+		$scope.currentDateObject.setFullYear(parseInt(temp[2]),parseInt(temp[0])-1,parseInt(temp[1]));
+		
 		$scope.userId = $('#userID').val();
 		var d1 = new Date(currentDate);
 		$http({method:'GET',url:contextPath+'/getTodayAllByDate',params:{userId:$scope.userId,date:currentDate}})
 		.success(function(data) {
-			console.log('success');
-			var myString = JSON.stringify(data);
+			console.log(data);
+			if(data.isHoliday == true) {
+				$('#isHoliday').css("color","red");
+			} else {
+				$('#isHoliday').removeAttr("style");
+			}
+			var myString = JSON.stringify(data.todayAllData);
 			$("#horizontal-scheduler").weekHorizontal({
 				unitValueInMin:  $scope.unitValueInMin,
 				gradationBetweenPerUnit: $scope.gradationBetweenPerUnit,

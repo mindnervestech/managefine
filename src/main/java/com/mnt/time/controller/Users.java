@@ -256,11 +256,40 @@ public class Users {
 	@RequestMapping(value="/findPM", method=RequestMethod.GET)
 	public @ResponseBody String findProjectManagers(@CookieValue("username") String username,HttpServletRequest requset){
 		
+		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+        String designation = form.get("param");
+        String query = form.get("query");
+        ObjectNode result = Json.newObject();
+        List<AutoComplete> results;
+        try {
+            results = transform(findallUserUser(username, query, designation, true), toAutoCompleteFormatForPM());
+        } catch(Exception e) {
+            results = null;
+        }
+        if(results != null) { 
+            result.put("results", Json.toJson(results));
+        } 
+        return Json.toJson(result).toString();
+	}
+	
+	public static List<User> findallUserUser(String username, String query, String param, boolean check){
+		
+		User _thisUser = User.findByEmail(username);
 			
+			List<User> users = User.find.where().
+			and(Expr.eq("companyobject.id",_thisUser.getCompanyobject().getId()),
+			Expr.or(Expr.ilike("firstName", query+"%"), 
+				Expr.or(Expr.ilike("lastName", query+"%"),
+						Expr.ilike("middleName", query+"%")))).findList();
+		
+		return users;
+	}
+	
+	
+	@RequestMapping(value="/findPM1", method=RequestMethod.GET)
+	public @ResponseBody String findAssigntoProjectManagers(@CookieValue("username") String username,HttpServletRequest requset){
 		
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
-		
-		
 		
 		User user = User.findByEmail(username);
 		Long projectId = Long.parseLong(form.get("ajaxDependantField"));
@@ -271,26 +300,6 @@ public class Users {
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 		
-		
-		/*DynamicForm form = DynamicForm.form().bindFromRequest(requset);
-		User user = User.findByEmail(username);
-		String designation = form.get("param");
-		String query = form.get("query");
-		ObjectNode result = Json.newObject();
-		List<AutoComplete> results;
-		try {
-			results = transform(User.findByManagerBycompny(user, query), toAutoCompleteFormatForPM());
-		} catch(Exception e) {
-			results = null;
-		}
-		if(results != null) { 
-			result.put("results", Json.toJson(results));
-		} else {
-			result.put("results", Json.toJson(Lists.newArrayList()));
-		}
-		return Json.toJson(result).toString();
-		
-		*/
 	}
 	
 	@RequestMapping(value="/findOrganizations", method=RequestMethod.GET)

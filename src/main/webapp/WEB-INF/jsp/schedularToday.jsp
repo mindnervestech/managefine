@@ -52,7 +52,7 @@
 		  Launch demo modal
 		</button>
 		<div id="int_doctor_view" style="margin-top:5%;">
-		<h4 id="isHoliday">{{currentDateObject|date:'fullDate'}}</h4>
+		<h4 >{{currentDateObject|date:'fullDate'}}</h4>
 			<div class="col-md-12 col-sm-12" id="int_doctor_view">
 				<div id="scheduler-wrapper" style="height: 454px;">
 					<div id="scheduler-container" ng-today-scheduler data="data"></div>

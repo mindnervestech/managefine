@@ -28,7 +28,7 @@ public interface TimesheetDAO {
 	
 	void markLeave(StaffLeaveVM leaveVM, User user);
 	
-	List getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date);
+	Map getTodayAllTimesheet(Integer weekOfYear, Integer year, User user, Date date);
 	
 	List getWeekReport(Integer weekOfYear, Integer year, User user, Date date);
 	

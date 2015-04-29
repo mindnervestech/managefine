@@ -6,6 +6,10 @@
 	font-size: 10px;
 }
 
+.ui-jqgrid tr.ui-row-ltr td {
+	text-align:center;
+}	
+
 .heading {
 	margin-left: 25px;
 }
@@ -126,14 +130,14 @@
 						colModel : [ {
 							name : 'role_name',
 							index : 'role_name',
-							width : 30,
+							width : 35,
 							searchoptions : {
 								sopt : [ 'eq' ]
 							}
 						}, {
 							name : 'permissions',
 							index : 'permissions',
-							width : 150,
+							width : 145,
 							searchoptions : {
 								sopt : [ 'eq' ]
 							}
