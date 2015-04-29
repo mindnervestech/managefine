@@ -169,6 +169,29 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 	$scope.editRoleChild = function() {
 		
 		$scope.org.parent = $scope.currentParentId;
+		if($scope.org.parent == 0){
+			items = [];
+			$scope.myOptions.items = [];
+			$scope.org.parent = null;
+			 $http({method:'POST',url:'saveRoleChild',data:$scope.org}).success(function(response) {
+				 
+				  console.log(response);
+				  if(response != null && response != ""){
+					  $scope.overWrite = 0;
+					  console.log($scope.overWrite);
+				    $scope.org.id = response;
+				    
+					$scope.myOptions.items.push({id:$scope.org.id,parent:$scope.org.parent,roleName:$scope.org.roleName,roleDescription:$scope.org.roleDescription});
+					
+					ngDialog.close();
+				  }else{
+					  $scope.overWrite = 1;
+					  console.log($scope.overWrite);
+				  }
+				});
+			
+			
+		}else{
 		console.log("-----***---------");
 		console.log($scope.org);
 		$http({method:'POST',url:'editRoleChild',data:$scope.org}).success(function(response) {
@@ -185,6 +208,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
         	});
 			
 		});
+		}
     	ngDialog.close();
 		
 	};

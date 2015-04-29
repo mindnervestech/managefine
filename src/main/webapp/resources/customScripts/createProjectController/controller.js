@@ -323,7 +323,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     				id: 0,
     				parent: null,
     				projectTypes: "Root",
-    				projectDescription: "Pune",
+    				projectDescription: "",
     				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
         	}
@@ -529,7 +529,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         				id: 0,
         				parent: null,
         				projectTypes: "Root",
-        				projectDescription: "Pune",
+        				projectDescription: "",
         				itemTitleColor: primitives.common.Colors.RoyalBlue
         			}));
             	}

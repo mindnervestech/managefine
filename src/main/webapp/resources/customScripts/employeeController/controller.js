@@ -24,7 +24,7 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
 				id: 0,
 				parent: null,
 				employeeName: "Root",
-				designation: "Pune",
+				designation: "",
 				itemTitleColor: primitives.common.Colors.RoyalBlue
 			}));
     	}

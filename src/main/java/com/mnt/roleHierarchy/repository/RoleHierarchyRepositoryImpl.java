@@ -42,10 +42,11 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 	@Override
 	public RoleVM findSelectedDepartment(Long id) {
 		
-	
 			RoleLevel role = RoleLevel.findById(id);
-			
-				RoleVM roleVM = new RoleVM();
+
+			RoleVM roleVM = new RoleVM();
+			if(role != null){
+
 				roleVM.setId(role.getId());
 				roleVM.setParent(role.getParentId());
 				roleVM.setRoleName(role.getRole_name());
@@ -54,7 +55,7 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 					roleVM.setDepartment(String.valueOf(role.getDepartment().getId()));
 					roleVM.setDepartmentName(role.getDepartment().getName());
 				}
-			
+			}
 		
 		return roleVM;
 		

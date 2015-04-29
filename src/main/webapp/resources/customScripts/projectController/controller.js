@@ -70,7 +70,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
                 		    				id: 0,
                 		    				parent: null,
                 		    				projectTypes: "Root",
-                		    				projectDescription: "Pune",
+                		    				projectDescription: "",
                 		    				itemTitleColor: primitives.common.Colors.RoyalBlue
                 		    			}));
                 		        	}
@@ -212,7 +212,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     				id: 0,
     				parent: null,
     				projectTypes: "Root",
-    				projectDescription: "Pune",
+    				projectDescription: "",
     				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
         	}
