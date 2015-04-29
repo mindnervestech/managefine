@@ -96,25 +96,25 @@
 							<div class="largeInputLabel clearfix">Task Codes</div>
 						</div>
 					<div class="innerDaysDiv">
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('monday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('monday')" id="monLabel">
 							Mon<br> <span id="dayLabel_0"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('tuesday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('tuesday')" id="tueLabel">
 							Tue<br> <span id="dayLabel_1"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('wednesday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('wednesday')" id="wedLabel">
 							Wed<br> <span id="dayLabel_2"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('thursday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('thursday')" id="thuLabel">
 							Thu<br> <span id="dayLabel_3"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('friday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('friday')" id="friLabel">
 							Fri<br> <span id="dayLabel_4"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('saturday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('saturday')" id="satLabel">
 							Sat<br> <span id="dayLabel_5"></span>
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('sunday')">
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('sunday')" id="sunLabel">
 							Sun<br> <span id="dayLabel_6"></span>
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>

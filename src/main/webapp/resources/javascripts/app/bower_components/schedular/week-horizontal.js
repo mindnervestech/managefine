@@ -88,7 +88,7 @@
 				} else {
 					o1.data = JSON.stringify(data[d].data);
 				}
-				var doctor = $("<div style='position:relative;padding:5% 0% 5% 30%;height:"+opts.height+";text-align:center;'></div>");
+				var doctor = $("<div style='position:relative;padding:0% 0% 0% 30%;height:"+opts.height+";text-align:center;border: 1px solid;'></div>");
 				//var img = $("<img src='get-doctor-profile/"+datad][.id+".jpg' style='height:80px;width:95%;'/>");
 				var name = $("<span style='display:inline-block;position:relative;top:10%;font-size:14px;'>"+data[d].name+"</span>");
 				var elem = $("<div style='height:"+opts.height+";width:100%;position:relative;'></div>");
@@ -106,6 +106,16 @@
 				hr -=1;
 			}
 			$("#horizontal-scheduler-center").scrollLeft(hr*((unitValueInMin/unitPerGrid)*unitPerGridpx));
+			
+			div.bind("scroll",function(e) {
+                $("#horizontal-scheduler-left").scrollTop(e.currentTarget.scrollTop);
+			});
+        
+        div.slimScroll({
+                height:"100%",
+                 color: '#00f'
+      });
+			
 		},
 	});
 })(jQuery);

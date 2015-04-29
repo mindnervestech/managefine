@@ -356,7 +356,7 @@
 		    		e.stopPropagation();
 		    	});
 		    } else {
-		    	line.css({"width":"95%"});
+		    	line.css({"width":"100%"});
 		    	line.bind("click",function(e){
 		    		e.stopPropagation();
 		    	});

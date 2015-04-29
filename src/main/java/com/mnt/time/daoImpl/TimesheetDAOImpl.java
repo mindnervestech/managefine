@@ -106,33 +106,6 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							}	
 						}
 						
-						
-						/*if(userLeaveList != null && schedularTodayVM.isHoliday == false) {
-							String day = "";
-							for(UserLeave userLeave: userLeaveList) {
-								switch (userLeave.getLeaveType()) {
-									case 0 : day = "sunday";
-											break;
-									case 1 : day = "monday";
-											break;
-									case 2 : day = "tuesday";
-											break;
-									case 3 : day = "wednesday";
-											break;
-									case 4 : day = "thursday";
-											break;
-									case 5 : day = "friday";
-											break;
-									case 6 : day = "saturday";
-											break;
-								}
-								if(timesheetDay.getDay().equals(day)) {
-									schedularTodayVM.isHoliday = true;
-								} else {
-									schedularTodayVM.isHoliday = false;
-								}
-							}
-						}*/
 						Projectclassnode task = Projectclassnode.getProjectById(Long.parseLong(row.getTaskCode()));
 						
 						if(isHoliday == false) {
@@ -446,7 +419,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 					cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 				}
 				
-				UserLeave leave = UserLeave.getLeave(user, cal.getTime());
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String dy = sdf.format(cal.getTime());
+				
+				UserLeave leave = null;
+				try {
+					leave = UserLeave.getLeave(user, sdf.parse(dy));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 				
 				if(leave != null) {

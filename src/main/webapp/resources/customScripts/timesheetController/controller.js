@@ -139,18 +139,54 @@ app.controller("TimeSheetController", function($scope,$http) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			if(data.id != null) {
-				$scope.weekOfYear = data.weekOfYear;
-				$scope.year = data.year;
-				$scope.timesheetStatus = data.status;
-				$scope.timesheetId = data.id;
-				$scope.timesheetData = data.timesheetRows;
+			if(data.timesheetData.id != null) {
+				$scope.weekOfYear = data.timesheetData.weekOfYear;
+				$scope.year = data.timesheetData.year;
+				$scope.timesheetStatus = data.timesheetData.status;
+				$scope.timesheetId = data.timesheetData.id;
+				$scope.timesheetData = data.timesheetData.timesheetRows;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
 				}
 				
-				if(data.status == "Submitted") {
+				if(data.timesheetData.status == "Submitted") {
 					$scope.isShow = false;
 					$("#timeSheetTable :input").attr("readonly","readonly");
 					$("#timeSheetTable select").attr("disabled","disabled");
@@ -161,7 +197,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$("#retractTimesheetForm").removeAttr("disabled","disabled");
 					$("#addMore").hide();
 				} else {
-					if(data.status == "Approved") {
+					if(data.timesheetData.status == "Approved") {
 						$scope.isShow = false;
 						$("#timeSheetTable :input").attr("readonly","readonly");
 						$("#timeSheetTable select").attr("disabled","disabled");
@@ -186,6 +222,43 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$scope.timesheetId = null;
 				$("#addMore").show();
 				$scope.isShow = true;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
+				
 			}
 		});	
 	}
@@ -195,12 +268,48 @@ app.controller("TimeSheetController", function($scope,$http) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			if(data.id != null) {
-				$scope.weekOfYear = data.weekOfYear;
-				$scope.year = data.year;
-				$scope.timesheetStatus = data.status;
-				$scope.timesheetId = data.id;
-				$scope.timesheetData = data.timesheetRows;
+			if(data.timesheetData.id != null) {
+				$scope.weekOfYear = data.timesheetData.weekOfYear;
+				$scope.year = data.timesheetData.year;
+				$scope.timesheetStatus = data.timesheetData.status;
+				$scope.timesheetId = data.timesheetData.id;
+				$scope.timesheetData = data.timesheetData.timesheetRows;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
@@ -208,6 +317,41 @@ app.controller("TimeSheetController", function($scope,$http) {
 				
 			} else {
 				$scope.addMore();
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
 			}
 			
 		});
@@ -1403,18 +1547,54 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			if(data.id != null) {
-				$scope.weekOfYear = data.weekOfYear;
-				$scope.year = data.year;
-				$scope.timesheetStatus = data.status;
-				$scope.timesheetId = data.id;
-				$scope.timesheetData = data.timesheetRows;
+			if(data.timesheetData.id != null) {
+				$scope.weekOfYear = data.timesheetData.weekOfYear;
+				$scope.year = data.timesheetData.year;
+				$scope.timesheetStatus = data.timesheetData.status;
+				$scope.timesheetId = data.timesheetData.id;
+				$scope.timesheetData = data.timesheetData.timesheetRows;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
 				}
 				
-				if(data.status == "Submitted") {
+				if(data.timesheetData.status == "Submitted") {
 					$scope.isShow = false;
 					$("#timeSheetTable :input").attr("readonly","readonly");
 					$("#timeSheetTable select").attr("disabled","disabled");
@@ -1425,7 +1605,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					$("#retractTimesheetForm").removeAttr("disabled","disabled");
 					$("#addMore").hide();
 				} else {
-					if(data.status == "Approved") {
+					if(data.timesheetData.status == "Approved") {
 						$scope.isShow = false;
 						$("#timeSheetTable :input").attr("readonly","readonly");
 						$("#timeSheetTable select").attr("disabled","disabled");
@@ -1450,6 +1630,43 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$scope.timesheetId = null;
 				$("#addMore").show();
 				$scope.isShow = true;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
+				
 			}
 		});	
 	}
@@ -1459,12 +1676,48 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			if(data.id != null) {
-				$scope.weekOfYear = data.weekOfYear;
-				$scope.year = data.year;
-				$scope.timesheetStatus = data.status;
-				$scope.timesheetId = data.id;
-				$scope.timesheetData = data.timesheetRows;
+			if(data.timesheetData.id != null) {
+				$scope.weekOfYear = data.timesheetData.weekOfYear;
+				$scope.year = data.timesheetData.year;
+				$scope.timesheetStatus = data.timesheetData.status;
+				$scope.timesheetId = data.timesheetData.id;
+				$scope.timesheetData = data.timesheetData.timesheetRows;
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
@@ -1473,6 +1726,43 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				
 			} else {
 				$scope.addMore();
+				
+				if(data.holidayList[0] == true) {
+					$('#sunLabel').css("color","red");
+				} else{
+					$('#sunLabel').removeAttr("style");
+				}
+				if(data.holidayList[1] == true) {
+					$('#monLabel').css("color","red");
+				} else{
+					$('#monLabel').removeAttr("style");
+				}
+				if(data.holidayList[2] == true) {
+					$('#tueLabel').css("color","red");
+				} else{
+					$('#tueLabel').removeAttr("style");
+				}
+				if(data.holidayList[3] == true) {
+					$('#wedLabel').css("color","red");
+				} else{
+					$('#wedLabel').removeAttr("style");
+				}
+				if(data.holidayList[4] == true) {
+					$('#thuLabel').css("color","red");
+				} else{
+					$('#thuLabel').removeAttr("style");
+				}
+				if(data.holidayList[5] == true) {
+					$('#friLabel').css("color","red");
+				} else{
+					$('#friLabel').removeAttr("style");
+				}
+				if(data.holidayList[6] == true) {
+					$('#satLabel').css("color","red");
+				} else{
+					$('#satLabel').removeAttr("style");
+				}
+				
 			}
 			
 		});
@@ -1927,7 +2217,7 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 		$scope.editStartTime = data.startTime;
 		$scope.editEndTime = data.endTime;
 		$scope.status = data.status;
-		$scope.userId = $('#userID').val();
+		$scope.userId = data.staffId;
 		 $scope.showMsg = false;
 		 $scope.fileErr = false;
 		
@@ -1938,7 +2228,7 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 			endTime:data.endTime,
 			status:data.status,
 			date:$scope.currentDate,
-			userId:$scope.userId
+			userId:data.staffId
 		}
 		
 		$http({method:'GET',url:contextPath+'/getTaskDetails',params:{userId:data.staffId,projectId:data.projectId,taskId:data.taskId}})
@@ -2003,7 +2293,6 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 	}
 	
 	$scope.saveComment = function(comment) {
-		$scope.userId = $('#userID').val();
 		$http({method:'GET',url:contextPath+'/saveComment',params:{userId:$scope.userId,comment:comment,projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId}})
 		.success(function(data) {
 			console.log('success');

@@ -721,6 +721,63 @@ public class Timesheets{
 	public @ResponseBody JsonNode getActualTimesheetBySelectedWeek(ModelMap model,@RequestParam("userId") String userId,@RequestParam("week") String week,@RequestParam("year") String year) {
 		User user = User.findById(Long.parseLong(userId));
 		
+		Calendar cal = Calendar.getInstance();
+		Boolean[] holidayList = {false,false,false,false,false,false,false};
+		
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		if(userLeaveList.size() != 0) {
+			int i = 0;
+			for(UserLeave userLeave: userLeaveList) {
+				holidayList[userLeave.getLeaveType()] = true;
+				i++;
+			}
+		}	
+		
+		int weekOfYear = Integer.parseInt(week);
+		
+		for(int i=0;i<=6;i++) {
+			cal.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+			if(i == 0) {
+				cal.set(Calendar.WEEK_OF_YEAR, weekOfYear+1);
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			}
+			if(i == 1) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			}
+			if(i == 2) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+			}
+			if(i == 3) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+			}
+			if(i == 4) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+			}
+			if(i == 5) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+			}
+			if(i == 6) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String dy = sdf.format(cal.getTime());
+			
+			UserLeave leave = null;
+			try {
+				leave = UserLeave.getLeave(user, sdf.parse(dy));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(leave != null) {
+				holidayList[i] = true;
+			}
+			
+		}
+		
+		Map map = new HashMap<>();
+		
 		TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, Integer.parseInt(week), Integer.parseInt(year));
 		TimesheetVM timesheetVM = new TimesheetVM();
 		
@@ -786,9 +843,13 @@ public class Timesheets{
 			}
 			timesheetVM.timesheetRows = timesheetRowVMList;
 			
-			return Json.toJson(timesheetVM);
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", timesheetVM);
+			return Json.toJson(map);
 		} else {
-			return Json.toJson("");
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", "");
+			return Json.toJson(map);
 		}
 	}
 	
@@ -796,6 +857,62 @@ public class Timesheets{
 	public @ResponseBody JsonNode getTimesheetBySelectedWeek(ModelMap model,@RequestParam("userId") String userId,@RequestParam("week") String week,@RequestParam("year") String year) {
 		
 		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		Boolean[] holidayList = {false,false,false,false,false,false,false};
+		
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		if(userLeaveList.size() != 0) {
+			int i = 0;
+			for(UserLeave userLeave: userLeaveList) {
+				holidayList[userLeave.getLeaveType()] = true;
+				i++;
+			}
+		}	
+		
+		int weekOfYear = Integer.parseInt(week);
+		
+		for(int i=0;i<=6;i++) {
+			cal.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+			if(i == 0) {
+				cal.set(Calendar.WEEK_OF_YEAR, weekOfYear+1);
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			}
+			if(i == 1) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			}
+			if(i == 2) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+			}
+			if(i == 3) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+			}
+			if(i == 4) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+			}
+			if(i == 5) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+			}
+			if(i == 6) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String dy = sdf.format(cal.getTime());
+			
+			UserLeave leave = null;
+			try {
+				leave = UserLeave.getLeave(user, sdf.parse(dy));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(leave != null) {
+				holidayList[i] = true;
+			}
+			
+		}
+		
+		Map map = new HashMap<>();
 		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, Integer.parseInt(week), Integer.parseInt(year));
 		TimesheetVM timesheetVM = new TimesheetVM();
@@ -861,10 +978,13 @@ public class Timesheets{
 				timesheetRowVMList.add(timesheetRowVM);
 			}
 			timesheetVM.timesheetRows = timesheetRowVMList;
-			
-			return Json.toJson(timesheetVM);
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", timesheetVM);
+			return Json.toJson(map);
 		} else {
-			return Json.toJson("");
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", "");
+			return Json.toJson(map);
 		}
 		
 	}
@@ -874,9 +994,66 @@ public class Timesheets{
 		
 		User user = User.findById(Long.parseLong(userId));
 		Calendar cal = Calendar.getInstance();
+		Boolean[] holidayList = {false,false,false,false,false,false,false};
+		
 		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
 			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
 		} 
+		
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		if(userLeaveList.size() != 0) {
+			int i = 0;
+			for(UserLeave userLeave: userLeaveList) {
+				holidayList[userLeave.getLeaveType()] = true;
+				i++;
+			}
+		}	
+		
+		int weekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
+		
+		for(int i=0;i<=6;i++) {
+			cal.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+			if(i == 0) {
+				cal.set(Calendar.WEEK_OF_YEAR, weekOfYear+1);
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			}
+			if(i == 1) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			}
+			if(i == 2) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+			}
+			if(i == 3) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+			}
+			if(i == 4) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+			}
+			if(i == 5) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+			}
+			if(i == 6) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String dy = sdf.format(cal.getTime());
+			
+			UserLeave leave = null;
+			try {
+				leave = UserLeave.getLeave(user, sdf.parse(dy));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(leave != null) {
+				holidayList[i] = true;
+			}
+			
+		}
+		
+		Map map = new HashMap<>();
+		
 		TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
 		
 		TimesheetVM timesheetVM = new TimesheetVM();
@@ -943,10 +1120,14 @@ public class Timesheets{
 			}
 			timesheetVM.timesheetRows = timesheetRowVMList;
 			
-			return Json.toJson(timesheetVM);
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", timesheetVM);
+			return Json.toJson(map);
 			
 		} else {
-			return Json.toJson("");
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", "");
+			return Json.toJson(map);
 		}
 		
 		
@@ -958,25 +1139,65 @@ public class Timesheets{
 		
 		User user = User.findById(Long.parseLong(userId));
 		Calendar cal = Calendar.getInstance();
-		/*Boolean[] holidayList = {false,false,false,false,false,false,false};
+		Boolean[] holidayList = {false,false,false,false,false,false,false};
+		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		} 
 		
 		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
-		if(userLeaveList != null) {
+		if(userLeaveList.size() != 0) {
 			int i = 0;
-			int week = cal.get(Calendar.WEEK_OF_YEAR);
 			for(UserLeave userLeave: userLeaveList) {
 				holidayList[userLeave.getLeaveType()] = true;
 				i++;
 			}
 		}	
 		
-		for(int j=0;j<=6;j++) {
-			
-		}*/
+		int weekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
 		
-		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
-			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
-		} 
+		for(int i=0;i<=6;i++) {
+			cal.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+			if(i == 0) {
+				cal.set(Calendar.WEEK_OF_YEAR, weekOfYear+1);
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			}
+			if(i == 1) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			}
+			if(i == 2) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+			}
+			if(i == 3) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+			}
+			if(i == 4) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+			}
+			if(i == 5) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+			}
+			if(i == 6) {
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String dy = sdf.format(cal.getTime());
+			
+			UserLeave leave = null;
+			try {
+				leave = UserLeave.getLeave(user, sdf.parse(dy));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(leave != null) {
+				holidayList[i] = true;
+			}
+			
+		}
+		
+		Map map = new HashMap<>();
 		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
 		
@@ -1043,11 +1264,14 @@ public class Timesheets{
 				timesheetRowVMList.add(timesheetRowVM);
 			}
 			timesheetVM.timesheetRows = timesheetRowVMList;
-			
-			return Json.toJson(timesheetVM);
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", timesheetVM);
+			return Json.toJson(map);
 			
 		} else {
-			return Json.toJson("");
+			map.put("holidayList", holidayList);
+			map.put("timesheetData", "");
+			return Json.toJson(map);
 		}
 		
 		

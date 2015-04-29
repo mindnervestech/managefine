@@ -33,7 +33,7 @@
 <div id="int_doctor_view">
 <h4>{{currentDateObject|date:'fullDate'}}</h4>
 </div>
-<div id="horizontal-scheduler" style="border: 1px solid black;height: 484px;" ng-init='init(${list})' ></div>
+<div id="horizontal-scheduler" style="border: 1px solid black;height: 484px;overflow-x:auto;" ng-init='init(${list})' ></div>
 </body>
 </html>
 
