@@ -61,7 +61,7 @@ public class FlexiAttributes {
 				}else if(flexi.getModel().equals("User")){
 					flexiAttribute.setModel("models.UserFlexi");
 					flexiAttribute.setUniqueid(1L);
-				}else if(flexi.getModel().equals("Client")){
+				}else if(flexi.getModel().equals("Customer")){
 					flexiAttribute.setModel("models.ClientFlexi");
 					flexiAttribute.setUniqueid(3L);
 				}else if(flexi.getModel().equals("Supplier")){
@@ -100,7 +100,7 @@ public class FlexiAttributes {
 			  fl = FlexiAttribute.getFieldsByUniqueId(1L);
 		}else if(userid.equals("Project")){
 			 fl = FlexiAttribute.getFieldsByUniqueId(2L);
-		}else if(userid.equals("Client")){
+		}else if(userid.equals("Customer")){
 			 fl = FlexiAttribute.getFieldsByUniqueId(3L);
 		}else if(userid.equals("Task")){
 			 fl = FlexiAttribute.getFieldsByUniqueId(4L);

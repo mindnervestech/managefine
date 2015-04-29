@@ -481,8 +481,8 @@ public class Users {
 			System.out.println("join date=="+user.getHireDate());
 			List<LeaveBalance> lb = LeaveBalance.findByUser(user);
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = formatter.parse(form.get("hireDate"));
-			for(LeaveBalance l : lb){
+			//Date date = formatter.parse(form.get("hireDate"));
+			/*for(LeaveBalance l : lb){
 				if(lc.getPolicyName().equals("Pro rata basis")){
 					Calendar c = Calendar.getInstance();
 					c.setTime(date);
@@ -518,7 +518,7 @@ public class Users {
 				}else{
 					System.out.println("leaves --"+9);
 				}
-			}
+			}*/
 			
 			UserSave saveUtils = new UserSave(extra);
 			

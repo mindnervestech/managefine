@@ -5,7 +5,9 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +67,20 @@ public class Leaves {
 	 @RequestMapping(value="/leaveIndex" , method = RequestMethod.GET)
 	public String applyIndex(ModelMap model, @CookieValue("username") String username) {
 		 User user = User.findByEmail(username);
-		 
+		 Date hiredate = user.getHireDate();
+		 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		 boolean flag1 = false;
+		 Date dateStart = new Date();
+
+		 long diff = dateStart.getTime() - hiredate.getTime() ;
+
+		 long diffDays = diff / (24 * 60 * 60 * 1000);
+		 System.out.println("diffrence  ----==="+diffDays); 
+		 if(diffDays < 180){
+			flag1 = true;
+		 }else{
+			 flag1 = false;
+		 }
 		List<LeaveBalance> leavebal=LeaveBalance.find.where().eq("employee_id",user.getId()).findList();
 		List<DomainEnum> leaves=new ArrayList<DomainEnum>();
 		for(int i=0;i<leavebal.size();i++)
@@ -84,7 +99,7 @@ public class Leaves {
 		model.addAttribute("context",LeaveApplyContext.getInstance().build());
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", user);
-    	
+    	model.addAttribute("usercheckleaves",flag1);
     	model.addAttribute("leaves",leavebal);
     	model.addAttribute("leaves1",leavebal1);
     			return "leaveIndex";
@@ -160,7 +175,6 @@ public class Leaves {
 		leaveForm.get().setStatus (LeaveStatus.Submitted);
 		//l1.getLeave_type();
 		leaveForm.get().setTypeOfLeave(l1.getLeave_type());
-	
 		LeaveBalance ll = LeaveBalance.find.where().eq("employee", user).eq("leaveLevel.id",Long.parseLong(form.get("leave_domain"))).findUnique();
 		
 		{
@@ -478,13 +492,27 @@ public class Leaves {
 	{
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		//Form<LeaveCreditBindFromRequest>leaveForm=form(LeaveCreditBindFromRequest.class).bindFromRequest(request);	
-		LeavesCredit lc = new LeavesCredit();
-		lc.setPolicyName(form.data().get("policy"));
-		lc.setCompanyobject(User.findByEmail(username).companyobject);
-		//extra.put("companyobject", User.findByEmail(username).companyobject);
-		lc.save();
+		 User user = User.findByEmail(username);
+		 Date hiredate = user.getHireDate();
+		 Date dateStart = new Date();
+		 long diff = dateStart.getTime() - hiredate.getTime() ;
+		 long diffDays = diff / (24 * 60 * 60 * 1000);
+		 System.out.println("diffrence  ----==="+diffDays); 
+		 if(diffDays > 180){
+				LeavesCredit lc = new LeavesCredit();
+				lc.setPolicyName(form.data().get("policy"));
+				lc.setCompanyobject(User.findByEmail(username).companyobject);
+				//extra.put("companyobject", User.findByEmail(username).companyobject);
+				lc.save();
+		 }else{
+			 System.out.println("leave not credit");
+		 }
+		
+		
+	
 		return "leave credit saved";
 	}	
+	
 	
 	@RequestMapping(value="/getLeavesCredit " ,method=RequestMethod.POST)		
 	public @ResponseBody LeavesCredit getLeavesCredit(@CookieValue("username")String username,HttpServletRequest request)

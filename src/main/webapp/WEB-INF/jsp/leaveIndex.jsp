@@ -36,17 +36,28 @@
 	</c:forEach>
 	
 	 $('#Leaveleave_domain').change (function() {
+		 console.log("leaves domain");
 		var v1 = $(this).val();
-		if(parseInt($('#LeavenoOfDays').val()) > parseInt(leaveBalanceDS[v1])){
-			alert("You don't have sufficient leaves");
-			$('#LeavenoOfDays').val(0);
+		 console.log(this);
+		 var selects1 = this.options[ this.selectedIndex ].text;
+		 console.log(selects1);
+		  if(${usercheckleaves} == true && selects1 == "Unpaid Leave"){
+			alert("success");
+			//$('#LeavenoOfDays').val(0);
 			return false;
-		}
+		}else if(${usercheckleaves} == false){
+			alert("success");
+		}else{
+			alert("Yor are not able to take this Type Of Leave Because you are not completed 6 months ");
+			$('#Leaveleave_domain').val("Unpaid Leave");
+		} 
 		
 	});	 
 
 	 $('#LeavenoOfDays').change (function() {
+		 console.log("leaves no.");
 		 var v1 = $('#Leaveleave_domain').val();
+		 console.log(v1);
 		 if(parseInt($(this).val()) > parseInt(leaveBalanceDS[v1])){
 				alert("You don't have sufficient leaves");
 				$('#LeavenoOfDays').val(0);
