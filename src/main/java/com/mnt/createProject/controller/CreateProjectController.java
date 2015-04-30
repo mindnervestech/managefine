@@ -272,25 +272,7 @@ public class CreateProjectController {
 				saveattri.save();
 
 			}
-			
-			//project log table for Date
-		/*	AduitLog pDateUserLogs = new AduitLog();
-			try {
-				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
-				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
-				pDateUserLogs.setOldEndDate(format.parse(form.data().get("endDate")));
-				pDateUserLogs.setOldStartDate(format.parse(form.data().get("startDate")));
-				pDateUserLogs.setChangeDate(format1.parse(sdf.format(dt)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-			User user = User.findByEmail(username);
-			pDateUserLogs.setUser(User.findById(user.getId()));
-			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
-			pDateUserLogs.save();*/
-			compare(projectinstancenode,projectinstancenode,  "Projectinstancenode" , projectinstancenode.getId(), username);
+						//compare(projectinstancenode,projectinstancenode,  "Projectinstancenode" , projectinstancenode.getId(), username);
 
 		}else{
 
@@ -329,26 +311,6 @@ public class CreateProjectController {
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 
 			
-			/*AduitLog pDateUserLogs = new AduitLog();
-			try {
-				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
-				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
-				pDateUserLogs.setChangeDate(format1.parse(sdf.format(dt)));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			pDateUserLogs.setOldEndDate(projectinstancenode.getEndDate());
-			pDateUserLogs.setOldStartDate(projectinstancenode.getStartDate());
-			User userId = User.findByEmail(username);
-			pDateUserLogs.setUser(User.findById(userId.getId()));
-			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
-			pDateUserLogs.save();*/
-			
-			
-			
 			try {
 				projectinstancenode.setStartDate(format.parse(form.data().get("startDate")));
 				projectinstancenode.setEndDate(format.parse(form.data().get("endDate")));
@@ -373,21 +335,43 @@ public class CreateProjectController {
 				
 				Saveattributes saveattri = Saveattributes.getProjectAttriId(projectinstancenode.getId(),attr.getId());
 				String checkboxValue = null;
-				checkboxValue = "";
-				if(attr.getType().equalsIgnoreCase("Checkbox")) {
+				if(saveattri != null){
 					
-		    		String values[] = request.getParameterValues(attr.getName());
-		    		for(String s:values){
-		    			checkboxValue = checkboxValue + s +",";
-		    		}
-		    		
-		    		System.out.println(checkboxValue);
-		    		saveattri.setAttributValue(checkboxValue);
-		    	} else {
-		    		saveattri.setAttributValue(form.data().get(attr.getName()));
-		    	}
-				
-				saveattri.update();
+					checkboxValue = "";
+					if(attr.getType().equalsIgnoreCase("Checkbox")) {
+						
+			    		String values[] = request.getParameterValues(attr.getName());
+			    		for(String s:values){
+			    			checkboxValue = checkboxValue + s +",";
+			    		}
+			    		
+			    		saveattri.setAttributValue(checkboxValue);
+			    	} else {
+			    		saveattri.setAttributValue(form.data().get(attr.getName()));
+			    	}
+					
+					saveattri.update();
+		
+				}else{
+					Saveattributes saveattri1 = new Saveattributes();
+					checkboxValue = "";
+					if(attr.getType().equalsIgnoreCase("Checkbox")) {
+
+						String values[] = request.getParameterValues(attr.getName());
+						System.out.println(values);
+						for(String s:values){
+							checkboxValue = checkboxValue + s +",";
+						}
+
+						saveattri1.setAttributValue(checkboxValue);
+					} else {
+						saveattri1.setAttributValue(form.data().get(attr.getName()));
+					}
+					saveattri1.setProjectattrid(attr.getId());
+					saveattri1.setProjectinstancenode_id(projectinstancenode.getId());
+
+					saveattri1.save();
+				}
 				
 			}
 		//	Projectinstancenode projectinstancenode1= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));

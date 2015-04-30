@@ -131,7 +131,7 @@
 									ng-if="${editNodeMetaData.level} == 0">
 									<label class="col-md-12">Project Manager</label>
 									<div class="col-md-12">
-										<select name="projectManager" ui-select2
+										<select name="projectManager" 
 											 style="width: 100%;" required>
 											<option ng-repeat="projectMinfo in findUser"
 												value="{{projectMinfo.id}}" 
