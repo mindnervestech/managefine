@@ -545,6 +545,16 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	 $http({method:'POST',url:'/time/saveComment',data:$scope.editdata}).success(function(response) {*/
     		
     	}
+    	
+    $scope.history = function(){
+    	console.log("history call");
+    	$http({method:'GET',url:'/time/getAllHistory'}).success(function(response) {
+    		
+    		console.log(response);
+    		$scope.historyRecord = response;
+    	});
+    }	
+    	
         
     $scope.setCursorItem = function (item) {
         $scope.myOptions.cursorItem = item;

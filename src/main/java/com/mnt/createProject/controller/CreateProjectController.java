@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import models.Supplier;
 import models.User;
 
+import org.javers.core.Javers;
+import org.javers.core.JaversBuilder;
+import org.javers.core.diff.Diff;
+import org.javers.core.diff.changetype.ValueChange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -30,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 
+import com.google.gson.Gson;
 import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
@@ -64,6 +70,12 @@ public class CreateProjectController {
 		return createProjectService.selectAllProjectType(id,rootId);
 	}
 	
+	
+	@RequestMapping(value="/getAllHistory",method=RequestMethod.GET) 
+	public @ResponseBody List getAllHistory() {
+		return createProjectService.getAllHistory();
+	}
+	
 	@RequestMapping(value="/AddJspPage",method=RequestMethod.GET)
 	public String AddJspPage(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
 		model.addAttribute("nodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
@@ -78,6 +90,7 @@ public class CreateProjectController {
 	
 	@RequestMapping(value="/edit/project/AddJspPage",method=RequestMethod.GET)
 	public String AddJspPageProject(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance,Model model) {
+		 
 		model.addAttribute("nodeMetaData",createProjectService.getAddJspPage(id,mainInstance));
 		return "nodeMetaData";
 	}
@@ -104,7 +117,7 @@ public class CreateProjectController {
 	public String saveprojectTypeandName(HttpServletRequest request,@CookieValue("username")String username,Model model) {
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", User.findByEmail(username));
-		return "redirect:" + "/edit/project/"+createProjectService.saveprojectTypeandName(request).id;
+		return "redirect:" + "/edit/project/"+createProjectService.saveprojectTypeandName(request,username).id;
 	}
 	
 	
@@ -156,8 +169,8 @@ public class CreateProjectController {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = new Date();
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = new Date();*/
 		
 		String supplierValues[] = request.getParameterValues("supplier");
 		String memberValues[] = request.getParameterValues("member");
@@ -177,6 +190,9 @@ public class CreateProjectController {
 				Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
 				projectinstance.setStartDate(form.data().get("startDate"));
 				projectinstance.setEndDate(form.data().get("endDate"));
+				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
+				
+				
 				projectinstance.update();
 				projectinstance.removeAllUser();
 				List<User> uList = new ArrayList<User>();
@@ -258,7 +274,7 @@ public class CreateProjectController {
 			}
 			
 			//project log table for Date
-			AduitLog pDateUserLogs = new AduitLog();
+		/*	AduitLog pDateUserLogs = new AduitLog();
 			try {
 				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
 				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
@@ -273,17 +289,19 @@ public class CreateProjectController {
 			User user = User.findByEmail(username);
 			pDateUserLogs.setUser(User.findById(user.getId()));
 			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
-			pDateUserLogs.save();
-			
+			pDateUserLogs.save();*/
+			compare(projectinstancenode,projectinstancenode,  "Projectinstancenode" , projectinstancenode.getId(), username);
 
 		}else{
 
+			Projectinstancenode projectinstancenodeOld = Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
 			Projectclassnode projectclassnode = Projectclassnode.getProjectById(Long.parseLong(form.data().get("projectId")));
 			if(projectclassnode.getParentId() == null){
 				Projectinstance projectinstance= Projectinstance.getById(Long.parseLong(form.data().get("projectInstance")));
 
 				projectinstance.setStartDate(form.data().get("startDate"));
 				projectinstance.setEndDate(form.data().get("endDate"));
+				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
 				projectinstance.update();
 
 				projectinstance.removeAllUser();
@@ -307,10 +325,11 @@ public class CreateProjectController {
 				projectinstance.saveManyToManyAssociations("supplier");
 			}
 			Projectinstancenode projectinstancenode= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
+			
 			projectinstancenode.setWeightage(Integer.parseInt(form.data().get("weightage")));
 
 			
-			AduitLog pDateUserLogs = new AduitLog();
+			/*AduitLog pDateUserLogs = new AduitLog();
 			try {
 				pDateUserLogs.setNewEndDate(format.parse(form.data().get("endDate")));
 				pDateUserLogs.setNewStartDate(format.parse(form.data().get("startDate")));
@@ -326,7 +345,7 @@ public class CreateProjectController {
 			User userId = User.findByEmail(username);
 			pDateUserLogs.setUser(User.findById(userId.getId()));
 			pDateUserLogs.setProjectinstancenode(Projectinstancenode.getById(projectinstancenode.getId()));
-			pDateUserLogs.save();
+			pDateUserLogs.save();*/
 			
 			
 			
@@ -371,6 +390,8 @@ public class CreateProjectController {
 				saveattri.update();
 				
 			}
+		//	Projectinstancenode projectinstancenode1= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
+			compare(projectinstancenodeOld,projectinstancenode, "Projectinstancenode" , projectinstancenode.getId(), username);
 		}
 	
 		return Long.parseLong(form.data().get("projectId"));
@@ -412,5 +433,54 @@ public class CreateProjectController {
 		return createProjectService.saveTask(id, mainInstance,task);
 	}	
 	
+	
+	private static void compare(Object o, Object n, String entity, Long EntityId, String username) {
+		Javers javers = JaversBuilder.javers().build();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = new Date();
+		Diff diff = javers.compare(o, n);
+
+		System.out.println("===" + diff.getChanges().size());
+		System.out.println("diff= " + diff);
+		List<changeValueVM> list = new ArrayList<changeValueVM>();
+		
+		Map map = new java.util.HashMap<>();
+		List<ValueChange> changes = diff.getChangesByType(ValueChange.class);
+		 for(ValueChange c:changes){
+			 changeValueVM chVm = new changeValueVM();
+			 if(c.getProperty().getName() != "beanLoaderIndex"){
+			 chVm.property = c.getProperty().getName();
+			 chVm.oldVal = c.getLeft().toString(); 
+			 chVm.newVal = c.getRight().toString();
+			 list.add(chVm);
+			 }	
+    	 }
+		 //System.out.println(list.toString());
+		// map.put("ChangeField", list);
+		 Gson gson = new Gson(); 
+		 String json = gson.toJson(list); 
+		 
+		 User user = User.findByEmail(username);
+		 
+		 AduitLog al = new AduitLog();
+         al.setEntityId(EntityId);
+         al.setEntity(entity);
+         al.setJsonData(json);
+         al.setUser(User.findById(user.getId()));
+         al.setChangeDate(dt);
+         al.save();
+
+	}
+	
+	public static class changeValueVM {
+		public String property;
+		public String oldVal;
+		public String newVal;
+		
+	}
+	
 }
 
+
+	

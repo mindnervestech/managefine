@@ -84,6 +84,9 @@ public class Projectinstance extends Model{
 	
 	@OneToOne
 	public User userid;
+	
+	@OneToOne
+	public User projectManager;
 
 	public static Finder<Long,Projectinstance> find = new Finder<Long,Projectinstance>(Long.class,Projectinstance.class);
 	
@@ -205,9 +208,6 @@ public class Projectinstance extends Model{
 		return percentage;
 	}
 
-	
-
-
 	public void setPercentage(Long percentage) {
 		this.percentage = percentage;
 	}
@@ -228,6 +228,14 @@ public class Projectinstance extends Model{
 		this.supplier.addAll(supplier);
 	}
 	
+	public User getProjectManager() {
+		return projectManager;
+	}
+
+	public void setProjectManager(User projectManager) {
+		this.projectManager = projectManager;
+	}
+
 	public void removeAllSupplier() {
 		if(this.supplier == null)
 			return;

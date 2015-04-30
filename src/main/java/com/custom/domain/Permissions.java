@@ -10,7 +10,7 @@ public enum Permissions {
 	ManageClient(routes.Clients.index.url,Manage,"Customers"),
 	ManageSupplier(routes.Suppliers.index.url,Manage,"Suppliers"),
 	/*ManageTask(routes.Tasks.index.url,Manage,"Tasks"),*/
-	EmployeeHierarchy(routes.Projects.employeeHierarchy.url,Manage,"Employee Hierarchy"),
+	/*EmployeeHierarchy(routes.Projects.employeeHierarchy.url,Manage,"Employee Hierarchy"),*/
 	
 	
 	Leaves("#",null,"Leaves"),

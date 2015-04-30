@@ -15,18 +15,25 @@ import models.Client;
 import models.Supplier;
 import models.User;
 
+import org.activiti.engine.impl.util.json.JSONArray;
+import org.activiti.engine.impl.util.json.JSONException;
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 
+import com.avaje.ebean.SqlRow;
+import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.ProjectComment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
 import com.mnt.createProject.vm.ClientVM;
+import com.mnt.createProject.vm.DateWiseHistoryVM;
+import com.mnt.createProject.vm.HistoryAllLogVM;
 import com.mnt.createProject.vm.ProjectAttachmentVM;
 import com.mnt.createProject.vm.ProjectCommentVM;
 import com.mnt.createProject.vm.SupplierDataVM;
@@ -64,8 +71,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setThisNodeId(id);
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
-		if(projectinstance.getUserid() != null){
-			pVm.setProjectManager(projectinstance.getUserid().getFirstName());
+		if(projectinstance.getProjectManager() != null){
+			pVm.setProjectManager(projectinstance.getProjectManager().getId().toString());
 		}
 		Projectinstancenode projectinstancenodeDate= Projectinstancenode.getProjectParentId(projectclassnode.getParentId(),mainInstance);
 
@@ -184,8 +191,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		//System.out.println(format.parse(sdf.format(dt)));
 		
 		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
+		
 		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(id);
+		
 		List<Projectinstancenode> pList = Projectinstancenode.getprojectinstanceById(rootId);
+		
 		for(Projectclassnode projectclassnode :projList) {
 			//long diff = 0;
 			
@@ -205,8 +215,10 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 						if(dayDiff2 > dayDiff1){
 							dayDiff2 = dayDiff1;
 						}
-						
-						long expected = (100*dayDiff2)/dayDiff1;
+						long expected = 0;
+						if(dayDiff1 != 0){
+							expected = (100*dayDiff2)/dayDiff1;
+						}
 						if(projectList.getTaskCompilation() < (expected-10)){
 							pVm.setStatus("danger");
 						} else if(projectList.getTaskCompilation() < expected){
@@ -236,7 +248,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 		
 	@Override
-	public Projectinstance saveprojectTypeandName(HttpServletRequest request) {
+	public Projectinstance saveprojectTypeandName(HttpServletRequest request, String username) {
 
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		
@@ -257,7 +269,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				projectinstance.setClientName(client.getClientName());
 			}
 		
-			projectinstance.setUserid(User.findById(Long.parseLong(form.data().get("projectManager"))));
+			User userid = User.findByEmail(username);
+			projectinstance.setUserid(User.findById(userid.getId()));
+			projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
 		
 			List<User> uList = new ArrayList<User>();
 			for(String s:memberValues){
@@ -714,5 +728,102 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		return result;
 	}
 
+	public List<DateWiseHistoryVM> getAllHistory(){
+		//DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+			List<SqlRow> sqlRows = AduitLog.getDateWiseHistory();
+			List<DateWiseHistoryVM> vmList = new ArrayList<>();
+			for(SqlRow row: sqlRows){
+				DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
+				
+				List<SqlRow> aLog = null;
+					System.out.println("&&&&");
+					System.out.println(row.getString("date"));
+						aLog = AduitLog.getDateHistory(row.getString("date"));
+					
+				dHistoryVM.setChangeDate(row.getString("date"));
+				List<HistoryAllLogVM> hAllList = new ArrayList<>();
+				for(SqlRow sRow: aLog){
+					System.out.println(sRow.toString());
+					AduitLog aduitLog = AduitLog.getById(sRow.getLong("id"));
+					System.out.println(aduitLog.getJsonData());
+					
+					 JSONArray array = new JSONArray(aduitLog.getJsonData());
+					 for(int i=0; i<array.length(); i++){
+						 HistoryAllLogVM hVm = new HistoryAllLogVM(); 
+					        JSONObject jsonObj  = array.getJSONObject(i);
+					        hVm.setProperty(jsonObj.getString("property"));
+					        if(jsonObj.getString("property").equals("startDate") || jsonObj.getString("property").equals("endDate")){
+					        	
+					        	SimpleDateFormat parseFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+					        	Date oldval = null;
+					        	Date newval = null;
+								try {
+									oldval = parseFormat.parse(jsonObj.getString("oldVal"));
+									newval = parseFormat.parse(jsonObj.getString("newVal"));
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+					        	
+					        	SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
+					        	 hVm.setOldVal(format.format(oldval)); 
+					        	 hVm.setNewVal(format.format(newval));
+					        	// hVm.setOldVal(format.format(jsonObj.getString("oldVal")));
+							    // hVm.setNewVal(format.format(jsonObj.getString("newVal")));
+					        }else{
+					        	 hVm.setOldVal(jsonObj.getString("oldVal"));
+							     hVm.setNewVal(jsonObj.getString("newVal"));
+					        }
+					       
+					        hVm.setUserId(aduitLog.getUser().getId());
+					        hVm.setUserName(aduitLog.getUser().getFirstName());
+					        hAllList.add(hVm);
+					    }
+				}
+				dHistoryVM.setHistoryAllLogVM(hAllList);
+				vmList.add(dHistoryVM);
+			}
+			
+			return vmList;
+		
+	}
+	
 	
 }
+
+/*
+for(SqlRow row: sqlRows){
+	DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
+	
+	List<SqlRow> aLog = null;
+		System.out.println("&&&&");
+		System.out.println(row.getString("date"));
+			aLog = AduitLog.getDateHistory(row.getString("date"));
+		
+	dHistoryVM.setChangeDate(row.getString("date"));
+	
+	List<ValueListVM> vms = new ArrayList<>();
+	for(SqlRow sRow: aLog){
+		System.out.println(sRow.toString());
+		AduitLog aduitLog = AduitLog.getById(sRow.getLong("id"));
+		System.out.println(aduitLog.getJsonData());
+		List<HistoryAllLogVM> hAllList = new ArrayList<>();
+		ValueListVM vListVM = new ValueListVM();
+		 JSONArray array = new JSONArray(aduitLog.getJsonData());
+		 for(int i=0; i<array.length(); i++){
+			 HistoryAllLogVM hVm = new HistoryAllLogVM(); 
+		        JSONObject jsonObj  = array.getJSONObject(i);
+		        hVm.setProperty(jsonObj.getString("property"));
+		        hVm.setOldVal(jsonObj.getString("oldVal"));
+		        hVm.setNewVal(jsonObj.getString("newVal"));
+		        hAllList.add(hVm);
+		    }
+		 vListVM.setHistoryAllLogVM(hAllList);
+		 vms.add(vListVM);
+	}
+	dHistoryVM.setValueListVM(vms);
+	vmList.add(dHistoryVM);
+}*/
