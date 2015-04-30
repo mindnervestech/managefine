@@ -509,6 +509,10 @@ top: -130.3125px;
 .modal-header {
  border-bottom: 0px;
 }
+
+.well {
+ margin-top:-20px;
+}
 </style>
 <script>
 

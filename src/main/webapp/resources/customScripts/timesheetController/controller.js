@@ -1014,13 +1014,9 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 		console.log($scope.currentDateObject);
 		$scope.currentDate = ($scope.currentDateObject.getMonth()+1)+"/"+$scope.currentDateObject.getDate()+"/"+$scope.currentDateObject.getFullYear();
 		console.log($scope.currentDateObject.getFullYear());
-		//console.log($scope.data);
-		//$scope.drawWeeklyAppointment($scope.data);
+		
 		$scope.getDataByWeek();
-		/*Date.prototype.getWeek = function() {
-		    var onejan = new Date(this.getFullYear(),0,1);
-		    return Math.floor((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-		}*/
+		
 		Date.prototype.getWeek = function() {
 			var onejan = new Date(this.getFullYear(),0,1);
 			var w = Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
@@ -1071,9 +1067,6 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 	}
 	
 	$scope.changeWeek = function(date) {
-		/*console.log(moment(date));
-		
-		$scope.currentDateObject = moment(date)._d;*/
 		$scope.currentDate= (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
 		$scope.getDataByWeek();
 	};
