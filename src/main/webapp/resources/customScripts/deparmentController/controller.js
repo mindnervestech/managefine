@@ -29,6 +29,11 @@ app.controller("TimeController",function($scope,$http) {
 				console.log(response);
 				$scope.departments = response;
 			});
+			$.pnotify({
+                title: "Success",
+                type:'success',
+                text: "Department Save Successfully",
+            });
 			
 		});
 	};

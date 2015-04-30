@@ -15,7 +15,7 @@
 </head>
 <body ng-controller="FlexiAttributeController" ng-init='loadData()'>
 
-<div style="height: 300px;">
+<div style="height: auto;">
 
 <h3 style="margin-left: 2%;">
 	<b><i>Flexi Attribute</i></b>
@@ -53,8 +53,8 @@
       </div>
       	
       	<div>
-      		<button type="button" style="float: left;margin-left: 35px;margin-top: 18px;margin-right: 10px;" ng-click="addMore()" class="btn btn-warning">Add More</button>
-      		<button type="button" style="  margin-top: 18px;" ng-click="submitFlexiAttribute()" class="btn btn-warning">Save</button>
+      		<button type="button" style="float: left;margin-left: 35px;margin-top: 13px;margin-right: 10px;" ng-click="addMore()" class="btn btn-warning">Add More</button>
+      		<button type="button" style="  margin-top: 13px;margin-bottom: 25px;" ng-click="submitFlexiAttribute()" class="btn btn-warning">Save</button>
       	</div> 
 
 
