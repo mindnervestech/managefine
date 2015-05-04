@@ -258,8 +258,9 @@ public class Cases {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			if(list.get(0).n != null){
 			caseFlexi1.setValue(list.get(0).n);
+			}
 			}
 			caseFlexi1.setId(String.valueOf(cFlexi.getId()));
 			caseFlexi.add(caseFlexi1);
