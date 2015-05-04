@@ -96,6 +96,8 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
             		}
             		break;
             	case "add":
+            		$scope.org = {};
+            		$scope.overWrite = 0;
             		$scope.currentParentId = data.context.id;
             		ngDialog.open({
             			template:'addOrganization',
@@ -104,7 +106,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
             		});
             		break;
             	case "edit":
-            
+            		$scope.overWrite = 0;
             		console.log(data);
             		$scope.currentParentId = data.context.id;
             		$scope.org.organizationName = data.context.organizationName;

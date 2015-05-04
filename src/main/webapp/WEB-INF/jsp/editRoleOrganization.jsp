@@ -1,7 +1,7 @@
 <div class="modal" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
-	<div class="modal-dialog" style="height: 400px;">
-		<div class="modal-content" style="  height: 400px;">
+	<div class="modal-dialog" style="height: 429px;">
+		<div class="modal-content" style="  height: 429px;">
 			<div class="modal-header" style="background: #005580;;color: white;margin: 2px;height: 38px;padding: 2px; border-bottom: 4px gray;">
 				<button type="button" class="close" ng-click="closeThisDialog()"
 					aria-label="Close">

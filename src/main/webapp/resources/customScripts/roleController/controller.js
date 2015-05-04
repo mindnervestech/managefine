@@ -88,6 +88,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             		}
             		break;
             	case "add":
+            		$scope.overWrite = 0;
             		console.log(data.context.id);
             		$scope.currentParentId = data.context.id;
             		console.log(data);
@@ -99,7 +100,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             		});
             		break;
             	case "edit":
-            		
+            		$scope.overWrite = 0;
             		$http({method:'GET',url:'findSelectedDepartment',params:{id:data.context.id}}).success(function(response) {
               	    	console.log(response);
               	    	

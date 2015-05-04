@@ -123,6 +123,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         		break;
         	case "edit":
         		
+        		$rootScope.currentParentId = data.context.id;
     			$http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response) {
     				console.log(response);
     				
