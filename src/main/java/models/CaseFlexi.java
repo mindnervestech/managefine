@@ -12,6 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
+import com.avaje.ebean.Expr;
 import com.mnt.core.domain.FlexiAttributes;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
@@ -69,6 +70,10 @@ public class CaseFlexi extends Model implements FlexiAttributes {
 	
 	public static CaseFlexi getById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static CaseFlexi getIDByFlexi(Long case_id,Long flexi_id) {
+		return find.where().add(Expr.and(Expr.eq("CaseData.id", case_id), Expr.eq("flexiId", flexi_id))).findUnique();
 	}
 
 	@Override

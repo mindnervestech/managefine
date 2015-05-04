@@ -22,6 +22,7 @@ import models.CaseData;
 import models.CaseFlexi;
 import models.CaseNotes;
 import models.Department;
+import models.FlexiAttribute;
 import models.RoleLevel;
 import models.User;
 
@@ -233,39 +234,59 @@ public class Cases {
 		
 		CaseDateVM casedata = new CaseDateVM();
 		List<Case_flexiVM> caseFlexi = new ArrayList<Case_flexiVM>();
-		List<CaseFlexi> casef = CaseFlexi.getCasesAttId(id);
+		//List<CaseFlexi> casef = CaseFlexi.getCasesAttId(id);
 		
-		if(casef.size() != 0){
-		for(CaseFlexi cFlexi:casef){
-			Case_flexiVM caseFlexi1 = new Case_flexiVM();
-			caseFlexi1.setCaseId(String.valueOf(cFlexi.getCaseData().getId()));
-			
-			List<FileAttachmentMeta> list = null;
-			if(cFlexi.getValue() != null && cFlexi.getValue() != ""){
-				
-			try {
-				
-				list = new ObjectMapper().readValue(cFlexi.getValue(),
-						TypeFactory.defaultInstance().constructCollectionType(List.class,FileAttachmentMeta.class));
-				
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		String modelName= "models.CaseFlexi";
+		List<FlexiAttribute> fAttribute = FlexiAttribute.getIdByModel(modelName);
+
+		for (FlexiAttribute fAttribute2 : fAttribute) {
+			if (fAttribute2.getType().equals("FILE")) {
+			//	if (casef.size() != 0) {
+					//for (CaseFlexi cFlexi : casef) {
+
+				CaseFlexi cFlexi= CaseFlexi.getIDByFlexi(id,fAttribute2.getId());
+				if(cFlexi != null){
+						Case_flexiVM caseFlexi1 = new Case_flexiVM();
+						caseFlexi1.setCaseId(String.valueOf(cFlexi
+								.getCaseData().getId()));
+
+						List<FileAttachmentMeta> list = null;
+						if (cFlexi.getValue() != null
+								&& cFlexi.getValue() != "") {
+
+							try {
+
+								list = new ObjectMapper()
+										.readValue(
+												cFlexi.getValue(),
+												TypeFactory
+														.defaultInstance()
+														.constructCollectionType(
+																List.class,
+																FileAttachmentMeta.class));
+
+							} catch (JsonParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (JsonMappingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							if (list.get(0) != null) {
+								caseFlexi1.setValue(list.get(0).n);
+							}
+						}
+						caseFlexi1.setId(String.valueOf(cFlexi.getId()));
+						caseFlexi.add(caseFlexi1);
+						
+					//}
+				}
 			}
-			if(list.get(0).n != null){
-			caseFlexi1.setValue(list.get(0).n);
-			}
-			}
-			caseFlexi1.setId(String.valueOf(cFlexi.getId()));
-			caseFlexi.add(caseFlexi1);
 		}
-		}
+		
 		List<CaseNotes> casenote = CaseNotes.getCasesNotesId(id);
 		List<CasesNotsAndAttVM>  pList = new ArrayList<CasesNotsAndAttVM>();
 		
