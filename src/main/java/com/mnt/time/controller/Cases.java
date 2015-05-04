@@ -251,19 +251,26 @@ public class Cases {
 								.getCaseData().getId()));
 
 						List<FileAttachmentMeta> list = null;
-						if (cFlexi.getValue() != null
-								&& cFlexi.getValue() != "") {
+						if (cFlexi.getValue() != null && cFlexi.getValue() != "") {
 
 							try {
 
+								
+								
+								
+							System.out.println("OOOPOPOPO");
+							System.out.println("OOOPOPOPO1");
+							System.out.println("OOOPOPOPO2");
+							
+								
+								
+								
+								
+								
+								
 								list = new ObjectMapper()
 										.readValue(
-												cFlexi.getValue(),
-												TypeFactory
-														.defaultInstance()
-														.constructCollectionType(
-																List.class,
-																FileAttachmentMeta.class));
+												cFlexi.getValue(),TypeFactory.defaultInstance().constructCollectionType(List.class,FileAttachmentMeta.class));
 
 							} catch (JsonParseException e) {
 								// TODO Auto-generated catch block
