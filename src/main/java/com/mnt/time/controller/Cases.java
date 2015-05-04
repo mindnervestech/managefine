@@ -266,8 +266,6 @@ public class Cases {
 								
 								
 								
-								
-								
 								list = new ObjectMapper()
 										.readValue(
 												cFlexi.getValue(),TypeFactory.defaultInstance().constructCollectionType(List.class,FileAttachmentMeta.class));
