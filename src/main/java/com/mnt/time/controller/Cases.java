@@ -235,12 +235,14 @@ public class Cases {
 		List<Case_flexiVM> caseFlexi = new ArrayList<Case_flexiVM>();
 		List<CaseFlexi> casef = CaseFlexi.getCasesAttId(id);
 		
-		
+		if(casef.size() != 0){
 		for(CaseFlexi cFlexi:casef){
 			Case_flexiVM caseFlexi1 = new Case_flexiVM();
 			caseFlexi1.setCaseId(String.valueOf(cFlexi.getCaseData().getId()));
 			
 			List<FileAttachmentMeta> list = null;
+			if(cFlexi.getValue() != null && cFlexi.getValue() != ""){
+				
 			try {
 				
 				list = new ObjectMapper().readValue(cFlexi.getValue(),
@@ -257,13 +259,12 @@ public class Cases {
 				e.printStackTrace();
 			}
 			
-			if(list.get(0).n != null){
 			caseFlexi1.setValue(list.get(0).n);
 			}
 			caseFlexi1.setId(String.valueOf(cFlexi.getId()));
 			caseFlexi.add(caseFlexi1);
 		}
-		
+		}
 		List<CaseNotes> casenote = CaseNotes.getCasesNotesId(id);
 		List<CasesNotsAndAttVM>  pList = new ArrayList<CasesNotsAndAttVM>();
 		
