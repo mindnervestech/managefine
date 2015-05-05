@@ -87,6 +87,7 @@ public class RoleLevel extends Model{
 	}
 	
 	public static boolean checkUserLevel(Long id,RoleLevels currentLevel){
+		//List<RoleLevel> roleX = RoleLevel.getRoleList();
 		RoleX roleX = RoleX.find.where(Expr.eq("company", User.findById(id).companyobject)).findUnique();
 		for(RoleLevel level : roleX.getRoleLevels()){
 			if(level.getId() >= currentLevel.ordinal()){

@@ -40,7 +40,7 @@ public class Client extends Model {
 	@SearchColumnOnUI(rank=2,colName="Phone No")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="Phone No")
-	@Validation(required=true,digits=true,maxlength=10)
+	@Validation(required=true,digits=true)  /* ,maxlength=10*/
 	public String phoneNo;
 	
 	@WizardCardUI(name="Basic Info",step=1)
@@ -89,7 +89,7 @@ public class Client extends Model {
 	
 	@WizardCardUI(name="Contact Point",step=3)
 	@UIFields(order=12,label="Contact Phone")
-	@Validation(required=true,digits=true,maxlength=10)
+	@Validation(required=true,digits=true)
 	public String contactPhone;
 	
 	@WizardCardUI(name="Contact Point",step=3)

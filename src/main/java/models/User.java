@@ -54,18 +54,18 @@ public class User extends Model {
     public Timestamp lastUpdate;
 	
 	@Id
-	@WizardCardUI(name="Basic Info",step=0)
+	@WizardCardUI(name="Personal Info",step=0)
 	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=1,label="Salutation")
 	@Enumerated(EnumType.STRING)
 	public Salutation	salutation;
 	
 	@SearchColumnOnUI(rank=1,colName="Employee Id")
 	@SearchFilterOnUI(label="Employee Id")
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=7,label="Employee Id")
 //	@Validation(required = true,remote="/idAvailability", messages ="Employee Id is already occupied")
 	@Validation(required = true)
@@ -73,31 +73,31 @@ public class User extends Model {
 	
 	@SearchColumnOnUI(rank=2,colName="First Name")
 	@SearchFilterOnUI(label="First Name")
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=2,label="First Name", mandatory = true)
 	@Validation(required=true)
 	public String	firstName;
     
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=3,label="Middle Name", mandatory = true)
     public String	middleName;
     
 	@SearchFilterOnUI(label="Last Name")
 	@SearchColumnOnUI(rank=3,colName="Last Name")
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=4,label="Last Name",mandatory = true)
 	@Validation(required=true)
 	public String	lastName;
 	
 	@SearchColumnOnUI(rank=4,colName="Email")
 	@SearchFilterOnUI(label="Email")
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=5,label="Username")
 	@Validation(required=true,remote="emailAvailability", messages="Username is not available")
 	@Column(unique = true)
     public String	email;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=6,label="Gender")
 	@Enumerated(EnumType.STRING)
 	@Validation(required = true)
@@ -105,34 +105,34 @@ public class User extends Model {
     
     
 	@Enumerated(EnumType.STRING)
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=1,label="Employee Status")
 	public EmployeeStatus status;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=2,label="Date of Joining")
 	@Validation(required = true)
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date	hireDate;
     
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=3,label="Annual Income")
 	@Validation(number=true)
 	public Double annualIncome;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=4,label="Hourly Rate")
 	@Validation(required = true)
 	public Double hourlyrate;
 
 	@Transient
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=5,label="Designation")
 	@Validation(required = true)
 	public static List<DomainEnum> rolex;
 	
 	@Transient
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=8,label="Department")
 	@Validation(required = true)
 	public static List<DomainEnum> dept;
@@ -160,24 +160,24 @@ public class User extends Model {
 	public LeaveLevel level;
 	
 	
-	@WizardCardUI(name="Other Info",step=3)
+	@WizardCardUI(name="Progessional Info",step=3)
 	@UIFields(order=6,label=REPORTING_MANAGER, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne
 	public User manager;
 	
-	@WizardCardUI(name="Other Info",step=2)
+	@WizardCardUI(name="Progessional Info",step=2)
 	@UIFields(order=7,label="Date of Release")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date releaseDate;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=9,label=ORGINIZATION, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne
 	public Organization organization;
 	
-	//@WizardCardUI(name="Other Info",step=2)
+	//@WizardCardUI(name="Progessional Info",step=2)
 	//@UIFields(order=6,label=HR_MANAGER, autocomplete=true)
 	@OneToOne
 	public User hrmanager;
