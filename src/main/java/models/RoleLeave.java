@@ -1,9 +1,13 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.mnt.createProject.model.Projectinstance;
 
 import play.db.ebean.Model;
 
@@ -91,6 +95,10 @@ public class RoleLeave extends Model {
 
 	public void setRoleLevel(RoleLevel roleLevel) {
 		this.roleLevel = roleLevel;
+	}
+	
+	public static RoleLeave getDeleteRoleLevel(Long id) {
+		return find.where().eq("roleLevel.id", id).findUnique();
 	}
 
 	/*public List<LeaveLevel> getLeaveLevels() {

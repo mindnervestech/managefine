@@ -62,33 +62,34 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		return roleVM;
 		
 	}
-	
-	
-	
-	
 
 	@Override
 	public Boolean deleteRoleChild(Long id) {
 		// TODO Auto-generated method stub
+
 		RoleLevel role = RoleLevel.getRoleById(id);
-	if(role != null ) {
-			
+		if (role != null) {
+			RoleLeave roleLeave = RoleLeave.getDeleteRoleLevel(id);
+			if(roleLeave != null){
+				roleLeave.delete();
+			}
 			List<RoleLevel> childList = role.getRoleByParentId(id);
-			for(RoleLevel child:childList) {
-				//File f = new File(imageRootDir+File.separator+child.getOrganizationProfileUrl());
-				//f.delete();
+			for (RoleLevel child : childList) {
+				// File f = new
+				// File(imageRootDir+File.separator+child.getOrganizationProfileUrl());
+				// f.delete();
 				child.setParentId(role.getParentId());
 				child.update();
-				
+
 			}
-			
+
 			role.delete();
-			
+
 			return true;
 		} else {
 			return false;
 		}
-	
+
 	}
 
 	public List<DepartmentDataVM> findDepartment(){
