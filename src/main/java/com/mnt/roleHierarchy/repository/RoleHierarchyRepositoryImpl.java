@@ -3,6 +3,8 @@ package com.mnt.roleHierarchy.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.LeaveLevel;
+import models.RoleLeave;
 import models.RoleLevel;
 import models.RoleX;
 import models.User;
@@ -122,6 +124,24 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 		role.setParentId(roleVM.getParent());
 		
 		role.save();
+		List<LeaveLevel> ll1 = LeaveLevel.findListByCompany(user.getCompanyobject().getId());
+		if(ll1 != null){
+		List<RoleLevel> rl1 = RoleLevel.find.all();
+		for(RoleLevel r:rl1) {
+			for(LeaveLevel _ll1 : ll1){
+			if(RoleLeave.find.where().eq("company", user.getCompanyobject()).eq("roleLevel", r).eq("leaveLevel", _ll1).findUnique() == null){
+				RoleLeave Rleave = new RoleLeave();
+				Rleave.roleLevel = r;
+				Rleave.company = user.getCompanyobject();
+				Rleave.leaveLevel = _ll1;
+				Rleave.total_leave = 0l;
+				Rleave.save();
+			}else{
+				System.out.println("empty");
+			}
+			}
+		}	
+		}
 		}else{
 			return null;
 		}

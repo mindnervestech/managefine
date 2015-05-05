@@ -255,17 +255,6 @@ public class Cases {
 
 							try {
 
-								
-								
-								
-							System.out.println("OOOPOPOPO");
-							System.out.println("OOOPOPOPO1");
-							System.out.println("OOOPOPOPO2");
-							
-								
-								
-								
-								
 								list = new ObjectMapper()
 										.readValue(
 												cFlexi.getValue(),TypeFactory.defaultInstance().constructCollectionType(List.class,FileAttachmentMeta.class));

@@ -200,115 +200,7 @@
 									ng-click="closeThisDialog()"></div>
 							</div>
 
-							<%-- <div class="form-group">
-						<div class="col-md-4">
-							<label class="col-md-12" style="margin-top: 16px;">Type</label> <input
-								type="text" name="projectName"
-								value='${editNodeMetaData.projectTypes}' disabled="disabled"
-								class="col-md-11"> <label class="col-md-12"
-								style="color: red" ng-if="projectT == 1">type is
-								required</label>
-
-						</div>
-						<div class="col-md-2" style="margin-top: 42px;">
-							<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
-						</div>
-
-						<div class="col-md-6">
-							<label class="col-md-11" style="margin-top: 16px;" for="pro-name">Description</label>
-							<textarea class="col-md-11" name="projectDescription" rows="3"
-								style="resize: none;" placeholder="Enter Project Description."
-								disabled="disabled"
-								value='${editNodeMetaData.projectDescription}'>${editNodeMetaData.projectDescription}</textarea>
-							<label class="col-md-12" style="color: red" ng-if="projectD == 1">description
-								is required</label>
-						</div>
-					</div>
-
-					<div class="form-group" style="float: left;">
-						<div class="col-md-4">
-							<label class="col-md-12" style="margin-top: 16px;">Start
-								Date</label> <input type="date" name="startDate"
-								value='${editNodeMetaData.startDate}' /> <label
-								class="col-md-12" style="color: red" ng-if="projectT == 1">type
-								is required</label>
-						</div>
-						<div class="col-md-2" style="margin-top: 42px;">
-							<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
-						</div>
-						<div class="col-md-5" style="margin-left: 17px;">
-							<label class="col-md-11" style="margin-top: 16px;" for="pro-name">End
-								Date</label> <input type="date" name="endDate"
-								value='${editNodeMetaData.endDate}' />
-						</div>
-					</div> --%>
-
-							<%-- <div class="form-group">
-
-						<div class="col-md-6" style="padding: 0px;">
-							<label class="col-md-11"
-								style="margin-top: 16px; margin-left: 14px;">Weightage *</label>
-							<select class="col-md-4" name="weightage"
-								style="margin-left: 15px;" required>
-								<option value="">Select</option>
-								<option value="1"
-									ng-selected="${editNodeMetaData.weightage} == '1'">1</option>
-								<option value="2"
-									ng-selected="${editNodeMetaData.weightage} == '2'">2</option>
-								<option value="3"
-									ng-selected="${editNodeMetaData.weightage} == '3'">3</option>
-								<option value="4"
-									ng-selected="${editNodeMetaData.weightage} == '4'">4</option>
-								<option value="5"
-									ng-selected="${editNodeMetaData.weightage} == '5'">5</option>
-							</select>
-
-
-						</div>
-
-						<div class="col-md-6" style="padding: 0px;">
-
-							<label class="col-md-11" ng-if="${editNodeMetaData.level} == 0"
-								style="margin-top: 16px; margin-left: 14px;">Project
-								Manager</label>
-							<input type="text" name="projectManager" ng-if="${editNodeMetaData.level} == 0" value='${editNodeMetaData.projectManager}' disabled="disabled" class="col-md-11">
-							<select class="col-md-12" name="projectManager" ui-select2
-								multiple="multiple" ng-model="projectManagerData"
-								style="margin-left: 15px;" required>
-								<option ng-repeat="projectMinfo in findUser"
-									value="{{projectMinfo.id}}"
-									ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}}</option>
-							</select>
-
-						</div>
-					</div> --%>
-
-							<%-- <div class="col-md-12" ng-if="${editNodeMetaData.level} == 0">
-
-						<div class="col-md-6">
-							<label class="col-md-12"
-								style="margin-top: 16px; margin-left: 14px;">Supplier</label> <select
-								class="col-md-12" name="supplier" multiple="multiple"
-								ng-model="supplierData" style="margin-left: 15px;" required>
-								<option ng-repeat="supplierinfo in selectSupplier"
-									value="{{supplierinfo.id}}"
-									ng-selected="supplierinfo.selected == 'selected'">{{supplierinfo.supplierName}}</option>
-							</select>
-
-
-						</div>
-
-						<div class="col-md-6">
-							<label class="col-md-12"
-								style="margin-top: 16px; margin-left: 14px;">Member</label> <select
-								class="col-md-12" name="member" multiple="multiple"
-								ng-model="memberData" style="margin-left: 15px;" required>
-								<option ng-repeat="memberinfo in selectUser"
-									value="{{memberinfo.id}}"
-									ng-selected="memberinfo.selected == 'selected'">{{memberinfo.firstName}}</option>
-							</select>
-						</div>
-					</div> --%>
+					
 
 
 							<input size="16" type="text"
@@ -328,7 +220,7 @@
 							<hr style="width: 100%; float: left;">
 
 							<div class="form-group">
-								<div class="col-md-12">
+								<div class="col-md-12" style="padding: 0px;">
 									<div class="form-group">
 										<c:forEach var="pValue"
 											items="${editNodeMetaData.projectValue}">
@@ -338,25 +230,25 @@
 												</div>
 												<c:choose>
 													<c:when test="${pValue.type == 'Date'}">
-														<div class="col-md-12" style="padding: 0px;">
+														<div class="col-md-12">
 															<input type="date" value='${pValue.attriValue}'
 																name="${pValue.name}" />
 														</div>
 													</c:when>
 													<c:when test="${pValue.type == 'Integer'}">
-														<div class="col-md-12" style="padding: 0px;">
+														<div class="col-md-12">
 															<input size="16" type="text" value='${pValue.attriValue}'
 																placeholder="Enter Number" name="${pValue.name}">
 														</div>
 													</c:when>
 													<c:when test="${pValue.type == 'String'}">
-														<div class="col-md-12" style="padding: 0px;">
+														<div class="col-md-12">
 															<input size="16" type="text" value='${pValue.attriValue}'
 																placeholder="Enter String" name="${pValue.name}">
 														</div>
 													</c:when>
 													<c:when test="${pValue.type == 'Checkbox'}">
-														<div class="col-md-12" style="padding: 0px;">
+														<div class="col-md-12">
 															<c:forEach var="option" items='${pValue.valueSlice}'>
 																<input class="col-md-1" type="checkbox"
 																	name="${pValue.name}" value='${option.value}'
@@ -367,7 +259,7 @@
 														</div>
 													</c:when>
 													<c:when test="${pValue.type == 'Dropdown'}">
-														<div class="col-md-12" style="padding: 0px;">
+														<div class="col-md-12">
 															<select id="Dropdown" name="${pValue.name}"
 																class="input-large" value='${pValue.attriValue}'>
 																<c:forEach var="option" items='${pValue.valueSlice}'>
@@ -875,3 +767,119 @@ z-index:10000;
  
 
 </script>
+
+
+
+
+
+
+
+		<%-- <div class="form-group">
+						<div class="col-md-4">
+							<label class="col-md-12" style="margin-top: 16px;">Type</label> <input
+								type="text" name="projectName"
+								value='${editNodeMetaData.projectTypes}' disabled="disabled"
+								class="col-md-11"> <label class="col-md-12"
+								style="color: red" ng-if="projectT == 1">type is
+								required</label>
+
+						</div>
+						<div class="col-md-2" style="margin-top: 42px;">
+							<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
+						</div>
+
+						<div class="col-md-6">
+							<label class="col-md-11" style="margin-top: 16px;" for="pro-name">Description</label>
+							<textarea class="col-md-11" name="projectDescription" rows="3"
+								style="resize: none;" placeholder="Enter Project Description."
+								disabled="disabled"
+								value='${editNodeMetaData.projectDescription}'>${editNodeMetaData.projectDescription}</textarea>
+							<label class="col-md-12" style="color: red" ng-if="projectD == 1">description
+								is required</label>
+						</div>
+					</div>
+
+					<div class="form-group" style="float: left;">
+						<div class="col-md-4">
+							<label class="col-md-12" style="margin-top: 16px;">Start
+								Date</label> <input type="date" name="startDate"
+								value='${editNodeMetaData.startDate}' /> <label
+								class="col-md-12" style="color: red" ng-if="projectT == 1">type
+								is required</label>
+						</div>
+						<div class="col-md-2" style="margin-top: 42px;">
+							<!-- <input type="color" ng-model="pro.projectColor" style="width: 64%;height: 26px;" class="ng-pristine ng-valid"> -->
+						</div>
+						<div class="col-md-5" style="margin-left: 17px;">
+							<label class="col-md-11" style="margin-top: 16px;" for="pro-name">End
+								Date</label> <input type="date" name="endDate"
+								value='${editNodeMetaData.endDate}' />
+						</div>
+					</div> --%>
+
+							<%-- <div class="form-group">
+
+						<div class="col-md-6" style="padding: 0px;">
+							<label class="col-md-11"
+								style="margin-top: 16px; margin-left: 14px;">Weightage *</label>
+							<select class="col-md-4" name="weightage"
+								style="margin-left: 15px;" required>
+								<option value="">Select</option>
+								<option value="1"
+									ng-selected="${editNodeMetaData.weightage} == '1'">1</option>
+								<option value="2"
+									ng-selected="${editNodeMetaData.weightage} == '2'">2</option>
+								<option value="3"
+									ng-selected="${editNodeMetaData.weightage} == '3'">3</option>
+								<option value="4"
+									ng-selected="${editNodeMetaData.weightage} == '4'">4</option>
+								<option value="5"
+									ng-selected="${editNodeMetaData.weightage} == '5'">5</option>
+							</select>
+
+
+						</div>
+
+						<div class="col-md-6" style="padding: 0px;">
+
+							<label class="col-md-11" ng-if="${editNodeMetaData.level} == 0"
+								style="margin-top: 16px; margin-left: 14px;">Project
+								Manager</label>
+							<input type="text" name="projectManager" ng-if="${editNodeMetaData.level} == 0" value='${editNodeMetaData.projectManager}' disabled="disabled" class="col-md-11">
+							<select class="col-md-12" name="projectManager" ui-select2
+								multiple="multiple" ng-model="projectManagerData"
+								style="margin-left: 15px;" required>
+								<option ng-repeat="projectMinfo in findUser"
+									value="{{projectMinfo.id}}"
+									ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}}</option>
+							</select>
+
+						</div>
+					</div> --%>
+
+							<%-- <div class="col-md-12" ng-if="${editNodeMetaData.level} == 0">
+
+						<div class="col-md-6">
+							<label class="col-md-12"
+								style="margin-top: 16px; margin-left: 14px;">Supplier</label> <select
+								class="col-md-12" name="supplier" multiple="multiple"
+								ng-model="supplierData" style="margin-left: 15px;" required>
+								<option ng-repeat="supplierinfo in selectSupplier"
+									value="{{supplierinfo.id}}"
+									ng-selected="supplierinfo.selected == 'selected'">{{supplierinfo.supplierName}}</option>
+							</select>
+
+
+						</div>
+
+						<div class="col-md-6">
+							<label class="col-md-12"
+								style="margin-top: 16px; margin-left: 14px;">Member</label> <select
+								class="col-md-12" name="member" multiple="multiple"
+								ng-model="memberData" style="margin-left: 15px;" required>
+								<option ng-repeat="memberinfo in selectUser"
+									value="{{memberinfo.id}}"
+									ng-selected="memberinfo.selected == 'selected'">{{memberinfo.firstName}}</option>
+							</select>
+						</div>
+					</div> --%>
