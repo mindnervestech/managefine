@@ -69,9 +69,11 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 
 		RoleLevel role = RoleLevel.getRoleById(id);
 		if (role != null) {
-			RoleLeave roleLeave = RoleLeave.getDeleteRoleLevel(id);
+			List<RoleLeave> roleLeave = RoleLeave.getDeleteRoleLevel(id);
 			if(roleLeave != null){
-				roleLeave.delete();
+				for(RoleLeave rLeave:roleLeave){
+					rLeave.delete();
+				}
 			}
 			List<RoleLevel> childList = role.getRoleByParentId(id);
 			for (RoleLevel child : childList) {

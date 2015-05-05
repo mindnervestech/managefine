@@ -97,8 +97,8 @@ public class RoleLeave extends Model {
 		this.roleLevel = roleLevel;
 	}
 	
-	public static RoleLeave getDeleteRoleLevel(Long id) {
-		return find.where().eq("roleLevel.id", id).findUnique();
+	public static List<RoleLeave> getDeleteRoleLevel(Long id) {
+		return find.where().eq("roleLevel.id", id).findList();
 	}
 
 	/*public List<LeaveLevel> getLeaveLevels() {
