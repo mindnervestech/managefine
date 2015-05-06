@@ -23,6 +23,7 @@ import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
+import com.custom.domain.Currency;
 import com.custom.domain.EmployeeStatus;
 import com.custom.domain.Gender;
 import com.custom.domain.Salutation;
@@ -63,13 +64,6 @@ public class User extends Model {
 	@Enumerated(EnumType.STRING)
 	public Salutation	salutation;
 	
-	@SearchColumnOnUI(rank=1,colName="Employee Id")
-	@SearchFilterOnUI(label="Employee Id")
-	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=7,label="Employee Id")
-//	@Validation(required = true,remote="/idAvailability", messages ="Employee Id is already occupied")
-	@Validation(required = true)
-	public String	employeeId;
 	
 	@SearchColumnOnUI(rank=2,colName="First Name")
 	@SearchFilterOnUI(label="First Name")
@@ -102,37 +96,61 @@ public class User extends Model {
 	@Enumerated(EnumType.STRING)
 	@Validation(required = true)
 	public Gender gender;
+	
+	@SearchColumnOnUI(rank=1,colName="Employee Id")
+	@SearchFilterOnUI(label="Employee Id")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=7,label="Employee Id")
+//	@Validation(required = true,remote="/idAvailability", messages ="Employee Id is already occupied")
+	@Validation(required = true)
+	public String	employeeId;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=8,label=ORGINIZATION, autocomplete=true)
+	@Validation(required = true)
+	@OneToOne
+	public Organization organization;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=9,label="Currency")
+	@Enumerated(EnumType.STRING)
+	public Currency	currency;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=10,label="Montly sale/purchase amount ", mandatory = true)
+	@Validation(required=true,digits=true)
+    public String amount;
     
     
 	@Enumerated(EnumType.STRING)
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=1,label="Employee Status")
 	public EmployeeStatus status;
 	
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=2,label="Date of Joining")
 	@Validation(required = true)
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date	hireDate;
     
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=3,label="Annual Income")
 	@Validation(number=true)
 	public Double annualIncome;
 	
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=4,label="Hourly Rate")
 	@Validation(required = true)
 	public Double hourlyrate;
 
 	@Transient
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=5,label="Designation")
 	@Validation(required = true)
 	public static List<DomainEnum> rolex;
 	
 	@Transient
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=8,label="Department")
 	@Validation(required = true)
 	public static List<DomainEnum> dept;
@@ -160,24 +178,18 @@ public class User extends Model {
 	public LeaveLevel level;
 	
 	
-	@WizardCardUI(name="Progessional Info",step=3)
+	@WizardCardUI(name="Professional Info",step=3)
 	@UIFields(order=6,label=REPORTING_MANAGER, autocomplete=true)
 	@Validation(required = true)
 	@OneToOne
 	public User manager;
 	
-	@WizardCardUI(name="Progessional Info",step=2)
+	@WizardCardUI(name="Professional Info",step=2)
 	@UIFields(order=7,label="Date of Release")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date releaseDate;
 	
-	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=9,label=ORGINIZATION, autocomplete=true)
-	@Validation(required = true)
-	@OneToOne
-	public Organization organization;
-	
-	//@WizardCardUI(name="Progessional Info",step=2)
+	//@WizardCardUI(name="Professional Info",step=2)
 	//@UIFields(order=6,label=HR_MANAGER, autocomplete=true)
 	@OneToOne
 	public User hrmanager;
@@ -610,4 +622,23 @@ public class User extends Model {
 		this.flexiAttributes = flexiAttributes;
 	}
 
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+	
+	
+	
+	
 }

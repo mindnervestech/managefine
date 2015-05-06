@@ -124,7 +124,7 @@ public class UserSearchContext extends ASearchContext<User>{
 				page);
 		
 		String email = form.data().get("email");
-		
+	
 		User user1 = User.findByEmail(email);
 		Expression exp1 = Expr.eq("companyobject.companyCode", user1.companyobject.getCompanyCode());
 		Expression exp2 = Expr.and(Expr.ne("designation", "Admin"),Expr.and(Expr.ne("designation", "Supplier"),Expr.and(Expr.ne("designation", "Customer"),

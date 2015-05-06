@@ -252,6 +252,10 @@ public interface Suppliers {
 		public static String url="/supplierDelete";
 	}
 
+	
+	public interface findCountry {
+		public static String url="/allCountry";
+	}
 
 	public interface create {
 		public static String url="/supplierCreate";

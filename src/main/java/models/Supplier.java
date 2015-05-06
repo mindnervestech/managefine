@@ -6,22 +6,31 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
 
+import com.custom.domain.Currency;
+import com.custom.domain.Locality;
+import com.custom.domain.Salutation;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
+import com.mnt.orghierarchy.model.Organization;
+import com.mnt.time.controller.routes;
 
 @Entity
 public class Supplier extends Model {
 	
 	public static final String ENTITY = "Supplier";
+	
+//	private static final String COUNTRY = "Country";
 	
 	@Id
 	@WizardCardUI(name="Basic Info",step=0)
@@ -39,7 +48,7 @@ public class Supplier extends Model {
 	@SearchColumnOnUI(rank=2,colName="Phone No")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=2,label="Phone No")
-	@Validation(required=true,digits=true,maxlength=10)
+	@Validation(required=true,digits=true)    /* ,maxlength=10*/
 	public String phoneNo;
 	
 	@WizardCardUI(name="Basic Info",step=1)
@@ -73,6 +82,13 @@ public class Supplier extends Model {
 	@Validation(required=true)
 	public String city;
 	
+	/*@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=9,label=COUNTRY, autocomplete=true)
+	@Validation(required = true)
+	@OneToOne
+	public Country country;
+	*/
+	
 	@WizardCardUI(name="Basic Info",step=2)
 	@UIFields(order=8,label="Country")
 	@SearchFilterOnUI(label="Country")
@@ -85,23 +101,89 @@ public class Supplier extends Model {
 	@Validation(required=true)
 	public String pin;
 	
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=10,label="WEBSITE")
+	@Validation(required=true)
+	public String website;
+	
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=11,label="Type")
+	@Enumerated(EnumType.STRING)
+	public Locality locality;
+	
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=12,label="Currency")
+	@Enumerated(EnumType.STRING)
+	public Currency	currency;
+		
+	@WizardCardUI(name="Basic Info",step=2)
+	@UIFields(order=13,label=" Montly sale/purchase amount ", mandatory = true)
+	@Validation(required=true,digits=true)
+    public String amount;
+	
 	//Third Wizard
 	@WizardCardUI(name="Contact Point",step=3)
-	@UIFields(order=11,label="Contact Name")
+	@UIFields(order=11,label="Salutation")
+	@Validation(required=true)
+	@Enumerated(EnumType.STRING)
+	public Salutation salutation;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=12,label="Contact Name")
 	@SearchFilterOnUI(label="Contact Name")
 	@Validation(required=true)
 	public String contactName;
 	
 	@WizardCardUI(name="Contact Point",step=3)
-	@UIFields(order=12,label="Contact Phone")
-	@Validation(required=true,digits=true,maxlength=10)
+	@UIFields(order=13,label="Contact Phone")
+	@Validation(required=true,digits=true)
 	public String contactPhone;
 	
 	@WizardCardUI(name="Contact Point",step=3)
-	@UIFields(order=13,label="Contact Email")
+	@UIFields(order=14,label="Contact Email")
 	@SearchColumnOnUI(rank=5,colName="Contact Email")
 	@Validation(required=true,email=true)
 	public String contactEmail;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=15,label="Designation")
+	@Validation(required=true)
+	public String designation;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=16,label="Company")
+	@Validation(required=true)
+	public String companyName;
+	
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=17,label="Salutation 1")
+	@Enumerated(EnumType.STRING)
+	public Salutation salutation1;
+	
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=18,label="Contact Name 1")
+	public String contactName1;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=19,label="Contact Phone 1")
+	@Validation(required=true,digits=true)
+	public String contactPhone1;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=20,label="Contact Email 1")
+	@SearchColumnOnUI(rank=5,colName="Contact Email 1")
+	public String contactEmail1;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=21,label="Designation 1")
+	public String designation1;
+	
+	@WizardCardUI(name="Contact Point",step=3)
+	@UIFields(order=22,label="Company 1")
+	public String companyName1;
+	
 	
 	@WizardCardUI(name="Flexi Attribute",step=3)
 	@UIFields(order=1,label="flexiAttributes")
@@ -209,12 +291,30 @@ public class Supplier extends Model {
 		this.country = country;
 	}
 
+	
 	public String getPin() {
 		return pin;
 	}
 
+	/*public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+*/
 	public void setPin(String pin) {
 		this.pin = pin;
+	}
+
+	
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 
 	public String getContactName() {
@@ -265,4 +365,112 @@ public class Supplier extends Model {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Salutation getSalutation() {
+		return salutation;
+	}
+
+	public void setSalutation(Salutation salutation) {
+		this.salutation = salutation;
+	}
+
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	
+
+	public Salutation getSalutation1() {
+		return salutation1;
+	}
+
+	public void setSalutation1(Salutation salutation1) {
+		this.salutation1 = salutation1;
+	}
+
+	public String getContactName1() {
+		return contactName1;
+	}
+
+	public void setContactName1(String contactName1) {
+		this.contactName1 = contactName1;
+	}
+
+	public String getContactPhone1() {
+		return contactPhone1;
+	}
+
+	public void setContactPhone1(String contactPhone1) {
+		this.contactPhone1 = contactPhone1;
+	}
+
+	public String getContactEmail1() {
+		return contactEmail1;
+	}
+
+	public void setContactEmail1(String contactEmail1) {
+		this.contactEmail1 = contactEmail1;
+	}
+
+	public String getDesignation1() {
+		return designation1;
+	}
+
+	public void setDesignation1(String designation1) {
+		this.designation1 = designation1;
+	}
+
+	public String getCompanyName1() {
+		return companyName1;
+	}
+
+	public void setCompanyName1(String companyName1) {
+		this.companyName1 = companyName1;
+	}
+
+	public Locality getLocality() {
+		return locality;
+	}
+
+	public void setLocality(Locality locality) {
+		this.locality = locality;
+	}
+
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+
+
+
+	static {
+	//	autoCompleteAction.put(COUNTRY, routes.Suppliers.findCountry.url);
+	}
+	
 }

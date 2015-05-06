@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import models.Country;
 import models.RoleLevel;
 import models.Supplier;
 import models.User;
@@ -108,6 +109,28 @@ public class Suppliers {
 		return Json.toJson(result).toString();
 	}
 
+	@RequestMapping(value="/allCountry", method=RequestMethod.GET)
+	public @ResponseBody String allCountry(@CookieValue("username") String username,HttpServletRequest requset){
+			
+		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		String query = form.get("query");
+		ObjectNode result = Json.newObject();
+		List<AutoComplete> results = transform(Country.getCountryList(), toAutoCompleteFormatForCountry());
+		result.put("results", Json.toJson(results));
+		return Json.toJson(result).toString();
+	}	
+	
+	private static Function<Country, AutoComplete> toAutoCompleteFormatForCountry() {
+		return new Function<Country, AutoComplete>() {
+			@Override
+			public AutoComplete apply(Country country) {
+				return new AutoComplete(country.getCountryName(), country.getCountryName(),
+						country.getCountryName(), country.id);
+			}
+		};
+	}
+	
+	
 	private static Function<Supplier, AutoComplete> toAutoCompleteFormatForSupplier() {
 		return new Function<Supplier, AutoComplete>() {
 			@Override
@@ -117,13 +140,15 @@ public class Suppliers {
 			}
 		};
 	}
+	
+	
 
 	@RequestMapping(value = "/supplierCreate", method = RequestMethod.POST)
 	public @ResponseBody String create(HttpServletRequest request,
 			@CookieValue("username") String username) {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		String userName = form.get("email");
-		
+		//Country cc =Country.getCountryById(Long.parseLong(form.get("country_id")));
 		RoleLevel r = RoleLevel.getRoleByName("Supplier");
 		String password = Application.generatePassword();
 		User u = new User();
@@ -139,6 +164,7 @@ public class Suppliers {
 			Map<String, Object> extra = new HashMap<String, Object>();
 			extra.put("company", User.findByEmail(username).companyobject);
 			extra.put("user", u);
+			//extra.put("country", cc);
 			SupplierSave saveUtils = new SupplierSave(extra);
 			saveUtils.doSave(false, request);
 		} catch (Exception e) {
