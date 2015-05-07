@@ -228,7 +228,7 @@ public class UserPermissions {
 						user.getEmployeeId(),
 						user.getFirstName(),
 						user.getLastName(),
-						user.getDesignation().toString(),
+						user.getDesignation(),
 						user.getPermissions(),
 					Long.toString(user.getId())));
 			}

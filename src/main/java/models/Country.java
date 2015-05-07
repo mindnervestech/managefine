@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.mnt.orghierarchy.model.Organization;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -40,6 +42,10 @@ public class Country extends Model {
 	public static Country getCountryById(Long id) {
 		return find.byId(id);
 	}
+	
+	public static Country findById(Long id) {
+        return find.where().eq("id", id).findUnique();
+    }
 	
 	@Override
 	public String toString() {

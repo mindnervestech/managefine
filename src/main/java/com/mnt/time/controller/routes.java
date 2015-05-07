@@ -256,7 +256,16 @@ public interface Suppliers {
 	public interface findCountry {
 		public static String url="/allCountry";
 	}
+	
+	public interface findStateByCountry {
+		public static String url="/findStateByCountry";
+	}
 
+	public interface findCityByState{
+		public static String url="/findCityByState";
+	}
+	
+	
 	public interface create {
 		public static String url="/supplierCreate";
 	}

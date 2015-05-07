@@ -191,8 +191,13 @@ public class Application  {
         	String code;
         	
         	User user= User.find.where().eq("email", email).eq("password", password).findUnique();
+        	
     		if (user!=null)
     		{
+    		
+    			if(user.getDesignation().equals("Supplier") || user.getDesignation().equals("Customer")){
+    				return null;
+    			}
     			b = email.length();
     			a = email.lastIndexOf("@");
     			code  = email.substring(a+1, b);

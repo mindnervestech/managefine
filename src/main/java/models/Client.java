@@ -23,85 +23,123 @@ import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.Validation;
 import com.mnt.core.ui.annotation.WizardCardUI;
 import com.mnt.projectHierarchy.model.Projectclass;
+import com.mnt.time.controller.routes;
 
 @Entity
 public class Client extends Model {
 	
 	public static final String ENTITY = "Client";
 	
+	private static final String COUNTRY = "Country";
+	
+	private static final String STATE = "State";
+	
+	private static final String CITY = "City";
+
+	
 	@Id
-	@WizardCardUI(name="Basic Info",step=0)
+	@WizardCardUI(name="Personal Info",step=0)
 	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
 	
 	//first Wizard
 	@SearchColumnOnUI(rank=1,colName="Client Name")
 	@SearchFilterOnUI(label="Client Name")
-	@WizardCardUI(name="Basic Info",step=1)
+	@WizardCardUI(name="Personal Info",step=1)
 	@UIFields(order=1,label="Client Name")
 	@Validation(required=true)
 	public String clientName;
 	
 	@SearchColumnOnUI(rank=2,colName="Phone No")
-	@WizardCardUI(name="Basic Info",step=1)
+	@WizardCardUI(name="Personal Info",step=1)
 	@UIFields(order=2,label="Phone No")
 	@Validation(required=true,digits=true)  /* ,maxlength=10*/
 	public String phoneNo;
 	
-	@WizardCardUI(name="Basic Info",step=1)
+	@WizardCardUI(name="Personal Info",step=1)
 	@UIFields(order=3,label="Email")
 	@SearchColumnOnUI(rank=3,colName="Email")
 	@Validation(required=true,email=true)
 	public String email;
 	
-	@WizardCardUI(name="Basic Info",step=1)
+	@WizardCardUI(name="Personal Info",step=1)
 	@UIFields(order=4,label="Fax")
 	public Integer fax;
 	
 	//Second Wizard
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=5,label="Address")
 	@Validation(required=true)
 	public String address;
 	
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=6,label="Street")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=6,label="Billing Address")
+	@Validation(required=true)
+	public String billingAddress;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=7,label="Shipping Address")
+	@Validation(required=true)
+	public String shippingAddress;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=8,label="Street")
 	public String street;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	/*@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=7,label="City")
 	@Validation(required=true)
 	public String city;
 	
-	@WizardCardUI(name="Basic Info",step=2)
+	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=8,label="Country")
 	@SearchFilterOnUI(label="Country")
 	@SearchColumnOnUI(rank=4,colName="Country")
 	@Validation(required=true)
-	public String country;
+	public String country;*/
 	
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=9,label="PIN")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=9,label=COUNTRY, autocomplete=true)
+	@Validation(required = true)
+	@OneToOne
+	public Country country;
+	
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=10,label=STATE, autocomplete=true,ajaxDependantField="country")
+	@Validation(required = true)
+	@OneToOne
+	public State state;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=11,label=CITY, autocomplete=true,ajaxDependantField="state")
+	@Validation(required = true)
+	@OneToOne
+	public City city;
+	
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=12,label="PIN")
 	@Validation(required=true)
 	public String pin;
 	
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=10,label="WEBSITE")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=13,label="WEBSITE")
 	@Validation(required=true)
 	public String website;
 	
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=11,label="Type")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=14,label="Type")
 	@Enumerated(EnumType.STRING)
 	public Locality locality;
 	
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=12,label="Currency")
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=13,label="Currency")
 	@Enumerated(EnumType.STRING)
 	public Currency	currency;
 		
-	@WizardCardUI(name="Basic Info",step=2)
-	@UIFields(order=13,label=" Montly sale/purchase amount ", mandatory = true)
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=15,label=" Montly sale/purchase amount ", mandatory = true)
 	@Validation(required=true,digits=true)
     public String amount;
 	
@@ -256,7 +294,7 @@ public class Client extends Model {
 		this.street = street;
 	}
 
-	public String getCity() {
+/*	public String getCity() {
 		return city;
 	}
 
@@ -271,7 +309,7 @@ public class Client extends Model {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
+*/
 	public String getPin() {
 		return pin;
 	}
@@ -405,5 +443,46 @@ public class Client extends Model {
 	}
 	
 	
+	
+	public Country getCountry() {
+		return country;
+	}
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
+	public City getCity() {
+		return city;
+	}
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+
+
+
+	static {
+		autoCompleteAction.put(COUNTRY, routes.Suppliers.findCountry.url);
+		autoCompleteAction.put(STATE, routes.Suppliers.findStateByCountry.url);
+		autoCompleteAction.put(CITY, routes.Suppliers.findCityByState.url);
+	}
 	
 }

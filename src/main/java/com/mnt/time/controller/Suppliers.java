@@ -11,8 +11,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import models.City;
 import models.Country;
 import models.RoleLevel;
+import models.State;
 import models.Supplier;
 import models.User;
 
@@ -131,6 +133,54 @@ public class Suppliers {
 	}
 	
 	
+	@RequestMapping(value="/findStateByCountry", method=RequestMethod.GET)
+	public @ResponseBody String findStateByCountry(@CookieValue("username") String username,HttpServletRequest requset){
+			
+		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		Long countryId = Long.parseLong(form.get("ajaxDependantField"));
+		String query = form.get("query");
+		ObjectNode result = Json.newObject();
+		List<AutoComplete> results = transform(State.findByCountryId(countryId), toAutoCompleteFormatForState());
+		result.put("results", Json.toJson(results));
+		return Json.toJson(result).toString();
+	}	
+	
+	private static Function<State, AutoComplete> toAutoCompleteFormatForState() {
+		return new Function<State, AutoComplete>() {
+			@Override
+			public AutoComplete apply(State state) {
+				return new AutoComplete(state.getStateName(), state.getStateName(),
+						state.getStateName(), state.id);
+			}
+		};
+	}
+	
+	
+	@RequestMapping(value="/findCityByState", method=RequestMethod.GET)
+	public @ResponseBody String findCityByState(@CookieValue("username") String username,HttpServletRequest requset){
+			
+		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		Long stateId = Long.parseLong(form.get("ajaxDependantField"));
+		String query = form.get("query");
+		ObjectNode result = Json.newObject();
+		List<AutoComplete> results = transform(City.findCityByStateId(stateId), toAutoCompleteFormatForCity());
+		result.put("results", Json.toJson(results));
+		return Json.toJson(result).toString();
+	}	
+	
+	private static Function<City, AutoComplete> toAutoCompleteFormatForCity() {
+		return new Function<City, AutoComplete>() {
+			@Override
+			public AutoComplete apply(City city) {
+				return new AutoComplete(city.getCityName(), city.getCityName(),
+						city.getCityName(), city.id);
+			}
+		};
+	}
+	
+	
+		
+	
 	private static Function<Supplier, AutoComplete> toAutoCompleteFormatForSupplier() {
 		return new Function<Supplier, AutoComplete>() {
 			@Override
@@ -148,7 +198,8 @@ public class Suppliers {
 			@CookieValue("username") String username) {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		String userName = form.get("email");
-		//Country cc =Country.getCountryById(Long.parseLong(form.get("country_id")));
+		Country country =Country.getCountryById(Long.parseLong(form.get("country_id")));
+		State state = State.findById(Long.parseLong(form.get("state_id")));
 		RoleLevel r = RoleLevel.getRoleByName("Supplier");
 		String password = Application.generatePassword();
 		User u = new User();
@@ -156,6 +207,10 @@ public class Suppliers {
 		u.setCompanyobject(User.findByEmail(username).companyobject);
 		u.setRole(r);
 		u.setTempPassword(1);
+		u.setDesignation("Supplier");
+		RoleLevel rolLevel  = RoleLevel.getRoleByName("Supplier");
+		u.setRole(rolLevel);
+		u.setPermissions("Case|CaseTo|");
 		u.setUsertype("Supplier User");
 		u.setPassword(password);
 		u.setUserStatus(com.custom.domain.Status.Approved);
@@ -164,7 +219,8 @@ public class Suppliers {
 			Map<String, Object> extra = new HashMap<String, Object>();
 			extra.put("company", User.findByEmail(username).companyobject);
 			extra.put("user", u);
-			//extra.put("country", cc);
+			extra.put("country", country);
+			extra.put("state", state);
 			SupplierSave saveUtils = new SupplierSave(extra);
 			saveUtils.doSave(false, request);
 		} catch (Exception e) {

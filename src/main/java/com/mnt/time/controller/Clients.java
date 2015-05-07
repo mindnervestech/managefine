@@ -132,6 +132,10 @@ public class Clients {
 		u.setRole(r);
 		u.setTempPassword(1);
 		u.setUserStatus(com.custom.domain.Status.Approved);
+		u.setDesignation("Customer");
+		RoleLevel rolLevel  = RoleLevel.getRoleByName("Customer");
+		u.setRole(rolLevel);
+		u.setPermissions("Case|CaseTo|");
 		u.setUsertype("Customer User");
 		u.setPassword(password);
 		u.save();
