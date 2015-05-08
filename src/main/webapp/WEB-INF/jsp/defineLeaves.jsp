@@ -28,10 +28,10 @@
 							name="leaveLevels[${loopIndex.index}].carry_forward"
 							class="input-small">
 							<option class="largeInput largeInputFirst required" value="">-select-</option>
-							<option class="largeInput largeInputFirst required" value="YES">YES</option>
-							<option class="largeInput largeInputFirst required" value="NO">NO</option>
-							<option class="largeInput largeInputFirst required" selected
-								value="${leaves.getCarry_forward()}">${leaves.getCarry_forward()}</option>
+							<option class="largeInput largeInputFirst required" <c:if test="${leaves.getCarry_forward() eq 'YES'}">Selected</c:if> value="YES">YES</option>
+							<option class="largeInput largeInputFirst required" <c:if test="${leaves.getCarry_forward() eq 'NO'}">Selected</c:if> value="NO">NO</option>
+							<%-- <option class="largeInput largeInputFirst required" selected
+								value="${leaves.getCarry_forward()}">${leaves.getCarry_forward()}</option> --%>
 						</select> <a class="removeLeave btn danger pull-right btnColor" id="removeLeave">Remove</a>
 					</div>
 					<div class="clearfix" style="margin-right: 4%; float: left;">
@@ -51,12 +51,12 @@
 					<label for="leaveLevels_x__leave">Leaves Type</label> <input
 						type="text" name="leaveLevels[x].leave_type"
 						id="leaveLevels_x__leave_type" class="input-small"
-						placeholder="Leave Type">
+						placeholder="Leave Type" required>
 				</div>
 				<div style="width: 52%;">
 					<label for="leaveLevels_x__leave">Carried Forward</label> <select
 						id="leaveLevels_x__carry_forward"
-						name="leaveLevels[x].carry_forward" class="input-small">
+						name="leaveLevels[x].carry_forward" class="input-small" required>
 						<option class="largeInput largeInputFirst required" value="">-select-</option>
 						<option class="largeInput largeInputFirst required" value="YES">YES</option>
 						<option class="largeInput largeInputFirst required" value="NO">NO</option>
@@ -80,12 +80,43 @@
 
 </form:form>
 
+
 <script>
 	$(document).ready(function() {
 
-		$("#submitButton").click(function() {
+		
+		
+		jQuery.validator.setDefaults({
+	       	  debug: true,
+	       	  success: "valid"
+	       	});
+	       	var form = $( "#form" );
+	       	form.validate();
+	       	$( "#submitButton" ).click(function() {
+	       	  //alert( "Valid: " + form.valid() );
+	       	  if(form.valid() == true){
+	       		$('.leaveLevel_template').remove()
+	    	 	$.ajax({
+	    				type : "POST",
+	    				data : $("#form").serialize(),
+	    				url : "${pageContext.request.contextPath}/saveLeaves",
+	    				success : function(data) {
+	    					$.pnotify({
+	    						history : false,
+	    						text : data
+	    					});
+	    				}
+	    			});
+	       	  }else{
+	       		 console.log("false");
+	       	  }
+	       	  console.log("Print....");
+	       	  console.log(form.valid());
+	       	}); 
+		/* $("#submitButton").click(function() {
+			
 			$('.leaveLevel_template').remove()
-			$.ajax({
+	 	$.ajax({
 				type : "POST",
 				data : $("#form").serialize(),
 				url : "${pageContext.request.contextPath}/saveLeaves",
@@ -95,16 +126,16 @@
 						text : data
 					});
 				}
-			});
-		});
+			}); 
+		}); */
 	});
 </script>
 
 <style>
-/* .well{
- 	background-color: #ffffff; 
- 	border: 0px solid #e3e3e3;
-} */
+.well{
+ 	width: 94%;
+ 	margin-left: 1%
+} 
 .btnColor{
 	color: gray;
 }

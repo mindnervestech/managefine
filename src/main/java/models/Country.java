@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.avaje.ebean.Expr;
 import com.mnt.orghierarchy.model.Organization;
 
 import play.db.ebean.Model;
@@ -31,8 +32,11 @@ public class Country extends Model {
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
-	public static List<Country> getCountryList() {
-		return find.all();
+	public static List<Country> getCountryList(String query) {
+		
+		List<Country> coList = Country.find.where().ilike("countryName", query+"%").findList();
+		return coList;
+		//return find.all();
 	}
 	
 	/*public static Country getCountryById(Long id) {

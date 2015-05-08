@@ -106,6 +106,12 @@ public class ApplyLeave extends Model {
         return find.where().idIn(ids).findList();
     }
 
+//	public static List<ApplyLeave> findByIds(List<Long> ids) {
+ //       return find.where().idIn(ids).findList();
+   // }
+
+	
+	
 	public Long getId() {
 		return id;
 	}

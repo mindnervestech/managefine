@@ -81,7 +81,9 @@ public class Wdgets {
 				if (projectclassnode.size() == 0) {
 
 					Projectinstance projectinstance = null;
-					if(user.getUsertype().equals("Customer User")){
+					if(user.getUsertype() == null){
+						projectinstance = Projectinstance.getProjecttackByUser(pIntNode.getProjectinstanceid(), user.getId());
+					}else if(user.getUsertype().equals("Customer User")){
 						Client client = Client.findByUserId(user.getId());
 						 if(client != null){
 							 projectinstance = Projectinstance.getProjecttackByClient(pIntNode.getProjectinstanceid(), client.getId());
@@ -91,8 +93,6 @@ public class Wdgets {
 						 if(supplier != null){
 							 projectinstance = Projectinstance.getProjecttackBySupplier(pIntNode.getProjectinstanceid(), supplier.getId());
 						 }
-					}else{
-						projectinstance = Projectinstance.getProjecttackByUser(pIntNode.getProjectinstanceid(), user.getId());
 					}
 					
 					//Projectinstance projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
@@ -151,7 +151,9 @@ public class Wdgets {
 			
 			List<Projectinstance> pList =null;
 			
-			if(user.getUsertype().equals("Customer User")){
+			if(user.getUsertype() == null){
+				 pList = Projectinstance.getProjectByUser(user.getId());
+			}else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
 				 if(client != null){
 				    pList = Projectinstance.getProjectByClient(client.getId());
@@ -161,8 +163,6 @@ public class Wdgets {
 				 if(supplier != null){
 				    pList = Projectinstance.getProjectBySupplier(supplier.getId());
 				 }
-			}else{
-				 pList = Projectinstance.getProjectByUser(user.getId());
 			}
 			
 			//List<Projectinstance> pList = Projectinstance.getProjectList();
@@ -227,7 +227,9 @@ public class Wdgets {
 		public static List<GaugeForWidgetVM> toDummy(User user){
 			List<Projectinstance> pList = null;
 			
-			if(user.getUsertype().equals("Customer User")){
+			if(user.getUsertype() == null){
+				 pList = Projectinstance.getProjectByUser(user.getId());
+			}else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
 				 if(client != null){
 				    pList = Projectinstance.getProjectByClient(client.getId());
@@ -237,9 +239,8 @@ public class Wdgets {
 				 if(supplier != null){
 				    pList = Projectinstance.getProjectBySupplier(supplier.getId());
 				 }
-			}else{
-				 pList = Projectinstance.getProjectByUser(user.getId());
 			}
+			
 			
 			List<GaugeForWidgetVM> gWList = new ArrayList<Wdgets.GaugeForWidgetVM>();
 			
@@ -276,7 +277,9 @@ public class Wdgets {
 			 a = 0;
 			 List map0 = new ArrayList<Object>();
 			 List<Projectinstance> projectinstance = null;
-				if(user.getUsertype().equals("Customer User")){
+			 if(user.getUsertype() == null){	
+				 projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
+			 }else if(user.getUsertype().equals("Customer User")){
 					Client client = Client.findByUserId(user.getId());
 					 if(client != null){
 						 projectinstance = Projectinstance.getProjectTypeByClientId(projectTypeId, client.getId());
@@ -286,9 +289,9 @@ public class Wdgets {
 					 if(supplier != null){
 						 projectinstance = Projectinstance.getProjectTypeBySupplierId(projectTypeId,supplier.getId());
 					 }
-				}else{
+				}/*else{
 					projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
-				}
+				}*/
 			 
 			// List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId,user.getId());
 			

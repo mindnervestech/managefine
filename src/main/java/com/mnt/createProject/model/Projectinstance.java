@@ -35,7 +35,7 @@ import com.mnt.time.controller.routes;
 public class Projectinstance extends Model{
 	
 	private static final String CHOOSE_MEMBERS = "Choose Members";
-	public static final String ENTITY = "Projectinstance";  
+	public static final String ENTITY = "Project Instance";  
 	public static final String PROJECTS = "Projects";  
 	public static final String CLIENT = "Client Name";
 	

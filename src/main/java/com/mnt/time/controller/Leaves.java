@@ -164,7 +164,12 @@ public class Leaves {
     
 	 @RequestMapping(value="/leaveCreate" , method = RequestMethod.POST)
 	public @ResponseBody String create(@CookieValue("username") String username,HttpServletRequest request) {
+		 
 		DynamicForm form = form().bindFromRequest(request);
+		
+		//User user = User.findByEmail(username);
+		//ApplyLeave apLeave = ApplyLeave.findById(id);
+		
 		System.out.println("gg"+form.get("leave_domain").toString());
 		 Form<ApplyLeave> leaveForm = form(ApplyLeave.class).bindFromRequest(request);
 		LeaveLevel l1 = LeaveLevel.find.where().eq("id", form.get("leave_domain")).findUnique();

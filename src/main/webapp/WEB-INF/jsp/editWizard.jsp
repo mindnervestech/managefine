@@ -145,6 +145,10 @@
                                                                      return "";
 											                }
                                                             },
+                                                            
+                                                            <c:if test="${fieldType.ajaxDependantField().length() != 0}">
+											                   ajaxDependantField:  $('#${_searchContext.entityName()}${fieldType.ajaxDependantField()}${"_hidden"}').val(),
+											                </c:if>
 											                page_limit: 10
 											            };
 											        },
@@ -217,7 +221,7 @@
     				<c:forEach var="fileAttachment" items="${flexiType.getValue()}">
     					
     					<c:if test="${fileAttachment.contentType().indexOf('image') != -1}">
-    						<img style="width:100px;" onclick='downloadFile("${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}");' src='${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}'/>
+    						<img style="width:60px;" onclick='downloadFile("${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}");' src='${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}'/>
     					</c:if>
     					<c:if test="${fileAttachment.contentType().indexOf('image') == -1}">
     						<button type="button" class="btn btn-link" onclick='downloadFile("${"get-images/".concat(flexiType.getModel()).concat("/").concat(flexiType.getModelId()).concat("/?imagename=").concat(fileAttachment.name())}");'>

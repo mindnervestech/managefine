@@ -48,8 +48,11 @@ public class City extends Model {
         return find.where().eq("id", id).findUnique();
     }
 		
-		public static List<City> findCityByStateId(Long id) {
-	        return find.where().eq("state.id", id).findList();
+		public static List<City> findCityByStateId(String query, Long id) {
+	       // return find.where().eq("state.id", id).findList();
+			List<City> cList = City.find.where().eq("state.id", id).like("cityName", query+"%").findList();
+	        
+			return cList;
 	    }	
 	
 	@Override

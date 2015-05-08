@@ -49,10 +49,27 @@ public class State extends Model {
         return find.where().eq("id", id).findUnique();
     }
 		
-		public static List<State> findByCountryId(Long id) {
-	        return find.where().eq("country.id", id).findList();
+		public static List<State> findByCountryId(String query, Long id) {
+			List<State> sList = State.find.where().eq("country.id", id).like("stateName", query+"%").findList();
+	        
+			return sList;
+	       // return find.where().eq("country.id", id).findList();
 	    }	
-	
+		
+		
+		
+		/*List<State> sList = State.find.where().eq("country.id", id).like("stateName", query+"%").findList();
+        
+		return sList;
+        List<User> users = User.find.where().
+    			and(Expr.eq("companyobject.id",_thisUser.getCompanyobject().getId()),
+    			Expr.or(Expr.ilike("firstName", query+"%"), 
+    				Expr.or(Expr.ilike("lastName", query+"%"),
+    						Expr.ilike("middleName", query+"%")))).findList();
+        
+        
+        //List<State> coList = State.find.where().ilike("countryName", query+"%").findList();
+*/	
 	@Override
 	public String toString() {
 		return getStateName() + " ("+getId()+")";

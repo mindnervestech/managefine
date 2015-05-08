@@ -117,7 +117,7 @@ public class Suppliers {
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
 		String query = form.get("query");
 		ObjectNode result = Json.newObject();
-		List<AutoComplete> results = transform(Country.getCountryList(), toAutoCompleteFormatForCountry());
+		List<AutoComplete> results = transform(Country.getCountryList(query), toAutoCompleteFormatForCountry());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}	
@@ -140,7 +140,7 @@ public class Suppliers {
 		Long countryId = Long.parseLong(form.get("ajaxDependantField"));
 		String query = form.get("query");
 		ObjectNode result = Json.newObject();
-		List<AutoComplete> results = transform(State.findByCountryId(countryId), toAutoCompleteFormatForState());
+		List<AutoComplete> results = transform(State.findByCountryId(query, countryId), toAutoCompleteFormatForState());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}	
@@ -163,7 +163,7 @@ public class Suppliers {
 		Long stateId = Long.parseLong(form.get("ajaxDependantField"));
 		String query = form.get("query");
 		ObjectNode result = Json.newObject();
-		List<AutoComplete> results = transform(City.findCityByStateId(stateId), toAutoCompleteFormatForCity());
+		List<AutoComplete> results = transform(City.findCityByStateId(query, stateId), toAutoCompleteFormatForCity());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}	
