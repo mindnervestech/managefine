@@ -6,6 +6,8 @@ import static com.google.common.collect.Lists.transform;
 import java.util.List;
 import java.util.Map;
 
+import models.User;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import play.data.DynamicForm;
@@ -103,9 +105,10 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		
 		String email = form.data().get("email");
 		
-		//User user1 = User.findByEmail(email);
+		//User user = User.findByEmail(email);
+		//Expression exp1 = Expr.eq("userid.id", user.getId());
 		//Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
-		
+
 		int count = 0;
 		/*if(exp == null ){
 			count = Project.find.where().add(exp1).findRowCount();

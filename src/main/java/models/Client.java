@@ -28,7 +28,7 @@ import com.mnt.time.controller.routes;
 @Entity
 public class Client extends Model {
 	
-	public static final String ENTITY = "Client";
+	public static final String ENTITY = "Customer";
 	
 	private static final String COUNTRY = "Country";
 	
@@ -43,10 +43,10 @@ public class Client extends Model {
 	public Long id;
 	
 	//first Wizard
-	@SearchColumnOnUI(rank=1,colName="Client Name")
-	@SearchFilterOnUI(label="Client Name")
+	@SearchColumnOnUI(rank=1,colName="Customer Name")
+	@SearchFilterOnUI(label="Customer Name")
 	@WizardCardUI(name="Personal Info",step=1)
-	@UIFields(order=1,label="Client Name")
+	@UIFields(order=1,label="Customer Name")
 	@Validation(required=true)
 	public String clientName;
 	
@@ -225,6 +225,10 @@ public class Client extends Model {
 	
 	public static Client findById(Long id) {
         return find.where().eq("id", id).findUnique();
+    }
+	
+	public static Client findByUserId(Long id) {
+        return find.where().eq("user.id", id).findUnique();
     }
 	public static List<Client> getClientList() {
 		return find.all();

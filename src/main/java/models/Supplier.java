@@ -231,6 +231,10 @@ public class Supplier extends Model {
         return find.where().eq("id", id).findUnique();
     }
 	
+	public static Supplier findByUserId(Long id) {
+        return find.where().eq("user.id", id).findUnique();
+    }
+	
 	public static List<Supplier> getSupplierList() {
 		return find.all();
 	}

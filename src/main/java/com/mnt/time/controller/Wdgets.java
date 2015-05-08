@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Client;
+import models.Supplier;
 import models.User;
 
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,7 @@ public class Wdgets {
 		List<TaskForWidgetVM> list = new ArrayList<>();
 		//TODO Look into Projectinstancenode 
 		
-		list = TaskForWidgetVM.toDummy();
+		list = TaskForWidgetVM.toDummy(user);
     	return list;
     }
 	
@@ -65,7 +67,7 @@ public class Wdgets {
 			
 		}
 		
-		public static List<TaskForWidgetVM> toDummy(){
+		public static List<TaskForWidgetVM> toDummy(User user){
 			DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 			
 			List<Projectinstancenode> pList = Projectinstancenode.getProjectTaskList();
@@ -76,17 +78,34 @@ public class Wdgets {
 				
 				List<Projectclassnode> projectclassnode = Projectclassnode.getparentByprojectId(pIntNode.getProjectclassnode().getId());
 				
-				if(projectclassnode.size() == 0){
+				if (projectclassnode.size() == 0) {
+
+					Projectinstance projectinstance = null;
+					if(user.getUsertype().equals("Customer User")){
+						Client client = Client.findByUserId(user.getId());
+						 if(client != null){
+							 projectinstance = Projectinstance.getProjecttackByClient(pIntNode.getProjectinstanceid(), client.getId());
+						 }
+					}else if(user.getUsertype().equals("Supplier User")){
+						Supplier supplier = Supplier.findByUserId(user.getId());
+						 if(supplier != null){
+							 projectinstance = Projectinstance.getProjecttackBySupplier(pIntNode.getProjectinstanceid(), supplier.getId());
+						 }
+					}else{
+						projectinstance = Projectinstance.getProjecttackByUser(pIntNode.getProjectinstanceid(), user.getId());
+					}
 					
-					Projectinstance projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
-					tVm.name = projectinstance.getProjectName();
-					tVm.taskName = pIntNode.getProjectclassnode().getProjectTypes();
-					tVm.startDate = format.format(pIntNode.getStartDate());
-					tVm.endDate = format.format(pIntNode.getEndDate());
-					tVm.status = pIntNode.getStatus();
-					tVm.percentage = String.valueOf(pIntNode.getTaskCompilation());
-					tsList.add(tVm);
+					//Projectinstance projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
 					
+					if (projectinstance != null) {
+						tVm.name = projectinstance.getProjectName();
+						tVm.taskName = pIntNode.getProjectclassnode().getProjectTypes();
+						tVm.startDate = format.format(pIntNode.getStartDate());
+						tVm.endDate = format.format(pIntNode.getEndDate());
+						tVm.status = pIntNode.getStatus();
+						tVm.percentage = String.valueOf(pIntNode.getTaskCompilation());
+						tsList.add(tVm);
+					}
 				}
 				
 			}
@@ -103,8 +122,9 @@ public class Wdgets {
     @ResponseBody
 	public List<ProjectForWidgetVM> projectsForWidget(ModelMap model, @CookieValue("username") String username) {
 		List<ProjectForWidgetVM> list = new ArrayList<>();
+		User user = User.findByEmail(username);
 		//TODO Look into Projectinstance
-		list = ProjectForWidgetVM.toDummy(); 
+		list = ProjectForWidgetVM.toDummy(user); 
     	return list;
     }
 	
@@ -127,9 +147,26 @@ public class Wdgets {
 			
 		}
 		
-		public static List<ProjectForWidgetVM> toDummy(){
+		public static List<ProjectForWidgetVM> toDummy(User user){
 			
-			List<Projectinstance> pList = Projectinstance.getProjectList();
+			List<Projectinstance> pList =null;
+			
+			if(user.getUsertype().equals("Customer User")){
+				Client client = Client.findByUserId(user.getId());
+				 if(client != null){
+				    pList = Projectinstance.getProjectByClient(client.getId());
+				 }
+			}else if(user.getUsertype().equals("Supplier User")){
+				Supplier supplier = Supplier.findByUserId(user.getId());
+				 if(supplier != null){
+				    pList = Projectinstance.getProjectBySupplier(supplier.getId());
+				 }
+			}else{
+				 pList = Projectinstance.getProjectByUser(user.getId());
+			}
+			
+			//List<Projectinstance> pList = Projectinstance.getProjectList();
+			
 			List<ProjectForWidgetVM> tsList = new ArrayList<Wdgets.ProjectForWidgetVM>();
 			
 			for(Projectinstance projectinstance:pList){
@@ -163,7 +200,7 @@ public class Wdgets {
 	public static List<GaugeForWidgetVM> getProjectForGauge(String username){
 		User user = User.findByEmail(username);
 		List<GaugeForWidgetVM> list = new ArrayList<>();
-		list = GaugeForWidgetVM.toDummy();
+		list = GaugeForWidgetVM.toDummy(user);
     	return list;
 	}
 	
@@ -187,9 +224,23 @@ public class Wdgets {
 			return percent;
 		}
 		
-		public static List<GaugeForWidgetVM> toDummy(){
+		public static List<GaugeForWidgetVM> toDummy(User user){
+			List<Projectinstance> pList = null;
 			
-			List<Projectinstance> pList = Projectinstance.getProjectList();
+			if(user.getUsertype().equals("Customer User")){
+				Client client = Client.findByUserId(user.getId());
+				 if(client != null){
+				    pList = Projectinstance.getProjectByClient(client.getId());
+				 }
+			}else if(user.getUsertype().equals("Supplier User")){
+				Supplier supplier = Supplier.findByUserId(user.getId());
+				 if(supplier != null){
+				    pList = Projectinstance.getProjectBySupplier(supplier.getId());
+				 }
+			}else{
+				 pList = Projectinstance.getProjectByUser(user.getId());
+			}
+			
 			List<GaugeForWidgetVM> gWList = new ArrayList<Wdgets.GaugeForWidgetVM>();
 			
 			for(Projectinstance projectinstance:pList){
@@ -211,19 +262,35 @@ public class Wdgets {
 	
 	@RequestMapping(value="/salesFunnelForWidget" , method = RequestMethod.GET)
     @ResponseBody
-	public List<List> saleFunnelForWidget(@RequestParam int projectType) {
+	public List<List> saleFunnelForWidget(@RequestParam int projectType, @CookieValue("username")String username) {
 		// TODO: do query on projectType 
 		Long projectTypeId = Long.parseLong(String.valueOf(projectType));
 		
 		List<List> funnelMap = new ArrayList<List>();
-		
+		System.out.println(username);
+		User user = User.findByEmail(username);
 		List<Projectclassnode> pList = Projectclassnode.getProjectAndLevel(projectTypeId,1);
 		int a = 0;
 		
 		for(Projectclassnode projectclassnode:pList){
 			 a = 0;
 			 List map0 = new ArrayList<Object>();
-			List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId);
+			 List<Projectinstance> projectinstance = null;
+				if(user.getUsertype().equals("Customer User")){
+					Client client = Client.findByUserId(user.getId());
+					 if(client != null){
+						 projectinstance = Projectinstance.getProjectTypeByClientId(projectTypeId, client.getId());
+					 }
+				}else if(user.getUsertype().equals("Supplier User")){
+					Supplier supplier = Supplier.findByUserId(user.getId());
+					 if(supplier != null){
+						 projectinstance = Projectinstance.getProjectTypeBySupplierId(projectTypeId,supplier.getId());
+					 }
+				}else{
+					projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
+				}
+			 
+			// List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId,user.getId());
 			
 			  map0.add(projectclassnode.getProjectTypes());
 			   for(Projectinstance projectI:projectinstance){
@@ -249,7 +316,7 @@ public class Wdgets {
 	public static List<FunnelForWidgetVM> getProjectTypeForFunnel(String username){
 		User user = User.findByEmail(username);
 		List<FunnelForWidgetVM> list = new ArrayList<>();
-		list = FunnelForWidgetVM.toDummy();
+		list = FunnelForWidgetVM.toDummy(user);
     	return list;
 	}
 	
@@ -273,7 +340,7 @@ public class Wdgets {
 			return id;
 		}
 		
-		public static List<FunnelForWidgetVM> toDummy(){
+		public static List<FunnelForWidgetVM> toDummy(User user){
 			List<Projectclass> pList =  Projectclass.getProjectList();
 			List<FunnelForWidgetVM> forWidgetVMs = new ArrayList<Wdgets.FunnelForWidgetVM>();
 			

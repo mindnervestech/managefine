@@ -251,6 +251,10 @@ public class Projectinstance extends Model{
 		return find.byId(id);
 	}
 	
+	public static Projectinstance getProjecttackByUser(Long id,Long userId) {
+		return find.where().eq("id", id).eq("userid.id", userId).findUnique();
+	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -263,6 +267,28 @@ public class Projectinstance extends Model{
 		User user = User.findByEmail(username);
 		return find.where().eq("userid.id", user.getId()).findList();
 	}
+	
+	public static List<Projectinstance> getProjectByUser(Long id) {
+		return find.where().eq("userid.id", id).findList();
+	}
+
+	public static List<Projectinstance> getProjectByClient(Long id) {
+		return find.where().eq("clientId", id).findList();
+	}
+	
+	public static List<Projectinstance> getProjectBySupplier(Long id) {
+		return find.where().eq("supplier.id", id).findList();
+	}
+	
+	public static Projectinstance getProjecttackByClient(Long clientId,Long userId) {
+		return find.where().eq("clientId", clientId).eq("userid.id", userId).findUnique();
+	}
+	
+	public static Projectinstance getProjecttackBySupplier(Long supplierId,Long userId) {
+		return find.where().eq("supplier.id", supplierId).eq("userid.id", userId).findUnique();
+	}
+	
+	
 
 	public static List<Projectinstance> getProjectList() {
 		return find.all();
@@ -274,6 +300,18 @@ public class Projectinstance extends Model{
 	
 	public static List<Projectinstance> getProjectTypeById(Long projectTypeId) {
 		return find.where().eq("projectid", projectTypeId).findList();
+	}
+	
+	public static List<Projectinstance> getProjectTypeByUserId(Long projectTypeId,Long userId) {
+		return find.where().eq("projectid", projectTypeId).eq("userid.id", userId).findList();
+	}
+	
+	public static List<Projectinstance> getProjectTypeByClientId(Long projectTypeId,Long clientId) {
+		return find.where().eq("projectid", projectTypeId).eq("clientId", clientId).findList();
+	}
+	
+	public static List<Projectinstance> getProjectTypeBySupplierId(Long projectTypeId,Long supplierId) {
+		return find.where().eq("projectid", projectTypeId).eq("supplier.id", supplierId).findList();
 	}
 	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
