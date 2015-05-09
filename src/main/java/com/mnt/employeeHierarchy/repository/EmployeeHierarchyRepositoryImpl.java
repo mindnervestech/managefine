@@ -57,10 +57,11 @@ public class EmployeeHierarchyRepositoryImpl implements EmployeeHierarchyReposit
 	public File employeeProfile(Long id) {
 		if(id!=null) {
 			//Organization organization = Organization.getOrganizationById(id);
-			UserFlexi uFlexi = UserFlexi.getProjectUser(id);
+			List<UserFlexi> fUserFlexi = UserFlexi.getProjectListUser(id);
 			
-			if(uFlexi !=null) {
-				
+			if(fUserFlexi !=null) {
+				for(UserFlexi uFlexi:fUserFlexi){
+					if(uFlexi.getName().equals("Upload Profile Picture")){
 				List<FileAttachmentMeta> list = null;
 				try {
 					
@@ -80,7 +81,9 @@ public class EmployeeHierarchyRepositoryImpl implements EmployeeHierarchyReposit
 				
 				
 				
-				return new File(imageRootDir+File.separator+"User"+File.separator+id+File.separator+list.get(0).n);
+				return new File(imageRootDir+File.separator+"User"+File.separator+id+ File.separator +"flexi"+ File.separator+list.get(0).n);
+				}
+			 }
 			}
 		}
 		return new File(imageRootDir+File.separator+"User"+File.separator+"default.jpg");

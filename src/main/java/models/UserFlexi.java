@@ -102,6 +102,9 @@ public class UserFlexi extends Model implements FlexiAttributes {
 		return find.where().eq("user.id", id).findUnique();
 	}
 
+	public static List<UserFlexi> getProjectListUser(Long id) {
+		return find.where().eq("user.id", id).findList();
+	}
 	
 	
 

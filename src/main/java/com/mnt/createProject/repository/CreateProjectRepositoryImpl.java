@@ -337,13 +337,18 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 		List<User> uList = User.getUserList();
 			for(User lUser :uList) {
-				UserVM userVM = new UserVM();
+				if(lUser.getUsertype() != null){
+			     if(lUser.getUsertype().equals("User")){
+			 		
+					UserVM userVM = new UserVM();
 				
-				userVM.setId(String.valueOf(lUser.getId()));
-				userVM.setEmail(lUser.getEmail());
-				userVM.setFirstName(lUser.getFirstName());
+					userVM.setId(String.valueOf(lUser.getId()));
+					userVM.setEmail(lUser.getEmail());
+					userVM.setFirstName(lUser.getFirstName());
 				
-				result.add(userVM);
+					result.add(userVM);
+				 }
+				}
 			}
 		
 		return result;
@@ -387,12 +392,17 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		if(projectclassnode.getParentId() == null){
 			List<User> uList = User.getUserList();
 			for(User lUser :uList) {
-				UserVM userVM = new UserVM();
-				userVM.setId(String.valueOf(lUser.getId()));
-				userVM.setEmail(lUser.getEmail());
-				userVM.setFirstName(lUser.getFirstName());
+				
+				if(lUser.getUsertype() != null){
+				     if(lUser.getUsertype().equals("User")){
+				   UserVM userVM = new UserVM();
+				   userVM.setId(String.valueOf(lUser.getId()));
+				   userVM.setEmail(lUser.getEmail());
+				   userVM.setFirstName(lUser.getFirstName());
 			
-				result.add(userVM);
+				   result.add(userVM);
+				}
+				}	
 			}
 			
 		}else{
@@ -401,13 +411,16 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			
 			//Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 			for(User lUser :projectnode1.getUser()) {
-				
-				UserVM userVM = new UserVM();
-				userVM.setId(String.valueOf(lUser.getId()));
-				userVM.setEmail(lUser.getEmail());
-				userVM.setFirstName(lUser.getFirstName());
+				if(lUser.getUsertype() != null){
+				     if(lUser.getUsertype().equals("User")){
+					UserVM userVM = new UserVM();
+					userVM.setId(String.valueOf(lUser.getId()));
+					userVM.setEmail(lUser.getEmail());
+					userVM.setFirstName(lUser.getFirstName());
 			
-				result.add(userVM);
+					result.add(userVM);
+				}
+			  }
 			}
 		}
 		return result;

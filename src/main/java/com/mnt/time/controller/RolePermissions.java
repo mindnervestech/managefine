@@ -165,8 +165,8 @@ public class RolePermissions {
 		
 		expressions.add(Expr.eq("company", User.findByEmail(username).getCompanyobject()));
 		
-		if(form.get("role_name") != null){
-			expressions.add( Expr.like("role_name", "%"+form.get("role_name")+"%"));
+		if(form.get("role") != null){
+			expressions.add( Expr.like("role_name", "%"+form.get("role")+"%"));
 		}
 		
 		int count =0;

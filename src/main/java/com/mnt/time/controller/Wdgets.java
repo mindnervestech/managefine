@@ -82,6 +82,8 @@ public class Wdgets {
 
 					Projectinstance projectinstance = null;
 					if(user.getUsertype() == null){
+						projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
+					}else if(user.getUsertype().equals("User")){
 						projectinstance = Projectinstance.getProjecttackByUser(pIntNode.getProjectinstanceid(), user.getId());
 					}else if(user.getUsertype().equals("Customer User")){
 						Client client = Client.findByUserId(user.getId());
@@ -152,8 +154,10 @@ public class Wdgets {
 			List<Projectinstance> pList =null;
 			
 			if(user.getUsertype() == null){
-				 pList = Projectinstance.getProjectByUser(user.getId());
-			}else if(user.getUsertype().equals("Customer User")){
+				pList = Projectinstance.getProjectList();
+			}else if(user.getUsertype().equals("User")){
+				pList = Projectinstance.getProjectByUser(user.getId());
+		   }else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
 				 if(client != null){
 				    pList = Projectinstance.getProjectByClient(client.getId());
@@ -228,6 +232,8 @@ public class Wdgets {
 			List<Projectinstance> pList = null;
 			
 			if(user.getUsertype() == null){
+				 pList = Projectinstance.getProjectList();
+			}else if(user.getUsertype().equals("User")){
 				 pList = Projectinstance.getProjectByUser(user.getId());
 			}else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
@@ -278,8 +284,10 @@ public class Wdgets {
 			 List map0 = new ArrayList<Object>();
 			 List<Projectinstance> projectinstance = null;
 			 if(user.getUsertype() == null){	
-				 projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
-			 }else if(user.getUsertype().equals("Customer User")){
+				 projectinstance = Projectinstance.getProjectTypeById(projectTypeId);	
+			 }else if(user.getUsertype().equals("User")){
+				  projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
+				}else if(user.getUsertype().equals("Customer User")){
 					Client client = Client.findByUserId(user.getId());
 					 if(client != null){
 						 projectinstance = Projectinstance.getProjectTypeByClientId(projectTypeId, client.getId());
@@ -306,9 +314,6 @@ public class Wdgets {
 			   map0.add(a);
 			funnelMap.add(map0);
 		}
-	
-		
-		
 		
 		return funnelMap;
 		//[[],[]]

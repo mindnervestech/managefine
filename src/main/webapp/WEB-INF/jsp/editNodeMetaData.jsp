@@ -87,7 +87,6 @@
 												<div class="input-group">
 													<input type="text" class="form-control" name="startDate"
 														value="{{data.startDate | date:'dd-MM-yyyy'}}">
-
 												</div>
 											</a>
 											<ul class="dropdown-menu" role="menu"

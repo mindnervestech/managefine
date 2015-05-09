@@ -475,6 +475,7 @@ public class Users {
 			extra.put("tempPassword", 1);
 			extra.put("role", roleLevel);
 			extra.put("organization", org);
+			extra.put("usertype", "User");
 			extra.put("designation", role.getRole_name());
 			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());
