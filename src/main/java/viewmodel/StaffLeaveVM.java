@@ -9,7 +9,7 @@ public class StaffLeaveVM {
 	public String toDate;
 	public String fromDate;
 	public String status;
-	
+	public Long organizationId;
 	
 	public Long getId() {
 		return id;
@@ -54,4 +54,12 @@ public class StaffLeaveVM {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public Long getOrganizationId() {
+		return organizationId;
+	}
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
+	
+	
 }

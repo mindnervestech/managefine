@@ -54,8 +54,13 @@ app.controller("TimeSheetController", function($scope,$http) {
 		});
 		
 		var today = new Date();
-		var todaysWeek = today.getWeek() + 1;
-		$("#weekValue").val(today.getWeek() + 1);
+		if(today.getDay() == 0 || today.getDay() == 6) {
+			var todaysWeek = today.getWeek();
+			$("#weekValue").val(today.getWeek());
+		} else {
+			var todaysWeek = today.getWeek() + 1;
+			$("#weekValue").val(today.getWeek() + 1);
+		}
 		$("#yearValue").val(today.getFullYear());
 		var day =   today.getDay();
 		if(day == 0) {
@@ -1295,18 +1300,27 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 			selectType : '1',
 			leaveType : 7,
 			toDate : '',
-			fromDate : ''
+			fromDate : '',
+			organizationId : ''
 	};
 	
 	$scope.initData = function() {
 		$scope.userId = $('#userID').val();
 		console.log($scope.userId);
+		$scope.getOrganizations();
 		$http({method:'GET',url:contextPath+'/getLeaveDetails',params:{userId:$scope.userId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
 			$scope.months = data.leaveList;
 			$scope.weeks = data.weekList;
+		});
+	}
+	
+	$scope.getOrganizations = function() {
+		$http({method:'GET',url:contextPath+'/getOrganizations',params:{userId:$scope.userId}})
+		.success(function(data) {
+			$scope.organizationList = data;
 		});
 	}
 	
@@ -1366,32 +1380,14 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 	
 	$scope.saveLeave = function() {
 		$scope.staffLeaveVM.userId = $scope.userId;
-		if($scope.staffLeaveVM.toDate =='') {
+		console.log($scope.staffLeaveVM.organizationId);
 			$http({method:'POST', url:contextPath+'/markleaves', data:$scope.staffLeaveVM}).success(function(response) {
 				$scope.weeks = response.weekList;
 				$scope.months = response.leaveList;
 				$scope.staffLeaveVM.fromDate ='';
 				$scope.staffLeaveVM.reason = '';
 				$scope.staffLeaveVM.selectType = '1';
-				
-				//notificationService.success("Leaves saved!");
 		    });
-		} else {
-			if(Date.parse($scope.staffLeaveVM.toDate) > Date.parse($scope.staffLeaveVM.fromDate)) {
-				$http({method:'POST', url:contextPath+'/markleaves', data:$scope.staffLeaveVM}).success(function(response) {
-					$scope.weeks = response.weekList;
-					$scope.months = response.leaveList;
-					closePopDiv('markHoliday');
-					$scope.staffLeaveVM.fromDate ='';
-					$scope.staffLeaveVM.toDate ='';
-					$scope.staffLeaveVM.reason = '';
-					$scope.staffLeaveVM.selectType = '1';
-					//notificationService.success("Leaves saved!");
-				});
-			} else {
-				alert("Invalid Date Range!");
-			}
-		}
 	};
 	
 	
@@ -1454,8 +1450,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		});
 		
 		var today = new Date();
-		var todaysWeek = today.getWeek() + 1;
-		$("#weekValue").val(today.getWeek() + 1);
+		if(today.getDay() == 0 || today.getDay() == 6) {
+			var todaysWeek = today.getWeek();
+			$("#weekValue").val(today.getWeek());
+		} else {
+			var todaysWeek = today.getWeek() + 1;
+			$("#weekValue").val(today.getWeek() + 1);
+		}
 		$("#yearValue").val(today.getFullYear());
 		var day =   today.getDay();
 		if(day == 0) {

@@ -221,13 +221,14 @@
                 </aside>
                 <section class="error-msg"><span>Error message will come here.</span></section></td>
             </tr>
-            <tr>
-              <td>&nbsp;</td>
-             <!-- <td><section class="field nomargin-cbox"> <span ng-class="staffLeaveVM.leaveType==8 ? 'cbox-selected' : 'cbox'" ng-click="setleaveType()">
-                  <input name="" type="checkbox" checked id="repeatE" />
-                  </span>
-                  <label for="repeatE" class="checklabel">Repeat Every Year</label>
-                </section></td> -->
+			<tr>
+              <td>Organization</td>
+              	<td>
+                  <select ng-model="staffLeaveVM.organizationId">
+					<option value="0">All</option>
+					<option ng-repeat="org in organizationList" value="{{org.id}}">{{org.organizationName}}</option>
+				  </select>
+                </td>
             </tr>
           </table>
         </aside>
@@ -294,5 +295,10 @@ $("#datepicker2").datepicker();
 .container {
 width:1230px;
 }
+
+.footerDiv {
+ margin-top:2%;
+}
+
 </style>
 

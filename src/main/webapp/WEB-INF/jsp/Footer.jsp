@@ -1,4 +1,4 @@
-<div style="
+<div class="footerDiv" style="
     background: rgb(226, 226, 226);
   height: 20px;
   text-align: -webkit-center;

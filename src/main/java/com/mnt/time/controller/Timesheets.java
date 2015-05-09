@@ -83,6 +83,8 @@ import com.google.common.collect.Lists;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
+import com.mnt.orghierarchy.model.Organization;
+import com.mnt.orghierarchy.vm.OrganizationVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
 import com.mnt.time.service.TimesheetService;
@@ -208,6 +210,22 @@ public class Timesheets{
 		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(Long.parseLong(instanceId),Long.parseLong(typeId))));
 		return "showGantt";
     }
+	
+	@RequestMapping(value="/getOrganizations", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getOrganizations(ModelMap model,@RequestParam("userId") String userId) {
+		User user = User.findById(Long.parseLong(userId));
+		List<Organization> orgList = Organization.getOrganizationsByCompanyId(user.getCompanyobject().getId());
+		List<OrganizationVM> orgVMList = new ArrayList<>();
+		
+		for(Organization org : orgList) {
+			OrganizationVM vm = new OrganizationVM();
+			vm.setId(org.getId());
+			vm.setOrganizationName(org.getOrganizationName());
+			orgVMList.add(vm);
+		}
+		
+		return Json.toJson(orgVMList);
+	}	
 	
 	@RequestMapping(value="/getStaffWeekReport", method = RequestMethod.GET)
 	public @ResponseBody JsonNode getStaffWeekReport(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {

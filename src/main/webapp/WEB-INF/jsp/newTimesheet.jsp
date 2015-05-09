@@ -123,7 +123,7 @@
 					</div>
 				</div>
 				
-			
+			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
 				 <div class="innerInputDiv" style="margin-top:20px;">
 					<div class="innerChainSelect">
@@ -348,7 +348,7 @@
 											<input type="text"
 												ng-model="row.totalHrs"
 												placeholder="" class="smallInput totalHRSInput readonlycls"
-												readonly="readonly" style="margin-top:36%;"> <span class="help-inline"></span> <span
+												readonly="readonly" style="margin-top:36%;display: none;"> <span class="help-inline"></span> <span
 												class="help-block"></span>
 										</div>
 									</div>

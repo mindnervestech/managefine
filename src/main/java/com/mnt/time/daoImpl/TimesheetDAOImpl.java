@@ -35,6 +35,7 @@ import viewmodel.WeekReportVM;
 
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
+import com.mnt.orghierarchy.model.Organization;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.time.dao.TimesheetDAO;
 
@@ -845,13 +846,17 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			} catch (ParseException e) {
 				userLeave.setFromDate(null);
 			}
-			try {
-				userLeave.setToDate(format.parse(leaveVM.getToDate()));
-			} catch (ParseException e) {
-				userLeave.setToDate(null);
+			
+			if(leaveVM.getOrganizationId() == 0) {
+				userLeave.setOrganizations(Organization.getOrganizationsByCompanyId(user.getCompanyobject().getId()));
+			} else {
+				List<Organization> list = new ArrayList<>();
+				list.add(Organization.findById(leaveVM.getOrganizationId()));
+				userLeave.setOrganizations(list);
 			}
-			userLeave.setStatus("un-assigned");
+			
 			userLeave.save();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

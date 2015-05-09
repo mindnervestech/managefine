@@ -127,5 +127,7 @@
   width: 13px;
   height: 13px;
 }
-
+.footerDiv {
+ margin-top:41%;
+}
 </style>

@@ -318,4 +318,7 @@ width:1230px;
 .ui-pnotify-history-container.well {
 top: -130.3125px;
 }
+.footerDiv {
+ margin-top:10%;
+}
 </style>
