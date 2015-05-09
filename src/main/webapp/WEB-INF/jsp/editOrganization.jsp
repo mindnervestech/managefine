@@ -48,7 +48,7 @@
 					<div class="col-md-12">
 							<button type="button" class="btn btn-default"
 								style="float: right;" ng-click="closeThisDialog()">Close</button>
-							<button type="submit" class="btn btn-primary"  style="margin: 0% 2%; float: right;">Edit Organization</button>
+							<button type="submit" class="btn btn-primary"  style="margin: 0% 2%; float: right;">Save</button>
 						</div>
 				</form>
 			

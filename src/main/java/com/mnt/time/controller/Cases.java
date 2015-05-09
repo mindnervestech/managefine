@@ -140,8 +140,9 @@ public class Cases {
 	@RequestMapping(value="/findPro", method=RequestMethod.GET)
 	public @ResponseBody String findProject(@CookieValue("username") String username,HttpServletRequest requset){
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
+		String query = form.get("query");
 		ObjectNode result = Json.newObject();
-		List<AutoComplete> results = transform(Projectinstance.getProjectUser(username), toAutoCompleteFormatForProject());
+		List<AutoComplete> results = transform(Projectinstance.getProjectUserAndquery(query,username), toAutoCompleteFormatForProject());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}

@@ -553,7 +553,8 @@ public class Application  {
     	user.setPassword(password);
     	user.setTempPassword(0);
     	user.update();
-    	return "redirect:"+routes.Application.index.url;
+    	//return "redirect:"+routes.Application.index.url;
+    	return "login/login";
     }
     
     public static String generatePassword()

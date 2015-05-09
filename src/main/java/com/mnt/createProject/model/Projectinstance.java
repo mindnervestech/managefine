@@ -35,7 +35,7 @@ import com.mnt.time.controller.routes;
 public class Projectinstance extends Model{
 	
 	private static final String CHOOSE_MEMBERS = "Choose Members";
-	public static final String ENTITY = "Project Instance";  
+	public static final String ENTITY = "Projectinstance";  
 	public static final String PROJECTS = "Projects";  
 	public static final String CLIENT = "Client Name";
 	
@@ -266,6 +266,11 @@ public class Projectinstance extends Model{
 	public static List<Projectinstance> getProjectUser(String username) {
 		User user = User.findByEmail(username);
 		return find.where().eq("userid.id", user.getId()).findList();
+	}
+	
+	public static List<Projectinstance> getProjectUserAndquery(String query, String username) {
+		User user = User.findByEmail(username);
+		return find.where().eq("userid.id", user.getId()).like("projectName", query+"%").findList();
 	}
 	
 	public static List<Projectinstance> getProjectByUser(Long id) {
