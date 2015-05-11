@@ -34,17 +34,48 @@
 					class="cal13 tip" title="Change Date"></a> -->
 			</aside>
 			
+			<div ng-if="flag == 1">
 			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
-				<div>
-                     <label style="width: 305px;float:left;" ng-show="$first">Staffs</label>        
-                     <label style="width: 155px;margin-left: -1%;float:left;" ng-show="$first">Mon  ({{s.weekReport[0].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue  ({{s.weekReport[1].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed  ({{s.weekReport[2].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Thu  ({{s.weekReport[3].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Fri  ({{s.weekReport[4].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sat  ({{s.weekReport[5].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sun  ({{s.weekReport[6].date}})</label>
+			<div ng-show="s.weekReport != null">
+				
+                     <label style="width: 305px;float:left;" >Staffs</label>        
+                     <label style="width: 155px;margin-left: -1%;float:left;">Mon ({{s.weekReport[0].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Tue ({{s.weekReport[1].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Wed ({{s.weekReport[2].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Thu ({{s.weekReport[3].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Fri ({{s.weekReport[4].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Sat ({{s.weekReport[5].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;">Sun ({{s.weekReport[6].date}})</label>
                 </div>
+			</div>
+			</div>
+				<div ng-if="flag == 0">
+			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
+			<div>
+                     <label style="width: 305px;float:left;" ng-show="$first">Staffs</label>        
+                     <label style="width: 155px;margin-left: -1%;float:left;" ng-show="$first">Mon </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Thu </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Fri </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sat </label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sun </label>
+                
+                </div>
+			</div>
+			</div>
+			
+			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
+				<!-- <div ng-show="s.weekReport != null">
+			                  <label style="width: 305px;float:left;" ng-show="$first">Staffs</label>        
+                     <label style="width: 155px;margin-left: -1%;float:left;">Mon ({{s.weekReport[0].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue  <span ng-if="{{s.weekReport[1].date}} != ''">({{s.weekReport[1].date}})</span></label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed  <span ng-if="{{s.weekReport[2].date}} != ''">({{s.weekReport[2].date}})</span></label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Thu  <span ng-if="{{s.weekReport[3].date}} != ''">({{s.weekReport[3].date}})</span></label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Fri  <span ng-if="{{s.weekReport[4].date}} != ''">({{s.weekReport[4].date}})</span></label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sat  <span ng-if="{{s.weekReport[5].date}} != ''">({{s.weekReport[5].date}})</span></label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sun  <span ng-if="{{s.weekReport[6].date}} != ''">({{s.weekReport[6].date}})</span></label>
+                </div> -->
 			<div id="do_name">{{s.name}}</div>
 				<div class="col-md-3 col-sm-12"
 					style="padding: 0px; position: relative;">

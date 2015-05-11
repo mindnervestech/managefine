@@ -2371,8 +2371,9 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 app.controller("SchedularWeekReportController", function($scope,$http,$compile) {
 	$scope.currentDate = new Date(); 
 	$scope.staffs = [];
-	
+	$scope.flag = 0;
 	$scope.init = function(data) {
+		$scope.flag = 0;
 		$scope.userId = $('#userID').val();
 		for(var i=0;i<data.length;i++) {
 			if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
@@ -2382,6 +2383,11 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 			}
 		}
 		$scope.staffs = data;
+		angular.forEach($scope.staffs, function(obj, index){
+			if(obj.weekReport != null){
+				$scope.flag = 1;
+			}
+		});
 		Date.prototype.getWeek = function() {
 			var onejan = new Date(this.getFullYear(),0,1);
 			var w = Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
@@ -2432,6 +2438,7 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 	}
 	
 	$scope.changeWeek = function(date) {
+		$scope.flag = 0;
 		$scope.userId = $('#userID').val();
 		var d = (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
 		$http({method:'GET',url:contextPath+'/getStaffWeekReport',params:{userId:$scope.userId,date:d}}).success(function(data) {
@@ -2444,6 +2451,12 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 				}
 			}
 			$scope.staffs = data;
+			
+			angular.forEach($scope.staffs, function(obj, index){
+				if(obj.weekReport != null){
+					$scope.flag = 1;
+				}
+			});
 		});
 	};
 	

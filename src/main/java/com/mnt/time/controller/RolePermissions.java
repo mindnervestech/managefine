@@ -163,10 +163,10 @@ public class RolePermissions {
 		
 		List<Expression> expressions = new ArrayList<Expression>();
 		
-		expressions.add(Expr.eq("company", User.findByEmail(username).getCompanyobject()));
+	//	expressions.add(Expr.eq("company", User.findByEmail(username).getCompanyobject()));
 		
 		if(form.get("role") != null){
-			expressions.add( Expr.like("role_name", "%"+form.get("role")+"%"));
+			expressions.add(Expr.like("role_name", "%"+form.get("role")+"%"));
 		}
 		
 		int count =0;
@@ -174,14 +174,14 @@ public class RolePermissions {
 		if(expressions.size()!=0)
 		{
 			exp = expressions.get(0);
-			for(int i =1;i<expressions.size();i++)
+			/*for(int i =1;i<expressions.size();i++)
 			{
 				exp = Expr.and(exp, expressions.get(i));
-			}
-			count = RoleX.find.where().add(exp).findRowCount();
+			}*/
+			count = RoleLevel.find.where().add(exp).findRowCount();
 		}
 		else{
-			count = RoleX.find.where().findRowCount();
+			count = RoleLevel.find.where().findRowCount();
 		}
 			//results = Agent.find.where().add(exp).findList();
 			int total_pages=0;
@@ -197,9 +197,11 @@ public class RolePermissions {
 			}
 			
 			int start = limit*page - limit;
-		List<RoleLevel> role =  RoleLevel.find.setFirstRow(start).setMaxRows(limit).findList();
+		List<RoleLevel> role = expressions.size()== 0 ? RoleLevel.find.setFirstRow(start).setMaxRows(limit).findList()
+				: RoleLevel.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findList();
 					;
 			
+					
 		List<GridViewModel.RowViewModel> rows = transform(role, toJqGridFormat());
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return Json.toJson(gridViewModel).toString();
