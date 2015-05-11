@@ -1,0 +1,265 @@
+<!DOCTYPE HTML> 
+
+<html> 
+  <head> 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+    <title></title> 
+    <link href="static/site.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="/time/resources/reports/RedQueryBuilder/gwt/dark/dark.css" />
+    <link rel="stylesheet" href="/time/resources/reports/slick-grid/css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/time/resources/reports/slick-grid/slick.grid.css" />
+    <link rel="stylesheet" href="/time/resources/reports/slick-grid/controls/slick.columnpicker.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/time/resources/reports/pivottable/dist/pivot.css">
+    
+    <script src="/time/resources/reports/RedQueryBuilder/RedQueryBuilder.nocache.js" type="text/javascript"></script> 
+    <script src="/time/resources/reports/RedQueryBuilder/RedQueryBuilderFactory.nocache.js" type="text/javascript"></script>
+    
+    <script1 src="/time/resources/reports/slick-grid/lib/jquery-1.7.min.js"></script>
+    <script1 type="text/javascript" src="/time/resources/reports/slick-grid/lib/jquery-ui-1.8.16.custom.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="/time/resources/reports/slick-grid/lib/jquery.event.drag-2.2.js"></script>
+    
+    <script type="text/javascript" src="/time/resources/reports/slick-grid/slick.core.js"></script>
+    <script src="/time/resources/reports/slick-grid/slick.grid.js"></script>
+  	<script src="/time/resources/reports/slick-grid/slick.dataview.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.checkboxselectcolumn.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.autotooltips.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.cellrangedecorator.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.cellrangeselector.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.cellcopymanager.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.cellselectionmodel.js"></script>
+	<script src="/time/resources/reports/slick-grid/plugins/slick.rowselectionmodel.js"></script>
+	<script src="/time/resources/reports/slick-grid/controls/slick.columnpicker.js"></script>
+    <script type="text/javascript" src="/time/resources/reports/pivottable/dist/pivot.js"></script>
+    
+	<script type="text/javascript" src="/time/resources/reports/jsonjs/json2.js" ></script>
+	
+	<script type="text/javascript" src="/time/resources/reports/jspdf/jspdf.min.js"></script>
+
+  </head> 
+  <body bgcolor="white"> 
+<!-- Change CSS is Screen -->     
+<div id="container">
+
+<div id="content-container">
+<div id="content">
+
+	<fieldset>
+      <div id="rqb">Please wait <img src="static/busy.gif"/></div>
+   	</fieldset>  
+
+    <fieldset>
+      <button id="search" class="gwt-Button">Search</button>
+    </fieldset>
+    
+    <!-- TODO Move this is tab 1 -->
+    <div id="grid" style="height:600px;"></div>
+    <!-- TODO Move this is tab 2 -->
+    <div id="pivot" style="height:600px;"></div>
+
+</div>
+</div>    
+<div style="display: none;">
+   <table id="tabel" style="border: 1px solid black;">
+            <tr>
+                <td width="350" style="border: 1px solid black ;">
+                    Foo
+                </td>
+                <td width="80" style="border: 1px solid black ;">
+                    Foo1
+                </td>
+                <td width="65" style="border: 1px solid black ;">
+                    Foo2
+                </td>
+            </tr>
+            <tr style="border: 1px solid black;">
+                <td style="border: 1px solid black;">
+                    Bar1
+                </td>
+                <td style="border: 1px solid black;">
+                    Bar2
+                </td>
+                <td style="border: 1px solid black;">
+                    Bar3
+                </td>
+            </tr>
+            <tr style="border: 1px solid black;">
+                <td style="border: 1px solid black;">
+                    Bar1
+                </td>
+                <td style="border: 1px solid black;">
+                    Bar2
+                </td>
+                <td style="border: 1px solid black;">
+                    Bar3
+                </td>
+            </tr>
+        </table>
+ </div>       
+    <script>
+    
+function clearResult() {
+  $('#grid').empty();
+  $('#pivot').empty();
+}
+
+function search(url) {
+    clearResult();
+    var options = {
+    		autoHeight:true,
+    		enableAddRow: false,
+    		forceFitColumns:true,
+    		fullWidthRows:true
+    		};
+    $.getJSON(url,function(result){
+    	dataView = new Slick.Data.DataView();
+    	grid = new Slick.Grid("#grid", dataView, result.columns, options);
+    	var columnpicker = new Slick.Controls.ColumnPicker(result.columns, grid, options);
+    	dataView.beginUpdate();
+    	dataView.setItems(result.data);
+    	dataView.endUpdate();
+    	grid.updateRowCount();
+    	grid.render();
+    	
+    	 $("#pivot").pivotUI(result.data,{
+    		 rows: ["first_name"],
+             cols: ["email"]
+    	 });
+    });
+     
+}
+
+function generatePDF() {
+	var doc = new jsPDF();
+	doc.fromHTML($('#tabel').get(0), 15, 15, {
+		'width': 170, 
+		//'elementHandlers': specialElementHandlers
+	});
+	
+	doc.save("report.pdf");
+}
+
+$.post('/time/report/MetaDataForRQB', {}, phase1, 'json');
+
+var state = new Object();
+
+function phase1(meta) {
+	state.meta = meta;
+	
+	$('#meta').text(JSON.stringify(meta, null, 2));
+	
+	publish();
+    setupSavedQueries();
+};
+
+
+function publish(sql, args) {
+  state.sql = sql;
+  state.args = args;
+  $('#rqb').html('');
+  RedQueryBuilderFactory.create({targetId:'rqb',
+          meta:state.meta,
+          onSqlChange:sqlChange,
+          onTableChange:tableChange,
+          enumerate:enumerate,
+          suggest:suggest},
+      state.sql,
+      state.args);
+}
+
+function tableChange(filters) {
+ 	state.filters = filters;
+}
+
+function sqlChange(sql, args) {
+	state.sql = sql;
+	state.args = args;
+	$('#sql').text(sql);
+  $('#searches').attr('value', '');
+}
+
+function enumerate(request, callback) {
+	$.ajax({
+		url: '/time/report/select',
+	    dataType: 'json',
+	    data: {tableName:request.tableName, columnName:request.columnName},
+	    success: function(data) {
+	    	callback(data);
+	    	//callback([{value:'T', label:'Yes'}, {value:'F', label:'No'}]);
+	    	//callback([{"value":"Development","label":"Development"},{"value":"Marketing","label":"Marketing"}]);
+	    }
+	});
+  
+    
+  
+}
+
+// This Method is not tested
+function suggest(args, callback) {
+  var sql = 'SELECT DISTINCT ' + args.columnName + ' FROM ' + args.tableName + ' WHERE UPPER(' + args.columnName + ') LIKE ?';
+  var q = args.query.toUpperCase() + '%';
+  $.ajax({
+    url: '/time/report/suggest',
+    dataType: 'json',
+    data: {
+    	columnName:args.columnName, 
+    	tableName:args.tableName, 
+    	arg:q
+    	},
+    success: function(r) {
+  	  /* var s = new Array();
+  	  for (var i = 0; i < r.rows.length; i++) {
+  		var row = r.rows[i]; 
+  		s.push(row.cell[0]);
+  	  }; */
+  	  callback(r);
+    }
+  });
+}
+
+// TODO ; Please remove all col in sql just make it select * FROM, 
+$('#search').click(function() {
+  var url = '/time/report/search?sql=' + escape(state.sql);
+  for (var i = 0; i < state.args.length; i++) {
+  	url += '&arg=' + escape(state.args[i]);
+  }   
+ 
+  search(url);
+});
+
+
+// this need to be developed
+function setupSavedQueries() {
+  var searches = [
+  {
+	label:'Cities in the UK'
+	,sql:'SELECT "x0"."ID", "x0"."NAME", "x0"."COUNTRYCODE", "x0"."DISTRICT", "x0"."POPULATION" FROM "CITY" "x0" INNER JOIN "COUNTRY" "x1" ON "x0"."COUNTRYCODE" = "x1"."CODE" WHERE ("x1"."NAME" = ?)'
+	,args:['United Kingdom']
+  }
+  ,{
+	label:'Large cities in the UK plus Oxford'
+	,sql:'SELECT "x0"."ID", "x0"."NAME", "x0"."COUNTRYCODE", "x0"."DISTRICT", "x0"."POPULATION" FROM "CITY" "x0" INNER JOIN "COUNTRY" "x1" ON "x0"."COUNTRYCODE" = "x1"."CODE" WHERE (("x1"."NAME" = ?) AND (("x0"."POPULATION" > ?) OR ("x0"."NAME" = ?)))'
+	,args:['United Kingdom', 100000, 'Oxford']
+  },
+  {
+    label:'Official languages',
+    sql:'SELECT "x0"."COUNTRYCODE", "x0"."LANGUAGE", "x0"."ISOFFICIAL", "x0"."PERCENTAGE" FROM "COUNTRYLANGUAGE" "x0" WHERE ("x0"."ISOFFICIAL" = ?)',
+    args:['T']
+  }];
+
+  var jselect = $('#queriesList');
+  for (var i = 0; i < searches.length; i++) {
+	var jrow = $('<div><a href="#' + i + '">[' + searches[i].label + ']</a></div>');
+	jselect.append(jrow);
+    jrow.bind('click', searches[i], function(event) {
+      publish(event.data.sql, event.data.args);
+      clearResult();
+    });
+  }
+  $('#queriesSource').text(JSON.stringify(searches, null, 2));
+}
+	</script>
+
+  </body> 
+</html> 
