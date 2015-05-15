@@ -5,6 +5,7 @@ public class LeaveDay {
 	public Boolean isLeave;
 	public String reason;
 	public Integer leaveType;
+	public Long orgId;
 	public String getDay() {
 		return day;
 	}
@@ -29,4 +30,11 @@ public class LeaveDay {
 	public void setLeaveType(Integer leaveType) {
 		this.leaveType = leaveType;
 	}
+	public Long getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
+	
 }

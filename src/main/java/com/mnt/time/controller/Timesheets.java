@@ -742,7 +742,7 @@ public class Timesheets{
 		Calendar cal = Calendar.getInstance();
 		Boolean[] holidayList = {false,false,false,false,false,false,false};
 		
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 		if(userLeaveList.size() != 0) {
 			int i = 0;
 			for(UserLeave userLeave: userLeaveList) {
@@ -783,7 +783,7 @@ public class Timesheets{
 			
 			UserLeave leave = null;
 			try {
-				leave = UserLeave.getLeave(user, sdf.parse(dy));
+				leave = UserLeave.getLeave(sdf.parse(dy));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -878,7 +878,7 @@ public class Timesheets{
 		Calendar cal = Calendar.getInstance();
 		Boolean[] holidayList = {false,false,false,false,false,false,false};
 		
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 		if(userLeaveList.size() != 0) {
 			int i = 0;
 			for(UserLeave userLeave: userLeaveList) {
@@ -919,7 +919,7 @@ public class Timesheets{
 			
 			UserLeave leave = null;
 			try {
-				leave = UserLeave.getLeave(user, sdf.parse(dy));
+				leave = UserLeave.getLeave(sdf.parse(dy));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -1018,7 +1018,7 @@ public class Timesheets{
 			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
 		} 
 		
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 		if(userLeaveList.size() != 0) {
 			int i = 0;
 			for(UserLeave userLeave: userLeaveList) {
@@ -1059,7 +1059,7 @@ public class Timesheets{
 			
 			UserLeave leave = null;
 			try {
-				leave = UserLeave.getLeave(user, sdf.parse(dy));
+				leave = UserLeave.getLeave(sdf.parse(dy));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -1163,7 +1163,7 @@ public class Timesheets{
 			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
 		} 
 		
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 		if(userLeaveList.size() != 0) {
 			int i = 0;
 			for(UserLeave userLeave: userLeaveList) {
@@ -1204,7 +1204,7 @@ public class Timesheets{
 			
 			UserLeave leave = null;
 			try {
-				leave = UserLeave.getLeave(user, sdf.parse(dy));
+				leave = UserLeave.getLeave(sdf.parse(dy));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

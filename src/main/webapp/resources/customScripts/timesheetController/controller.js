@@ -1324,6 +1324,11 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 		});
 	}
 	
+	$scope.showMessage = function(index) {
+		$('#popupBtn').click();
+		$scope.weekIndex = index;
+	}
+	
 	$scope.checkBoxClick = function(index){
 		if(confirm("Are you sure you want change this?")) {
 			$http({method:'GET', url:contextPath+'/setWeeklyLeave', params :{leaveType:index,userId:$scope.userId}}).success(function(response) {
@@ -1335,16 +1340,20 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 		}
 	};
 	
-	$scope.funct1 = function(_m, _d)  {
-		if(_d==0) {
-			var d = new Date();
+	$scope.funct1 = function(_m, _d,reason,orgId)  {
+		/*if(_d==0) {
+			var year = new Date().getFullYear();
+			if(_m < $scope.months[0].monthIndex){
+				year += 1;
+			}
+			var d = new Date(year,_m,_d);
 			$scope.staffLeaveVM.fromDate = (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear();
 			 ngDialog.open({
 			    template: 'openHolidayPopup.html',
 			    scope: $scope,
 			    className: 'ngdialog-theme-default'
 		  });
-		}
+		}*/
 		if (_d == '') return;
 		var year = new Date().getFullYear();
 		if(_m < $scope.months[0].monthIndex){
@@ -1352,6 +1361,8 @@ app.controller("SetupHolidayController", function($scope,$http,ngDialog) {
 		}
 		//$scope.setSelectedDate(new Date(year,_m,_d));
 		var d = new Date(year,_m,_d);
+		$scope.staffLeaveVM.reason = reason;
+		$scope.staffLeaveVM.organizationId = orgId;
 		$scope.staffLeaveVM.fromDate = (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear();
 		 ngDialog.open({
 		    template: 'openHolidayPopup.html',

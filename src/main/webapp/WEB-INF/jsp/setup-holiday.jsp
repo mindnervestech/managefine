@@ -86,100 +86,100 @@
 							<th>S</th>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[0].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[0].day)">{{month.monthDays[0].day}}</td>
-							<td ng-show="month.monthDays[0].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[0].reason}}">{{month.monthDays[0].day}}</a></td>
-							<td ng-hide="month.monthDays[1].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[1].day)">{{month.monthDays[1].day}}</td>
-							<td ng-show="month.monthDays[1].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[1].reason}}">{{month.monthDays[1].day}}</a></td>
-							<td ng-hide="month.monthDays[2].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[2].day)">{{month.monthDays[2].day}}</td>
-							<td ng-show="month.monthDays[2].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[2].reason}}">{{month.monthDays[2].day}}</a></td>
-							<td ng-hide="month.monthDays[3].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[3].day)">{{month.monthDays[3].day}}</td>
-							<td ng-show="month.monthDays[3].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[3].reason}}">{{month.monthDays[3].day}}</a></td>
-							<td ng-hide="month.monthDays[4].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[4].day)">{{month.monthDays[4].day}}</td>
-							<td ng-show="month.monthDays[4].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[4].reason}}">{{month.monthDays[4].day}}</a></td>
-							<td ng-hide="month.monthDays[5].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[5].day)">{{month.monthDays[5].day}}</td>
-							<td ng-show="month.monthDays[5].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[5].reason}}">{{month.monthDays[5].day}}</a></td>
-							<td ng-hide="month.monthDays[6].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[6].day)">{{month.monthDays[6].day}}</td>
-							<td ng-show="month.monthDays[6].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[6].reason}}">{{month.monthDays[6].day}}</a></td>
+							<td ng-hide="month.monthDays[0].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[0].day,month.monthDays[0].reason,month.monthDays[0].orgId)">{{month.monthDays[0].day}}</td>
+							<td ng-show="month.monthDays[0].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[0].day,month.monthDays[0].reason,month.monthDays[0].orgId)"><a class="w-off tip" title="{{month.monthDays[0].reason}}">{{month.monthDays[0].day}}</a></td>
+							<td ng-hide="month.monthDays[1].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[1].day,month.monthDays[1].reason,month.monthDays[1].orgId)">{{month.monthDays[1].day}}</td>
+							<td ng-show="month.monthDays[1].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[1].day,month.monthDays[1].reason,month.monthDays[1].orgId)"><a class="w-off tip" title="{{month.monthDays[1].reason}}">{{month.monthDays[1].day}}</a></td>
+							<td ng-hide="month.monthDays[2].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[2].day,month.monthDays[2].reason,month.monthDays[2].orgId)">{{month.monthDays[2].day}}</td>
+							<td ng-show="month.monthDays[2].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[2].day,month.monthDays[2].reason,month.monthDays[2].orgId)"><a class="w-off tip" title="{{month.monthDays[2].reason}}">{{month.monthDays[2].day}}</a></td>
+							<td ng-hide="month.monthDays[3].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[3].day,month.monthDays[3].reason,month.monthDays[3].orgId)">{{month.monthDays[3].day}}</td>
+							<td ng-show="month.monthDays[3].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[3].day,month.monthDays[3].reason,month.monthDays[3].orgId)"><a class="w-off tip" title="{{month.monthDays[3].reason}}">{{month.monthDays[3].day}}</a></td>
+							<td ng-hide="month.monthDays[4].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[4].day,month.monthDays[4].reason,month.monthDays[4].orgId)">{{month.monthDays[4].day}}</td>
+							<td ng-show="month.monthDays[4].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[4].day,month.monthDays[4].reason,month.monthDays[4].orgId)"><a class="w-off tip" title="{{month.monthDays[4].reason}}">{{month.monthDays[4].day}}</a></td>
+							<td ng-hide="month.monthDays[5].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[5].day,month.monthDays[5].reason,month.monthDays[5].orgId)">{{month.monthDays[5].day}}</td>
+							<td ng-show="month.monthDays[5].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[5].day,month.monthDays[5].reason,month.monthDays[5].orgId)"><a class="w-off tip" title="{{month.monthDays[5].reason}}">{{month.monthDays[5].day}}</a></td>
+							<td ng-hide="month.monthDays[6].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[6].day,month.monthDays[6].reason,month.monthDays[6].orgId)">{{month.monthDays[6].day}}</td>
+							<td ng-show="month.monthDays[6].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[6].day,month.monthDays[6].reason,month.monthDays[6].orgId)"><a class="w-off tip" title="{{month.monthDays[6].reason}}">{{month.monthDays[6].day}}</a></td>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[7].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[7].day)">{{month.monthDays[7].day}}</td>
-							<td ng-show="month.monthDays[7].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[7].reason}}">{{month.monthDays[7].day}}</a></td>
-							<td ng-hide="month.monthDays[8].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[8].day)">{{month.monthDays[8].day}}</td>
-							<td ng-show="month.monthDays[8].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[8].reason}}">{{month.monthDays[8].day}}</a></td>
-							<td ng-hide="month.monthDays[9].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[9].day)">{{month.monthDays[9].day}}</td>
-							<td ng-show="month.monthDays[9].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[9].reason}}">{{month.monthDays[9].day}}</a></td>
-							<td ng-hide="month.monthDays[10].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[10].day)">{{month.monthDays[10].day}}</td>
-							<td ng-show="month.monthDays[10].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[10].reason}}">{{month.monthDays[10].day}}</a></td>
-							<td ng-hide="month.monthDays[11].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[11].day)">{{month.monthDays[11].day}}</td>
-							<td ng-show="month.monthDays[11].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[11].reason}}">{{month.monthDays[11].day}}</a></td>
-							<td ng-hide="month.monthDays[12].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[12].day)">{{month.monthDays[12].day}}</td>
-							<td ng-show="month.monthDays[12].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[12].reason}}">{{month.monthDays[12].day}}</a></td>
-							<td ng-hide="month.monthDays[13].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[13].day)">{{month.monthDays[13].day}}</td>
-							<td ng-show="month.monthDays[13].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[13].reason}}">{{month.monthDays[13].day}}</a></td>
+							<td ng-hide="month.monthDays[7].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[7].day,month.monthDays[7].reason,month.monthDays[7].orgId)">{{month.monthDays[7].day}}</td>
+							<td ng-show="month.monthDays[7].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[7].day,month.monthDays[7].reason,month.monthDays[7].orgId)"><a class="w-off tip" title="{{month.monthDays[7].reason}}">{{month.monthDays[7].day}}</a></td>
+							<td ng-hide="month.monthDays[8].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[8].day,month.monthDays[8].reason,month.monthDays[8].orgId)">{{month.monthDays[8].day}}</td>
+							<td ng-show="month.monthDays[8].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[8].day,month.monthDays[8].reason,month.monthDays[8].orgId)"><a class="w-off tip" title="{{month.monthDays[8].reason}}">{{month.monthDays[8].day}}</a></td>
+							<td ng-hide="month.monthDays[9].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[9].day,month.monthDays[9].reason,month.monthDays[9].orgId)">{{month.monthDays[9].day}}</td>
+							<td ng-show="month.monthDays[9].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[9].day,month.monthDays[9].reason,month.monthDays[9].orgId)"><a class="w-off tip" title="{{month.monthDays[9].reason}}">{{month.monthDays[9].day}}</a></td>
+							<td ng-hide="month.monthDays[10].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[10].day,month.monthDays[10].reason,month.monthDays[10].orgId)">{{month.monthDays[10].day}}</td>
+							<td ng-show="month.monthDays[10].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[10].day,month.monthDays[10].reason,month.monthDays[10].orgId)"><a class="w-off tip" title="{{month.monthDays[10].reason}}">{{month.monthDays[10].day}}</a></td>
+							<td ng-hide="month.monthDays[11].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[11].day,month.monthDays[11].reason,month.monthDays[11].orgId)">{{month.monthDays[11].day}}</td>
+							<td ng-show="month.monthDays[11].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[11].day,month.monthDays[11].reason,month.monthDays[11].orgId)"><a class="w-off tip" title="{{month.monthDays[11].reason}}">{{month.monthDays[11].day}}</a></td>
+							<td ng-hide="month.monthDays[12].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[12].day,month.monthDays[12].reason,month.monthDays[12].orgId)">{{month.monthDays[12].day}}</td>
+							<td ng-show="month.monthDays[12].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[12].day,month.monthDays[12].reason,month.monthDays[12].orgId)"><a class="w-off tip" title="{{month.monthDays[12].reason}}">{{month.monthDays[12].day}}</a></td>
+							<td ng-hide="month.monthDays[13].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[13].day,month.monthDays[13].reason,month.monthDays[13].orgId)">{{month.monthDays[13].day}}</td>
+							<td ng-show="month.monthDays[13].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[13].day,month.monthDays[13].reason,month.monthDays[13].orgId)"><a class="w-off tip" title="{{month.monthDays[13].reason}}">{{month.monthDays[13].day}}</a></td>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[14].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[14].day)">{{month.monthDays[14].day}}</td>
-							<td ng-show="month.monthDays[14].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[14].reason}}">{{month.monthDays[14].day}}</a></td>
-							<td ng-hide="month.monthDays[15].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[15].day)">{{month.monthDays[15].day}}</td>
-							<td ng-show="month.monthDays[15].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[15].reason}}">{{month.monthDays[15].day}}</a></td>
-							<td ng-hide="month.monthDays[16].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[16].day)">{{month.monthDays[16].day}}</td>
-							<td ng-show="month.monthDays[16].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[16].reason}}">{{month.monthDays[16].day}}</a></td>
-							<td ng-hide="month.monthDays[17].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[17].day)">{{month.monthDays[17].day}}</td>
-							<td ng-show="month.monthDays[17].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[17].reason}}">{{month.monthDays[17].day}}</a></td>
-							<td ng-hide="month.monthDays[18].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[18].day)">{{month.monthDays[18].day}}</td>
-							<td ng-show="month.monthDays[18].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[18].reason}}">{{month.monthDays[18].day}}</a></td>
-							<td ng-hide="month.monthDays[19].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[19].day)">{{month.monthDays[19].day}}</td>
-							<td ng-show="month.monthDays[19].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[19].reason}}">{{month.monthDays[19].day}}</a></td>
-							<td ng-hide="month.monthDays[20].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[20].day)">{{month.monthDays[20].day}}</td>
-							<td ng-show="month.monthDays[20].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[20].reason}}">{{month.monthDays[20].day}}</a></td>
+							<td ng-hide="month.monthDays[14].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[14].day,month.monthDays[14].reason,month.monthDays[14].orgId)">{{month.monthDays[14].day}}</td>
+							<td ng-show="month.monthDays[14].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[14].day,month.monthDays[14].reason,month.monthDays[14].orgId)"><a class="w-off tip" title="{{month.monthDays[14].reason}}">{{month.monthDays[14].day}}</a></td>
+							<td ng-hide="month.monthDays[15].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[15].day,month.monthDays[15].reason,month.monthDays[15].orgId)">{{month.monthDays[15].day}}</td>
+							<td ng-show="month.monthDays[15].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[15].day,month.monthDays[15].reason,month.monthDays[15].orgId)"><a class="w-off tip" title="{{month.monthDays[15].reason}}">{{month.monthDays[15].day}}</a></td>
+							<td ng-hide="month.monthDays[16].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[16].day,month.monthDays[16].reason,month.monthDays[16].orgId)">{{month.monthDays[16].day}}</td>
+							<td ng-show="month.monthDays[16].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[16].day,month.monthDays[16].reason,month.monthDays[16].orgId)"><a class="w-off tip" title="{{month.monthDays[16].reason}}">{{month.monthDays[16].day}}</a></td>
+							<td ng-hide="month.monthDays[17].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[17].day,month.monthDays[17].reason,month.monthDays[17].orgId)">{{month.monthDays[17].day}}</td>
+							<td ng-show="month.monthDays[17].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[17].day,month.monthDays[17].reason,month.monthDays[17].orgId)"><a class="w-off tip" title="{{month.monthDays[17].reason}}">{{month.monthDays[17].day}}</a></td>
+							<td ng-hide="month.monthDays[18].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[18].day,month.monthDays[18].reason,month.monthDays[18].orgId)">{{month.monthDays[18].day}}</td>
+							<td ng-show="month.monthDays[18].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[18].day,month.monthDays[18].reason,month.monthDays[18].orgId)"><a class="w-off tip" title="{{month.monthDays[18].reason}}">{{month.monthDays[18].day}}</a></td>
+							<td ng-hide="month.monthDays[19].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[19].day,month.monthDays[19].reason,month.monthDays[19].orgId)">{{month.monthDays[19].day}}</td>
+							<td ng-show="month.monthDays[19].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[19].day,month.monthDays[19].reason,month.monthDays[19].orgId)"><a class="w-off tip" title="{{month.monthDays[19].reason}}">{{month.monthDays[19].day}}</a></td>
+							<td ng-hide="month.monthDays[20].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[20].day,month.monthDays[20].reason,month.monthDays[20].orgId)">{{month.monthDays[20].day}}</td>
+							<td ng-show="month.monthDays[20].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[20].day,month.monthDays[20].reason,month.monthDays[20].orgId)"><a class="w-off tip" title="{{month.monthDays[20].reason}}">{{month.monthDays[20].day}}</a></td>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[21].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[21].day)">{{month.monthDays[21].day}}</td>
-							<td ng-show="month.monthDays[21].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[21].reason}}">{{month.monthDays[21].day}}</a></td>
-							<td ng-hide="month.monthDays[22].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[22].day)">{{month.monthDays[22].day}}</td>
-							<td ng-show="month.monthDays[22].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[22].reason}}">{{month.monthDays[22].day}}</a></td>
-							<td ng-hide="month.monthDays[23].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[23].day)">{{month.monthDays[23].day}}</td>
-							<td ng-show="month.monthDays[23].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[23].reason}}">{{month.monthDays[23].day}}</a></td>
-							<td ng-hide="month.monthDays[24].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[24].day)">{{month.monthDays[24].day}}</td>
-							<td ng-show="month.monthDays[24].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[24].reason}}">{{month.monthDays[24].day}}</a></td>
-							<td ng-hide="month.monthDays[25].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[25].day)">{{month.monthDays[25].day}}</td>
-							<td ng-show="month.monthDays[25].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[25].reason}}">{{month.monthDays[25].day}}</a></td>
-							<td ng-hide="month.monthDays[26].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[26].day)">{{month.monthDays[26].day}}</td>
-							<td ng-show="month.monthDays[26].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[26].reason}}">{{month.monthDays[26].day}}</a></td>
-							<td ng-hide="month.monthDays[27].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[27].day)">{{month.monthDays[27].day}}</td>
-							<td ng-show="month.monthDays[27].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[27].reason}}">{{month.monthDays[27].day}}</a></td>
+							<td ng-hide="month.monthDays[21].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[21].day,month.monthDays[21].reason,month.monthDays[21].orgId)">{{month.monthDays[21].day}}</td>
+							<td ng-show="month.monthDays[21].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[21].day,month.monthDays[21].reason,month.monthDays[21].orgId)"><a class="w-off tip" title="{{month.monthDays[21].reason}}">{{month.monthDays[21].day}}</a></td>
+							<td ng-hide="month.monthDays[22].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[22].day,month.monthDays[22].reason,month.monthDays[22].orgId)">{{month.monthDays[22].day}}</td>
+							<td ng-show="month.monthDays[22].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[22].day,month.monthDays[22].reason,month.monthDays[22].orgId)"><a class="w-off tip" title="{{month.monthDays[22].reason}}">{{month.monthDays[22].day}}</a></td>
+							<td ng-hide="month.monthDays[23].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[23].day,month.monthDays[23].reason,month.monthDays[23].orgId)">{{month.monthDays[23].day}}</td>
+							<td ng-show="month.monthDays[23].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[23].day,month.monthDays[23].reason,month.monthDays[23].orgId)"><a class="w-off tip" title="{{month.monthDays[23].reason}}">{{month.monthDays[23].day}}</a></td>
+							<td ng-hide="month.monthDays[24].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[24].day,month.monthDays[24].reason,month.monthDays[24].orgId)">{{month.monthDays[24].day}}</td>
+							<td ng-show="month.monthDays[24].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[24].day,month.monthDays[24].reason,month.monthDays[24].orgId)"><a class="w-off tip" title="{{month.monthDays[24].reason}}">{{month.monthDays[24].day}}</a></td>
+							<td ng-hide="month.monthDays[25].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[25].day,month.monthDays[25].reason,month.monthDays[25].orgId)">{{month.monthDays[25].day}}</td>
+							<td ng-show="month.monthDays[25].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[25].day,month.monthDays[25].reason,month.monthDays[25].orgId)"><a class="w-off tip" title="{{month.monthDays[25].reason}}">{{month.monthDays[25].day}}</a></td>
+							<td ng-hide="month.monthDays[26].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[26].day,month.monthDays[26].reason,month.monthDays[26].orgId)">{{month.monthDays[26].day}}</td>
+							<td ng-show="month.monthDays[26].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[26].day,month.monthDays[26].reason,month.monthDays[26].orgId)"><a class="w-off tip" title="{{month.monthDays[26].reason}}">{{month.monthDays[26].day}}</a></td>
+							<td ng-hide="month.monthDays[27].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[27].day,month.monthDays[27].reason,month.monthDays[27].orgId)">{{month.monthDays[27].day}}</td>
+							<td ng-show="month.monthDays[27].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[27].day,month.monthDays[27].reason,month.monthDays[27].orgId)"><a class="w-off tip" title="{{month.monthDays[27].reason}}">{{month.monthDays[27].day}}</a></td>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[28].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[28].day)">{{month.monthDays[28].day}}</td>
-							<td ng-show="month.monthDays[28].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[28].reason}}">{{month.monthDays[28].day}}</a></td>
-							<td ng-hide="month.monthDays[29].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[29].day)">{{month.monthDays[29].day}}</td>
-							<td ng-show="month.monthDays[29].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[29].reason}}">{{month.monthDays[29].day}}</a></td>
-							<td ng-hide="month.monthDays[30].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[30].day)">{{month.monthDays[30].day}}</td>
-							<td ng-show="month.monthDays[30].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[30].reason}}">{{month.monthDays[30].day}}</a></td>
-							<td ng-hide="month.monthDays[31].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[31].day)">{{month.monthDays[31].day}}</td>
-							<td ng-show="month.monthDays[31].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[31].reason}}">{{month.monthDays[31].day}}</a></td>
-							<td ng-hide="month.monthDays[32].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[32].day)">{{month.monthDays[32].day}}</td>
-							<td ng-show="month.monthDays[32].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[32].reason}}">{{month.monthDays[32].day}}</a></td>
-							<td ng-hide="month.monthDays[33].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[33].day)">{{month.monthDays[33].day}}</td>
-							<td ng-show="month.monthDays[33].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[33].reason}}">{{month.monthDays[33].day}}</a></td>
-							<td ng-hide="month.monthDays[34].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[34].day)">{{month.monthDays[34].day}}</td>
-							<td ng-show="month.monthDays[34].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[34].reason}}">{{month.monthDays[34].day}}</a></td>
+							<td ng-hide="month.monthDays[28].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[28].day,month.monthDays[28].reason,month.monthDays[28].orgId)">{{month.monthDays[28].day}}</td>
+							<td ng-show="month.monthDays[28].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[28].day,month.monthDays[28].reason,month.monthDays[28].orgId)"><a class="w-off tip" title="{{month.monthDays[28].reason}}">{{month.monthDays[28].day}}</a></td>
+							<td ng-hide="month.monthDays[29].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[29].day,month.monthDays[29].reason,month.monthDays[29].orgId)">{{month.monthDays[29].day}}</td>
+							<td ng-show="month.monthDays[29].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[29].day,month.monthDays[29].reason,month.monthDays[29].orgId)"><a class="w-off tip" title="{{month.monthDays[29].reason}}">{{month.monthDays[29].day}}</a></td>
+							<td ng-hide="month.monthDays[30].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[30].day,month.monthDays[30].reason,month.monthDays[30].orgId)">{{month.monthDays[30].day}}</td>
+							<td ng-show="month.monthDays[30].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[30].day,month.monthDays[30].reason,month.monthDays[30].orgId)"><a class="w-off tip" title="{{month.monthDays[30].reason}}">{{month.monthDays[30].day}}</a></td>
+							<td ng-hide="month.monthDays[31].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[31].day,month.monthDays[31].reason,month.monthDays[31].orgId)">{{month.monthDays[31].day}}</td>
+							<td ng-show="month.monthDays[31].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[31].day,month.monthDays[31].reason,month.monthDays[31].orgId)"><a class="w-off tip" title="{{month.monthDays[31].reason}}">{{month.monthDays[31].day}}</a></td>
+							<td ng-hide="month.monthDays[32].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[32].day,month.monthDays[32].reason,month.monthDays[32].orgId)">{{month.monthDays[32].day}}</td>
+							<td ng-show="month.monthDays[32].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[32].day,month.monthDays[32].reason,month.monthDays[32].orgId)"><a class="w-off tip" title="{{month.monthDays[32].reason}}">{{month.monthDays[32].day}}</a></td>
+							<td ng-hide="month.monthDays[33].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[33].day,month.monthDays[33].reason,month.monthDays[33].orgId)">{{month.monthDays[33].day}}</td>
+							<td ng-show="month.monthDays[33].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[33].day,month.monthDays[33].reason,month.monthDays[33].orgId)"><a class="w-off tip" title="{{month.monthDays[33].reason}}">{{month.monthDays[33].day}}</a></td>
+							<td ng-hide="month.monthDays[34].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[34].day,month.monthDays[34].reason,month.monthDays[34].orgId)">{{month.monthDays[34].day}}</td>
+							<td ng-show="month.monthDays[34].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[34].day,month.monthDays[34].reason,month.monthDays[34].orgId)"><a class="w-off tip" title="{{month.monthDays[34].reason}}">{{month.monthDays[34].day}}</a></td>
 						</tr>
 						<tr>
-							<td ng-hide="month.monthDays[35].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[35].day)">{{month.monthDays[35].day}}</td>
-							<td ng-show="month.monthDays[35].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[35].reason}}">{{month.monthDays[35].day}}</a></td>
-							<td ng-hide="month.monthDays[36].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[36].day)">{{month.monthDays[36].day}}</td>
-							<td ng-show="month.monthDays[36].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[36].reason}}">{{month.monthDays[36].day}}</a></td>
-							<td ng-hide="month.monthDays[37].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[37].day)">{{month.monthDays[37].day}}</td>
-							<td ng-show="month.monthDays[37].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[37].reason}}">{{month.monthDays[37].day}}</a></td>
-							<td ng-hide="month.monthDays[38].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[38].day)">{{month.monthDays[38].day}}</td>
-							<td ng-show="month.monthDays[38].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[38].reason}}">{{month.monthDays[38].day}}</a></td>
-							<td ng-hide="month.monthDays[39].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[39].day)">{{month.monthDays[39].day}}</td>
-							<td ng-show="month.monthDays[39].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[39].reason}}">{{month.monthDays[39].day}}</a></td>
-							<td ng-hide="month.monthDays[40].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[40].day)">{{month.monthDays[40].day}}</td>
-							<td ng-show="month.monthDays[40].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[40].reason}}">{{month.monthDays[40].day}}</a></td>
-							<td ng-hide="month.monthDays[41].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[41].day)">{{month.monthDays[41].day}}</td>
-							<td ng-show="month.monthDays[41].isLeave" ng-click="funct1(month.monthIndex,'')"><a class="w-off tip" title="{{month.monthDays[41].reason}}">{{month.monthDays[41].day}}</a></td>
+							<td ng-hide="month.monthDays[35].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[35].day,month.monthDays[35].reason,month.monthDays[35].orgId)">{{month.monthDays[35].day}}</td>
+							<td ng-show="month.monthDays[35].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[35].day,month.monthDays[35].reason,month.monthDays[35].orgId)"><a class="w-off tip" title="{{month.monthDays[35].reason}}">{{month.monthDays[35].day}}</a></td>
+							<td ng-hide="month.monthDays[36].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[36].day,month.monthDays[36].reason,month.monthDays[36].orgId)">{{month.monthDays[36].day}}</td>
+							<td ng-show="month.monthDays[36].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[36].day,month.monthDays[36].reason,month.monthDays[36].orgId)"><a class="w-off tip" title="{{month.monthDays[36].reason}}">{{month.monthDays[36].day}}</a></td>
+							<td ng-hide="month.monthDays[37].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[37].day,month.monthDays[37].reason,month.monthDays[37].orgId)">{{month.monthDays[37].day}}</td>
+							<td ng-show="month.monthDays[37].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[37].day,month.monthDays[37].reason,month.monthDays[37].orgId)"><a class="w-off tip" title="{{month.monthDays[37].reason}}">{{month.monthDays[37].day}}</a></td>
+							<td ng-hide="month.monthDays[38].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[38].day,month.monthDays[38].reason,month.monthDays[38].orgId)">{{month.monthDays[38].day}}</td>
+							<td ng-show="month.monthDays[38].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[38].day,month.monthDays[38].reason,month.monthDays[38].orgId)"><a class="w-off tip" title="{{month.monthDays[38].reason}}">{{month.monthDays[38].day}}</a></td>
+							<td ng-hide="month.monthDays[39].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[39].day,month.monthDays[39].reason,month.monthDays[39].orgId)">{{month.monthDays[39].day}}</td>
+							<td ng-show="month.monthDays[39].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[39].day,month.monthDays[39].reason,month.monthDays[39].orgId)"><a class="w-off tip" title="{{month.monthDays[39].reason}}">{{month.monthDays[39].day}}</a></td>
+							<td ng-hide="month.monthDays[40].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[40].day,month.monthDays[40].reason,month.monthDays[40].orgId)">{{month.monthDays[40].day}}</td>
+							<td ng-show="month.monthDays[40].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[40].day,month.monthDays[40].reason,month.monthDays[40].orgId)"><a class="w-off tip" title="{{month.monthDays[40].reason}}">{{month.monthDays[40].day}}</a></td>
+							<td ng-hide="month.monthDays[41].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[41].day,month.monthDays[41].reason,month.monthDays[41].orgId)">{{month.monthDays[41].day}}</td>
+							<td ng-show="month.monthDays[41].isLeave" ng-click="funct1(month.monthIndex,month.monthDays[41].day,month.monthDays[41].reason,month.monthDays[41].orgId)"><a class="w-off tip" title="{{month.monthDays[41].reason}}">{{month.monthDays[41].day}}</a></td>
 						</tr>
 					</table>
 				</aside>
@@ -187,7 +187,7 @@
 		</section>
 	</section>
 </section>
-
+<!-- <button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"> -->
 </body>
 </html>
 
@@ -226,7 +226,7 @@
               	<td>
                   <select ng-model="staffLeaveVM.organizationId">
 					<option value="0">All</option>
-					<option ng-repeat="org in organizationList" value="{{org.id}}">{{org.organizationName}}</option>
+					<option ng-repeat="org in organizationList" value="{{org.id}}" ng-selected="staffLeaveVM.organizationId == org.id">{{org.organizationName}}</option>
 				  </select>
                 </td>
             </tr>
@@ -302,3 +302,19 @@ width:1230px;
 
 </style>
 
+<!--  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="retractClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <b>Are you sure you want to change this?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" ng-click="checkBoxClick(weekIndex)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div> -->

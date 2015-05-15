@@ -27,10 +27,6 @@ public class UserLeave extends Model {
 	public Integer leaveType;
 	
 	public Date fromDate;
-	
-	public Date toDate;
-	
-	public String status;
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Organization> organizations;
@@ -78,22 +74,6 @@ public class UserLeave extends Model {
 		this.fromDate = fromDate;
 	}
 
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public List<Organization> getOrganizations() {
 		return organizations;
 	}
@@ -102,32 +82,32 @@ public class UserLeave extends Model {
 		this.organizations = organizations;
 	}
 
-	public static List<UserLeave> getUserLeaves(User user, Date fromDate,Date endDate) {
-		return find.where().eq("user", user).eq("leaveType", 7).between("fromDate", fromDate, endDate).findList();
+	public static List<UserLeave> getUserLeaves(Date fromDate,Date endDate) {
+		return find.where().eq("leaveType", 7).between("fromDate", fromDate, endDate).findList();
 	}
 	
-	public static List<UserLeave> getUserFixedYearlyLeaves(User user, Date fromDate) {
-		return find.where().eq("user", user).eq("leaveType", 8).betweenProperties("fromDate", "toDate", fromDate).findList();
+	public static List<UserLeave> getUserFixedYearlyLeaves(Date fromDate) {
+		return find.where().eq("leaveType", 8).eq("fromDate", fromDate).findList();
 	}
 	
-	public static List<UserLeave> getUserPreviousLeaves(User user, Date fromDate) {
-		return find.where().eq("user", user).eq("leaveType", 7).betweenProperties("fromDate", "toDate", fromDate).findList();
+	public static List<UserLeave> getUserPreviousLeaves(Date fromDate) {
+		return find.where().eq("leaveType", 7).eq("fromDate", fromDate).findList();
 	}
 	
-	public static List<UserLeave> getUserWeeklyLeaveList(User user) {
-		return find.where().eq("user", user).eq("fromDate", null).findList();
+	public static List<UserLeave> getUserWeeklyLeaveList() {
+		return find.where().eq("fromDate", null).findList();
 	}
 	
-	public static List<UserLeave> getUserFixedLeaveList(User user, Date fromDate,Date endDate) {
-		return find.where().eq("user", user).eq("leaveType", 7).between("fromDate", fromDate, endDate).findList();
+	public static List<UserLeave> getUserFixedLeaveList(Date fromDate,Date endDate) {
+		return find.where().eq("leaveType", 7).between("fromDate", fromDate, endDate).findList();
 	}
 	
-	public static UserLeave getUserWeeklyLeave(Integer leaveType,User user) {
-		return find.where().eq("user", user).eq("leaveType", leaveType).findUnique();
+	public static UserLeave getUserWeeklyLeave(Integer leaveType) {
+		return find.where().eq("leaveType", leaveType).findUnique();
 	}
 	
-	public static UserLeave getLeave(User user,Date fromDate) {
-		return find.where().eq("user", user).eq("fromDate", fromDate).eq("leaveType", "7").findUnique();
+	public static UserLeave getLeave(Date fromDate) {
+		return find.where().eq("fromDate", fromDate).eq("leaveType", "7").findUnique();
 	}
 	
 }

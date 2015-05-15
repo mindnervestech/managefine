@@ -48,10 +48,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	public JsonNode getScheduleByDate(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
 		Boolean flag = false;
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
-		UserLeave leave = UserLeave.getLeave(user, date);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
+		UserLeave leave = UserLeave.getLeave(date);
 		if(leave != null) {
-			flag = true;
+			List<Organization> orgList = leave.getOrganizations();
+			for(Organization org : orgList) {
+				if(user.getOrganization().getId() == org.getId()) {
+					flag = true;
+				}
+			}	
+			
 		} else {
 			flag = false;
 			if(userLeaveList.size() != 0) {
@@ -82,12 +88,17 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						schedularTodayVM.notes = timesheet.getStatus().getName();
 						
 						if(leave != null) {
-							isHoliday = true;
-							schedularTodayVM.startTime = "00:00";
-							schedularTodayVM.endTime = "24:00";
-							schedularTodayVM.type = "L";
-							schedularTodayVM.color = "#d3d3d3";
-							schedularTodayVM.visitType = "Staff Leave!";
+							List<Organization> orgList = leave.getOrganizations();
+							for(Organization org : orgList) {
+								if(user.getOrganization().getId() == org.getId()) {
+									isHoliday = true;
+									schedularTodayVM.startTime = "00:00";
+									schedularTodayVM.endTime = "24:00";
+									schedularTodayVM.type = "L";
+									schedularTodayVM.color = "#d3d3d3";
+									schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+								}
+							}
 							
 						} else {
 							isHoliday = false;
@@ -134,11 +145,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						
 						if(leave != null) {
 							if(vmList.size() == 0) {
-								schedularTodayVM.startTime = "00:00";
-								schedularTodayVM.endTime = "24:00";
-								schedularTodayVM.type = "L";
-								schedularTodayVM.color = "#d3d3d3";
-								schedularTodayVM.visitType = "Staff Leave!";
+								List<Organization> orgList = leave.getOrganizations();
+								for(Organization org : orgList) {
+									if(user.getOrganization().getId() == org.getId()) {
+										schedularTodayVM.startTime = "00:00";
+										schedularTodayVM.endTime = "24:00";
+										schedularTodayVM.type = "L";
+										schedularTodayVM.color = "#d3d3d3";
+										schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+									}
+								}
 								vmList.add(schedularTodayVM);
 							}
 							
@@ -170,11 +186,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 		
 		if(leave != null) {
-			schedularTodayVM.startTime = "00:00";
-			schedularTodayVM.endTime = "24:00";
-			schedularTodayVM.type = "L";
-			schedularTodayVM.color = "#d3d3d3";
-			schedularTodayVM.visitType = "Staff Leave!";
+			List<Organization> orgList = leave.getOrganizations();
+			for(Organization org : orgList) {
+				if(user.getOrganization().getId() == org.getId()) {
+					schedularTodayVM.startTime = "00:00";
+					schedularTodayVM.endTime = "24:00";
+					schedularTodayVM.type = "L";
+					schedularTodayVM.color = "#d3d3d3";
+					schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+				}
+			}
 			vmList.add(schedularTodayVM);
 		} else {
 			if(userLeaveList.size() != 0) {
@@ -202,11 +223,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 			
 			if(leave != null) {
-				schedularTodayVM.startTime = "00:00";
-				schedularTodayVM.endTime = "24:00";
-				schedularTodayVM.type = "L";
-				schedularTodayVM.color = "#d3d3d3";
-				schedularTodayVM.visitType = "Staff Leave!";
+				List<Organization> orgList = leave.getOrganizations();
+				for(Organization org : orgList) {
+					if(user.getOrganization().getId() == org.getId()) {
+						schedularTodayVM.startTime = "00:00";
+						schedularTodayVM.endTime = "24:00";
+						schedularTodayVM.type = "L";
+						schedularTodayVM.color = "#d3d3d3";
+						schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+					}
+				}
 				emptyList.add(schedularTodayVM);
 			} else {
 				if(userLeaveList.size() != 0) {
@@ -237,7 +263,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	public Map getScheduleByWeek(Long userId, Integer weekOfYear, Integer year, Date date) {
 		User user = User.findById(userId);
 		Boolean isHoliday = false;
-		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(user);
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 		
 		Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
 		Calendar cal = Calendar.getInstance();
@@ -279,7 +305,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				for(TimesheetRow row : timesheetRows) {
 					
 					TimesheetDays timesheetDayObj = TimesheetDays.findByDayAndTimesheet(day, row);
-					UserLeave leave = UserLeave.getLeave(user, timesheetDayObj.getTimesheetDate());
+					UserLeave leave = UserLeave.getLeave(timesheetDayObj.getTimesheetDate());
 							if(timesheetDayObj.getTimeFrom() != null && timesheetDayObj.getTimeTo() != null) {
 								SchedularTodayVM schedularTodayVM = new SchedularTodayVM();
 								dt = timesheetDayObj.getTimesheetDate();
@@ -287,13 +313,18 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								schedularTodayVM.notes = timesheet.getStatus().getName();
 								
 								if(leave != null) {
-									isHoliday = true;
 									if(vmList.size() == 0) {
-										schedularTodayVM.startTime = "00:00";
-										schedularTodayVM.endTime = "24:00";
-										schedularTodayVM.type = "L";
-										schedularTodayVM.color = "#d3d3d3";
-										schedularTodayVM.visitType = "Staff Leave!";
+										List<Organization> orgList = leave.getOrganizations();
+										for(Organization org : orgList) {
+											if(user.getOrganization().getId() == org.getId()) {
+												isHoliday = true;
+												schedularTodayVM.startTime = "00:00";
+												schedularTodayVM.endTime = "24:00";
+												schedularTodayVM.type = "L";
+												schedularTodayVM.color = "#d3d3d3";
+												schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+											}
+										}
 										vmList.add(schedularTodayVM);
 									}
 								} else {
@@ -347,11 +378,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								
 								if(leave != null) {
 									if(vmList.size() == 0) {
-										schedularTodayVM.startTime = "00:00";
-										schedularTodayVM.endTime = "24:00";
-										schedularTodayVM.type = "L";
-										schedularTodayVM.color = "#d3d3d3";
-										schedularTodayVM.visitType = "Staff Leave!";
+										List<Organization> orgList = leave.getOrganizations();
+										for(Organization org : orgList) {
+											if(user.getOrganization().getId() == org.getId()) {
+												schedularTodayVM.startTime = "00:00";
+												schedularTodayVM.endTime = "24:00";
+												schedularTodayVM.type = "L";
+												schedularTodayVM.color = "#d3d3d3";
+												schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+											}
+										}
 										vmList.add(schedularTodayVM);
 									}
 									
@@ -426,7 +462,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				
 				UserLeave leave = null;
 				try {
-					leave = UserLeave.getLeave(user, sdf.parse(dy));
+					leave = UserLeave.getLeave(sdf.parse(dy));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -434,11 +470,17 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				
 				if(leave != null) {
 					if(vmList.size() == 0) {
-						schedularTodayVM.startTime = "00:00";
-						schedularTodayVM.endTime = "24:00";
-						schedularTodayVM.type = "L";
-						schedularTodayVM.color = "#d3d3d3";
-						schedularTodayVM.visitType = "Staff Leave!";
+						List<Organization> orgList = leave.getOrganizations();
+						for(Organization org : orgList) {
+							if(user.getOrganization().getId() == org.getId()) {
+								isHoliday = true;
+								schedularTodayVM.startTime = "00:00";
+								schedularTodayVM.endTime = "24:00";
+								schedularTodayVM.type = "L";
+								schedularTodayVM.color = "#d3d3d3";
+								schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+							}
+						}
 						vmList.add(schedularTodayVM);
 					}
 				} else {
@@ -634,11 +676,11 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 		List<LeaveDay> leaveDayList = new ArrayList<LeaveDay>();
 		
-		List<UserLeave> userLeaveList = UserLeave.getUserLeaves(user,c.getTime(),nextMonth.getTime());
-		List<UserLeave> userLeaveFixedPreviousList = UserLeave.getUserFixedYearlyLeaves(user,c.getTime());
-		List<UserLeave> userLeavePreviousList = UserLeave.getUserPreviousLeaves(user,c.getTime());
-		List<UserLeave> userWeeklyLeaveList = UserLeave.getUserWeeklyLeaveList(user);
-		List<UserLeave> userFixedLeaveList = UserLeave.getUserFixedLeaveList(user,c.getTime(),nextMonth.getTime());
+		List<UserLeave> userLeaveList = UserLeave.getUserLeaves(c.getTime(),nextMonth.getTime());
+		List<UserLeave> userLeaveFixedPreviousList = UserLeave.getUserFixedYearlyLeaves(c.getTime());
+		List<UserLeave> userLeavePreviousList = UserLeave.getUserPreviousLeaves(c.getTime());
+		List<UserLeave> userWeeklyLeaveList = UserLeave.getUserWeeklyLeaveList();
+		List<UserLeave> userFixedLeaveList = UserLeave.getUserFixedLeaveList(c.getTime(),nextMonth.getTime());
 		
 		for(int i=0;i<monthStart;i++){
 			LeaveDay ld = new LeaveDay();
@@ -652,7 +694,6 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		for(int i = monthStart; i < monthDays+monthStart; i++) {		
 			boolean flag= true;
 			for(UserLeave dl:userLeaveFixedPreviousList){
-				c.setTime(dl.getToDate());
 				c.add(Calendar.DATE, 1);
 				Calendar c1 = Calendar.getInstance();
 				c1.setTime(dl.getFromDate());
@@ -664,6 +705,14 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 					ld.setIsLeave(true);
 					ld.setLeaveType(dl.getLeaveType());
 					ld.setReason(dl.getReason());
+					List<Organization> orgList = dl.getOrganizations();
+					if(orgList.size()>1 || dl.getReason().equals("Weekly Leaves")) {
+						ld.setOrgId(0L);
+					}
+					if(orgList.size() == 1) {
+						ld.setOrgId(orgList.get(0).getId());
+					}
+					
 					leaveDayList.add(ld);
 					flag = false;
 					break;
@@ -678,32 +727,21 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						ld.setIsLeave(true);
 						ld.setLeaveType(dl.getLeaveType());
 						ld.setReason(dl.getReason());
+						List<Organization> orgList = dl.getOrganizations();
+						if(orgList.size()>1 || dl.getReason().equals("Weekly Leaves")) {
+							ld.setOrgId(0L);
+						} 
+						if(orgList.size() == 1) {
+							ld.setOrgId(orgList.get(0).getId());
+						}
 						leaveDayList.add(ld);
 						flag = false;
 						break;
-					} else if(dl.getToDate() != null ) {
-						c.setTime(dl.getToDate());
-						c.add(Calendar.DATE, 1);
-						Calendar c1 = Calendar.getInstance();
-						c1.setTime(dl.getFromDate());
-						Calendar c2 = Calendar.getInstance();
-						c2.setTime(c.getTime());
-						if(c.getTimeInMillis()>c2.getTimeInMillis() && c2.getTimeInMillis()>=c1.getTimeInMillis()){
-							LeaveDay ld = new LeaveDay();
-							ld.setDay(""+(day++));
-							ld.setIsLeave(true);
-							ld.setLeaveType(dl.getLeaveType());
-							ld.setReason(dl.getReason());
-							leaveDayList.add(ld);
-							flag = false;
-							break;
-						}
-					}
+					} 
 				}
 			}
 			if(flag) {
 				for(UserLeave dl: userLeavePreviousList) {
-					c.setTime(dl.getToDate());
 					c.add(Calendar.DATE, 1);
 					Calendar c1 = Calendar.getInstance();
 					c1.setTime(dl.getFromDate());
@@ -715,6 +753,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						ld.setIsLeave(true);
 						ld.setLeaveType(dl.getLeaveType());
 						ld.setReason(dl.getReason());
+						List<Organization> orgList = dl.getOrganizations();
+						if(orgList.size()>1 || dl.getReason().equals("Weekly Leaves")) {
+							ld.setOrgId(0L);
+						} 
+						if(orgList.size() == 1) {
+							ld.setOrgId(orgList.get(0).getId());
+						}
 						leaveDayList.add(ld);
 						flag = false;
 						break;
@@ -730,26 +775,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						ld.setIsLeave(true);
 						ld.setLeaveType(dl.getLeaveType());
 						ld.setReason(dl.getReason());
+						List<Organization> orgList = dl.getOrganizations();
+						if(orgList.size()>1 || dl.getReason().equals("Weekly Leaves")) {
+							ld.setOrgId(0L);
+						} 
+						if(orgList.size() == 1) {
+							ld.setOrgId(orgList.get(0).getId());
+						}
 						leaveDayList.add(ld);
 						flag= false;
 						break;
-					} else if(dl.getToDate() != null ) {
-						c.setTime(dl.getToDate());
-						c.add(Calendar.DATE, 1);
-						Calendar c1 = Calendar.getInstance();
-						c1.setTime(dl.getFromDate());
-						Calendar c2 = Calendar.getInstance();
-						c2.setTime(c.getTime());
-						if(c.getTimeInMillis()>c2.getTimeInMillis() && c2.getTimeInMillis()>=c1.getTimeInMillis()){
-							LeaveDay ld = new LeaveDay();
-							ld.setDay(""+(day++));
-							ld.setIsLeave(true);
-							ld.setLeaveType(dl.getLeaveType());
-							ld.setReason(dl.getReason());
-							leaveDayList.add(ld);
-							flag = false;
-							break;
-						}
 					} 
 				}
 			}
@@ -761,6 +796,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 						ld.setIsLeave(true);
 						ld.setLeaveType(dfl.getLeaveType());
 						ld.setReason(dfl.getReason());
+						List<Organization> orgList = dfl.getOrganizations();
+						if(orgList.size()>1 || dfl.getReason().equals("Weekly Leaves")) {
+							ld.setOrgId(0L);
+						} 
+						if(orgList.size() == 1) {
+							ld.setOrgId(orgList.get(0).getId());
+						}
 						leaveDayList.add(ld);
 						flag= false;
 						break;
@@ -794,7 +836,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 		List<Boolean> resultList = new ArrayList<Boolean>();
 		try {
-			List<UserLeave> userFixedLeaves = UserLeave.getUserWeeklyLeaveList(user);
+			List<UserLeave> userFixedLeaves = UserLeave.getUserWeeklyLeaveList();
 
 			for(int i=0;i<7;i++) {
 				boolean flag = true;
@@ -819,10 +861,9 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	
 	@Override
 	public void markWeeklyLeave(Integer leaveType, User user) {
-		UserLeave userLeave = UserLeave.getUserWeeklyLeave(leaveType, user);
+		UserLeave userLeave = UserLeave.getUserWeeklyLeave(leaveType);
 		if(userLeave == null) {
 			UserLeave leave = new UserLeave();
-			leave.setUser(user);
 			leave.setLeaveType(leaveType);
 			leave.setReason("Weekly Leaves");
 			leave.save();
@@ -838,7 +879,6 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 		UserLeave userLeave = new UserLeave();
 		try {
-			userLeave.setUser(user);	
 			userLeave.setReason(leaveVM.getReason());
 			userLeave.setLeaveType(leaveVM.getLeaveType());
 			try {
@@ -880,8 +920,8 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
 			Boolean isHoliday = false;
 			List<SchedularTodayVM> vmList = new ArrayList<>();
-			UserLeave leave = UserLeave.getLeave(userObj, date);
-			List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList(userObj);
+			UserLeave leave = UserLeave.getLeave(date);
+			List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
 			if(timesheet != null) {
 			
 			List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
@@ -898,12 +938,17 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							schedularTodayVM.staffId = userObj.getId().toString();
 							
 							if(leave != null) {
-								isHoliday = true;
-								schedularTodayVM.startTime = "00:00";
-								schedularTodayVM.endTime = "24:00";
-								schedularTodayVM.type = "L";
-								schedularTodayVM.color = "#d3d3d3";
-								schedularTodayVM.visitType = "Staff Leave!";
+								List<Organization> orgList = leave.getOrganizations();
+								for(Organization org : orgList) {
+									if(user.getOrganization().getId() == org.getId()) {
+										isHoliday = true;
+										schedularTodayVM.startTime = "00:00";
+										schedularTodayVM.endTime = "24:00";
+										schedularTodayVM.type = "L";
+										schedularTodayVM.color = "#d3d3d3";
+										schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+									}
+								}
 								
 							} else {
 								isHoliday = false;
@@ -952,11 +997,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							
 							if(leave != null) {
 								if(vmList.size() == 0) {
-									schedularTodayVM.startTime = "00:00";
-									schedularTodayVM.endTime = "24:00";
-									schedularTodayVM.type = "L";
-									schedularTodayVM.color = "#d3d3d3";
-									schedularTodayVM.visitType = "Staff Leave!";
+									List<Organization> orgList = leave.getOrganizations();
+									for(Organization org : orgList) {
+										if(user.getOrganization().getId() == org.getId()) {
+											schedularTodayVM.startTime = "00:00";
+											schedularTodayVM.endTime = "24:00";
+											schedularTodayVM.type = "L";
+											schedularTodayVM.color = "#d3d3d3";
+											schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+										}
+									}
 									vmList.add(schedularTodayVM);
 								}
 							} else {
@@ -989,11 +1039,16 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			  schedularTodayVM.staffId = userObj.getId().toString();
 				
 				if(leave != null) {
-					schedularTodayVM.startTime = "00:00";
-					schedularTodayVM.endTime = "24:00";
-					schedularTodayVM.type = "L";
-					schedularTodayVM.color = "#d3d3d3";
-					schedularTodayVM.visitType = "Staff Leave!";
+					List<Organization> orgList = leave.getOrganizations();
+					for(Organization org : orgList) {
+						if(user.getOrganization().getId() == org.getId()) {
+							schedularTodayVM.startTime = "00:00";
+							schedularTodayVM.endTime = "24:00";
+							schedularTodayVM.type = "L";
+							schedularTodayVM.color = "#d3d3d3";
+							schedularTodayVM.visitType = "Holiday!"+leave.getReason();
+						}
+					}
 					
 				} else {
 					if(userLeaveList.size() != 0) {
