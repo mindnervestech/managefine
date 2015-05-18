@@ -146,6 +146,14 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 	 // $scope.org.roleName = $scope.org.roleName;
 	 // $scope.org.roleDescriptio = $scope.org.roleDescriptio;
 	  console.log($scope.org);
+	  console.log($scope.findDepartment);
+	  angular.forEach($scope.findDepartment,function(value,key) {
+		  
+		  if(value.id == $scope.org.department){
+			  $scope.departmentName = value.name;
+		  }
+	  });
+	  
 	  
 	  $http({method:'POST',url:'saveRoleChild',data:$scope.org}).success(function(response) {
 		 
@@ -154,9 +162,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 			  $scope.overWrite = 0;
 			  console.log($scope.overWrite);
 		    $scope.org.id = response;
-		    
-			$scope.myOptions.items.push({id:$scope.org.id,parent:$scope.org.parent,roleName:$scope.org.roleName,roleDescription:$scope.org.roleDescription});
-			
+			$scope.myOptions.items.push({id:$scope.org.id,parent:$scope.org.parent,roleName:$scope.org.roleName,roleDescription:$scope.org.roleDescription,departmentName:$scope.departmentName});
 			ngDialog.close();
 		  }else{
 			  $scope.overWrite = 1;
@@ -170,10 +176,17 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 	$scope.editRoleChild = function() {
 		
 		$scope.org.parent = $scope.currentParentId;
+		 angular.forEach($scope.findDepartment,function(value,key) {
+			  if(value.id == $scope.org.department){
+				  $scope.departmentName = value.name;
+			  }
+		  });
 		if($scope.org.parent == 0){
 			items = [];
 			$scope.myOptions.items = [];
 			$scope.org.parent = null;
+			
+			
 			 $http({method:'POST',url:'saveRoleChild',data:$scope.org}).success(function(response) {
 				 
 				  console.log(response);
@@ -182,7 +195,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 					  console.log($scope.overWrite);
 				    $scope.org.id = response;
 				    
-					$scope.myOptions.items.push({id:$scope.org.id,parent:$scope.org.parent,roleName:$scope.org.roleName,roleDescription:$scope.org.roleDescription});
+					$scope.myOptions.items.push({id:$scope.org.id,parent:$scope.org.parent,roleName:$scope.org.roleName,roleDescription:$scope.org.roleDescription,departmentName:$scope.departmentName});
 					
 					ngDialog.close();
 				  }else{
@@ -203,6 +216,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
         	angular.forEach($scope.myOptions.items,function(value,key) {
         		if(response == value.id){
         			value.roleName = $scope.org.roleName;
+        			value.departmentName = $scope.departmentName;
         			value.roleDescription = $scope.org.roleDescription;
         		
       		}
