@@ -303,6 +303,7 @@ public class Wdgets {
 			 
 			// List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId,user.getId());
 			
+			 if(projectinstance.size() != 0){
 			  map0.add(projectclassnode.getProjectTypes());
 			   for(Projectinstance projectI:projectinstance){
 				   Projectinstancenode projectinstancenode = Projectinstancenode.getProjectInprogressStatus(projectclassnode.getId(), projectI.getId(), "Inprogress");
@@ -312,7 +313,8 @@ public class Wdgets {
 				   
 			    }
 			   map0.add(a);
-			funnelMap.add(map0);
+			   funnelMap.add(map0);
+			 }
 		}
 		
 		return funnelMap;
@@ -352,7 +354,61 @@ public class Wdgets {
 			List<Projectclass> pList =  Projectclass.getProjectList();
 			List<FunnelForWidgetVM> forWidgetVMs = new ArrayList<Wdgets.FunnelForWidgetVM>();
 			
+			
+			
+			/*-----------------------------*/
+			List<Projectclass> pList2 = new ArrayList<>();
+			
+			User user1 = User.findByEmail(user.getEmail());
+			//
+			
+		//
 			for(Projectclass projectclass:pList){
+				int a=0;
+				List<Projectclassnode> pList1 = Projectclassnode.getProjectAndLevel(projectclass.getId(),1);
+				for(Projectclassnode projectclassnode:pList1){
+				 List<Projectinstance> projectinstance = null;
+				 if(user.getUsertype() == null){	
+					 projectinstance = Projectinstance.getProjectTypeById(projectclass.getId());	
+					if(projectinstance.size() != 0){
+						a=1;
+					}
+				 }else if(user.getUsertype().equals("User")){
+					  projectinstance = Projectinstance.getProjectTypeByUserId(projectclass.getId(),user.getId());
+					  if(projectinstance.size() != 0){
+							a=1;
+						}
+					}else if(user.getUsertype().equals("Customer User")){
+						Client client = Client.findByUserId(user.getId());
+						 if(client != null){
+							 projectinstance = Projectinstance.getProjectTypeByClientId(projectclass.getId(), client.getId());
+							 if(projectinstance.size() != 0){
+									a=1;
+								}
+						 }
+					}else if(user.getUsertype().equals("Supplier User")){
+						Supplier supplier = Supplier.findByUserId(user.getId());
+						 if(supplier != null){
+							 projectinstance = Projectinstance.getProjectTypeBySupplierId(projectclass.getId(),supplier.getId());
+							 if(projectinstance.size() != 0){
+									a=1;
+								}
+						 }
+					}
+				 
+				}
+				if(a == 1){
+					 Projectclass projectclass2 = Projectclass.getProjectById(projectclass.getId());
+					 pList2.add(projectclass2);
+				 }
+				
+			}
+			
+			
+			/*--------------------------------*/
+			
+			
+			for(Projectclass projectclass:pList2){
 				FunnelForWidgetVM fWidgetVM = new FunnelForWidgetVM();
 				fWidgetVM.name = projectclass.getProjectTypes();
 				fWidgetVM.id = projectclass.getId().intValue();

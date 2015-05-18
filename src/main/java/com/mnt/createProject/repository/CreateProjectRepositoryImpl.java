@@ -796,8 +796,10 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					        hAllList.add(hVm);
 					    }
 				}
-				dHistoryVM.setHistoryAllLogVM(hAllList);
-				vmList.add(dHistoryVM);
+				if(hAllList.size() != 0){
+					dHistoryVM.setHistoryAllLogVM(hAllList);
+				    vmList.add(dHistoryVM);
+				}
 			}
 			
 			return vmList;

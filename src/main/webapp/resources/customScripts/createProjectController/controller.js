@@ -309,6 +309,9 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	if(data.length>0) {
         		$scope.projectid = data[0].projectId;
         		angular.forEach(data,function(value,key) {
+        			if(value.parentId == null){
+        				value.projectTypes = pName;
+        			}
         			items.push(new primitives.orgdiagram.ItemConfig({
         				id: value.id,
         				parent: value.parentId,

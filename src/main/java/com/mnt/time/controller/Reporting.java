@@ -211,7 +211,7 @@ public class Reporting {
 		return list;
 	}
 	
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value="/report/MetaDataForRQB",method=RequestMethod.POST)
 	public RQBMeta generateMDJSONForRQB() throws Exception {
 		Connection connRpt = getConnection("time_report");
@@ -283,7 +283,7 @@ public class Reporting {
         return meta; 
 	}
 
-	/*@ResponseBody
+	@ResponseBody
 	@RequestMapping(value="/report/search",method=RequestMethod.GET)
 	public Map<String,Object> seachReport(HttpServletRequest req) throws Exception {
 		Connection conn = getConnection();
@@ -319,8 +319,8 @@ public class Reporting {
          }
          
          
-         String newSql = selectPhase.append("id ").toString();
-         if(newSql.length() != 0 ) {
+         String newSql = selectPhase./*append("id ").*///toString();
+        /* if(newSql.length() != 0 ) {
            newSql = newSql.substring(0, newSql.length() - 2);
          
            sql = sql.replaceFirst("[*]", newSql);

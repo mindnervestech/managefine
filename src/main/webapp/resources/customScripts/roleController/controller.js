@@ -285,7 +285,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
             + '<div class="bp-item bp-photo-frame" style="display:none;top: 26px; left: 2px; width: 50px; height: 60px;">'
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
-            + '<div class="bp-item" style="top: 23px; text-align: center;; width: 162px; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
+            + '<div class="bp-item" style="top: 23px; text-align: center; width: 162px; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
             + '<div name="description" class="bp-item" style="top: 42px; left: 0px; width: 100%;height:36px; font-size: 11px;text-align: center;">{{itemConfig.roleDescription}}</div>'
         + '</div>'
         ).css({
