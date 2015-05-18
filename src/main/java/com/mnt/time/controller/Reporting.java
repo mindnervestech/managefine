@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
-import com.mnt.core.report.RQBUtils;
+//import com.mnt.core.report.RQBUtils;
 
 @Controller
 public class Reporting {
@@ -283,7 +283,7 @@ public class Reporting {
         return meta; 
 	}
 
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value="/report/search",method=RequestMethod.GET)
 	public Map<String,Object> seachReport(HttpServletRequest req) throws Exception {
 		Connection conn = getConnection();
@@ -319,7 +319,7 @@ public class Reporting {
          }
          
          
-         String newSql = selectPhase./*append("id ").*/toString();
+         String newSql = selectPhase.append("id ").toString();
          if(newSql.length() != 0 ) {
            newSql = newSql.substring(0, newSql.length() - 2);
          
@@ -365,7 +365,7 @@ public class Reporting {
          map.put("columns", columns);
          return map;
 
-	}
+	}*/
 	
 	public static class SlickGridCol {
     	public String id;
