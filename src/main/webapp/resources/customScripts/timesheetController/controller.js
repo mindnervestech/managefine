@@ -694,6 +694,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
+			$scope.timesheetData = data.timesheetRows;
 			$scope.timesheetStatus = status;
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");
@@ -2170,6 +2171,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		console.log($scope.timesheet);
 		$http({method:'POST',url:'saveActualTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
+			$scope.timesheetData = data.timesheetRows;
 			$scope.timesheetStatus = status;
 			if($scope.timesheet.status == "Submitted") {
 				$("#timeSheetTable :input").attr("readonly","readonly");

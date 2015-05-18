@@ -1540,9 +1540,7 @@ public class Timesheets{
 	
 	
 	@RequestMapping(value="/saveActualTimesheet", method = RequestMethod.POST)
-	public @ResponseBody String saveActualTimesheet(ModelMap model,@RequestBody TimesheetVM timesheet,HttpServletRequest request){
-		
-		try {
+	public @ResponseBody JsonNode saveActualTimesheet(ModelMap model,@RequestBody TimesheetVM timesheet,HttpServletRequest request){
 		
 		User user = User.findById(timesheet.userId);
 		
@@ -1552,6 +1550,8 @@ public class Timesheets{
 		cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 		
 		TimesheetActual timesheetSavedObj = TimesheetActual.getByUserWeekAndYear(user, timesheet.weekOfYear, timesheet.year);
+		
+		try {
 		
 		if(timesheetSavedObj == null) {
 			
@@ -1939,16 +1939,139 @@ public class Timesheets{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		List<TimesheetRowVM> timesheetRowVMList = new ArrayList<>();
+		
+		if(timesheetSavedObj != null) {
+
+			TimesheetVM timesheetVM = new TimesheetVM();
+			timesheetVM.id = timesheetSavedObj.getId();
+			timesheetVM.status = timesheetSavedObj.getStatus().getName();
+			timesheetVM.weekOfYear = timesheetSavedObj.getWeekOfYear();
+			timesheetVM.year = timesheetSavedObj.getYear();
+			for(TimesheetRowActual timesheetRow : timesheetSavedObj.getTimesheetRowsActual()) {
+				List<TimesheetDaysActual> timesheetDaysList = TimesheetDaysActual.getByTimesheetRow(timesheetRow);
+				
+				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
+				timesheetRowVM.rowId = timesheetRow.getId();
+				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
+				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
+				
+				for(TimesheetDaysActual day : timesheetDaysList) {
+					if(day.getDay().equals("monday")) {
+						timesheetRowVM.monFrom = day.getTimeFrom();
+						timesheetRowVM.monTo = day.getTimeTo();
+						timesheetRowVM.mondayId = day.getId();
+					}
+					if(day.getDay().equals("tuesday")) {
+						timesheetRowVM.tueFrom = day.getTimeFrom();
+						timesheetRowVM.tueTo = day.getTimeTo();
+						timesheetRowVM.tuesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("wednesday")) {
+						timesheetRowVM.wedFrom = day.getTimeFrom();
+						timesheetRowVM.wedTo = day.getTimeTo();
+						timesheetRowVM.wednesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("thursday")) {
+						timesheetRowVM.thuFrom = day.getTimeFrom();
+						timesheetRowVM.thuTo = day.getTimeTo();
+						timesheetRowVM.thursdayId = day.getId();
+					}
+					if(day.getDay().equals("friday")) {
+						timesheetRowVM.friFrom = day.getTimeFrom();
+						timesheetRowVM.friTo = day.getTimeTo();
+						timesheetRowVM.fridayId = day.getId();
+					}
+					if(day.getDay().equals("saturday")) {
+						timesheetRowVM.satFrom = day.getTimeFrom();
+						timesheetRowVM.satTo = day.getTimeTo();
+						timesheetRowVM.saturdayId = day.getId();
+					}
+					if(day.getDay().equals("sunday")) {
+						timesheetRowVM.sunFrom = day.getTimeFrom();
+						timesheetRowVM.sunTo = day.getTimeTo();
+						timesheetRowVM.sundayId = day.getId();
+					}
+					timesheetRowVM.totalmins = day.getWorkMinutes();
+				}
+				timesheetRowVMList.add(timesheetRowVM);
+			}
+			timesheetVM.timesheetRows = timesheetRowVMList;
+			return Json.toJson(timesheetVM);
+		} else {
+			TimesheetActual timesheetobj = TimesheetActual.getByUserWeekAndYear(user, timesheet.weekOfYear, timesheet.year);
+			
+			TimesheetVM timesheetVM = new TimesheetVM();
+			timesheetVM.id = timesheetobj.getId();
+			timesheetVM.status = timesheetobj.getStatus().getName();
+			timesheetVM.weekOfYear = timesheetobj.getWeekOfYear();
+			timesheetVM.year = timesheetobj.getYear();
+			for(TimesheetRowActual timesheetRow : timesheetobj.getTimesheetRowsActual()) {
+				List<TimesheetDaysActual> timesheetDaysList = TimesheetDaysActual.getByTimesheetRow(timesheetRow);
+				
+				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
+				timesheetRowVM.rowId = timesheetRow.getId();
+				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
+				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
+				
+				for(TimesheetDaysActual day : timesheetDaysList) {
+					if(day.getDay().equals("monday")) {
+						timesheetRowVM.monFrom = day.getTimeFrom();
+						timesheetRowVM.monTo = day.getTimeTo();
+						timesheetRowVM.mondayId = day.getId();
+					}
+					if(day.getDay().equals("tuesday")) {
+						timesheetRowVM.tueFrom = day.getTimeFrom();
+						timesheetRowVM.tueTo = day.getTimeTo();
+						timesheetRowVM.tuesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("wednesday")) {
+						timesheetRowVM.wedFrom = day.getTimeFrom();
+						timesheetRowVM.wedTo = day.getTimeTo();
+						timesheetRowVM.wednesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("thursday")) {
+						timesheetRowVM.thuFrom = day.getTimeFrom();
+						timesheetRowVM.thuTo = day.getTimeTo();
+						timesheetRowVM.thursdayId = day.getId();
+					}
+					if(day.getDay().equals("friday")) {
+						timesheetRowVM.friFrom = day.getTimeFrom();
+						timesheetRowVM.friTo = day.getTimeTo();
+						timesheetRowVM.fridayId = day.getId();
+					}
+					if(day.getDay().equals("saturday")) {
+						timesheetRowVM.satFrom = day.getTimeFrom();
+						timesheetRowVM.satTo = day.getTimeTo();
+						timesheetRowVM.saturdayId = day.getId();
+					}
+					if(day.getDay().equals("sunday")) {
+						timesheetRowVM.sunFrom = day.getTimeFrom();
+						timesheetRowVM.sunTo = day.getTimeTo();
+						timesheetRowVM.sundayId = day.getId();
+					}
+					timesheetRowVM.totalmins = day.getWorkMinutes();
+				}
+				timesheetRowVMList.add(timesheetRowVM);
+			}
+			timesheetVM.timesheetRows = timesheetRowVMList;
+			
+			return Json.toJson(timesheetVM);
+		}
+		
 	}
 	
 	
 	
 	
 	@RequestMapping(value="/saveTimesheet", method = RequestMethod.POST)
-	public @ResponseBody String saveTimesheet(ModelMap model,@RequestBody TimesheetVM timesheet,HttpServletRequest request){
-		
-		try {
+	public @ResponseBody JsonNode saveTimesheet(ModelMap model,@RequestBody TimesheetVM timesheet,HttpServletRequest request){
 		
 		User user = User.findById(timesheet.userId);
 		
@@ -1958,6 +2081,8 @@ public class Timesheets{
 		cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 		
 		Timesheet timesheetSavedObj = Timesheet.getByUserWeekAndYear(user, timesheet.weekOfYear, timesheet.year);
+		
+		try {
 		
 		if(timesheetSavedObj == null) {
 			
@@ -2346,7 +2471,132 @@ public class Timesheets{
 			e.printStackTrace();
 		}
 		
-		return "";
+		List<TimesheetRowVM> timesheetRowVMList = new ArrayList<>();
+		
+		if(timesheetSavedObj != null) {
+
+			TimesheetVM timesheetVM = new TimesheetVM();
+			timesheetVM.id = timesheetSavedObj.getId();
+			timesheetVM.status = timesheetSavedObj.getStatus().getName();
+			timesheetVM.weekOfYear = timesheetSavedObj.getWeekOfYear();
+			timesheetVM.year = timesheetSavedObj.getYear();
+			for(TimesheetRow timesheetRow : timesheetSavedObj.getTimesheetRows()) {
+				List<TimesheetDays> timesheetDaysList = TimesheetDays.getByTimesheetRow(timesheetRow);
+				
+				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
+				timesheetRowVM.rowId = timesheetRow.getId();
+				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
+				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
+				
+				for(TimesheetDays day : timesheetDaysList) {
+					if(day.getDay().equals("monday")) {
+						timesheetRowVM.monFrom = day.getTimeFrom();
+						timesheetRowVM.monTo = day.getTimeTo();
+						timesheetRowVM.mondayId = day.getId();
+					}
+					if(day.getDay().equals("tuesday")) {
+						timesheetRowVM.tueFrom = day.getTimeFrom();
+						timesheetRowVM.tueTo = day.getTimeTo();
+						timesheetRowVM.tuesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("wednesday")) {
+						timesheetRowVM.wedFrom = day.getTimeFrom();
+						timesheetRowVM.wedTo = day.getTimeTo();
+						timesheetRowVM.wednesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("thursday")) {
+						timesheetRowVM.thuFrom = day.getTimeFrom();
+						timesheetRowVM.thuTo = day.getTimeTo();
+						timesheetRowVM.thursdayId = day.getId();
+					}
+					if(day.getDay().equals("friday")) {
+						timesheetRowVM.friFrom = day.getTimeFrom();
+						timesheetRowVM.friTo = day.getTimeTo();
+						timesheetRowVM.fridayId = day.getId();
+					}
+					if(day.getDay().equals("saturday")) {
+						timesheetRowVM.satFrom = day.getTimeFrom();
+						timesheetRowVM.satTo = day.getTimeTo();
+						timesheetRowVM.saturdayId = day.getId();
+					}
+					if(day.getDay().equals("sunday")) {
+						timesheetRowVM.sunFrom = day.getTimeFrom();
+						timesheetRowVM.sunTo = day.getTimeTo();
+						timesheetRowVM.sundayId = day.getId();
+					}
+					timesheetRowVM.totalmins = day.getWorkMinutes();
+				}
+				timesheetRowVMList.add(timesheetRowVM);
+			}
+			timesheetVM.timesheetRows = timesheetRowVMList;
+			return Json.toJson(timesheetVM);
+		} else {
+			Timesheet timesheetobj = Timesheet.getByUserWeekAndYear(user, timesheet.weekOfYear, timesheet.year);
+			
+			TimesheetVM timesheetVM = new TimesheetVM();
+			timesheetVM.id = timesheetobj.getId();
+			timesheetVM.status = timesheetobj.getStatus().getName();
+			timesheetVM.weekOfYear = timesheetobj.getWeekOfYear();
+			timesheetVM.year = timesheetobj.getYear();
+			for(TimesheetRow timesheetRow : timesheetobj.getTimesheetRows()) {
+				List<TimesheetDays> timesheetDaysList = TimesheetDays.getByTimesheetRow(timesheetRow);
+				
+				TimesheetRowVM timesheetRowVM = new TimesheetRowVM();
+				timesheetRowVM.rowId = timesheetRow.getId();
+				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
+				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
+				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
+				
+				for(TimesheetDays day : timesheetDaysList) {
+					if(day.getDay().equals("monday")) {
+						timesheetRowVM.monFrom = day.getTimeFrom();
+						timesheetRowVM.monTo = day.getTimeTo();
+						timesheetRowVM.mondayId = day.getId();
+					}
+					if(day.getDay().equals("tuesday")) {
+						timesheetRowVM.tueFrom = day.getTimeFrom();
+						timesheetRowVM.tueTo = day.getTimeTo();
+						timesheetRowVM.tuesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("wednesday")) {
+						timesheetRowVM.wedFrom = day.getTimeFrom();
+						timesheetRowVM.wedTo = day.getTimeTo();
+						timesheetRowVM.wednesdayId = day.getId();
+					}
+					
+					if(day.getDay().equals("thursday")) {
+						timesheetRowVM.thuFrom = day.getTimeFrom();
+						timesheetRowVM.thuTo = day.getTimeTo();
+						timesheetRowVM.thursdayId = day.getId();
+					}
+					if(day.getDay().equals("friday")) {
+						timesheetRowVM.friFrom = day.getTimeFrom();
+						timesheetRowVM.friTo = day.getTimeTo();
+						timesheetRowVM.fridayId = day.getId();
+					}
+					if(day.getDay().equals("saturday")) {
+						timesheetRowVM.satFrom = day.getTimeFrom();
+						timesheetRowVM.satTo = day.getTimeTo();
+						timesheetRowVM.saturdayId = day.getId();
+					}
+					if(day.getDay().equals("sunday")) {
+						timesheetRowVM.sunFrom = day.getTimeFrom();
+						timesheetRowVM.sunTo = day.getTimeTo();
+						timesheetRowVM.sundayId = day.getId();
+					}
+					timesheetRowVM.totalmins = day.getWorkMinutes();
+				}
+				timesheetRowVMList.add(timesheetRowVM);
+			}
+			timesheetVM.timesheetRows = timesheetRowVMList;
+			
+			return Json.toJson(timesheetVM);
+		}
+		
 	}
 	
 	//Submit
