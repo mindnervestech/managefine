@@ -1222,6 +1222,13 @@ app.controller("SchedularMonthController", function($scope,$http,$compile) {
 		
 		$http({method:'GET', url:'getMonthSchedule',params :{date:$scope.currentDateMonth,userId:$scope.userId}}).success(function(response) {
 			$scope.monthVM = response.monthVM;
+			for(var i=0;i<response.monthVM.days.length;i++) {
+				if(response.monthVM.days[i].isHoliday == true) {
+					$('#day'+i).css("background-color","red");
+				} else {
+					$('#day'+i).removeAttr("style");
+				}
+			}
 			$scope.currentDateMonth = response.monthVM.monthName;
 			console.log('success');
 			//console.log(JSON.stringify(response.monthVM));

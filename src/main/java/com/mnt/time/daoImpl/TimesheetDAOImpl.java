@@ -540,19 +540,50 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		int monthStart = (cal.get(Calendar.DAY_OF_WEEK)+(7-((cal.get(Calendar.DATE))%7)))%7;
 		
+		List<UserLeave> userLeaveList = UserLeave.getUserWeeklyLeaveList();
+		
 		for(int i=0;i<monthStart;i++) {
 			DayVM dayVM = new DayVM();
 			dayVM.setAppoinmentCount(0);
 			dayVM.setAssigned(false);
+			dayVM.isHoliday = false;
 			dayVM.setDay(" ");
 			dayVMList.add(dayVM);
 		}	
 		
 		List<DayVM> monthDays = new ArrayList<DayVM>();
+		Calendar calObj = Calendar.getInstance();
+		calObj.set(Calendar.YEAR, year);
+		calObj.set(Calendar.MONTH, cal.get(Calendar.MONTH));
 		for(int day = 1; day <= cal.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
 			DayVM dayVM = new DayVM();
 			dayVM.setAppoinmentCount(0);
 			dayVM.setAssigned(true);
+			calObj.set(Calendar.DAY_OF_MONTH, day);
+			calObj.set(Calendar.HOUR, 0);
+			calObj.set(Calendar.MINUTE, 0);
+			calObj.set(Calendar.SECOND, 0);
+			calObj.set(Calendar.HOUR_OF_DAY, 0);
+			UserLeave leave = UserLeave.getLeave(calObj.getTime());
+			dayVM.isHoliday = false;
+			if(leave != null) {
+				List<Organization> orgList = leave.getOrganizations();
+				for(Organization org : orgList) {
+					if(user.getOrganization().getId() == org.getId()) {
+						dayVM.isHoliday = true;
+					}
+				}	
+				
+			} else {
+				if(userLeaveList.size() != 0) {
+					for(UserLeave userLeave: userLeaveList) {
+						if(userLeave.getLeaveType() == (calObj.get(Calendar.DAY_OF_WEEK)-1)) {
+							dayVM.isHoliday = true;
+						}
+					}
+				}
+			}
+			
 			dayVM.setDay(""+day);
 			monthDays.add(dayVM);
 		}
@@ -593,6 +624,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			DayVM dayVM = new DayVM();
 			dayVM.setAppoinmentCount(0);
 			dayVM.setAssigned(false);
+			dayVM.isHoliday = false;
 			dayVM.setDay(" ");
 			dayVMList.add(dayVM);
 		}

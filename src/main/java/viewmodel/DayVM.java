@@ -2,6 +2,7 @@ package viewmodel;
 
 public class DayVM {
 	public String day;
+	public boolean isHoliday;
 	public Integer appoinmentCount;
 	public Boolean assigned;
 	public String getDay() {
@@ -22,4 +23,11 @@ public class DayVM {
 	public void setAssigned(Boolean assigned) {
 		this.assigned = assigned;
 	}
+	public boolean isHoliday() {
+		return isHoliday;
+	}
+	public void setHoliday(boolean isHoliday) {
+		this.isHoliday = isHoliday;
+	}
+	
 }
