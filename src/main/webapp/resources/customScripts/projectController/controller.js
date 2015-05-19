@@ -14,7 +14,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     	};
     
     	
-    
+    var selectedItems = [];
     var buttons = [];
     buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
     buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
@@ -27,6 +27,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     		templates : [getContactTemplate()],
     		defaultTemplateName : "contactTemplate",
     		buttons:buttons,
+    		selectedItems:selectedItems,
     };
 	
 	$scope.myOptions.onButtonClick = function (e, data) {
@@ -208,6 +209,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
         				projectDescription: value.projectDescription,
            				itemTitleColor: primitives.common.Colors.RoyalBlue
         			}));
+        			selectedItems.push(value.id);
         		});
         	} else {
         		items.push(new primitives.orgdiagram.ItemConfig({
@@ -219,7 +221,7 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     			}));
         	}
         	$scope.myOptions.items = items;
-        	
+        	$scope.myOptions.selectedItems = selectedItems;
     		console.log($scope.myOptions);	
     	});
     	

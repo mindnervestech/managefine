@@ -51,7 +51,7 @@ public enum Permissions {
 	UserPermissions(routes.UserPermissions.index.url,PermissionsManagement,"By Users"),
 	
 	ActionBox("#",null,"Actions"),
-	UserRequest(routes.Status.userIndex.url,ActionBox,"On Users"),
+	//UserRequest(routes.Status.userIndex.url,ActionBox,"On Users"),
 	CompanyRequest(routes.Status.companyIndex.url,ActionBox,"On Company"),
 	MyBucket(routes.TimesheetBuckets.index.url,ActionBox,"TimeSheet Requests"),
 	CalendarBucket(routes.CalendarBuckets.index.url,ActionBox,"Calendar Requests"),

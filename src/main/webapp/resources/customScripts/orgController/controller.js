@@ -8,7 +8,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
     ];
 
     $scope.loadData = function(data) {
-    	
+    	var selectedItems = [];
     	if(data.length>0) {
     		angular.forEach(data,function(value,key) {
     			items.push(new primitives.orgdiagram.ItemConfig({
@@ -20,6 +20,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
     				image: "orgProfile/"+value.id,
     				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
+    			selectedItems.push(value.id);
     		});
     	} else {
     		items.push(new primitives.orgdiagram.ItemConfig({
@@ -38,6 +39,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
 		options.hasSelectorCheckbox = primitives.common.Enabled.True;
 		options.templates = [getContactTemplate()];
 		options.defaultTemplateName = "contactTemplate";
+		options.selectedItems = selectedItems;
 		var buttons = [];
 		buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
 		buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));

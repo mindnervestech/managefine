@@ -9,6 +9,8 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 
     $scope.loadData = function(data) {
     	console.log(data);
+    	var selectedItems = [];
+    	
     	if(data.length>0) {
     		angular.forEach(data,function(value,key) {
     			items.push(new primitives.orgdiagram.ItemConfig({
@@ -20,6 +22,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
     				departmentName: value.departmentName,
        				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
+    			selectedItems.push(value.id);
     		});
     	} else {
     		items.push(new primitives.orgdiagram.ItemConfig({
@@ -41,6 +44,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
 		buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
 		buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
 		options.buttons = buttons;
+		options.selectedItems = selectedItems;
 		
 		options.onButtonClick = function (e, data) {
 			switch (data.name) {

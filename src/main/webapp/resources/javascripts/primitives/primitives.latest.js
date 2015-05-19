@@ -7567,7 +7567,7 @@ primitives.orgdiagram.BaseController.prototype._onButtonsTemplateRender = functi
 	        buttons = data.template.buttons != null ? data.template.buttons : this.options.buttons;
 			for (index = 0; index < buttons.length; index += 1) {
 				buttonConfig = buttons[index];
-				button = jQuery('<div data-buttonname="' + buttonConfig.name + '"><span class="ui-button-icon-primary ui-icon ui-icon-person"></span></div>')
+				button = jQuery('<div data-buttonname="' + buttonConfig.name + '"><span title="'+buttonConfig.name+'" class="ui-button-icon-primary ui-icon ui-icon-person"></span></div>')
 					.css({
 						position: "absolute",
 						top: topOffset + "px",

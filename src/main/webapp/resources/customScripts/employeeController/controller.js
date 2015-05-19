@@ -8,6 +8,7 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
     ];
 
     $scope.loadData = function(data) {
+    	var selectedItems = [];
     	if(data.length>0) {
     		angular.forEach(data,function(value,key) {
     			items.push(new primitives.orgdiagram.ItemConfig({
@@ -18,6 +19,7 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
     				image: "employeeProfile/"+value.id,
        				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
+    			selectedItems.push(value.id);
     		});
     	} else {
     		items.push(new primitives.orgdiagram.ItemConfig({
@@ -34,7 +36,7 @@ app.controller("EmployeeController",function($scope,$http,ngDialog,$upload) {
 		options.hasSelectorCheckbox = primitives.common.Enabled.True;
 		options.templates = [getContactTemplate()];
 		options.defaultTemplateName = "contactTemplate";
-		
+		options.selectedItems = selectedItems;
 	
 		$scope.myOptions = options;
 		

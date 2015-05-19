@@ -350,7 +350,7 @@ public class Users {
 		return new Function<models.User, AutoComplete>() {
 			@Override
 			public AutoComplete apply(models.User user) {
-					return new AutoComplete(user.firstName,user.lastName,user.email,user.id);
+					return new AutoComplete(user.firstName+" "+user.lastName,user.lastName,user.email,user.id);
 			}
 		};
 	}
@@ -359,7 +359,7 @@ public class Users {
 		return new Function<models.User, AutoComplete>() {
 			@Override
 			public AutoComplete apply(models.User user) {
-					return new AutoComplete(user.firstName,user.lastName,user.email,user.id);
+					return new AutoComplete(user.firstName +" "+user.lastName,user.lastName,user.email,user.id);
 			}
 		};
 	}

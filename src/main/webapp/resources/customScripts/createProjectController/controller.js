@@ -16,6 +16,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     		projectColor:''
     	};
     
+    var selectedItems = [];
     var buttons = [];
     
      
@@ -36,6 +37,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     		templates : [getContactTemplate()],
     		defaultTemplateName : "contactTemplate",
     		buttons:buttons,
+    		selectedItems:selectedItems,
     	
     };
 	
@@ -321,6 +323,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         				status: value.status,
            				itemTitleColor: primitives.common.Colors.RoyalBlue
         			}));
+        			selectedItems.push(value.id);
         		});
         	} else {
         		items.push(new primitives.orgdiagram.ItemConfig({
@@ -331,6 +334,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     				itemTitleColor: primitives.common.Colors.RoyalBlue
     			}));
         	}
+        	$scope.myOptions.selectedItems = selectedItems;
         	$scope.myOptions.items = items;
         	
     		console.log($scope.myOptions);	
