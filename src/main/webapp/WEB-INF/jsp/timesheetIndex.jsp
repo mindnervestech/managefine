@@ -19,7 +19,7 @@
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
-<body ng-controller="TimeSheetController" ng-init="getTimesheetData(${asJson})">
+<body ng-controller="TimeSheetController" ng-init='getTimesheetData(${asJson})'>
 <jsp:include page="menuContext.jsp" />
 
 	<div class="tsMainDiv">

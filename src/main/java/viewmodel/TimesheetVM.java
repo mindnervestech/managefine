@@ -11,6 +11,7 @@ public class TimesheetVM {
 	public Integer year;
 	public String firstName;
 	public String lastName;
+	public String date;
 	
 	public List<TimesheetRowVM> timesheetRows;
 	public List<TimesheetRowVM> timesheetRowsList;
@@ -67,6 +68,12 @@ public class TimesheetVM {
 	}
 	public void setTimesheetRowsList(List<TimesheetRowVM> timesheetRowsList) {
 		this.timesheetRowsList = timesheetRowsList;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	

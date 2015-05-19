@@ -11,8 +11,26 @@ app.controller("TimeSheetController", function($scope,$http) {
 	$scope.ftTimeRegexp =  /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	
 	$scope.getTimesheetData = function(data) {
-		$scope.getUserProjects();
-		//$scope.getTimesheetByWeek();
+		
+		if(!angular.isUndefined(data)) {
+			
+			$scope.userId = data.userId;
+			$scope.wk = data.weekOfYear;
+			$scope.yr = data.year;
+			$("#weekValue").val(data.weekOfYear);
+			$("#yearValue").val(data.year);
+			$http({method:'GET',url:contextPath+'/getProjectCodes',params:{userId:$scope.userId}})
+			.success(function(data) {
+				console.log('success');
+				console.log(data);
+				$scope.projectList = data;
+				$scope.getByWeek($scope.wk,$scope.yr);
+			});
+			
+		} else {
+			$scope.getUserProjects();
+		}
+		
 		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
 		Date.prototype.getWeek = function() {
@@ -52,31 +70,39 @@ app.controller("TimeSheetController", function($scope,$http) {
 			$scope.year = ev.date.getFullYear();
 			console.log(startOfWeek);
 		});
-		
-		var today = new Date();
-		if(today.getDay() == 0 || today.getDay() == 6) {
-			var todaysWeek = today.getWeek();
-			$("#weekValue").val(today.getWeek());
+		if(!angular.isUndefined(data)) {
+			var arr = data.date.split("/");
+			var editDate = new Date(arr[2],arr[0],arr[1]);
+			var sofw = new Date(editDate.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var eofw = editDate;
+			$('.week-picker').datepicker('setDate', sofw);
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', sofw) + " - " +
+					$.datepicker.formatDate('dd M yy', eofw));
 		} else {
-			var todaysWeek = today.getWeek() + 1;
-			$("#weekValue").val(today.getWeek() + 1);
-		}
-		$("#yearValue").val(today.getFullYear());
-		var day =   today.getDay();
-		if(day == 0) {
-			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
-			var endOfWeek = today;
-			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-					$.datepicker.formatDate('dd M yy', endOfWeek));
-		} else {
-			day = day - 1;
-			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
-			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
-			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-					$.datepicker.formatDate('dd M yy', endOfWeek));
-		}
+				var today = new Date();
+				if(today.getDay() == 0 || today.getDay() == 6) {
+					var todaysWeek = today.getWeek();
+					$("#weekValue").val(today.getWeek());
+				} else {
+					var todaysWeek = today.getWeek() + 1;
+					$("#weekValue").val(today.getWeek() + 1);
+				}
+				$("#yearValue").val(today.getFullYear());
+				var day =   today.getDay();
+				if(day == 0) {
+					startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+					var endOfWeek = today;
+					$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+							$.datepicker.formatDate('dd M yy', endOfWeek));
+				} else {
+					day = day - 1;
+					startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+					var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+					$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+							$.datepicker.formatDate('dd M yy', endOfWeek));
+				}
 		
-		
+		}
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
@@ -121,7 +147,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	
 	$scope.getUserProjects = function() {
 		$scope.userId = $('#employeeID').val();
-		$http({method:'GET',url:'getProjectCodes',params:{userId:$scope.userId}})
+		$http({method:'GET',url:contextPath+'/getProjectCodes',params:{userId:$scope.userId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -140,7 +166,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		$("#saveTimesheetForm").removeAttr("disabled","disabled");
 		$("#submitTimesheetForm").removeAttr("disabled","disabled");
 		
-		$http({method:'GET',url:'getTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
+		$http({method:'GET',url:contextPath+'/getTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -269,7 +295,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.getTimesheetByWeek = function() {
-		$http({method:'GET',url:'getTimesheetByCurrentWeek',params:{userId:$scope.userId}})
+		$http({method:'GET',url:contextPath+'/getTimesheetByCurrentWeek',params:{userId:$scope.userId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -372,7 +398,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 			$scope.weekOfYear = $('#weekValue').val();
 			$scope.year = $('#yearValue').val();
-			$http({method:'GET',url:'getTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
+			$http({method:'GET',url:contextPath+'/getTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
 				$('#lastWeekClose').click();
@@ -418,7 +444,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 			if(!angular.isUndefined($scope.deleteRowId) && $scope.deleteRowId != 0) {
 					
-					$http({method:'GET',url:'deleteTimesheetRow',params:{rowId:$scope.deleteRowId}})
+					$http({method:'GET',url:contextPath+'/deleteTimesheetRow',params:{rowId:$scope.deleteRowId}})
 					.success(function(data) {
 						console.log('success');
 						$.pnotify({
@@ -443,7 +469,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
 		
-			$http({method:'GET',url:'timesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
+			$http({method:'GET',url:contextPath+'/timesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
 				$("#timeSheetTable :input").removeAttr("readonly","readonly");
@@ -608,7 +634,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	$scope.saveTimesheet = function(status) {
 		
 		if($scope.isCopyFromLastweek == true) {
-			$http({method:'GET',url:'deleteTimesheet',params:{timesheetId:$scope.timesheetId}})
+			$http({method:'GET',url:contextPath+'/deleteTimesheet',params:{timesheetId:$scope.timesheetId}})
 			.success(function(data) {
 				console.log('success');
 				$scope.isCopyFromLastweek = false;
@@ -692,7 +718,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				timesheetRows: $scope.timesheetData	
 		}
 		console.log($scope.timesheet);
-		$http({method:'POST',url:'saveTimesheet',data:$scope.timesheet}).success(function(data) {
+		$http({method:'POST',url:contextPath+'/saveTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
 			$scope.timesheetData = data.timesheetRows;
 			$scope.timesheetStatus = status;
@@ -1426,7 +1452,25 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.timeRegexp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	$scope.ftTimeRegexp =  /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	$scope.getTimesheetData = function(data) {
-		$scope.getUserProjects();
+		
+		if(!angular.isUndefined(data)) {
+			
+			$scope.userId = data.userId;
+			$scope.wk = data.weekOfYear;
+			$scope.yr = data.year;
+			$("#weekValue").val(data.weekOfYear);
+			$("#yearValue").val(data.year);
+			$http({method:'GET',url:contextPath+'/getProjectCodes',params:{userId:$scope.userId}})
+			.success(function(data) {
+				console.log('success');
+				console.log(data);
+				$scope.projectList = data;
+				$scope.getByWeek($scope.wk,$scope.yr);
+			});
+			
+		} else {
+			$scope.getUserProjects();
+		}
 		
 		$scope.isCopyFromLastweek = false;
 		var startOfWeek;
@@ -1468,29 +1512,38 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			console.log(startOfWeek);
 		});
 		
-		var today = new Date();
-		if(today.getDay() == 0 || today.getDay() == 6) {
-			var todaysWeek = today.getWeek();
-			$("#weekValue").val(today.getWeek());
+		if(!angular.isUndefined(data)) {
+			var arr = data.date.split("/");
+			var editDate = new Date(arr[2],arr[0],arr[1]);
+			var sofw = new Date(editDate.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var eofw = editDate;
+			$('.week-picker').datepicker('setDate', sofw);
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', sofw) + " - " +
+					$.datepicker.formatDate('dd M yy', eofw));
 		} else {
-			var todaysWeek = today.getWeek() + 1;
-			$("#weekValue").val(today.getWeek() + 1);
-		}
-		$("#yearValue").val(today.getFullYear());
-		var day =   today.getDay();
-		if(day == 0) {
-			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
-			var endOfWeek = today;
-			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-					$.datepicker.formatDate('dd M yy', endOfWeek));
-		} else {
-			day = day - 1;
-			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
-			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
-			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
-					$.datepicker.formatDate('dd M yy', endOfWeek));
-		}
-		
+				var today = new Date();
+				if(today.getDay() == 0 || today.getDay() == 6) {
+					var todaysWeek = today.getWeek();
+					$("#weekValue").val(today.getWeek());
+				} else {
+					var todaysWeek = today.getWeek() + 1;
+					$("#weekValue").val(today.getWeek() + 1);
+				}
+				$("#yearValue").val(today.getFullYear());
+				var day =   today.getDay();
+				if(day == 0) {
+					startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+					var endOfWeek = today;
+					$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+							$.datepicker.formatDate('dd M yy', endOfWeek));
+				} else {
+					day = day - 1;
+					startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+					var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+					$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+							$.datepicker.formatDate('dd M yy', endOfWeek));
+				}
+	  }	
 		
 	}
 	$scope.isShow = true;
@@ -1536,7 +1589,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	
 	$scope.getUserProjects = function() {
 		$scope.userId = $('#employeeID').val();
-		$http({method:'GET',url:'getProjectCodes',params:{userId:$scope.userId}})
+		$http({method:'GET',url:contextPath+'/getProjectCodes',params:{userId:$scope.userId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -1556,7 +1609,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$("#submitTimesheetForm").removeAttr("disabled","disabled");
 		
 		
-		$http({method:'GET',url:'getActualTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
+		$http({method:'GET',url:contextPath+'/getActualTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -1685,7 +1738,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	}
 	
 	$scope.getTimesheetByWeek = function() {
-		$http({method:'GET',url:'getActualTimesheetByCurrentWeek',params:{userId:$scope.userId}})
+		$http({method:'GET',url:contextPath+'/getActualTimesheetByCurrentWeek',params:{userId:$scope.userId}})
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
@@ -1792,7 +1845,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$scope.weekOfYear = $('#weekValue').val();
 			$scope.year = $('#yearValue').val();
 			
-			$http({method:'GET',url:'getActualTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
+			$http({method:'GET',url:contextPath+'/getActualTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
 				$('#lastWeekClose').click();
@@ -1837,7 +1890,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 			if(!angular.isUndefined($scope.deleteRowId) && $scope.deleteRowId != 0) {
 					
-					$http({method:'GET',url:'deleteActualTimesheetRow',params:{rowId:$scope.deleteRowId}})
+					$http({method:'GET',url:contextPath+'/deleteActualTimesheetRow',params:{rowId:$scope.deleteRowId}})
 					.success(function(data) {
 						console.log('success');
 						$.pnotify({
@@ -1862,7 +1915,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
 		
-			$http({method:'GET',url:'actualTimesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
+			$http({method:'GET',url:contextPath+'/actualTimesheetRetract',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
 				console.log('success');
 				$("#timeSheetTable :input").removeAttr("readonly","readonly");
@@ -2091,7 +2144,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.saveTimesheet = function(status) {
 		
 		if($scope.isCopyFromLastweek == true) {
-			$http({method:'GET',url:'deleteActualTimesheet',params:{timesheetId:$scope.timesheetId}})
+			$http({method:'GET',url:contextPath+'/deleteActualTimesheet',params:{timesheetId:$scope.timesheetId}})
 			.success(function(data) {
 				console.log('success');
 				$scope.isCopyFromLastweek = false;
@@ -2176,7 +2229,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				timesheetRows: $scope.timesheetData	
 		}
 		console.log($scope.timesheet);
-		$http({method:'POST',url:'saveActualTimesheet',data:$scope.timesheet}).success(function(data) {
+		$http({method:'POST',url:contextPath+'/saveActualTimesheet',data:$scope.timesheet}).success(function(data) {
 			console.log('success');
 			$scope.timesheetData = data.timesheetRows;
 			$scope.timesheetStatus = status;

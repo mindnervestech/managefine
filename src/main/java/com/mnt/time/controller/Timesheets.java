@@ -115,7 +115,6 @@ public class Timesheets{
 		model.addAttribute("timesheetForm", timesheetForm);
 		
 		return "timesheetIndex";
-//		return ok(timesheetIndex.render(MenuBarFixture.build(request().username()),user,timesheetForm));
     }
     
 	@RequestMapping(value="/editSchedule", method = RequestMethod.GET)
@@ -2882,7 +2881,6 @@ public class Timesheets{
 		model.addAttribute("timesheetForm", timesheetForm);
 		
 		return "searchTimesheet";
-		//return ok(searchTimesheet.render(TimesheetSearchContext.getInstance().build(),MenuBarFixture.build(request().username()), user,timesheetForm));
 	}
 	
 	@RequestMapping(value = "/timesheetActualSearchIndex", method= RequestMethod.GET)
@@ -2916,14 +2914,56 @@ public class Timesheets{
 	public String editTimesheet(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id){
 		User user = User.findByEmail(username);
 		Timesheet timesheet = Timesheet.findById(Long.parseLong(id));
-		Form<Timesheet> timesheetForm = form(Timesheet.class).fill(timesheet);
+		List<TimesheetDays> list = timesheet.getTimesheetRows().get(0).getTimesheetDays();
+		
+		TimesheetVM timesheetVM = new TimesheetVM();
+		timesheetVM.id = timesheet.getId();
+		timesheetVM.status = timesheet.getStatus().getName();
+		timesheetVM.weekOfYear = timesheet.getWeekOfYear();
+		timesheetVM.year = timesheet.getYear();
+		timesheetVM.userId = user.getId();
+		
+		for(TimesheetDays day : list) {
+			if(day.getDay().equals("sunday")) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(day.getTimesheetDate());
+				timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
+			}
+		}
 		
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
 		model.addAttribute("user", user);
-		model.addAttribute("timesheetForm", timesheetForm);
+		model.addAttribute("asJson", Json.toJson(timesheetVM));
 		
 		return "timesheetIndex";
-		//return ok(timesheetIndex.render(MenuBarFixture.build(username),user,timesheetForm));
+	}
+	
+	@RequestMapping(value = "/timesheetActualEdit/{id}", method= RequestMethod.GET)
+	public String timesheetActualEdit(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id){
+		User user = User.findByEmail(username);
+		TimesheetActual timesheet = TimesheetActual.findById(Long.parseLong(id));
+		List<TimesheetDaysActual> list = timesheet.getTimesheetRowsActual().get(0).getTimesheetDaysActual();
+		
+		TimesheetVM timesheetVM = new TimesheetVM();
+		timesheetVM.id = timesheet.getId();
+		timesheetVM.status = timesheet.getStatus().getName();
+		timesheetVM.weekOfYear = timesheet.getWeekOfYear();
+		timesheetVM.year = timesheet.getYear();
+		timesheetVM.userId = user.getId();
+		
+		for(TimesheetDaysActual day : list) {
+			if(day.getDay().equals("sunday")) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(day.getTimesheetDate());
+				timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
+			}
+		}
+		
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		model.addAttribute("asJson", Json.toJson(timesheetVM));
+		
+		return "timesheetNew";
 	}
 	
 	@RequestMapping(value = "/timesheetApprovalViaMail", method= RequestMethod.GET)
