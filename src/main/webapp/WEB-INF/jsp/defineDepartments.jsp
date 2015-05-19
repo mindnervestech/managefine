@@ -2,14 +2,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="menuContext.jsp" />
 <link rel="stylesheet" media="screen" href='<c:url value="resources/stylesheets/customRoleX.css"/>'>
-<form ng-app="dept-app" ng-controller="TimeController">
+<form ng-app="dept-app" ng-submit="saveDepartments()" ng-controller="TimeController">
 <fieldset>
 	<div id="rolex">
 		<div class="twipsies well roleLevel" ng-repeat="department in departments">
 			<div class="clearfix">
 				<label>Department</label>
 				<div class="input">
-					<input type="text" ng-model="department.name" /> <span class="help-inline"></span> <span
+					<input type="text" ng-model="department.name" required/> <span class="help-inline"></span> <span
 						class="help-block"></span>
 				</div>
 			</div>
@@ -18,9 +18,9 @@
 	</div>
 </fieldset>
 <div class="actions buttonPosition" style="margin-left: 2%;">
-	<a class="addMore btn btn-warning" ng-click="addMoreDepartment()">Add More</a> <input type="button"
-		class="btn btn-warning" id="submitButton" value="Submit" ng-click="saveDepartments()"
-		style="width: 9%;">
+	<a class="addMore btn btn-warning" ng-click="addMoreDepartment()">Add More</a> <input type="submit"
+		class="btn btn-warning" id="submitButton" value="Submit" 
+		style="width: 9%;">    <!-- ng-click="saveDepartments()" -->
 </div>
 </form>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
