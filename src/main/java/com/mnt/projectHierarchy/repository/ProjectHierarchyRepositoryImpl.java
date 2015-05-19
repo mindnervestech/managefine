@@ -105,12 +105,14 @@ public class ProjectHierarchyRepositoryImpl implements ProjectHierarchyRepositor
 		projectclassnode.save();
 		
 		for(ProjectclassnodeattributVM pVm:projectsupportattributVM.getProjectValue()){
-			Projectclassnodeattribut projectclassnodeattribut= new Projectclassnodeattribut();
-			projectclassnodeattribut.setName(pVm.getName());
-			projectclassnodeattribut.setType(pVm.getType());
-			projectclassnodeattribut.setValue(pVm.getValue());
-			projectclassnodeattribut.setProjectnode(Projectclassnode.getProjectById(projectclassnode.getId()));
-			projectclassnodeattribut.save();
+			if(pVm.getType() != null){
+				Projectclassnodeattribut projectclassnodeattribut= new Projectclassnodeattribut();
+				projectclassnodeattribut.setName(pVm.getName());
+				projectclassnodeattribut.setType(pVm.getType());
+				projectclassnodeattribut.setValue(pVm.getValue());
+				projectclassnodeattribut.setProjectnode(Projectclassnode.getProjectById(projectclassnode.getId()));
+				projectclassnodeattribut.save();
+			}
 		}
 		return projectclassnode.getId();
 		
