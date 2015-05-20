@@ -16,8 +16,10 @@ import utils.ExceptionHandler;
 import com.avaje.ebean.Expression;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
+import com.mnt.core.ui.component.BuildGridActionButton;
 import com.mnt.core.ui.component.BuildUIButton;
 import com.mnt.core.ui.component.EditButton;
+import com.mnt.core.ui.component.GridActionButton;
 import com.mnt.core.ui.component.UIButton;
 import com.mnt.core.ui.component.UIButton.ButtonActionType;
 import com.mnt.core.utils.GridViewModel;
@@ -73,6 +75,8 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 	public String deleteUrl() {
 		return routes.Projects.delete.url;
 	}
+	
+	
 	
 	@Override
 	public HSSFWorkbook doExcel(DynamicForm form) {
@@ -174,11 +178,6 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		return Projectinstance.autoCompleteAction;
 	}
 
-	@Override
-	protected void buildButton() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public UIButton showEditButton(){
@@ -190,6 +189,16 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 				withVisibility(true);
 	}
 	
+	@Override
+    protected void buildButton() {
+           
+		super.getButtonActions().add(BuildUIButton.me().withID("_grantButton").
+				withTarget(ButtonActionType.NEW).
+				withLabel("Show As Gantt").
+				withUrl("/showGantt").
+				
+				withVisibility(true));
+	}
 	
 
 }

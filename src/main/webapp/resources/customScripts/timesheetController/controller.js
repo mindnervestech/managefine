@@ -450,7 +450,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Timesheet Row Deleted Successfully",
+						    text: "Calendar Row Deleted Successfully",
 						});
 					});
 					
@@ -738,9 +738,9 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$scope.isShow = true;
 			}
 			if($scope.timesheet.status == "Submitted") {
-				$scope.msg = "Timesheet Submitted Successfully";
+				$scope.msg = "Calendar Submitted Successfully";
 			} else {
-				$scope.msg = "Timesheet Saved Successfully";
+				$scope.msg = "Calendar Saved Successfully";
 			}
 			
 			$.pnotify({

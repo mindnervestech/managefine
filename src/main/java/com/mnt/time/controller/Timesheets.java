@@ -199,14 +199,14 @@ public class Timesheets{
     }
 	
 	
-	@RequestMapping(value="/showGantt", method = RequestMethod.GET)
-	public String showGantt(ModelMap model, @CookieValue("username") String username,@RequestParam("instanceId") String instanceId,@RequestParam("typeId") String typeId) {
+	@RequestMapping(value="/showGantt/{id}", method = RequestMethod.GET)
+	public String showGantt(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id) {
 		User user = User.findByEmail(username);
 		
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
 		model.addAttribute("user", user);
 		
-		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(Long.parseLong(instanceId),Long.parseLong(typeId))));
+		model.addAttribute("data",Json.toJson(timesheetService.getProjectData(Long.parseLong(id))));
 		return "showGantt";
     }
 	
@@ -400,6 +400,37 @@ public class Timesheets{
 			vm.tasklist = taskVMList;
 			vmList.add(vm);
 		}
+		
+			List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+			for(Projectinstance project : projectList) {
+				ProjectVM vm = new ProjectVM();
+				vm.projectCode = project.getProjectName();
+				vm.id = project.getId();
+				
+				List<Projectinstancenode> instanceNodeList = Projectinstancenode.getProjectInstanceByIdAndType(project.getId(), project.getProjectid());
+				
+				List<TaskVM> taskVMList = new ArrayList<>();
+				for(Projectinstancenode node : instanceNodeList) {
+					Projectclassnode classNode = node.getProjectclassnode();
+					boolean flag = false;
+					for(Projectinstancenode nodeData : instanceNodeList) {
+						Projectclassnode classNodeData = nodeData.getProjectclassnode();
+						if(classNodeData.getParentId() == classNode.getId()) {
+							flag = true;
+							break;
+						} 
+					}
+					 if(flag == false) {
+						 TaskVM taskVM = new TaskVM();
+						 taskVM.id = classNode.getId();
+						 taskVM.taskCode = classNode.getProjectTypes();
+						 taskVMList.add(taskVM);
+					 }
+				}
+				
+				vm.tasklist = taskVMList;
+				vmList.add(vm);
+			}
 		
 		return Json.toJson(vmList);
     }

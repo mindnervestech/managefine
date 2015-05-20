@@ -1211,12 +1211,12 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	}
 	
 	@Override
-	public GanttVM getProjectData(Long id,Long typeId) {
+	public GanttVM getProjectData(Long id) {
 		
 		GanttVM ganttVM = new GanttVM();
 		List<GanttTask> tasklist = new ArrayList<>();
 		
-		List<Projectinstancenode> projectInstanceNodeList = Projectinstancenode.getProjectInstanceByIdAndType(id, typeId);
+		List<Projectinstancenode> projectInstanceNodeList = Projectinstancenode.getProjectInstanceById(id);
 		int i = -1;
 		for(Projectinstancenode node : projectInstanceNodeList) {
 			GanttTask task1 = new GanttTask();
@@ -1230,9 +1230,8 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			task1.code = "";
 			
 			task1.level = classNode.getLevel();
-			task1.status = "STATUS_DONE";
+			task1.status = node.getStatus();
 			task1.canWrite = true;
-			System.out.println("Start Time" + node.getStartDate());
 			task1.start = node.getStartDate().getTime();
 			task1.end = node.getEndDate().getTime();
 			
@@ -1245,7 +1244,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 			task1.collapsed = false;
 			
 			List<Projectclassnode> childList = Projectclassnode.getparentByprojectId(classNode.getId());
-			if(childList == null) {
+			if(childList.isEmpty() || childList.size() == 0) {
 				task1.hasChild = false;
 			} else {
 				task1.hasChild = true;

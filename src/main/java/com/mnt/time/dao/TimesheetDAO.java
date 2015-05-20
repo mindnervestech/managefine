@@ -32,5 +32,5 @@ public interface TimesheetDAO {
 	
 	List getWeekReport(Integer weekOfYear, Integer year, User user, Date date);
 	
-	GanttVM getProjectData(Long id,Long typeId);
+	GanttVM getProjectData(Long id);
 }

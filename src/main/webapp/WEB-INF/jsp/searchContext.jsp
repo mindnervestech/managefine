@@ -183,13 +183,14 @@
 			   		
 			   	},
 			   	loadComplete:function (data){
-			   		$('a[id^="${_searchContext.entityName()}${mode}${"_gridAction"}"'+']').each(function() {
+			   		$('a[id^=${_searchContext.entityName()}${mode}${"_gridAction"}]').each(function() {
 			   			if(typeof(${_searchContext.entityName()}${mode}_gridAction_isToBeHidden) == "function"){
 			   				${_searchContext.entityName()}${mode}_gridAction_isToBeHidden($(this).attr('type')) ? $(this).hide(): $(this).show();
 			   			}
 			   			
 			   			_this = this;
 				   		$(this).click(function(e){
+				   			console.log("hihihih");
 				   			var id = $(this).attr('cell');
 				   			var _url = $(this).attr('url');
 				   			var _action = $(this).attr('action');
@@ -538,8 +539,24 @@
 							    });
 			  		 	});
 						</c:when>
-					<c:when test='${_searchContext.showEditButton().target().name()=="NEW"}'>
-						
+					<c:when test='${button.target().name()=="NEW"}'>
+							 $('#${_searchContext.entityName()}${mode}${button.id()}').click(function() {
+									s =  ${_searchContext.entityName()}${"_this"}.selectedItem();
+									if(s.length == 0 ){
+										bootbox.confirm("Please Mark Selection From Grid", function(result) {
+											if(result == true){
+												return;
+									        }else{
+									        	return;
+									        }
+										});
+										return;
+									}
+									window.location.href = "${pageContext.request.contextPath}${button.url()}"+"/"+s[0];
+									
+								
+			  		 		}); 
+							
 					</c:when>
 					</c:choose>  		
 		  	</c:if>

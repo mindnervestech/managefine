@@ -59,8 +59,8 @@ public class TimesheetServiceImpl implements TimesheetService{
 		return timesheetDAO.getWeekReport(weekOfYear, year, user, date);
 	}
 
-	public GanttVM getProjectData(Long id, Long typeId) {
-		return timesheetDAO.getProjectData(id,typeId);
+	public GanttVM getProjectData(Long id) {
+		return timesheetDAO.getProjectData(id);
 	}
 	
 }
