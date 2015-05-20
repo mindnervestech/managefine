@@ -79,8 +79,8 @@ public class CaseData extends Model {
 	@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=4,label=ASSIGNTO_USER, autocomplete=true,ajaxDependantField="projects")
+	@Validation(required = true)
 	@OneToOne(cascade = CascadeType.ALL)
-	@Validation(required=true)
 	public User assignto;
 	
 	@Validation(required = true)

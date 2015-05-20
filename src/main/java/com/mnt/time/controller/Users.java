@@ -453,14 +453,14 @@ public class Users {
 			System.out.println("join date----"+form.get("hireDate"));
 			User user = User.findByEmail(username);
 			
-			email = user.email;
+		/*	email = user.email;
 			b = email.length();
 			a = email.lastIndexOf("@");
 			code = email.substring(a,b);
-			userEmail = userName.concat(code);
+			userEmail = userName.concat(code);*/
 			
 			User companyAdmin = User.findByEmail(username);
-			form.data().put("email", userEmail);
+			form.data().put("email", userName);
 			String password = Application.generatePassword();
 			RoleLevel roleLevel = RoleLevel.findById(Long.parseLong(form.get("rolex")));
 			RoleLevel role = RoleLevel.getRoleById(Long.parseLong(form.get("rolex")));
@@ -468,7 +468,7 @@ public class Users {
 			Department deptr = Department.departmentById(Long.parseLong(form.get("dept")));
 			LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
 	    	Map<String, Object> extra = new HashMap<String, Object>();
-	    	extra.put("email", userEmail);
+	    	extra.put("email", userName);
 			extra.put("companyobject", User.findByEmail(username).companyobject);
 			extra.put("userStatus", com.custom.domain.Status.Approved);
 			extra.put("password", password);
@@ -530,7 +530,7 @@ public class Users {
 				//ExceptionHandler.onError(request.getRequestURI(),e);
 				//	return badRequest();
 				e.printStackTrace();
-				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST).toString();
+			//	return new ResponseEntity<String>(HttpStatus.BAD_REQUEST).toString();
 
 			}
 			
@@ -539,10 +539,10 @@ public class Users {
 				String recipients = "";
 		    	String subject = "";
 		    	String body = "";
-		    	recipients = userEmail;
+		    	recipients = userName;
 		    	subject = "Account Creation By" + companyAdmin.firstName;
 		    	body = "Your Login Details :";
-		    	body += "\nUser Name :" + userEmail;
+		    	body += "\nUser Name :" + userName;
 		    	body += "\nPassword  :" + password;
 		    	Email.sendOnlyMail(smtpSetting,recipients, subject, body);
 			}catch (Exception e) {

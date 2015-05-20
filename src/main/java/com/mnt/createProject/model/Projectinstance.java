@@ -14,11 +14,9 @@ import javax.persistence.OneToOne;
 
 import models.Supplier;
 import models.User;
+import play.db.ebean.Model;
 
 import com.avaje.ebean.Ebean;
-import play.db.ebean.Model;
-import scala.Array;
-
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
@@ -28,7 +26,6 @@ import com.mnt.core.ui.annotation.SearchColumnOnUI;
 import com.mnt.core.ui.annotation.SearchFilterOnUI;
 import com.mnt.core.ui.annotation.UIFields;
 import com.mnt.core.ui.annotation.WizardCardUI;
-import com.mnt.projectHierarchy.model.Projectclass;
 import com.mnt.time.controller.routes;
 @Entity
 
@@ -270,7 +267,25 @@ public class Projectinstance extends Model{
 	
 	public static List<Projectinstance> getProjectUserAndquery(String query, String username) {
 		User user = User.findByEmail(username);
-		return find.where().eq("userid.id", user.getId()).like("projectName", query+"%").findList();
+		List<Projectinstance> pIList = new ArrayList<>();
+		
+		List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+		for(SqlRow row: sqlRows) {
+			 Projectinstance projectInstance = Projectinstance.getById(row.getLong("projectinstance_id"));
+			 pIList.add(projectInstance);
+		}
+			List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+		if (projectList != null) {
+			for (Projectinstance project : projectList) {
+				Projectinstance projectInstance = Projectinstance
+						.getById(project.getId());
+				pIList.add(projectInstance);
+			}
+		}
+		
+		
+		return pIList;
+		//return find.where().eq("userid.id", user.getId()).like("projectName", query+"%").findList();
 	}
 	
 	public static List<Projectinstance> getProjectByUser(Long id) {
@@ -318,6 +333,11 @@ public class Projectinstance extends Model{
 	public static List<Projectinstance> getProjectTypeBySupplierId(Long projectTypeId,Long supplierId) {
 		return find.where().eq("projectid", projectTypeId).eq("supplier.id", supplierId).findList();
 	}
+	
+	public static List<Projectinstance> getProjectsOfManager(User manager) {
+        return find.where().eq("projectManager", manager).findList();
+	}
+	
 	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	

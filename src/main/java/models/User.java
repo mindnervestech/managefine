@@ -83,13 +83,19 @@ public class User extends Model {
 	@Validation(required=true)
 	public String	lastName;
 	
-	@SearchColumnOnUI(rank=4,colName="Email")
+	/*@SearchColumnOnUI(rank=4,colName="Email")
 	@SearchFilterOnUI(label="Email")
 	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=5,label="Username")
 	@Validation(required=true,remote="emailAvailability", messages="Username is not available")
 	@Column(unique = true)
-    public String	email;
+    public String	email;*/
+	@WizardCardUI(name="Personal Info",step=1)
+	@UIFields(order=5,label="Username")
+	@Validation(required=true,email=true,remote="emailAvailability")
+	@Column(unique = true)
+	public String email;
+	
 	
 	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=6,label="Gender")
@@ -236,6 +242,11 @@ public class User extends Model {
 	
 	public static User findById(Long id) {
         return find.where().eq("id", id).findUnique();
+    }
+	
+	public static List<User> findUserByRoleAndCompany(Long id,Long companyid) {
+       // return find.where().eq("role.id", id).findList();   
+    	return find.where().eq("role.id", id).eq("companyobject.id", companyid).findList();
     }
 	
 	public static List<User> findByCompanyId(Long id) {

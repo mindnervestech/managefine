@@ -334,7 +334,7 @@ app.controller("OrgHierarchyController",function($scope,$http,ngDialog,$upload,$
             + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="background:{{itemTitleColor}};top: 2px; left: 2px; width: 216px; height: 20px;">'
                 + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 0px; width: 155px; height: 18px;">{{itemConfig.organizationName}}</div>'
             + '</div>'
-            + '<div class="bp-item" style="top: 27px; width: 162px; height: 18px; font-size: 12px;text-align: center;">{{itemConfig.organizationType}}</div>'
+            + '<div class="bp-item" style="top: 21px; width: 162px; height: 36px; font-size: 11px;text-align: center;">{{itemConfig.organizationType}}</div>'
             + '<div name="description" class="bp-item" style="top: 51px; width: 162px; height: 36px; font-size: 10px;text-align: center;">{{itemConfig.organizationLocation}}</div>'
         + '</div>'
         ).css({

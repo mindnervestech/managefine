@@ -142,6 +142,8 @@ public class Cases {
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
 		String query = form.get("query");
 		ObjectNode result = Json.newObject();
+		List<Projectinstance> projectinstance1 = Projectinstance.getProjectList();
+		
 		List<AutoComplete> results = transform(Projectinstance.getProjectUserAndquery(query,username), toAutoCompleteFormatForProject());
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();

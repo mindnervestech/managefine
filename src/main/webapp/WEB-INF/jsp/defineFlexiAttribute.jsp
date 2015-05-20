@@ -14,7 +14,7 @@
 
 </head>
 <body ng-controller="FlexiAttributeController" ng-init='loadData()'>
-
+<form ng-app="dept-app" ng-submit="submitFlexiAttribute()">
 <div style="height: auto;">
 
 <h3 style="margin-left: 2%;">
@@ -35,12 +35,13 @@
       <div ng-repeat="w in item" style="  width: 100%; float: left;">
       	<div style="  float: left;margin-left: 23px;margin-top: 10px;">
       		<label>Name</label>
-      		<input class="input-medium" ng-model="w.name" type="text">
+      		<input class="input-medium" ng-model="w.name" type="text" required>
       	</div>
       	<input class="input-medium" ng-model="w.nid" type="hidden">
       	<div style="float: left;margin-left: 23px;margin-top: 10px;">
       		<label>Type</label>
-      		<select ng-model="w.type">
+      		<select ng-model="w.type" required>
+      		 <option value="">Select Type</option>
 			  <option value="string">String</option>
 			  <option value="textarea">Text Area</option>
 			  <option value="date">Date</option>
@@ -54,18 +55,13 @@
       	
       	<div>
       		<button type="button" style="float: left;margin-left: 35px;margin-top: 13px;margin-right: 10px;" ng-click="addMore()" class="btn btn-warning">Add More</button>
-      		<button type="button" style="  margin-top: 13px;margin-bottom: 25px;" ng-click="submitFlexiAttribute()" class="btn btn-warning">Save</button>
+      		<button type="submit" style="  margin-top: 13px;margin-bottom: 25px;" class="btn btn-warning">Save</button>    <!-- ng-click="submitFlexiAttribute()" -->
       	</div> 
 
 
 
-
-
-
-
-
 </div>
-
+</form>
 </body>
 
 </html>

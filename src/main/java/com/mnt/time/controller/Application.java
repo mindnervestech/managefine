@@ -207,7 +207,7 @@ public class Application  {
     				return null; // Happy Scenario
     			}
     			
-    			if(user.companyobject.getCompanyCode() != null  && user.companyobject.getCompanyCode().equalsIgnoreCase(code))
+    		/*	if(user.companyobject.getCompanyCode() != null  && user.companyobject.getCompanyCode().equalsIgnoreCase(code))
     			{
     				if(user.companyobject.getCompanyStatus() == com.custom.domain.Status.Disapproved)
     				{
@@ -227,7 +227,8 @@ public class Application  {
     			else
     			{
     				return "Invalid Company Domain";
-    			}
+    			}*/
+    			return null;
     		}
     		else
     		{

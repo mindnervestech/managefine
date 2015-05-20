@@ -5,6 +5,7 @@ public class UserVM {
 	
 	public String id;
 	public String firstName;
+	public String middleName;
 	public String lastName;
 	public String email;
 	public String getId() {
@@ -32,7 +33,13 @@ public class UserVM {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
+	public String getMiddleName() {
+		return middleName;
+	}
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+	
 	
 	
 }

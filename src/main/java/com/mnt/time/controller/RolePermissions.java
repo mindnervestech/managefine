@@ -74,9 +74,20 @@ public class RolePermissions {
 		}
 		
 		RoleLevel roleLevel = RoleLevel.find.byId(uid);
-
+		
 			roleLevel.setPermissions(result);
 			roleLevel.update();
+			
+		
+			User user1=User.findByEmail(username);
+			List<User> user= User.findUserByRoleAndCompany(uid,user1.getCompanyobject().getId());
+			if (user != null) {
+				for (User uList : user) {
+					User userUpdate = User.findById(uList.getId());
+					userUpdate.setPermissions(result);
+					userUpdate.update();
+				}
+			}
 			
 //			User.findByEmail(request().username()).companyobject.id
 			/*User user1=User.findByEmail(username);

@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -82,7 +83,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				pVm.setStartDateLimit(format1.format(projectinstancenodeDate.getStartDate()));
 			}
 			if(projectinstancenodeDate.getEndDate() != null){
-				pVm.setEndDateLimit(format1.format(projectinstancenodeDate.getEndDate()));
+				Calendar c = Calendar.getInstance(); 
+				c.setTime(projectinstancenodeDate.getEndDate()); 
+				c.add(Calendar.DATE, 1);
+				Date EndDateLimit = c.getTime();
+				pVm.setEndDateLimit(format1.format(EndDateLimit));
 			}
 			pVm.setWeightage(projectinstancenodeDate.getWeightage());
 		}else{
@@ -332,24 +337,67 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	@Override
 	public List<UserVM> getfindUser() {
-		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy hh:mm:ss a");
+		Date dt = new Date();
+		 Date d=null;
+         Date d1=null;
+         String dd = sdf.format(dt);
+         try {
+			d = sdf.parse(dd);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		System.out.println(dt);
 		List<UserVM> result = new ArrayList<UserVM>();
-	
+	  
 		List<User> uList = User.getUserList();
-			for(User lUser :uList) {
-				if(lUser.getUsertype() != null){
-			     if(lUser.getUsertype().equals("User")){
-			 		
-					UserVM userVM = new UserVM();
-				
-					userVM.setId(String.valueOf(lUser.getId()));
-					userVM.setEmail(lUser.getEmail());
-					userVM.setFirstName(lUser.getFirstName());
-				
-					result.add(userVM);
-				 }
+		for (User lUser : uList) {
+			if (lUser.getReleaseDate() != null) {
+				String dd1 = sdf.format(lUser.getReleaseDate());
+				try {
+					d1 = sdf.parse(dd1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				if (d1.getTime() > d.getTime()) {
+
+					if (lUser.getUsertype() != null) {
+						if (lUser.getUsertype().equals("User")) {
+
+							UserVM userVM = new UserVM();
+
+							userVM.setId(String.valueOf(lUser.getId()));
+							userVM.setEmail(lUser.getEmail());
+							userVM.setFirstName(lUser.getFirstName());
+							userVM.setLastName(lUser.getLastName());
+							userVM.setMiddleName(lUser.getMiddleName());
+
+							result.add(userVM);
+						}
+					}
+				}
+			} else {
+				if (lUser.getUsertype() != null) {
+					if (lUser.getUsertype().equals("User")) {
+
+						UserVM userVM = new UserVM();
+
+						userVM.setId(String.valueOf(lUser.getId()));
+						userVM.setEmail(lUser.getEmail());
+						userVM.setFirstName(lUser.getFirstName());
+						userVM.setLastName(lUser.getLastName());
+						userVM.setMiddleName(lUser.getMiddleName());
+
+						result.add(userVM);
+					}
 				}
 			}
+		}
 		
 		return result;
 		
@@ -399,6 +447,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				   userVM.setId(String.valueOf(lUser.getId()));
 				   userVM.setEmail(lUser.getEmail());
 				   userVM.setFirstName(lUser.getFirstName());
+				   userVM.setLastName(lUser.getLastName());
+				   userVM.setMiddleName(lUser.getMiddleName());
+				
 			
 				   result.add(userVM);
 				}
@@ -417,6 +468,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					userVM.setId(String.valueOf(lUser.getId()));
 					userVM.setEmail(lUser.getEmail());
 					userVM.setFirstName(lUser.getFirstName());
+					userVM.setLastName(lUser.getLastName());
+					userVM.setMiddleName(lUser.getMiddleName());
+				
 			
 					result.add(userVM);
 				}
