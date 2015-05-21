@@ -169,13 +169,13 @@ public class Projectinstance extends Model{
 	public void removeAllUser() {
 		String sql = "DELETE FROM projectinstancenode_user";
 		String pinIds = "(";
-		for(int i = 0 ;i<Projectinstancenode.getprojectinstanceById(this.id).size(); i++){
-			if(i == Projectinstancenode.getprojectinstanceById(this.id).size()-1){
-				pinIds = pinIds + Projectinstancenode.getprojectinstanceById(this.id).get(i).getId() + ")";
+		for(int i = 0 ;i<Projectinstancenode.getProjectInstanceById(this.id).size(); i++){
+			if(i == Projectinstancenode.getProjectInstanceById(this.id).size()-1){
+				pinIds = pinIds + Projectinstancenode.getProjectInstanceById(this.id).get(i).getId() + ")";
 				sql = sql+" WHERE projectinstancenode_id IN "+pinIds;
 				break;
 			} 
-			pinIds = pinIds + Projectinstancenode.getprojectinstanceById(this.id).get(i).getId() + ",";
+			pinIds = pinIds + Projectinstancenode.getProjectInstanceById(this.id).get(i).getId() + ",";
 			
 		}
 		String userIds ="(";
@@ -187,7 +187,7 @@ public class Projectinstance extends Model{
 			}
 			userIds = userIds + this.user.get(i).getId() + ",";
 		}
-		if(!(Projectinstancenode.getprojectinstanceById(this.id).isEmpty() || this.user.isEmpty())){
+		if(!(Projectinstancenode.getProjectInstanceById(this.id).isEmpty() || this.user.isEmpty())){
 			SqlUpdate sqlQuery = Ebean.createSqlUpdate(sql);
 			sqlQuery.execute(); 
 		}

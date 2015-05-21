@@ -199,7 +199,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(id);
 		
-		List<Projectinstancenode> pList = Projectinstancenode.getprojectinstanceById(rootId);
+		List<Projectinstancenode> pList = Projectinstancenode.getProjectInstanceById(rootId);
 		
 		for(Projectclassnode projectclassnode :projList) {
 			//long diff = 0;
@@ -742,7 +742,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
 		Projectinstance projectinstance = Projectinstance.getById(mainInstance);
 		List<Projectclassnode> projList = Projectclassnode.getprojectByprojectId(projectinstance.getProjectid());
-		List<Projectinstancenode> pList = Projectinstancenode.getprojectinstanceById(mainInstance);
+		List<Projectinstancenode> pList = Projectinstancenode.getProjectInstanceById(mainInstance);
 		for(Projectclassnode projectclassnode :projList) {
 			//long diff = 0;
 			
