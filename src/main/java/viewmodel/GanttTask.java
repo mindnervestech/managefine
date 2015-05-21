@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GanttTask {
 
-	public int id;
+	public Long id;
 	public String name;
 	public String code;
 	public int level;

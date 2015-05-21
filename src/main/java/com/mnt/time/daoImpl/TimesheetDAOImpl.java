@@ -33,6 +33,8 @@ import viewmodel.StaffWeekReportVM;
 import viewmodel.TodayAllVM;
 import viewmodel.WeekReportVM;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlRow;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.orghierarchy.model.Organization;
@@ -1210,14 +1212,13 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		return staffWeekReportList;
 	}
 	
-	@Override
-	public GanttVM getProjectData(Long id) {
+	public GanttVM getProjectDataOriginal(Long id) {
 		
 		GanttVM ganttVM = new GanttVM();
 		List<GanttTask> tasklist = new ArrayList<>();
 		
 		List<Projectinstancenode> projectInstanceNodeList = Projectinstancenode.getProjectInstanceById(id);
-		int i = -1;
+		long i = -1;
 		for(Projectinstancenode node : projectInstanceNodeList) {
 			GanttTask task1 = new GanttTask();
 			task1.id = i;
@@ -1260,6 +1261,64 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		ganttVM.canWriteOnParent = false;
 		
 		return ganttVM;
+	}
+	
+	@Override
+	public GanttVM getProjectData(Long id) {
+		
+		GanttVM ganttVM = new GanttVM();
+		List<GanttTask> tasklist = new ArrayList<>();
+		
+		Projectinstancenode projectInstanceRootNode = Projectinstancenode.getInstanceRoot(id);
+		
+		createTask(tasklist,projectInstanceRootNode,id);
+		
+		ganttVM.tasks = tasklist;
+		ganttVM.selectedRow = 0;
+		ganttVM.canWrite = false;
+		ganttVM.canWriteOnParent = false;
+		
+		return ganttVM;
+	}
+
+
+	private void createTask(List<GanttTask> tasklist , Projectinstancenode root, Long projectinstaceId) {
+		
+		Projectclassnode classNode = root.getProjectclassnode();
+		
+		GanttTask task = new GanttTask();
+		task.id = root.getId();
+		task.name= classNode.getProjectTypes();
+		task.level = classNode.getLevel();
+		task.status = root.getStatus();
+		task.canWrite = true;
+		task.start = root.getStartDate().getTime();
+		task.end = root.getEndDate().getTime();
+		
+		long diff = root.getEndDate().getTime() - root.getStartDate().getTime();
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		
+		task.duration = diffDays+1;
+		task.startIsMilestone = true;
+		task.endIsMilestone = false;
+		task.collapsed = false;
+		
+		List<Projectclassnode> childList = Projectclassnode.getparentByprojectId(classNode.getId());
+		
+		if(childList.isEmpty() || childList.size() == 0) {
+			task.hasChild = false;
+			tasklist.add(task);
+			return;
+		} else {
+			
+			task.hasChild = true;
+			tasklist.add(task);
+			
+			for(Projectclassnode node : childList) {
+				Projectinstancenode instancenode = Projectinstancenode.getByClassNodeAndInstance(node,projectinstaceId);
+				createTask(tasklist , instancenode, projectinstaceId);
+			}
+		}
 	}
 	
 	

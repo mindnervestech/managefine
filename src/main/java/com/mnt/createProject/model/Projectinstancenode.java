@@ -181,6 +181,10 @@ public class Projectinstancenode extends Model{
 	public static Projectinstancenode getByClassNodeAndInstance(Projectclassnode projectclassnode,Long instanceId) {
 		return find.where().eq("Projectclassnode", projectclassnode).eq("projectinstanceid", instanceId).findUnique();
 	}
+	
+	public static Projectinstancenode getInstanceRoot(Long instanceId) {
+		return find.where().eq("Projectclassnode.level", 0).eq("projectinstanceid", instanceId).findUnique();
+	}
 
 	public void removeAllUser() {
 		if(this.user == null)

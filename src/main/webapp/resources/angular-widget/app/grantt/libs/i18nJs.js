@@ -118,7 +118,7 @@
     var md = "#" + pad(date.getMonth() + 1) + "_" + pad(date.getDate()) + "#";
     var day = date.getDay();
 
-    return  (day == 5 && friIsHoly) || (day == 6 && satIsHoly) || (day == 0 && sunIsHoly) || holidays.indexOf(ymd) > -1 || holidays.indexOf(md) > -1;
+    return  false;//(day == 5 && friIsHoly) || (day == 6 && satIsHoly) || (day == 0 && sunIsHoly) || holidays.indexOf(ymd) > -1 || holidays.indexOf(md) > -1;
   }
 
 
