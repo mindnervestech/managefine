@@ -303,7 +303,7 @@
 					<target>1.7</target>
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>false</showWarnings>
-					<showDeprecation>true</showDeprecation>
+					<showDeprecation>false</showDeprecation>
 				</configuration>
 			</plugin>
 			<plugin>
