@@ -168,12 +168,14 @@ public class Projectinstancenode extends Model{
 		//return find.where().add(Expr.or(Expr.eq("id", id), Expr.eq("parentId", id))).findList();
 	}
 	
-	public static List<Projectinstancenode> getprojectinstanceById(Long id) {
-		return find.where().eq("projectinstanceid", id).findList();
-	}
+	
 	
 	public static List<Projectinstancenode> getProjectInstanceByIdAndType(Long id,Long typeId) {
 		return find.where().eq("projectinstanceid", id).eq("projecttypeid", typeId).findList();
+	}
+	
+	public static List<Projectinstancenode> getProjectInstanceById(Long id) {
+		return find.where().eq("projectinstanceid", id).findList();
 	}
 	
 	public static Projectinstancenode getByClassNodeAndInstance(Projectclassnode projectclassnode,Long instanceId) {
