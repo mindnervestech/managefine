@@ -1284,6 +1284,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 
 	private void createTask(List<GanttTask> tasklist , Projectinstancenode root, Long projectinstaceId) {
 		
+		if(root != null) {
 		Projectclassnode classNode = root.getProjectclassnode();
 		
 		GanttTask task = new GanttTask();
@@ -1319,6 +1320,9 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 				createTask(tasklist , instancenode, projectinstaceId);
 			}
 		}
+		
+		}
+		
 	}
 	
 	
