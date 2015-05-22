@@ -284,12 +284,12 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
         var itemTemplate = jQuery(
           '<div class="bp-item bp-corner-all bt-item-frame">'
             + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="background:{{itemTitleColor}};top: 2px; left: 2px; width: 216px; height: 20px;">'
-                + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 144px; height: 18px;">{{itemConfig.roleName}}</div>'
+                + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 100%; height: 18px;">{{itemConfig.roleName}}</div>'
             + '</div>'
             + '<div class="bp-item bp-photo-frame" style="display:none;top: 26px; left: 2px; width: 50px; height: 60px;">'
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
-            + '<div class="bp-item" style="top: 23px; text-align: center; width: 162px; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
+            + '<div class="bp-item" style="top: 23px; text-align: center; width: 100%; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
             + '<div name="description" class="bp-item" style="top: 48px; left: 0px; width: 100%;height:36px; font-size: 11px;text-align: center;">{{itemConfig.roleDescription}}</div>'
         + '</div>'
         ).css({
