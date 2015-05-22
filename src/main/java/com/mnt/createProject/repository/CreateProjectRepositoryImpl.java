@@ -433,7 +433,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	public List<UserVM> getfindselectedAllUser(Long mainInstance, Long projectId) {
 		
 		List<UserVM> result = new ArrayList<UserVM>();
-		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(projectId, mainInstance);
 		
 		Projectclassnode projectclassnode = Projectclassnode.getProjectById(projectId);
 		

@@ -138,10 +138,8 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/nodeMetaData.jsp" />
   	</definition> 
   	
-  	<definition name="editNodeMetaData" extends="base.definition">
-    	<put-attribute name="title" value="Create Projects" />
-    	<put-attribute name="content" value="/WEB-INF/jsp/editNodeMetaData.jsp" />
-  	</definition> 
+  	<definition name="editNodeMetaData" template="/WEB-INF/jsp/editNodeMetaData.jsp">
+    </definition> 	
 	
 		<definition name="defineFlexiAttribute" extends="base.definition">
     	<put-attribute name="title" value="Define Fexi Attribute" />
