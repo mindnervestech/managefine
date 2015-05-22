@@ -275,7 +275,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
         var result = new primitives.orgdiagram.TemplateConfig();
         result.name = "contactTemplate";
 
-        result.itemSize = new primitives.common.Size(150, 80);
+        result.itemSize = new primitives.common.Size(200, 100);
         result.minimizedItemSize = new primitives.common.Size(5, 5);
         result.minimizedItemCornerRadius = 5;
         result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
@@ -290,7 +290,7 @@ app.controller("RoleController",function($scope,$http,ngDialog,$upload) {
                 + '<img name="photo" src="{{itemConfig.image}}" style="display:none;height: 60px; width:50px;" />'
             + '</div>'
             + '<div class="bp-item" style="top: 23px; text-align: center; width: 162px; height: 18px; font-size: 15px;">{{itemConfig.departmentName}}</div>'
-            + '<div name="description" class="bp-item" style="top: 42px; left: 0px; width: 100%;height:36px; font-size: 11px;text-align: center;">{{itemConfig.roleDescription}}</div>'
+            + '<div name="description" class="bp-item" style="top: 48px; left: 0px; width: 100%;height:36px; font-size: 11px;text-align: center;">{{itemConfig.roleDescription}}</div>'
         + '</div>'
         ).css({
             width: result.itemSize.width + "px",
