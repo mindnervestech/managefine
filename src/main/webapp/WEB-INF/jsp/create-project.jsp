@@ -113,7 +113,7 @@ function myFunction() {
 	  var sDate = new Date(startD);
 	  console.log(eDate);
 	  console.log(sDate);
-	if (startD < endD) {
+	if (startD <= endD) {
 	$.ajax({
 		type : "POST",
 		data : $("#form").serialize(),
