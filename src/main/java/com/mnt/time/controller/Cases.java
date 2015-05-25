@@ -254,7 +254,7 @@ public class Cases {
 								.getCaseData().getId()));
 
 						List<FileAttachmentMeta> list = null;
-						if (cFlexi.getValue() != null && cFlexi.getValue() != "") {
+						if (!cFlexi.getValue().equals(null) && !cFlexi.getValue().equals("")) {
 
 							try {
 

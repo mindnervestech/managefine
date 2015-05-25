@@ -41,6 +41,7 @@ import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
+import com.mnt.createProject.vm.DefinePartVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
 import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
@@ -107,11 +108,17 @@ public class CreateProjectController {
 		return createProjectService.findAttachFile(id,mainInstance);
 	}
 	
+	
 	@RequestMapping(value="/saveComment",method=RequestMethod.POST) 
 	public @ResponseBody Long saveComment(@RequestBody ProjectsupportattributVM pVm,@CookieValue("username")String username) {
 		return createProjectService.saveComment(pVm,username);
 	}
 	
+	
+	@RequestMapping(value="/saveDefineParts",method=RequestMethod.POST) 
+	public @ResponseBody Long saveDefineParts(@RequestBody DefinePartVM dpVm,@CookieValue("username")String username) {
+		return createProjectService.saveDefineParts(dpVm,username);
+	}
 		
 	@RequestMapping(value="/saveprojectTypeandName",method=RequestMethod.POST) 
 	public String saveprojectTypeandName(HttpServletRequest request,@CookieValue("username")String username,Model model) {
@@ -129,6 +136,16 @@ public class CreateProjectController {
 	@RequestMapping(value="/findUser",method=RequestMethod.GET)
 	public @ResponseBody List findUser() {
 		return createProjectService.getfindUser();
+	}
+	
+	@RequestMapping(value="/getAllPartNo",method=RequestMethod.GET)
+	public @ResponseBody List getAllPartNo(@CookieValue("username")String username){
+		return createProjectService.getAllPartNo(username);		
+	}
+	
+	@RequestMapping(value="/getAllDefinePartData",method=RequestMethod.GET)
+	public @ResponseBody DefinePartVM getAllDefinePartData(@RequestParam("id")Long projectId,@CookieValue("username")String username){
+		return createProjectService.getAllDefinePartData(projectId,username);		
 	}
 	
 	
@@ -440,8 +457,6 @@ public class CreateProjectController {
 			 list.add(chVm);
 			 }	
     	 }
-		 //System.out.println(list.toString());
-		// map.put("ChangeField", list);
 		 Gson gson = new Gson(); 
 		 String json = gson.toJson(list); 
 		 

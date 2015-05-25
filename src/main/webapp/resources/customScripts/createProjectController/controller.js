@@ -1,7 +1,7 @@
 app.controller("createProjectController",function($scope,$http,$rootScope,ngDialog,$upload,$timeout,$filter,$compile) {
 	
 	$scope.progressValue = 150;
-	
+	$scope.definePartSaveMsge = 0;
 	$scope.index = 10;
     $scope.Message = "";
     maximumId = 2;
@@ -132,6 +132,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     				
     				$http({method:'GET',url:'/time/findselectedAllUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response1) {
         	    		console.log(response1);
+        	    		
         	    		var selectedUsers = [];
         	    		$scope.allUser = response1;
         	    		angular.forEach($scope.allUser,function(user,key) {
@@ -151,44 +152,8 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
             	    		$scope.findUser = $scope.allUser;
         	    	});
     				
-	    	    	/*var selectedUsers = [];
-	    	    	//console.log($scope.allUser);
 	    	    	
-        	    	angular.forEach($scope.allUser,function(user,key) {
-	        	    	angular.forEach(response,function(value,key1) {
-	        	    		if(user.id == value){
-	        	    			selectedUsers.push(user);
-	        	    		}
-	        	    	});
-        	    	});
-        	    	$scope.findSelectedUser = response;
-        	    	$scope.findUser = selectedUsers;
-        	    	
-        	    	if(data.context.id == 1)
-        	    		$scope.findUser = $scope.allUser;*/
 	    	    });
-    			
-    			
-    			/*
-    			$http({method:'GET',url:'/time/findselectedAllUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response1) {
-    	    		console.log(response1);
-    	    		$scope.allUser = response1;
-    	    		angular.forEach($scope.allUser,function(user,key) {
-    	    			console.log(user.id);
-	        	    	angular.forEach(response,function(value,key1) {
-	    	    			console.log(value);
-	        	    		if(user.id == value){
-	        	    			selectedUsers.push(user);
-	        	    		}
-	        	    	});
-        	    	});
-        	    	$scope.findSelectedUser = response;
-        	    	$scope.findUser = selectedUsers;
-        	    	console.log($scope.findUser);
-        	    	console.log($scope.findSelectedUser);
-        	    	if(data.context.id == 1)
-        	    		$scope.findUser = $scope.allUser;
-    	    	});*/
     			
     			
     			
@@ -212,6 +177,81 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         		break;	
 		}
 	};
+	 $scope.defineParts= {
+			 partsValue:[],
+			 projectId:'',
+			 totalEstimatedRevenue:''
+	    	};
+	 
+	$scope.defineParts.partsValue.push({});
+	$scope.newpartValue = function($event){
+		$scope.defineParts.partsValue.push( {  } );
+		$event.preventDefault();
+		console.log($scope.defineParts.partsValue);
+		$scope.definePartSaveMsge = 0;
+	};
+	
+	$http({method:'GET',url:'/time/getAllPartNo'}).success(function(response) {
+	    
+	    	$scope.partNos = response;
+	    	console.log($scope.partNos);
+  	});
+	
+	$scope.allowDefinePart;
+	
+	
+	$scope.saveParts = function(){
+		$scope.defineParts.projectId = $rootScope.MainInstance;
+		//$scope.defineParts.totalEstimatedRevenue = $scope.totalEstimat;
+		console.log($scope.defineParts);
+				
+		 $http({method:'POST',url:'/time/saveDefineParts',data:$scope.defineParts}).success(function(response) {
+	 			console.log(response);
+	 			$scope.definePartSaveMsge = 1;
+	 			
+	 	});
+	}
+	
+	$scope.removeDefinepart = function(index){
+		
+		console.log("Remove...");
+		console.log($scope.totalEstimat);
+		console.log($scope.defineParts.partsValue);
+		console.log(index);
+		angular.forEach($scope.defineParts.partsValue,function(value,key) {
+			console.log(value.estimatedRevenue);
+			if(key == index){
+				console.log(value.estimatedRevenue);
+				$scope.totalEstimat = $scope.totalEstimat - value.estimatedRevenue;
+				$scope.defineParts.partsValue.splice(index, 1);
+			}
+			
+		});
+		$scope.definePartSaveMsge = 0; 
+		$scope.defineParts.totalEstimatedRevenue = $scope.totalEstimat;
+	}
+	
+	$scope.calculatestimat = function(annualQty,suggestedResale,index){
+		$scope.totalEstimat = 0;
+		console.log(annualQty);
+		console.log(suggestedResale);
+		console.log(index);
+		if(suggestedResale == undefined || suggestedResale == ""){
+			suggestedResale= 1;
+		}
+		if(annualQty == undefined || annualQty == ""){
+			annualQty = 1;
+		}
+		
+		angular.forEach($scope.defineParts.partsValue,function(value,key) {
+			if(key == index){
+				value.estimatedRevenue = annualQty * suggestedResale;;
+			}
+			$scope.totalEstimat = $scope.totalEstimat + value.estimatedRevenue;
+		});
+		console.log($scope.totalEstimat);
+		$scope.defineParts.totalEstimatedRevenue = $scope.totalEstimat;
+	}
 	
 	$scope.closeThisDialog  = function(){
 		console.log("HERE :::::::::::::::::::::: ");
@@ -364,7 +404,12 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	    });
     	   
     	    
-    	  
+    	    $http({method:'GET',url:'/time/getAllDefinePartData',params:{id:$rootScope.MainInstance}}).success(function(response) {
+    			console.log(response);
+    			$scope.defineParts = response;
+    	    	console.log($scope.defineParts);
+    	    	$scope.totalEstimat = $scope.defineParts.totalEstimatedRevenue;
+    		});
     	
     }
 
