@@ -2,6 +2,11 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 	
 	$scope.progressValue = 150;
 	$scope.definePartSaveMsge = 0;
+	$scope.defineParts= {
+			 partsValue:[],
+			 projectId:'',
+			 totalEstimatedRevenue:''
+	    	};
 	$scope.index = 10;
     $scope.Message = "";
     maximumId = 2;
@@ -177,11 +182,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         		break;	
 		}
 	};
-	 $scope.defineParts= {
-			 partsValue:[],
-			 projectId:'',
-			 totalEstimatedRevenue:''
-	    	};
+	 
 	 
 	$scope.defineParts.partsValue.push({});
 	$scope.newpartValue = function($event){
@@ -408,6 +409,11 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     			console.log(response);
     			$scope.defineParts = response;
     	    	console.log($scope.defineParts);
+    	    	//$scope.defineParts.partsValue.push({});
+    	    	if($scope.defineParts.partsValue.length == 0){
+    	    		$scope.defineParts.partsValue.push({});
+    	    		console.log("Enter.......");
+    	    	}
     	    	$scope.totalEstimat = $scope.defineParts.totalEstimatedRevenue;
     		});
     	
