@@ -63,7 +63,7 @@
 									<select style="width: 100%;" name="projectManager" ui-select2
 										data-ng-model="projectinfo.projectManager"
 										ng-change="onProjectTypeChange(projectinfo.projectManager)"
-										placeholder="Select Client." required>
+										placeholder="Select Manager" required>
 										<option value="">-select-</option>
 										<option ng-repeat="userinfo in findUser"
 											value="{{userinfo.id}}">{{userinfo.firstName}} {{userinfo.middleName}} {{userinfo.lastName}}</option>
@@ -86,7 +86,7 @@
 
 							<div class="form-group">
 								<div class="col-md-6" style="padding: 0px;margin-top:15px;">
-									<label class="col-md-11">Client</label>
+									<label class="col-md-11">Customer</label>
 									<div class="col-md-11">
 										<select style="width: 100%;" name="client" ui-select2
 											data-ng-model="projectinfo.client"
@@ -98,18 +98,22 @@
 										</select>
 									</div>
 								</div>
-								<!-- <div class="col-md-5" style="padding: 0px;">
-								<label style="margin-left: 13px;">Project Type</label> 
-								<select
-									class="col-md-12 required" id="projectTypeId"
-									name="projectTypeId" data-ng-model="projectinfo.projectTypeId"
-									ng-change="onProjectTypeChange(projectType.projectTypeId)"
-									placeholder="Select Project type." required>
-									<option value="">-select-</option>
-									<option ng-repeat="projectT in projectType"
-										value="{{projectT.id}}">{{projectT.projectTypes}}</option>
-								</select>
-							</div> -->
+								
+								<div class="form-group">
+								<div class="col-md-6" style="padding: 0px;margin-top:15px;">
+									<label class="col-md-11">End Customer</label>
+									<div class="col-md-11">
+										<select style="width: 100%;" name="endCustomer" ui-select2
+											data-ng-model="projectinfo.endCustomer"
+											ng-change="onProjectTypeChange(projectinfo.client)"
+											placeholder="Select Customer." required>
+											<option value="">-select-</option>
+											<option ng-repeat="clientinfo in findCliect"
+												value="{{clientinfo.id}}">{{clientinfo.clientName}}</option>
+										</select>
+									</div>
+								</div>
+								
 								<div class="col-md-6" style="padding: 0px;margin-top:15px;">
 
 									<label class="col-md-11">Members</label>

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import models.Client;
 import models.Supplier;
 import models.User;
 import play.db.ebean.Model;
@@ -70,8 +71,11 @@ public class Projectinstance extends Model{
 	public String status;
 	
 	public Long clientId;
+	@OneToOne
+	public Client endCustomer;
 	public Long projectid;
 	public Long percentage;
+	public Double totalEstimatedRevenue;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<User> user;
@@ -157,6 +161,15 @@ public class Projectinstance extends Model{
 	public List<User> getUser() {
 		return user;
 	}
+	
+
+	public Client getEndCustomer() {
+		return endCustomer;
+	}
+
+	public void setEndCustomer(Client endCustomer) {
+		this.endCustomer = endCustomer;
+	}
 
 	public void setUser(List<User> user) {
 		this.user = user;
@@ -166,6 +179,14 @@ public class Projectinstance extends Model{
 		this.user.addAll(user);
 	}
 	
+	public Double getTotalEstimatedRevenue() {
+		return totalEstimatedRevenue;
+	}
+
+	public void setTotalEstimatedRevenue(Double totalEstimatedRevenue) {
+		this.totalEstimatedRevenue = totalEstimatedRevenue;
+	}
+
 	public void removeAllUser() {
 		String sql = "DELETE FROM projectinstancenode_user";
 		String pinIds = "(";

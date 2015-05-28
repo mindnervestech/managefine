@@ -27,16 +27,21 @@ import play.data.DynamicForm;
 
 import com.avaje.ebean.SqlRow;
 import com.mnt.createProject.model.AduitLog;
+import com.mnt.createProject.model.DefinePart;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.ProjectComment;
+import com.mnt.createProject.model.ProjectPart;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.DateWiseHistoryVM;
+import com.mnt.createProject.vm.DefinePartVM;
 import com.mnt.createProject.vm.HistoryAllLogVM;
+import com.mnt.createProject.vm.PartVM;
 import com.mnt.createProject.vm.ProjectAttachmentVM;
 import com.mnt.createProject.vm.ProjectCommentVM;
+import com.mnt.createProject.vm.ProjectPartVM;
 import com.mnt.createProject.vm.SupplierDataVM;
 import com.mnt.createProject.vm.UserVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
@@ -267,6 +272,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			Projectinstance projectinstance= new Projectinstance();
 			projectinstance.setProjectName(form.data().get("projectName"));
 			projectinstance.setClientId(Long.parseLong(form.data().get("client")));
+			projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
+			//
 			projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
 			projectinstance.setProjectDescription(form.data().get("projectDescription"));
 			if(form.data().get("client") != null){
@@ -433,7 +440,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	public List<UserVM> getfindselectedAllUser(Long mainInstance, Long projectId) {
 		
 		List<UserVM> result = new ArrayList<UserVM>();
-		Projectinstancenode projectnode = Projectinstancenode.getProjectParentId(projectId, mainInstance);
 		
 		Projectclassnode projectclassnode = Projectclassnode.getProjectById(projectId);
 		
@@ -519,6 +525,19 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 	}
 	
+	@Override
+	public List<ProjectPartVM> getAllPartNo(String username){
+		List<ProjectPartVM> pList = new ArrayList<>();
+		
+		List<ProjectPart> projectPart = ProjectPart.getProjectPartNo();
+		for(ProjectPart part:projectPart){
+			ProjectPartVM pVm = new ProjectPartVM();
+			pVm.setId(part.getId());
+			pVm.setPartNo(part.getPartNo());
+			pList.add(pVm);
+		}
+		return pList;
+	}
 	
 	@Override
 	public List<String> getselectedSupplier(Long mainInstance) {
@@ -649,6 +668,65 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			pVm.setComment("notAllow");
 		}
 		return pVm;
+		
+	}
+	
+	@Override
+	public Long saveDefineParts(DefinePartVM dpVm,String username) {
+		
+	
+		List<DefinePart> definePart = DefinePart.getPartByProject(Long.parseLong(dpVm.projectId));
+		if(definePart != null){
+			for(DefinePart  dPart:definePart){
+				dPart.delete();
+			}
+		}
+		
+		for(PartVM pvm:dpVm.getPartsValue()){
+			DefinePart dPart = new DefinePart();
+			dPart.setAnnualQty(pvm.getAnnualQty());
+			dPart.setCostPrice(pvm.getCostPrice());
+			dPart.setEstimatedRevenue(pvm.getEstimatedRevenue());
+			dPart.setSuggestedResale(pvm.getSuggestedResale());
+			dPart.setPartNo(ProjectPart.findById(pvm.getPartNo()));
+			dPart.setClaimStatus(pvm.getClaimStatus());
+			dPart.setProjectinstance(Projectinstance.findById(Long.parseLong(dpVm.projectId)));
+			
+			dPart.save();
+			
+			System.out.println(pvm.partNo);
+		}
+		
+		Projectinstance projectinstance = Projectinstance.findById(Long.parseLong(dpVm.projectId));
+		projectinstance.setTotalEstimatedRevenue(Double.parseDouble(dpVm.getTotalEstimatedRevenue()));
+		projectinstance.update();
+		
+		return projectinstance.getId();
+		
+	}
+	
+	@Override
+	public DefinePartVM getAllDefinePartData(Long projectId,String username) {
+		
+		DefinePartVM dVm = new DefinePartVM();
+		Projectinstance projectinstance = Projectinstance.getById(projectId);
+		dVm.setTotalEstimatedRevenue(projectinstance.getTotalEstimatedRevenue().toString());
+		List<DefinePart> dPart = DefinePart.getPartByProject(projectId);
+		List<PartVM> partVMs = new ArrayList<>();
+		for(DefinePart dp:dPart){
+			PartVM pVm = new PartVM();
+			pVm.setAnnualQty(dp.getAnnualQty());
+			pVm.setClaimStatus(dp.getClaimStatus());
+			pVm.setCostPrice(dp.getCostPrice());
+			pVm.setEstimatedRevenue(dp.getEstimatedRevenue());
+			pVm.setPartNo(dp.getPartNo().getId());
+			pVm.setId(dp.getPartNo().getId());
+			pVm.setSuggestedResale(dp.getSuggestedResale());
+			partVMs.add(pVm);
+		}
+		dVm.setPartsValue(partVMs);
+		
+		return dVm;
 		
 	}
 	

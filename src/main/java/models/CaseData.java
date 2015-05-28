@@ -76,7 +76,7 @@ public class CaseData extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	public Projectinstance projects;
 	
-	@SearchColumnOnUI(rank=1,colName="Assigned")
+	//@SearchColumnOnUI(rank=1,colName="Assigned")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=4,label=ASSIGNTO_USER, autocomplete=true,ajaxDependantField="projects")
 	@Validation(required = true)
@@ -86,15 +86,12 @@ public class CaseData extends Model {
 	@Validation(required = true)
 	public Long userid;
     
-	//@SearchColumnOnUI(rank=5,colName="Due Date")
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=6,label="Due Date")
 	@Validation(required = true)
 	@Formats.DateTime(pattern="dd-MM-yyyy")
-	//@SearchFilterOnUI(label="DueDate")
 	public Date	dueDate;
 	
-	//@SearchColumnOnUI(rank=5,colName="Types")
 	@Enumerated(EnumType.STRING)
 	@WizardCardUI(name="Basic Info",step=1)
 	@UIFields(order=7,label="Types")
