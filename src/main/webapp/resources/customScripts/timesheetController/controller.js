@@ -954,6 +954,7 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
 			.success(function(data) {
 				console.log('success');
+				$scope.getSchedulerDataByStaff($scope.selectedStaff,$scope.currentDate);
 			});
 	}
 	
@@ -1215,6 +1216,7 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
 			.success(function(data) {
 				console.log('success');
+				$scope.getDataByWeek();
 			});
 	}
 	
@@ -2375,6 +2377,7 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 			$http({method:'GET',url:contextPath+'/updateTaskStatus',params:{projectId:$scope.taskDetail.projectId,taskId:$scope.taskDetail.taskId,status:status}})
 			.success(function(data) {
 				console.log('success');
+				$scope.getAllStaffAppointments($scope.currentDate);
 			});
 	}
 	

@@ -49,8 +49,11 @@
 							 <span class="col-md-4"><b>Status :</b></span>
 							 <div class="col-md-4">
 							 <select ng-model="status" style="width:140px;" ng-change="setStatus(status)">
+							 	<option value="Not Started">Not Started</option>
 							 	<option value="Inprogress">InProgress</option>
+							 	<option value="Paused">Paused</option>
 							 	<option value="Completed">Completed</option>
+							 	<option value="Cancelled">Cancelled</option>
 							 </select>
 							 </div>
 						 </div>
