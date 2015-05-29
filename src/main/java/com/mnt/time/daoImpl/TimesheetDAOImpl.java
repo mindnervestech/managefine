@@ -1153,19 +1153,45 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								day = "sunday";
 							}
 							WeekReportVM weekReportVM = new WeekReportVM();
-							int hours = 0,totalmins = 0;
+							int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+							List<ReportEvent> reportEventList = new ArrayList<>();
 							for(TimesheetRow row : timesheetRows) {
 								TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
 								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 								weekReportVM.date = df.format(timesheetDay.getTimesheetDate());
 								if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
-									totalmins = totalmins + timesheetDay.getWorkMinutes();
+									
+									hours = timesheetDay.getWorkMinutes()/60;
+									totalMins = totalMins + timesheetDay.getWorkMinutes();
+									percent = (timesheetDay.getWorkMinutes()*100)/540;
+									totalPercent = totalPercent + percent;
+									ReportEvent reportEvent2 = new ReportEvent();
+									Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode));
+									Projectinstancenode instanceNode = Projectinstancenode.getByClassNodeAndInstance(classNode, Long.parseLong(row.getProjectCode()));
+									reportEvent2.setTooltip(classNode.getProjectTypes());
+									reportEvent2.setX("");
+									List<Integer> y2 = new ArrayList<Integer>();
+									y2.add(percent);
+									reportEvent2.setY(y2);
+									reportEvent2.setColor(classNode.getProjectColor());
+									if(timesheetDay.getWorkMinutes() % 60 == 0) {
+										reportEvent2.setLabel(hours+"Hrs");
+									} else {
+										int mins = timesheetDay.getWorkMinutes() % 60;
+										if(hours == 0) {
+											reportEvent2.setLabel(mins+" min");
+										} else {
+											reportEvent2.setLabel(hours+"."+mins+"Hrs");
+										}
+									}
+									
+									reportEventList.add(reportEvent2);
 								}
 							}
-							hours = totalmins/60;
-							int percent = (hours*100)/9;
-							List<ReportEvent> reportEventList = new ArrayList<>();
-							if(percent == 0) {
+							
+							totalHrs = (540-totalMins)/60;
+							
+							if(totalPercent == 0) {
 								ReportEvent reportEvent = new ReportEvent();
 								reportEvent.setTooltip("Free Time!");
 								reportEvent.setX("");
@@ -1176,26 +1202,24 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								reportEvent.setLabel("9Hrs");
 								reportEventList.add(reportEvent);
 							} 
-							if(percent>0 && percent<=100) {
+							if(totalPercent>0 && totalPercent<=100) {
 								ReportEvent reportEvent = new ReportEvent();
 								reportEvent.setTooltip("Free Time!");
 								reportEvent.setX("");
 								List<Integer> y = new ArrayList<Integer>();
-								y.add(100-percent);
+								y.add(100-totalPercent);
 								reportEvent.setY(y);
 								reportEvent.setColor("#FF0000");
-								reportEvent.setLabel(9-hours+"Hrs");
+								int min = (540-totalMins)%60;
+								if(min == 0) {
+									reportEvent.setLabel(totalHrs+"Hrs");
+								} else {
+									reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+								}
+								
 								reportEventList.add(reportEvent);
 								
-								ReportEvent reportEvent2 = new ReportEvent();
-								reportEvent2.setTooltip("Alloted Time!");
-								reportEvent2.setX("");
-								List<Integer> y2 = new ArrayList<Integer>();
-								y2.add(percent);
-								reportEvent2.setY(y2);
-								reportEvent2.setColor("#009933");
-								reportEvent2.setLabel(hours+"Hrs");
-								reportEventList.add(reportEvent2);
+								
 							}
 							weekReportVM.data = reportEventList;
 							weekReportList.add(weekReportVM);
