@@ -123,7 +123,7 @@
 											ng-change="onProjectTypeChange(projectinfo.member)"
 											placeholder="Select member." required>
 											<option ng-repeat="userinfo in findUser"
-												value="{{userinfo.id}}">{{userinfo.firstName}}</option>
+												value="{{userinfo.id}}">{{userinfo.firstName}} {{userinfo.middleName}} {{userinfo.lastName}}</option>
 										</select>
 
 									</div>

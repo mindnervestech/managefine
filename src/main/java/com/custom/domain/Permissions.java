@@ -52,7 +52,7 @@ public enum Permissions {
 	
 	ActionBox("#",null,"Actions"),
 	//UserRequest(routes.Status.userIndex.url,ActionBox,"On Users"),
-	CompanyRequest(routes.Status.companyIndex.url,ActionBox,"On Company"),
+	//CompanyRequest(routes.Status.companyIndex.url,ActionBox,"On Company"),
 	MyBucket(routes.TimesheetBuckets.index.url,ActionBox,"TimeSheet Requests"),
 	CalendarBucket(routes.CalendarBuckets.index.url,ActionBox,"Calendar Requests"),
 	LeaveBucket(routes.Leaves.bucketIndex.url,ActionBox,"Leaves Requests"),

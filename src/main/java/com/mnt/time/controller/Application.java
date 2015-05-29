@@ -20,6 +20,7 @@ import models.ProjectFlexi;
 import models.RoleLevel;
 import models.SupplierFlexi;
 import models.Timesheet;
+import models.TimesheetActual;
 import models.User;
 import models.UserFlexi;
 
@@ -632,22 +633,33 @@ public class Application  {
 		   	{
 			   Expression exp1 = Expr.eq("companyobject.companyCode", user.getCompanyobject().getCompanyCode());
 			   Expression exp2 = Expr.ne("email", user.getEmail());
-			   count = User.find.where().ilike("userStatus","PendingApproval").add(exp1).add(exp2).findRowCount();
+			 //  int count1 = User.find.where().ilike("userStatus","PendingApproval").add(exp1).add(exp2).findRowCount();
+			   int count1 = Timesheet.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+				// int count2 = ApplyLeave.find.where().eq("status",LeaveStatus.Submitted).findRowCount();
+				 int count2 = ApplyLeave.find.where().and(Expr.eq("status", LeaveStatus.Submitted),Expr.eq("pendingWith", user)).findRowCount();
+				 
+				 int count3 = TimesheetActual.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+					count = count1 + count2 + count3;
 		   	}
 	   
 	   
 		else if("SuperAdmin".equals(user.getDesignation()))
 		   	{
-			   count = Company.find.where().ilike("companyStatus","PendingApproval").findRowCount();
+			 int count1 = Timesheet.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+			 int count2 = ApplyLeave.find.where().and(Expr.eq("status", LeaveStatus.Submitted),Expr.eq("pendingWith", user)).findRowCount();
+			 int count3 = TimesheetActual.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+			  // count = Company.find.where().ilike("companyStatus","PendingApproval").findRowCount();
+				count = count1 + count2 + count3;
 		   	}
 		else if(RoleLevel.checkUserLevel(user.getId(), user.getRole().getRole_level()))
 			{
 			
 			 count = User.find.where().eq("status", Status.Submitted).findRowCount();
 			
-			 int count2 = Timesheet.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
-			 int count3 = ApplyLeave.find.where().eq("status",LeaveStatus.Submitted).findRowCount();
-			count = count2 + count3;
+			 int count1 = Timesheet.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+			 int count2 = ApplyLeave.find.where().and(Expr.eq("status", LeaveStatus.Submitted),Expr.eq("pendingWith", user)).findRowCount();
+			 int count3 = TimesheetActual.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
+			count = count1 + count2 + count3;
 			}
 	   
 	  

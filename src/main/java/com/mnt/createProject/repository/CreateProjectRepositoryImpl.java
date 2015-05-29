@@ -67,9 +67,17 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		ProjectsupportattributVM  pList= new ProjectsupportattributVM();
 		
 		Projectclassnode projectclassnode=Projectclassnode.getProjectById(id);
+		
 		ProjectsupportattributVM pVm=new ProjectsupportattributVM();
-		pVm.setProjectTypes(projectclassnode.getProjectTypes());
-		pVm.setProjectDescription(projectclassnode.getProjectDescription());
+		if(projectclassnode.getParentId() == null){
+			Projectinstance projectinstance = Projectinstance.findById(mainInstance);
+			pVm.setProjectTypes(projectinstance.getProjectName());
+			pVm.setProjectDescription(projectinstance.getProjectDescription());
+		}else{
+			pVm.setProjectTypes(projectclassnode.getProjectTypes());
+			pVm.setProjectDescription(projectclassnode.getProjectDescription());
+		}
+		
 		pVm.setProjectColor(projectclassnode.getProjectColor());
 		pVm.setProjectId(projectclassnode.getProjectId().getId());
 		pVm.setParentId(projectclassnode.getParentId());

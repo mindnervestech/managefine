@@ -273,6 +273,10 @@ public class Projectinstance extends Model{
 		return find.where().eq("id", id).eq("userid.id", userId).findUnique();
 	}
 	
+	public static Projectinstance getProjecttackByManager(Long id,Long userId) {
+		return find.where().eq("id", id).eq("projectManager.id", userId).findUnique();
+	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -313,6 +317,7 @@ public class Projectinstance extends Model{
 		return find.where().eq("userid.id", id).findList();
 	}
 
+		
 	public static List<Projectinstance> getProjectByClient(Long id) {
 		return find.where().eq("clientId", id).findList();
 	}
@@ -345,6 +350,10 @@ public class Projectinstance extends Model{
 	
 	public static List<Projectinstance> getProjectTypeByUserId(Long projectTypeId,Long userId) {
 		return find.where().eq("projectid", projectTypeId).eq("userid.id", userId).findList();
+	}
+	
+	public static List<Projectinstance> getProjectTypeByManagerid(Long projectTypeId,Long userId) {
+		return find.where().eq("projectid", projectTypeId).eq("projectManager.id", userId).findList();
 	}
 	
 	public static List<Projectinstance> getProjectTypeByClientId(Long projectTypeId,Long clientId) {
@@ -384,6 +393,14 @@ public class Projectinstance extends Model{
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		sqlQuery.setParameter("id", id);
 		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
+	
+	public static SqlRow getProjectsOfAllUser(Long pId, Long id) {
+		String sql = "select projectinstance_user.projectinstance_id from projectinstance_user where projectinstance_id =: pId AND projectinstance_user.user_id = :id";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("id", id);
+		SqlRow list = sqlQuery.findUnique();
 		 return list;
 	}
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.avaje.ebean.SqlRow;
 import com.google.common.collect.Lists;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
@@ -69,7 +70,6 @@ public class Wdgets {
 		
 		public static List<TaskForWidgetVM> toDummy(User user){
 			DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-			
 			List<Projectinstancenode> pList = Projectinstancenode.getProjectTaskList();
 			List<TaskForWidgetVM> tsList = new ArrayList<Wdgets.TaskForWidgetVM>();
 			
@@ -84,7 +84,20 @@ public class Wdgets {
 					if(user.getUsertype() == null){
 						projectinstance = Projectinstance.findById(pIntNode.getProjectinstanceid());
 					}else if(user.getUsertype().equals("User")){
-						projectinstance = Projectinstance.getProjecttackByUser(pIntNode.getProjectinstanceid(), user.getId());
+						projectinstance = Projectinstance.getProjecttackByManager(pIntNode.getProjectinstanceid(), user.getId());
+						if(projectinstance == null){
+							Projectinstance projectinstance1 = Projectinstance.findById(pIntNode.getProjectinstanceid());
+							if(projectinstance1 != null){
+								for(User us:projectinstance1.getUser()){
+									if(us.getId() == user.getId()){
+										projectinstance = projectinstance1;
+									}
+								}
+							}
+							//SqlRow sqlRows = Projectinstance.getProjectsOfAllUser(pIntNode.getProjectinstanceid(), user.getId());
+							//projectinstance =Projectinstance.findById(sqlRows.getLong("projectinstance_id"));
+						}
+												
 					}else if(user.getUsertype().equals("Customer User")){
 						Client client = Client.findByUserId(user.getId());
 						 if(client != null){
@@ -151,12 +164,26 @@ public class Wdgets {
 		
 		public static List<ProjectForWidgetVM> toDummy(User user){
 			
-			List<Projectinstance> pList =null;
+			List<Projectinstance> pList = new ArrayList<>();
 			
 			if(user.getUsertype() == null){
 				pList = Projectinstance.getProjectList();
 			}else if(user.getUsertype().equals("User")){
-				pList = Projectinstance.getProjectByUser(user.getId());
+				//pList = Projectinstance.getProjectByUser(user.getId());
+				List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+				for(SqlRow row: sqlRows) {
+					Projectinstance projectinstance =Projectinstance.findById(row.getLong("projectinstance_id"));
+					pList.add(projectinstance);
+					
+				}
+					List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+				if (projectList != null) {
+					for (Projectinstance project : projectList) {
+						Projectinstance projectInstance = Projectinstance
+								.getById(project.getId());
+						pList.add(projectInstance);
+					}
+				}
 		   }else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
 				 if(client != null){
@@ -229,12 +256,28 @@ public class Wdgets {
 		}
 		
 		public static List<GaugeForWidgetVM> toDummy(User user){
-			List<Projectinstance> pList = null;
+			List<Projectinstance> pList = new ArrayList<>();
 			
 			if(user.getUsertype() == null){
 				 pList = Projectinstance.getProjectList();
 			}else if(user.getUsertype().equals("User")){
-				 pList = Projectinstance.getProjectByUser(user.getId());
+				// pList = Projectinstance.getProjectsOfManager(user);
+					
+					List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+					for(SqlRow row: sqlRows) {
+						Projectinstance projectinstance =Projectinstance.findById(row.getLong("projectinstance_id"));
+						pList.add(projectinstance);
+						
+					}
+						List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+					if (projectList != null) {
+						for (Projectinstance project : projectList) {
+							Projectinstance projectInstance = Projectinstance
+									.getById(project.getId());
+							pList.add(projectInstance);
+						}
+					}
+				 
 			}else if(user.getUsertype().equals("Customer User")){
 				Client client = Client.findByUserId(user.getId());
 				 if(client != null){
@@ -272,7 +315,7 @@ public class Wdgets {
 	public List<List> saleFunnelForWidget(@RequestParam int projectType, @CookieValue("username")String username) {
 		// TODO: do query on projectType 
 		Long projectTypeId = Long.parseLong(String.valueOf(projectType));
-		
+		List<Projectinstance> pList1 = new ArrayList<>();
 		List<List> funnelMap = new ArrayList<List>();
 		System.out.println(username);
 		User user = User.findByEmail(username);
@@ -286,7 +329,19 @@ public class Wdgets {
 			 if(user.getUsertype() == null){	
 				 projectinstance = Projectinstance.getProjectTypeById(projectTypeId);	
 			 }else if(user.getUsertype().equals("User")){
-				  projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
+				  projectinstance = Projectinstance.getProjectTypeByManagerid(projectTypeId,user.getId());
+				  if(projectinstance.size() == 0){
+						 List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+							for(SqlRow row: sqlRows) {
+								Projectinstance projectinstance1 =Projectinstance.findById(row.getLong("projectinstance_id"));
+								if(projectinstance1.getProjectid() == projectTypeId){
+									pList1.add(projectinstance1);
+								}
+								
+								
+							}
+							projectinstance = pList1;
+					 }
 				}else if(user.getUsertype().equals("Customer User")){
 					Client client = Client.findByUserId(user.getId());
 					 if(client != null){
@@ -297,11 +352,7 @@ public class Wdgets {
 					 if(supplier != null){
 						 projectinstance = Projectinstance.getProjectTypeBySupplierId(projectTypeId,supplier.getId());
 					 }
-				}/*else{
-					projectinstance = Projectinstance.getProjectTypeByUserId(projectTypeId,user.getId());
-				}*/
-			 
-			// List<Projectinstance> projectinstance = Projectinstance.getProjectTypeById(projectTypeId,user.getId());
+				}
 			
 			 if(projectinstance.size() != 0){
 			  map0.add(projectclassnode.getProjectTypes());
@@ -360,10 +411,8 @@ public class Wdgets {
 			List<Projectclass> pList2 = new ArrayList<>();
 			
 			User user1 = User.findByEmail(user.getEmail());
-			//
-			
-		//
 			for(Projectclass projectclass:pList){
+				List<Projectinstance> pList4 = new ArrayList<>();
 				int a=0;
 				List<Projectclassnode> pList1 = Projectclassnode.getProjectAndLevel(projectclass.getId(),1);
 				for(Projectclassnode projectclassnode:pList1){
@@ -374,8 +423,23 @@ public class Wdgets {
 						a=1;
 					}
 				 }else if(user.getUsertype().equals("User")){
-					  projectinstance = Projectinstance.getProjectTypeByUserId(projectclass.getId(),user.getId());
-					  if(projectinstance.size() != 0){
+					  //projectinstance = Projectinstance.getProjectTypeByUserId(projectclass.getId(),user.getId());
+					 projectinstance = Projectinstance.getProjectTypeByManagerid(projectclass.getId(),user.getId());
+					if(projectinstance.size() == 0){
+						 List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+							for(SqlRow row: sqlRows) {
+								Projectinstance projectinstance1 =Projectinstance.findById(row.getLong("projectinstance_id"));
+								if(projectinstance1.getProjectid() == projectclass.getId()){
+									pList4.add(projectinstance1);
+								}
+								
+								
+							}
+							projectinstance = pList4;
+					 }
+ 
+					 
+					 if(projectinstance.size() != 0){
 							a=1;
 						}
 					}else if(user.getUsertype().equals("Customer User")){

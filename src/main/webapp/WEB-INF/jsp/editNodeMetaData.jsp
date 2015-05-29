@@ -61,7 +61,7 @@
 									<label class="col-md-12">Project Type</label>
 									<div class="col-md-12">
 										<input type="text" name="projectName"
-											value='${editNodeMetaData.projectTypes}' disabled="disabled"
+											value='${editNodeMetaData.projectTypes}' ng-disabled="${editNodeMetaData.level != 0}"
 											style="width: 100%;"> <label style="color: red"
 											ng-if="projectT == 1">type is required</label>
 									</div>
@@ -137,7 +137,7 @@
 											 style="width: 100%;" required>
 											<option ng-repeat="projectMinfo in findUser"
 												value="{{projectMinfo.id}}" 
-												ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}}</option>
+												ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}} {{projectMinfo.middleName}} {{projectMinfo.lastName}}</option>
 										</select>
 									</div>
 								</div>
@@ -194,7 +194,7 @@
 											ng-model="findSelectedUser" ui-select2 style="width: 100%;"
 											required>
 											<option ng-repeat="memberinfo in findUser"
-												value="{{memberinfo.id}}">{{memberinfo.firstName}}</option>
+												value="{{memberinfo.id}}">{{memberinfo.firstName}} {{memberinfo.middleName}} {{memberinfo.lastName}}</option>
 										</select>
 									</div>
 								</div>
