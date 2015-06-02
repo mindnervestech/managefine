@@ -4,6 +4,9 @@ public class TimesheetDaysVM {
 
 	public String timeFrom;
 	public String timeTo;
+	public String supplier;
+	public String customer;
+	public String notes;
 	
 	
 	public String getTimeFrom() {
@@ -17,6 +20,24 @@ public class TimesheetDaysVM {
 	}
 	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
+	}
+	public String getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+	public String getCustomer() {
+		return customer;
+	}
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+	public String getNotes() {
+		return notes;
+	}
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 }

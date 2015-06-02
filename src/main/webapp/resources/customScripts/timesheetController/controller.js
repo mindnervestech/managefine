@@ -23,7 +23,9 @@ app.controller("TimeSheetController", function($scope,$http) {
 			.success(function(data) {
 				console.log('success');
 				console.log(data);
-				$scope.projectList = data;
+				$scope.projectList = data.projectList;
+				$scope.supplierList = data.supplierList;
+				$scope.customerList = data.customerList;
 				$scope.getByWeek($scope.wk,$scope.yr);
 			});
 			
@@ -151,7 +153,9 @@ app.controller("TimeSheetController", function($scope,$http) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			$scope.projectList = data;
+			$scope.projectList = data.projectList;
+			$scope.supplierList = data.supplierList;
+			$scope.customerList = data.customerList;
 			$scope.getTimesheetByWeek();
 		});
 		
@@ -429,6 +433,116 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 	}
 	
+	$scope.addCustomerAndSupplier = function(index,day) {
+		$scope.rowIndex = index;
+		$scope.dayVal = day;
+		if($scope.dayVal == 'mon') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].monSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].monCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].monNotes;
+		}
+		if($scope.dayVal == 'tue') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].tueSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].tueCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].tueNotes;
+		}
+		if($scope.dayVal == 'wed') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].wedSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].wedCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].wedNotes;
+		}
+		if($scope.dayVal == 'thu') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].thuSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].thuCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].thuNotes;
+		}
+		if($scope.dayVal == 'fri') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].friSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].friCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].friNotes;
+		}
+		if($scope.dayVal == 'sat') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].satSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].satCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].satNotes;
+		}
+		if($scope.dayVal == 'sun') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].sunSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].sunCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].sunNotes;
+		}
+		$('#popupBtn5').click();
+	}
+	
+	$scope.addData = function() {
+		if($scope.dayVal == 'mon') {
+			$scope.timesheetData[$scope.rowIndex].monSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].monCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].monNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'tue') {
+			$scope.timesheetData[$scope.rowIndex].tueSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].tueCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].tueNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'wed') {
+			$scope.timesheetData[$scope.rowIndex].wedSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].wedCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].wedNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'thu') {
+			$scope.timesheetData[$scope.rowIndex].thuSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].thuCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].thuNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'fri') {
+			$scope.timesheetData[$scope.rowIndex].friSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].friCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].friNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'sat') {
+			$scope.timesheetData[$scope.rowIndex].satSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].satCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].satNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'sun') {
+			$scope.timesheetData[$scope.rowIndex].sunSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].sunCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].sunNotes = $scope.notes;
+		}
+		
+		if($scope.timesheetData[$scope.rowIndex].rowId != 0 || !angular.isUndefined($scope.timesheetData[$scope.rowIndex].rowId)) {
+			if($scope.dayVal == 'mon') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].mondayId;
+			}
+			if($scope.dayVal == 'tue') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].tuesdayId;
+			}
+			if($scope.dayVal == 'wed') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].wednesdayId;
+			}
+			if($scope.dayVal == 'thu') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].thursdayId;
+			}
+			if($scope.dayVal == 'fri') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].fridayId;
+			}
+			if($scope.dayVal == 'sat') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].saturdayId;
+			}
+			if($scope.dayVal == 'sun') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].sundayId;
+			}
+			
+			$http({method:'GET',url:contextPath+'/addSupplierCustomer',params:{dayId:$scope.dayId,supplierCode:$scope.supplierCode,customerCode:$scope.customerCode,notes:$scope.notes}})
+			.success(function(data) {
+				console.log('success');
+				
+			});
+			
+		}
+		$('#modal5Close').click();
+	}
 	
 	$scope.addMore = function() {
 		$scope.timesheetData.push({});
@@ -860,7 +974,9 @@ app.controller("SchedularTodayController", function($scope,$http,ngDialog,$uploa
 		$scope.userId = $('#userID').val();
 		 $scope.showMsg = false;
 		 $scope.fileErr = false;
-		
+		 $scope.supplier = data.supplier;
+		 $scope.customer = data.customer;
+		 $scope.todayNotes = data.todayNotes;
 		$scope.taskDetail = {
 			projectId:data.projectId,
 			taskId:data.taskId,
@@ -1123,6 +1239,9 @@ app.controller("SchedularWeekController", function($scope,$http,ngDialog,$upload
 		$scope.editStartTime = data.startTime;
 		$scope.editEndTime = data.endTime;
 		$scope.status = data.status;
+		$scope.supplier = data.supplier;
+		 $scope.customer = data.customer;
+		 $scope.todayNotes = data.todayNotes;
 		$scope.userId = $('#userID').val();
 		 $scope.showMsg = false;
 		 $scope.fileErr = false;
@@ -1595,7 +1714,9 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		.success(function(data) {
 			console.log('success');
 			console.log(data);
-			$scope.projectList = data;
+			$scope.projectList = data.projectList;
+			$scope.supplierList = data.supplierList;
+			$scope.customerList = data.customerList;
 			$scope.getTimesheetByWeek();
 		});
 		
@@ -2287,6 +2408,9 @@ app.controller("SchedularTodayAllController", function($scope,$http,ngDialog,$up
 		$scope.editEndTime = data.endTime;
 		$scope.status = data.status;
 		$scope.userId = data.staffId;
+		$scope.supplier = data.supplier;
+		 $scope.customer = data.customer;
+		 $scope.todayNotes = data.todayNotes;
 		 $scope.showMsg = false;
 		 $scope.fileErr = false;
 		

@@ -27,6 +27,12 @@ public class TimesheetDays extends Model {
 	
 	public Integer workMinutes;
 
+	public String supplierId;
+	
+	public String customerId;
+	
+	public String notes;
+	
 	@ManyToOne
 	public TimesheetRow timesheetRow;
 	
@@ -91,6 +97,30 @@ public class TimesheetDays extends Model {
 		this.timesheetRow = timesheetRow;
 	}
 	
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
 	public static List<TimesheetDays> getByTimesheetRow(TimesheetRow timesheetRow) {
 		return find.where().eq("timesheetRow", timesheetRow).findList();
 	}

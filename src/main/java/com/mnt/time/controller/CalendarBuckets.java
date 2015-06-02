@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Client;
+import models.Supplier;
 import models.Timesheet;
 import models.TimesheetActual;
 import models.TimesheetDays;
@@ -200,6 +202,21 @@ public class CalendarBuckets {
 					TimesheetDaysVM daysVM = new TimesheetDaysVM();
 					daysVM.timeFrom = day.getTimeFrom();
 					daysVM.timeTo = day.getTimeTo();
+					if(day.getSupplierId() != null) {
+						daysVM.supplier = Supplier.findById(Long.parseLong(day.getSupplierId())).getSupplierName();
+					} else {
+						daysVM.supplier = "";
+					}
+					if(day.getCustomerId() != null) {
+						daysVM.customer = Client.findById(Long.parseLong(day.getCustomerId())).getClientName();
+					} else {
+						daysVM.customer = "";
+					}
+					if(day.getNotes() != null) {
+						daysVM.notes = day.getNotes();
+					} else {
+						daysVM.notes = "";
+					}
 					if(day.getWorkMinutes() != null) {
 						totalmins = totalmins + day.getWorkMinutes();
 					}

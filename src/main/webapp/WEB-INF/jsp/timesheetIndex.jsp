@@ -120,7 +120,7 @@
 				
 			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
-				 <div class="innerInputDiv" style="margin-top:20px;">
+				 <div class="innerInputDiv" style="margin-top:47px;">
 					<div class="innerChainSelect">
 						<div class="clearfix"
 							id="timesheetRows_1__projectCode_field">
@@ -152,7 +152,7 @@
 									<div class="clearfix">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.monTime">{{row.monTime}}</div>
 										<label></label>
-										
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'mon')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div style="margin-top: 8%;" class="input" ng-init="initFTTime(row,'mon')">
 										    <input type="text"
 										    ng-model="row.monFromTo"
@@ -166,7 +166,7 @@
 											<input type="hidden"
 												ng-model="row.monFrom"
 												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
-												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;margin-bottom:-18px;margin-top:10px;">
 											<input type="hidden" 
 											    placeholder="To" 
 												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
@@ -178,6 +178,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.tueTime">{{row.tueTime}}</div>
 										<label></label>
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'tue')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'tue')">
 										    <input type="text"
 										    ng-model="row.tueFromTo"
@@ -204,7 +205,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.wedTime">{{row.wedTime}}</div>
 										<label></label>
-				
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'wed')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'wed')">
 										    <input type="text"
 										    ng-model="row.wedFromTo"
@@ -231,6 +232,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.thuTime">{{row.thuTime}}</div>
 										<label></label>
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'thu')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'thu')">
 										    <input type="text"
 										    ng-model="row.thuFromTo"
@@ -257,6 +259,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.friTime">{{row.friTime}}</div>
 										<label></label>
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'fri')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'fri')">
 										    <input type="text"
 										    ng-model="row.friFromTo"
@@ -283,6 +286,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.satTime">{{row.satTime}}</div>
 										<label></label>
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sat')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'sat')">
 										    <input type="text"
 										    ng-model="row.satFromTo"
@@ -309,6 +313,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.sunTime">{{row.sunTime}}</div>
 										<label></label>
+										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sun')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
 										<div class="input" ng-init="initFTTime(row,'sun')">
 										    <input type="text"
 										    ng-model="row.sunFromTo"
@@ -358,7 +363,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:51px;margin-right:3%;">X</a>
 							
 							</div>
 				
@@ -390,6 +395,8 @@
 <button id="popupBtn3" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal3" style="display: none;">
 </button>
 <button id="popupBtn4" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal4" style="display: none;">
+</button>
+<button id="popupBtn5" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal5" style="display: none;">
 </button>
 </body>
 
@@ -456,6 +463,45 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary" ng-click="removeRow($index,row.rowId)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="modal5Close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      	<h4 class="modal-title">Add Supplier and Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-inline">
+		  <div class="form-group">
+		    <label>Supplier</label>
+		    <select class="form-control" ng-model="supplierCode" style="width:182px;">
+		    	<option value="">--Select Supplier--</option>
+		    	<option ng-repeat="supplier in supplierList" value="{{supplier.id}}">{{supplier.name}}</option>
+		    </select>
+		  </div>
+		  <div class="form-group">
+		    <label>Customer</label>
+		     <select class="form-control" ng-model="customerCode" style="width:182px;">
+		    	<option value="">--Select Customer--</option>
+		    	<option ng-repeat="cust in customerList" value="{{cust.id}}">{{cust.name}}</option>
+		    </select>
+		  </div>
+		  
+		</div>
+		<div class="form-inline" Style="margin-top:6%;margin-left:13px;">
+			<div class="form-group">
+			    <label>Notes</label>
+			     <textarea ng-model="notes" class="form-group"></textarea>
+			  </div>
+		  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="addData()">Save</button>
       </div>
     </div>
   </div>

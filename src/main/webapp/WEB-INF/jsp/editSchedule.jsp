@@ -64,8 +64,26 @@
 							 </div>
 						</div>	
 					</div>
-					 
-					
+					<div class="col-md-12" style="padding: 0px;margin-top:2%;">
+						 <div class="col-md-6" style="padding: 0px;">
+						 	<span class="col-md-4"><b>Customer :</b></span>
+							 <div class="col-md-6">
+							 <label>{{customer}}</label>
+							 </div>
+						 </div>
+						<div class="col-md-6">
+							 <span class="col-md-4"><b>Supplier :</b></span>
+							 <div class="col-md-6">
+							 <label>{{supplier}}</label>
+							 </div>
+						</div>	
+					</div> 
+					<div class="col-md-12" style="padding: 0px;">
+							 <span class="col-md-2"><b>Notes :</b></span>
+							 <div class="col-md-8">
+							 <label>{{todayNotes}}</label>
+							 </div>
+					</div> 
 					<hr style="width: 100%;float: left;">
 					
 					 <div class="form-group">

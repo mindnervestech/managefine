@@ -16,4 +16,7 @@ public class SchedularTodayVM {
 	public Long taskId;
 	public String taskCode;
 	public boolean isHoliday;
+	public String supplier;
+	public String customer;
+	public String todayNotes;
 }

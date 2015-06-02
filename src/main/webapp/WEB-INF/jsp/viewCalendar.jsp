@@ -75,6 +75,13 @@
 		<p><b>Status :</b> ${timesheetVM.status}</p>
 		
 		<p><b>Timesheet With</b> : ${timesheetVM.firstName} ${timesheetVM.lastName}</p>
+		<br><br><br><br>
+		
+		<p><b>Supplier</b> : </p><p id="supplier"></p>
+		
+		<p><b>Customer</b> : </p><p id="customer"></p>
+		
+		<p><b>Notes</b> : </p><p id="notes"></p>
 	</div>
 
 	<table class="timesheetSecondRow">
@@ -105,6 +112,7 @@
 								-
 							</c:when>
 							<c:otherwise>
+							<img src='<c:url value="/resources/images/plus.png"/>' onclick="getData('${dayObj.supplier}','${dayObj.customer}','${dayObj.notes}')" style="height:12px;margin-bottom:5px;"/>
 								${dayObj.timeFrom} to ${dayObj.timeTo}
 							</c:otherwise>
 							</c:choose>
@@ -143,6 +151,7 @@
 	</div>	
 </div>
 
+
 <script>
 	$("#approveTimeSheet").click(function(){
 		$.get('${pageContext.request.contextPath}/calendar/approveTimesheetsOk', {id: $('#timesheetID').html()}, 
@@ -169,5 +178,10 @@
 			My_TimeSheet_Approval_Bucketadd_SearchGrid.doSearch();
 		});
 	});
+	
+	function getData(supplier,customer,notes) {
+		$('#supplier').text(supplier);
+		$('#customer').text(customer);
+		$('#notes').text(notes);
+	}
 </script>
-

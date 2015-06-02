@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Client;
+import models.Supplier;
 import models.Timesheet;
 import models.TimesheetDays;
 import models.TimesheetRow;
@@ -137,6 +139,15 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 							schedularTodayVM.taskCode = task.getProjectTypes();
 							schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 							schedularTodayVM.taskId = task.getId();
+							if(timesheetDay.getSupplierId() != null) {
+								schedularTodayVM.supplier = Supplier.findById(Long.parseLong(timesheetDay.getSupplierId())).getSupplierName();
+							}
+							if(timesheetDay.getCustomerId() != null) {
+								schedularTodayVM.customer = Client.findById(Long.parseLong(timesheetDay.getCustomerId())).getClientName();
+							}
+							if(timesheetDay.getNotes() != null) {
+								schedularTodayVM.todayNotes = timesheetDay.getNotes();
+							}
 						}
 						
 						vmList.add(schedularTodayVM);
@@ -367,6 +378,15 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 									schedularTodayVM.taskCode = task.getProjectTypes();
 									schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 									schedularTodayVM.taskId = task.getId();
+									if(timesheetDayObj.getSupplierId() != null) {
+										schedularTodayVM.supplier = Supplier.findById(Long.parseLong(timesheetDayObj.getSupplierId())).getSupplierName();
+									}
+									if(timesheetDayObj.getCustomerId() != null) {
+										schedularTodayVM.customer = Client.findById(Long.parseLong(timesheetDayObj.getCustomerId())).getClientName();
+									}
+									if(timesheetDayObj.getNotes() != null) {
+										schedularTodayVM.todayNotes = timesheetDayObj.getNotes();
+									}
 									vmList.add(schedularTodayVM);
 								}
 								
@@ -1019,6 +1039,15 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 								schedularTodayVM.taskCode = task.getProjectTypes();
 								schedularTodayVM.projectId = Long.parseLong(row.getProjectCode());
 								schedularTodayVM.taskId = task.getId();
+								if(timesheetDay.getSupplierId() != null) {
+									schedularTodayVM.supplier = Supplier.findById(Long.parseLong(timesheetDay.getSupplierId())).getSupplierName();
+								}
+								if(timesheetDay.getCustomerId() != null) {
+									schedularTodayVM.customer = Client.findById(Long.parseLong(timesheetDay.getCustomerId())).getClientName();
+								}
+								if(timesheetDay.getNotes() != null) {
+									schedularTodayVM.todayNotes = timesheetDay.getNotes();
+								}
 							}
 							
 							vmList.add(schedularTodayVM);

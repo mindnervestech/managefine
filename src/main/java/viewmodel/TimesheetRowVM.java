@@ -41,6 +41,27 @@ public class TimesheetRowVM {
 	public String friFromTo;
 	public String satFromTo;
 	public String sunFromTo;
+	public String monSupplier;
+	public String monCustomer;
+	public String monNotes;
+	public String tueSupplier;
+	public String tueCustomer;
+	public String tueNotes;
+	public String wedSupplier;
+	public String wedCustomer;
+	public String wedNotes;
+	public String thuSupplier;
+	public String thuCustomer;
+	public String thuNotes;
+	public String friSupplier;
+	public String friCustomer;
+	public String friNotes;
+	public String satSupplier;
+	public String satCustomer;
+	public String satNotes;
+	public String sunSupplier;
+	public String sunCustomer;
+	public String sunNotes;
 	public List<TimesheetDaysVM> timesheetRowDays;
 	
 	
@@ -278,6 +299,132 @@ public class TimesheetRowVM {
 	}
 	public void setSunFromTo(String sunFromTo) {
 		this.sunFromTo = sunFromTo;
+	}
+	public String getMonSupplier() {
+		return monSupplier;
+	}
+	public void setMonSupplier(String monSupplier) {
+		this.monSupplier = monSupplier;
+	}
+	public String getMonCustomer() {
+		return monCustomer;
+	}
+	public void setMonCustomer(String monCustomer) {
+		this.monCustomer = monCustomer;
+	}
+	public String getMonNotes() {
+		return monNotes;
+	}
+	public void setMonNotes(String monNotes) {
+		this.monNotes = monNotes;
+	}
+	public String getTueSupplier() {
+		return tueSupplier;
+	}
+	public void setTueSupplier(String tueSupplier) {
+		this.tueSupplier = tueSupplier;
+	}
+	public String getTueCustomer() {
+		return tueCustomer;
+	}
+	public void setTueCustomer(String tueCustomer) {
+		this.tueCustomer = tueCustomer;
+	}
+	public String getTueNotes() {
+		return tueNotes;
+	}
+	public void setTueNotes(String tueNotes) {
+		this.tueNotes = tueNotes;
+	}
+	public String getWedSupplier() {
+		return wedSupplier;
+	}
+	public void setWedSupplier(String wedSupplier) {
+		this.wedSupplier = wedSupplier;
+	}
+	public String getWedCustomer() {
+		return wedCustomer;
+	}
+	public void setWedCustomer(String wedCustomer) {
+		this.wedCustomer = wedCustomer;
+	}
+	public String getWedNotes() {
+		return wedNotes;
+	}
+	public void setWedNotes(String wedNotes) {
+		this.wedNotes = wedNotes;
+	}
+	public String getThuSupplier() {
+		return thuSupplier;
+	}
+	public void setThuSupplier(String thuSupplier) {
+		this.thuSupplier = thuSupplier;
+	}
+	public String getThuCustomer() {
+		return thuCustomer;
+	}
+	public void setThuCustomer(String thuCustomer) {
+		this.thuCustomer = thuCustomer;
+	}
+	public String getThuNotes() {
+		return thuNotes;
+	}
+	public void setThuNotes(String thuNotes) {
+		this.thuNotes = thuNotes;
+	}
+	public String getFriSupplier() {
+		return friSupplier;
+	}
+	public void setFriSupplier(String friSupplier) {
+		this.friSupplier = friSupplier;
+	}
+	public String getFriCustomer() {
+		return friCustomer;
+	}
+	public void setFriCustomer(String friCustomer) {
+		this.friCustomer = friCustomer;
+	}
+	public String getFriNotes() {
+		return friNotes;
+	}
+	public void setFriNotes(String friNotes) {
+		this.friNotes = friNotes;
+	}
+	public String getSatSupplier() {
+		return satSupplier;
+	}
+	public void setSatSupplier(String satSupplier) {
+		this.satSupplier = satSupplier;
+	}
+	public String getSatCustomer() {
+		return satCustomer;
+	}
+	public void setSatCustomer(String satCustomer) {
+		this.satCustomer = satCustomer;
+	}
+	public String getSatNotes() {
+		return satNotes;
+	}
+	public void setSatNotes(String satNotes) {
+		this.satNotes = satNotes;
+	}
+	public String getSunSupplier() {
+		return sunSupplier;
+	}
+	public void setSunSupplier(String sunSupplier) {
+		this.sunSupplier = sunSupplier;
+	}
+	public String getSunCustomer() {
+		return sunCustomer;
+	}
+	public void setSunCustomer(String sunCustomer) {
+		this.sunCustomer = sunCustomer;
+	}
+	public String getSunNotes() {
+		return sunNotes;
+	}
+	public void setSunNotes(String sunNotes) {
+		this.sunNotes = sunNotes;
 	}
 	
 	
