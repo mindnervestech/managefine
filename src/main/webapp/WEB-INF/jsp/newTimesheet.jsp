@@ -131,7 +131,7 @@
 							id="timesheetRows_1__projectCode_field">
 							<label for="timesheetRows_1__projectCode"></label>
 							<div class="input">
-								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode)">
+								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
 									<option ng-repeat="project in projectList" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
@@ -145,7 +145,7 @@
 											name="timesheetRows[1].taskCode"
 											class="largeInput taskInput" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
-											<option ng-repeat="task in taskList" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
+											<option ng-repeat="task in taskListArray[$index]" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
 										</select>
 								<span class="help-inline"></span> <span class="help-block"></span>
 							</div>

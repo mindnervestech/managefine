@@ -218,7 +218,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
-					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 				}
 				
 				if(data.timesheetData.status == "Submitted") {
@@ -347,7 +347,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
-					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 				}
 				
 			} else {
@@ -417,7 +417,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 					console.log($scope.timesheetData);
 					
 					for(var i=0;i<$scope.timesheetData.length;i++) {
-						$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+						$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 						$scope.timesheetData[i].rowId = 0;
 					}
 					
@@ -735,12 +735,12 @@ app.controller("TimeSheetController", function($scope,$http) {
 		}
 	}
 	
-	
-	$scope.setTaskOfProject = function(projectId) {
+	$scope.taskListArray = [];
+	$scope.setTaskOfProject = function(projectId,index) {
 		
 		for(var i=0;i<$scope.projectList.length;i++) {
 			if($scope.projectList[i].id == projectId) {
-				$scope.taskList = $scope.projectList[i].tasklist;
+				$scope.taskListArray[index] = $scope.projectList[i].tasklist;
 			}
 		}
 	}
@@ -1780,7 +1780,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
-					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 				}
 				
 				if(data.timesheetData.status == "Submitted") {
@@ -1909,7 +1909,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
-					$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 				}
 				
 				
@@ -1982,7 +1982,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					$scope.isCopyFromLastweek = true;
 					
 					for(var i=0;i<$scope.timesheetData.length;i++) {
-						$scope.setTaskOfProject($scope.timesheetData[i].projectCode);
+						$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 						$scope.timesheetData[i].rowId = 0;
 					}
 					
@@ -2055,12 +2055,12 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$('#retractClose').click();
 	}
 	
-	
-	$scope.setTaskOfProject = function(projectId) {
+	$scope.taskListArray = [];
+	$scope.setTaskOfProject = function(projectId,index) {
 		console.log(projectId);
 		for(var i=0;i<$scope.projectList.length;i++) {
 			if($scope.projectList[i].id == projectId) {
-				$scope.taskList = $scope.projectList[i].tasklist;
+				$scope.taskListArray[index] = $scope.projectList[i].tasklist;
 			}
 		}
 	}
