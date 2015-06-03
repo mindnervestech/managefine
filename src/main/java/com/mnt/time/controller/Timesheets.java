@@ -405,7 +405,7 @@ public class Timesheets{
 			vmList.add(vm);
 		}
 		
-			/*List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+			List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
 			for(Projectinstance project : projectList) {
 				ProjectVM vm = new ProjectVM();
 				vm.projectCode = project.getProjectName();
@@ -434,7 +434,7 @@ public class Timesheets{
 				
 				vm.tasklist = taskVMList;
 				vmList.add(vm);
-			}*/
+			}
 		
 		map.put("projectList", vmList);
 		
