@@ -212,7 +212,11 @@ public class CreateProjectController {
 				
 				
 				projectinstance.update();
-				projectinstance.removeAllUser();
+				
+				Projectinstance.getProjectsOfUserDelerte(projectinstance.getId());
+				//projectinstance.removeAllUser();
+				
+				
 				List<User> uList = new ArrayList<User>();
 				if(memberValues != null)
 					for(String s:memberValues){
@@ -222,7 +226,8 @@ public class CreateProjectController {
 				projectinstance.setUser(uList);
 				projectinstance.saveManyToManyAssociations("user");
 
-				projectinstance.removeAllSupplier();
+				//projectinstance.removeAllSupplier();
+				Projectinstance.getProjectsOfSupplierDelerte(projectinstance.getId());
 				List<Supplier> sList = new ArrayList<Supplier>();
 				if(supplierValues != null)
 					for(String sid:supplierValues){
@@ -252,7 +257,8 @@ public class CreateProjectController {
 
 
 			projectinstancenode.save();
-			projectinstancenode.removeAllUser();
+			//projectinstancenode.removeAllUser();
+			Projectinstancenode.getProjectsinstanceNodeDelete(projectinstancenode.getId());
 			List<User> uList = new ArrayList<User>();
 			if(memberValues != null)
 				for(String s:memberValues){
@@ -305,7 +311,8 @@ public class CreateProjectController {
 				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
 				projectinstance.update();
 
-				projectinstance.removeAllUser();
+			//	projectinstance.removeAllUser();
+				Projectinstance.getProjectsOfUserDelerte(projectinstance.getId());
 				List<User> uList = new ArrayList<User>();
 				if(memberValues != null)
 					for(String s:memberValues){
@@ -315,7 +322,8 @@ public class CreateProjectController {
 				projectinstance.setUser(uList);
 				projectinstance.saveManyToManyAssociations("user");
 
-				projectinstance.removeAllSupplier();
+				//projectinstance.removeAllSupplier();
+				Projectinstance.getProjectsOfSupplierDelerte(projectinstance.getId());
 				List<Supplier> sList = new ArrayList<Supplier>();
 				if(supplierValues != null)
 					for(String sid:supplierValues){
@@ -339,7 +347,8 @@ public class CreateProjectController {
 			}
 			
 			projectinstancenode.update();
-			projectinstancenode.removeAllUser();
+			//projectinstancenode.removeAllUser();
+			projectinstancenode.getProjectsinstanceNodeDelete(projectinstancenode.getId());
 			List<User> uList = new ArrayList<User>();
 			if(memberValues != null)
 				for(String s:memberValues){

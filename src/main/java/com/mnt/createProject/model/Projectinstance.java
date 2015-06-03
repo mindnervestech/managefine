@@ -404,6 +404,18 @@ public class Projectinstance extends Model{
 		 return list;
 	}
 
-
+	public static void getProjectsOfUserDelerte(Long id) {
+		String sql = "DELETE FROM projectinstance_user WHERE projectinstance_id="+id;
+		SqlUpdate update = Ebean.createSqlUpdate(sql);
+		update.execute();
+		
+	}
+	
+	public static void getProjectsOfSupplierDelerte(Long id) {
+		String sql = "DELETE FROM projectinstance_supplier WHERE projectinstance_id="+id;
+		SqlUpdate update = Ebean.createSqlUpdate(sql);
+		update.execute();
+		
+	}
 	
 }

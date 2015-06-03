@@ -15,7 +15,9 @@ import models.Supplier;
 import models.User;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.SqlUpdate;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 @Entity
 public class Projectinstancenode extends Model{
@@ -197,5 +199,11 @@ public class Projectinstancenode extends Model{
 		return find.where().add(Expr.and(Expr.eq("Projectclassnode.id", pnodeid),Expr.and(Expr.eq("projectinstanceid", ptypeid), Expr.eq("status", status)))).findUnique();
 	}
 
+		public static void getProjectsinstanceNodeDelete(Long id) {
+			String sql = "DELETE FROM projectinstancenode_user WHERE projectinstancenode_id="+id;
+			SqlUpdate update = Ebean.createSqlUpdate(sql);
+			update.execute();
+			
+		}
 	
 }
