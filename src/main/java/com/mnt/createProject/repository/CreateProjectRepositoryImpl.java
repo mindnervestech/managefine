@@ -834,13 +834,14 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			
 				ProjectclassnodeVM pVm = new ProjectclassnodeVM();
 			    for(Projectinstancenode projectList: pList){
-				
-					if(projectclassnode.getId() == projectList.getProjectclassnode().getId()){
+			
+					if(projectclassnode.getId().equals(projectList.getProjectclassnode().getId())){ //projectList.getProjectclassnode().getId()){
 						pVm.setCompleted(projectList.getTaskCompilation());
 					
 						
 						long diff = projectList.getEndDate().getTime() - projectList.getStartDate().getTime();
 						long dayDiff1 = diff / (1000 * 60 * 60 * 24);
+							
 						
 						diff = dt.getTime() - projectList.getStartDate().getTime();
 						long dayDiff2 = diff / (1000 * 60 * 60 * 24);
