@@ -143,6 +143,7 @@ public class Client extends Model {
 	@Validation(required=true,digits=true)
     public String amount;
 	
+		
 	//Third Wizard
 	@WizardCardUI(name="Contact Point",step=3)
 	@UIFields(order=11,label="Salutation")
@@ -479,8 +480,6 @@ public class Client extends Model {
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-
-
 
 
 	static {

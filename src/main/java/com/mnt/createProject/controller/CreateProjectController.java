@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Client;
 import models.Supplier;
 import models.User;
 
@@ -208,6 +209,9 @@ public class CreateProjectController {
 				projectinstance.setStartDate(form.data().get("startDate"));
 				projectinstance.setEndDate(form.data().get("endDate"));
 				projectinstance.setProjectName(form.data().get("projectName"));
+				projectinstance.setClientId(Long.parseLong(form.data().get("customer")));
+				projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
+				
 				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
 				
 				
@@ -308,6 +312,9 @@ public class CreateProjectController {
 				projectinstance.setStartDate(form.data().get("startDate"));
 				projectinstance.setEndDate(form.data().get("endDate"));
 				projectinstance.setProjectName(form.data().get("projectName"));
+				projectinstance.setClientId(Long.parseLong(form.data().get("customer")));
+				projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
+
 				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
 				projectinstance.update();
 

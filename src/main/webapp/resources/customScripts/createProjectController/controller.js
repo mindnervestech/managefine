@@ -131,6 +131,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
         	case "edit":
         		
         		$rootScope.currentParentId = data.context.id;
+        		
     			$http({method:'GET',url:'/time/selectedUser',params:{mainInstance:$rootScope.MainInstance,projectId:data.context.id}}).success(function(response) {
     				console.log(response);
     				
@@ -161,12 +162,16 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 	    	    });
     			
     			
-    			
     			 $http({method:'GET',url:'/time/selectedSupplier',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
     		  	    	console.log(response);
     		  	    	$scope.findSelectedSupplier = response;
     		     	    });
     			
+    			 $http({method:'GET',url:'/time/findCliect'}).success(function(response) {
+     				console.log(response);
+     		    	$scope.findCliect = response;
+     		    });
+    			 
     			$http({method:'GET',url:'EditJspPage',params:{id:data.context.id,mainInstance:$rootScope.MainInstance}}).success(function(data) {
         			ngDialog.open({
             			template:data,

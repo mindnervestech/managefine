@@ -11,6 +11,8 @@ public class PartVM {
 	public Double suggestedResale;
 	public Double estimatedRevenue;
 	public String claimStatus;
+	public Long supplier;
+	public String leadTime;
 	
 	
 	public Long getId() {
@@ -56,9 +58,18 @@ public class PartVM {
 	public void setClaimStatus(String claimStatus) {
 		this.claimStatus = claimStatus;
 	}
-	
-	
-	
+	public Long getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(Long supplier) {
+		this.supplier = supplier;
+	}
+	public String getLeadTime() {
+		return leadTime;
+	}
+	public void setLeadTime(String leadTime) {
+		this.leadTime = leadTime;
+	}
 	
 	
 	

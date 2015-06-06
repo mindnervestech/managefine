@@ -22,6 +22,8 @@ public class ProjectsupportattributVM {
 	public String startDateLimit;
 	public String endDateLimit;
 	public String projectColor;
+	public Long customer;
+	public Long endCustomer;
 	public int level;
 	public Long thisNodeId;
 	public String comment;
@@ -151,6 +153,18 @@ public class ProjectsupportattributVM {
 	}
 	public void setUser(String user) {
 		this.user = user;
+	}
+	public Long getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Long customer) {
+		this.customer = customer;
+	}
+	public Long getEndCustomer() {
+		return endCustomer;
+	}
+	public void setEndCustomer(Long endCustomer) {
+		this.endCustomer = endCustomer;
 	}
 	
 	

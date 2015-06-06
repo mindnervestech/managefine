@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import models.Supplier;
+
 import play.db.ebean.Model;
 @Entity
 
@@ -20,6 +22,9 @@ public class DefinePart extends Model{
 	private Double suggestedResale;
 	private Double estimatedRevenue;
 	private String claimStatus;
+	private String leadTime;
+	@OneToOne
+	private Supplier supplier;
 	@OneToOne
 	private Projectinstance Projectinstance;
 	
@@ -111,8 +116,27 @@ public class DefinePart extends Model{
 	public void setClaimStatus(String claimStatus) {
 		this.claimStatus = claimStatus;
 	}
-
 	
+	public String getLeadTime() {
+		return leadTime;
+	}
+
+
+	public void setLeadTime(String leadTime) {
+		this.leadTime = leadTime;
+	}
+
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+
 	public static List<DefinePart> getPartByProject(Long projectId) {
 		return find.where().eq("Projectinstance.id", projectId).findList();
 	}

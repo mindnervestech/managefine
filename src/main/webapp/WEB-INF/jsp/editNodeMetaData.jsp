@@ -142,20 +142,6 @@
 									</div>
 								</div>
 								
-								<%-- <div class="col-md-6" style="margin-top: 15px;"
-									ng-if="${editNodeMetaData.level} == 0">
-									<label class="col-md-12">Project Manager</label>
-									<div class="col-md-12">
-										<select name="projectManager" ui-select2
-											ng-model="projectManagerData" style="width: 100%;" required>
-											<option ng-repeat="projectMinfo in findUser"
-												value="{{projectMinfo.id}}" required
-												ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}}</option>
-										</select>
-									</div>
-								</div> --%>
-								
-								
 								<div class="col-md-6" style="margin-top: 15px;">
 									<label class="col-md-12">Weightage*</label>
 									<div class="col-md-12">
@@ -175,6 +161,34 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="form-group" ng-if="${editNodeMetaData.level} == 0">
+							<div class="col-md-6" style="margin-top:15px;">
+									<label class="col-md-12">Customer</label>
+									<div class="col-md-12">
+										<select style="width: 100%;" name="customer"
+											placeholder="Select Customer." required>
+											<option value="">-select-</option>
+											<option ng-repeat="clientinfo in findCliect"
+												value="{{clientinfo.id}}" ng-selected="${editNodeMetaData.customer} == clientinfo.id">{{clientinfo.clientName}}</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="col-md-6" style="margin-top:15px;">
+									<label class="col-md-12">End Customer</label>
+									<div class="col-md-12">
+										<select style="width: 100%;" name="endCustomer" 
+											placeholder="Select Customer." required>
+											<option value="">-select-</option>
+											<option ng-repeat="clientinfo in findCliect"
+												value="{{clientinfo.id}}" ng-selected="${editNodeMetaData.endCustomer} == clientinfo.id">{{clientinfo.clientName}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							
+							
 							<div class="form-group">
 								<div class="col-md-6" style="margin-top: 15px;"
 									ng-if="${editNodeMetaData.level} == 0">
@@ -308,7 +322,7 @@
 										
 					      			  </select>	
 				   				  </div>
-				   				  <div class="col-md-2" style="width: 120px;">
+				   				  <div class="col-md-2" style="width: 83px;padding: 0px;">
 									  <div class="col-md-12">
 						
 								         <label>AnnQty</label>
@@ -318,7 +332,7 @@
 					   						  <input type="text" class="col-md-12" name="annualQty{{$index}}"  ng-change="calculatestimat(find.annualQty,find.suggestedResale,$index)" data-ng-model="find.annualQty">
 					    			  </div>
 								  </div>
-								   <div class="col-md-2" style="width: 120px;">
+								   <div class="col-md-2" style="width: 83px;padding: 0px;">
 									  <div class="col-md-12">
 						
 								         <label>CPrice</label>
@@ -328,7 +342,7 @@
 					   						  <input type="text" class="col-md-12" name="costPrice{{$index}}" data-ng-model="find.costPrice">
 					    			  </div>
 								  </div>
-								   <div class="col-md-2" style="width: 120px;">
+								   <div class="col-md-2" style="width: 83px;padding: 0px;">
 									  <div class="col-md-12">
 						
 								         <label>SugResale </label>
@@ -338,10 +352,10 @@
 					   						  <input type="text" class="col-md-12" name="suggestedResale{{$index}}" ng-change="calculatestimat(find.annualQty,find.suggestedResale,$index)" data-ng-model="find.suggestedResale">
 					    			  </div>
 								  </div>
-								  <div class="col-md-2" style="width: 130px;">
+								  <div class="col-md-2" style="width: 85px;padding: 0px;">
 									  <div class="col-md-12">
 						
-								         <label>EstRevenue </label>
+								         <label>EstRev </label>
 				    				  </div>
 				       				  <div class="col-md-12">
 				         
@@ -349,7 +363,30 @@
 					    			  </div>
 								  </div>
 								  
-								  <div class="col-md-2" style="width: 164px;">
+								   <div class="col-md-2" style="width: 120px;padding: 0px;">
+									  <div class="col-md-12">
+						
+								         <label>Supplier </label>
+				    				  </div>
+				       				  <select class="col-md-12" name="supplier{{$index}}" data-ng-model="find.supplier" placeholder="Select Supplier" style="padding: 0px;">
+										<option ng-repeat="supplierinfo in findSupplier"
+												value="{{supplierinfo.id}}" ng-selected="supplierinfo.id == find.supplier">{{supplierinfo.supplierName}}</option>
+										
+					      			  </select>	
+								  </div>
+								  
+								   <div class="col-md-2" style="width: 85px;padding: 0px;">
+									  <div class="col-md-12">
+						
+								         <label>LTime </label>
+				    				  </div>
+				       				  <div class="col-md-12">
+				         
+					   						  <input type="text" class="col-md-12" name=" leadTime{{$index}}" data-ng-model="find.leadTime">
+					    			  </div>
+								  </div>
+								  
+								  <div class="col-md-2" style="width: 110px;padding: 0px;">
 									  <div class="col-md-12">
 						
 								         <label>Claim Status</label>

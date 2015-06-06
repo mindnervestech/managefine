@@ -78,6 +78,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			pVm.setProjectDescription(projectclassnode.getProjectDescription());
 		}
 		
+		
 		pVm.setProjectColor(projectclassnode.getProjectColor());
 		pVm.setProjectId(projectclassnode.getProjectId().getId());
 		pVm.setParentId(projectclassnode.getParentId());
@@ -85,6 +86,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setThisNodeId(id);
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
+		pVm.setCustomer(projectinstance.getClientId());
+		pVm.setEndCustomer(projectinstance.getEndCustomer().getId());
 		if(projectinstance.getProjectManager() != null){
 			pVm.setProjectManager(projectinstance.getProjectManager().getId().toString());
 		}
@@ -698,6 +701,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			dPart.setSuggestedResale(pvm.getSuggestedResale());
 			dPart.setPartNo(ProjectPart.findById(pvm.getPartNo()));
 			dPart.setClaimStatus(pvm.getClaimStatus());
+			dPart.setLeadTime(pvm.getLeadTime());
+			dPart.setSupplier(Supplier.findById(pvm.getSupplier()));
 			dPart.setProjectinstance(Projectinstance.findById(Long.parseLong(dpVm.projectId)));
 			
 			dPart.save();
@@ -718,7 +723,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		DefinePartVM dVm = new DefinePartVM();
 		Projectinstance projectinstance = Projectinstance.getById(projectId);
+		if(projectinstance.getTotalEstimatedRevenue() != null){
 		dVm.setTotalEstimatedRevenue(projectinstance.getTotalEstimatedRevenue().toString());
+		}
 		List<DefinePart> dPart = DefinePart.getPartByProject(projectId);
 		List<PartVM> partVMs = new ArrayList<>();
 		for(DefinePart dp:dPart){
@@ -730,6 +737,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			pVm.setPartNo(dp.getPartNo().getId());
 			pVm.setId(dp.getPartNo().getId());
 			pVm.setSuggestedResale(dp.getSuggestedResale());
+			pVm.setLeadTime(dp.getLeadTime());
+			pVm.setSupplier(dp.getSupplier().getId());
 			partVMs.add(pVm);
 		}
 		dVm.setPartsValue(partVMs);
