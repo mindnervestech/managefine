@@ -475,13 +475,7 @@ public class Client extends Model {
 		this.randDsecondCellNo = randDsecondCellNo;
 	}
 
-	public String getrAndDsecondCellNo() {
-		return rAndDsecondCellNo;
-	}
-
-	public void setrAndDsecondCellNo(String rAndDsecondCellNo) {
-		this.rAndDsecondCellNo = rAndDsecondCellNo;
-	}
+	
 
 	public String getMailIdOfRandDsecondHead() {
 		return mailIdOfRandDsecondHead;

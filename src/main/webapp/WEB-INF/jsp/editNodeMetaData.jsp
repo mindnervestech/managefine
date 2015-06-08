@@ -99,10 +99,7 @@
 													data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
 											</ul>
 										</div>
-										<%-- <input type="date" name="startDate" style="width: 100%;"
-										value='${editNodeMetaData.startDate}' required /> <label
-										style="color: red" ng-if="projectT == 1">type is
-										required</label> --%>
+										
 									</div>
 								</div>
 								<div class="col-md-6" style="margin-top: 15px;">
@@ -244,8 +241,18 @@
 												<c:choose>
 													<c:when test="${pValue.type == 'Date'}">
 														<div class="col-md-12">
-															<input type="date" value='${pValue.attriValue}'
-																name="${pValue.name}" />
+															<%-- <input type="date" value='${pValue.attriValue}'
+																name="${pValue.name}" /> --%>
+													
+												<div class="input-append date" id="dp_${pValue.name}" data-date="${pValue.attriValue}" data-date-format="dd-mm-yyyy">
+												  <input class="span2" size="16" type="text" name="${pValue.name}" value="${pValue.attriValue}">
+												  <span class="add-on"><i class="icon-th"></i></span>
+												</div>		
+										         <script>
+										            $('#dp_${pValue.name}').datepicker();
+										         </script>
+										
+														
 														</div>
 													</c:when>
 													<c:when test="${pValue.type == 'Integer'}">
