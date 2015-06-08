@@ -42,6 +42,7 @@ public class Client extends Model {
 	@UIFields(order=0,label="id",hidden=true)
 	public Long id;
 	
+		
 	//first Wizard
 	@SearchColumnOnUI(rank=1,colName="Customer Name")
 	@SearchFilterOnUI(label="Customer Name")
@@ -86,17 +87,7 @@ public class Client extends Model {
 	@UIFields(order=8,label="Street")
 	public String street;
 	
-	/*@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=7,label="City")
-	@Validation(required=true)
-	public String city;
 	
-	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=8,label="Country")
-	@SearchFilterOnUI(label="Country")
-	@SearchColumnOnUI(rank=4,colName="Country")
-	@Validation(required=true)
-	public String country;*/
 	
 	@WizardCardUI(name="Personal Info",step=2)
 	@UIFields(order=9,label=COUNTRY, autocomplete=true)
@@ -143,7 +134,87 @@ public class Client extends Model {
 	@Validation(required=true,digits=true)
     public String amount;
 	
-		
+	/*@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=16,label="Sagment ")
+    public String sagment;*/
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=16,label="subsagment ")
+    public String subsagment;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=17,label="Number of Employees ")
+    public String numberOfEmployees;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=18,label="Estabilshment year")
+    public String estabilshmentYear;
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=19,label="Company Registration Nos")
+    public String companyRegistrationNos;
+	
+	/*@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=20,label="Capital")
+    public String capital;*/
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=20,label="Tier Large, Medium, Small")
+    public String tierLargeMediumSmall;
+	
+	/*@WizardCardUI(name="Factory",step=2)
+	@UIFields(order=21,label="Factory Address")
+    public String factoryAddres;*/
+	
+	
+	@WizardCardUI(name="Factory ",step=2)
+	@UIFields(order=1,label="Production Head Name")
+    public String productionHeadName;
+	
+	@WizardCardUI(name="Factory ",step=2)
+	@UIFields(order=2,label="Mail Id of Production  Head")
+    public String mailIdOfProductionHead;
+	
+	@WizardCardUI(name="Factory ",step=2)
+	@UIFields(order=3,label="Average stay with Company ")
+    public String averageStayWithCompany ;
+	
+	
+	@WizardCardUI(name="Design",step=2)
+	@UIFields(order=1,label="R&D Head Name")
+    public String randDheadName;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=2,label="R&D Head Cell nos")
+    public String randDno;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=2,label="Mail Id of R&D Head")
+    public String mailIdOfRandDhead ;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=3,label="Average stay with Company")
+    public String averageStayWithCompanyDesign;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=4,label="R&D Second Name")
+    public String randDsecondName ;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=5,label="R&D Second Cell nos")
+    public String randDsecondCellNo ;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=6,label="Mail Id of R&D Second Head")
+    public String mailIdOfRandDsecondHead;
+	
+	@WizardCardUI(name="Design ",step=2)
+	@UIFields(order=7,label="Average stay with Company")
+    public String averageStayWithCompanyRandDsecond;
+	
+	
+	
+
 	//Third Wizard
 	@WizardCardUI(name="Contact Point",step=3)
 	@UIFields(order=11,label="Salutation")
@@ -251,12 +322,182 @@ public class Client extends Model {
 		this.id = id;
 	}
 
+	
 	public String getClientName() {
 		return clientName;
 	}
 
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
+	}
+
+	public String getSubsagment() {
+		return subsagment;
+	}
+
+	public void setSubsagment(String subsagment) {
+		this.subsagment = subsagment;
+	}
+	
+	public String getNumberOfEmployees() {
+		return numberOfEmployees;
+	}
+
+	public void setNumberOfEmployees(String numberOfEmployees) {
+		this.numberOfEmployees = numberOfEmployees;
+	}
+
+	public String getEstabilshmentYear() {
+		return estabilshmentYear;
+	}
+
+	public void setEstabilshmentYear(String estabilshmentYear) {
+		this.estabilshmentYear = estabilshmentYear;
+	}
+	
+	public String getCompanyRegistrationNos() {
+		return companyRegistrationNos;
+	}
+
+	public void setCompanyRegistrationNos(String companyRegistrationNos) {
+		this.companyRegistrationNos = companyRegistrationNos;
+	}
+	
+
+	/*public String getCapital() {
+		return capital;
+	}
+
+	public void setCapital(String capital) {
+		this.capital = capital;
+	}
+*/
+	public String getTierLargeMediumSmall() {
+		return tierLargeMediumSmall;
+	}
+
+	public void setTierLargeMediumSmall(String tierLargeMediumSmall) {
+		this.tierLargeMediumSmall = tierLargeMediumSmall;
+	}
+	
+	/*public String getFactoryAddres() {
+		return factoryAddres;
+	}
+
+	public void setFactoryAddres(String factoryAddres) {
+		this.factoryAddres = factoryAddres;
+	}*/
+
+	public String getProductionHeadName() {
+		return productionHeadName;
+	}
+
+	public void setProductionHeadName(String productionHeadName) {
+		this.productionHeadName = productionHeadName;
+	}
+
+	public String getMailIdOfProductionHead() {
+		return mailIdOfProductionHead;
+	}
+
+	public void setMailIdOfProductionHead(String mailIdOfProductionHead) {
+		this.mailIdOfProductionHead = mailIdOfProductionHead;
+	}
+
+	public String getAverageStayWithCompany() {
+		return averageStayWithCompany;
+	}
+
+	public void setAverageStayWithCompany(String averageStayWithCompany) {
+		this.averageStayWithCompany = averageStayWithCompany;
+	}
+
+	
+	
+	
+	public String getRandDheadName() {
+		return randDheadName;
+	}
+
+	public void setRandDheadName(String randDheadName) {
+		this.randDheadName = randDheadName;
+	}
+
+	
+	
+	/*public String getrAndDno() {
+		return rAndDno;
+	}
+
+	public void setrAndDno(String rAndDno) {
+		this.rAndDno = rAndDno;
+	}*/
+
+	public String getMailIdOfRandDhead() {
+		return mailIdOfRandDhead;
+	}
+
+	public void setMailIdOfRandDhead(String mailIdOfRandDhead) {
+		this.mailIdOfRandDhead = mailIdOfRandDhead;
+	}
+
+	public String getAverageStayWithCompanyDesign() {
+		return averageStayWithCompanyDesign;
+	}
+
+	public void setAverageStayWithCompanyDesign(String averageStayWithCompanyDesign) {
+		this.averageStayWithCompanyDesign = averageStayWithCompanyDesign;
+	}
+
+	
+
+	public String getRandDno() {
+		return randDno;
+	}
+
+	public void setRandDno(String randDno) {
+		this.randDno = randDno;
+	}
+
+	public String getRandDsecondName() {
+		return randDsecondName;
+	}
+
+	public void setRandDsecondName(String randDsecondName) {
+		this.randDsecondName = randDsecondName;
+	}
+
+	public String getRandDsecondCellNo() {
+		return randDsecondCellNo;
+	}
+
+	public void setRandDsecondCellNo(String randDsecondCellNo) {
+		this.randDsecondCellNo = randDsecondCellNo;
+	}
+
+	public String getrAndDsecondCellNo() {
+		return rAndDsecondCellNo;
+	}
+
+	public void setrAndDsecondCellNo(String rAndDsecondCellNo) {
+		this.rAndDsecondCellNo = rAndDsecondCellNo;
+	}
+
+	public String getMailIdOfRandDsecondHead() {
+		return mailIdOfRandDsecondHead;
+	}
+
+	public void setMailIdOfRandDsecondHead(String mailIdOfRandDsecondHead) {
+		this.mailIdOfRandDsecondHead = mailIdOfRandDsecondHead;
+	}
+
+	public String getAverageStayWithCompanyRandDsecond() {
+		return averageStayWithCompanyRandDsecond;
+	}
+
+	public void setAverageStayWithCompanyRandDsecond(
+			String averageStayWithCompanyRandDsecond) {
+		this.averageStayWithCompanyRandDsecond = averageStayWithCompanyRandDsecond;
 	}
 
 	public String getPhoneNo() {
@@ -480,6 +721,7 @@ public class Client extends Model {
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
+	
 
 
 	static {
