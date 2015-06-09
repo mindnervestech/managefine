@@ -24,6 +24,8 @@ public class DefinePart extends Model{
 	private String claimStatus;
 	private String leadTime;
 	@OneToOne
+	private Pits pits;
+	@OneToOne
 	private Supplier supplier;
 	@OneToOne
 	private Projectinstance Projectinstance;
@@ -134,6 +136,16 @@ public class DefinePart extends Model{
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+
+
+	public Pits getPits() {
+		return pits;
+	}
+
+
+	public void setPits(Pits pits) {
+		this.pits = pits;
 	}
 
 

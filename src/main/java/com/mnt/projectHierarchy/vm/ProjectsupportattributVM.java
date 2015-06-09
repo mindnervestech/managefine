@@ -29,6 +29,19 @@ public class ProjectsupportattributVM {
 	public String comment;
 	public Long taskCompilation;
 	public int weightage;
+	public String opportunityNo;
+	public String createdDate;
+	public String region;
+	public String endCustomerLocation;
+	public String projectNameApplication;
+	public String productionDate;
+	public String productLifeTime;
+	public String supplierRegistion;
+	public String projectLastUpdate;
+	public String serialNo;
+	public String supplierFae;
+	public String supplierSaleperson;
+	public String projectWin;
 	public List<ProjectclassnodeattributVM> projectValue;
 	public List<ProjectAttachmentVM> projectAttachment;
 	public List<ProjectCommentVM> projectcomments;
@@ -165,6 +178,84 @@ public class ProjectsupportattributVM {
 	}
 	public void setEndCustomer(Long endCustomer) {
 		this.endCustomer = endCustomer;
+	}
+	public String getOpportunityNo() {
+		return opportunityNo;
+	}
+	public void setOpportunityNo(String opportunityNo) {
+		this.opportunityNo = opportunityNo;
+	}
+	public String getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	public String getEndCustomerLocation() {
+		return endCustomerLocation;
+	}
+	public void setEndCustomerLocation(String endCustomerLocation) {
+		this.endCustomerLocation = endCustomerLocation;
+	}
+	public String getProjectNameApplication() {
+		return projectNameApplication;
+	}
+	public void setProjectNameApplication(String projectNameApplication) {
+		this.projectNameApplication = projectNameApplication;
+	}
+	public String getProductionDate() {
+		return productionDate;
+	}
+	public void setProductionDate(String productionDate) {
+		this.productionDate = productionDate;
+	}
+	public String getProductLifeTime() {
+		return productLifeTime;
+	}
+	public void setProductLifeTime(String productLifeTime) {
+		this.productLifeTime = productLifeTime;
+	}
+	public String getSupplierRegistion() {
+		return supplierRegistion;
+	}
+	public void setSupplierRegistion(String supplierRegistion) {
+		this.supplierRegistion = supplierRegistion;
+	}
+	public String getProjectLastUpdate() {
+		return projectLastUpdate;
+	}
+	public void setProjectLastUpdate(String projectLastUpdate) {
+		this.projectLastUpdate = projectLastUpdate;
+	}
+	public String getSerialNo() {
+		return serialNo;
+	}
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+	public String getSupplierFae() {
+		return supplierFae;
+	}
+	public void setSupplierFae(String supplierFae) {
+		this.supplierFae = supplierFae;
+	}
+	public String getSupplierSaleperson() {
+		return supplierSaleperson;
+	}
+	public void setSupplierSaleperson(String supplierSaleperson) {
+		this.supplierSaleperson = supplierSaleperson;
+	}
+	public String getProjectWin() {
+		return projectWin;
+	}
+	public void setProjectWin(String projectWin) {
+		this.projectWin = projectWin;
 	}
 	
 	

@@ -13,7 +13,7 @@
 
 <div id="myModal" role="dialog" aria-labelledby="myModalLabel"
 	aria-hidden="true"
-	style="width: 80%; margin-left: 10%; display: block;">
+	style="width: 90%; margin-left: 5%; display: block;">
 	<div class="modal-dialog" style="width: 100%; height: 100%;">
 		<div class="modal-content" style="width: 100%; height: 100%;">
 			<div class="modal-header" style="background: #005580; color: white;height: 43px;padding: 3px;">
@@ -46,7 +46,7 @@
 			<div class="tabs">
 				<ul class="tab-links">
 					<li class="active"><a href="#tab1" data-toggle="tab">Project</a></li>
-					<li><a href="#tab2" ng-click="defineParts()" ng-if="${editNodeMetaData.level == 0}" data-toggle="tab">Define Parts</a></li> 
+					<li><a href="#tab2"  ng-if="${editNodeMetaData.level == 0}" data-toggle="tab">Define Parts</a></li> 
 					<li><a href="#tab3" ng-click="history()" data-toggle="tab">History</a></li>
 					<li style="margin-left: 323px;font-size: 19px;color: #0044cc;margin-top: 6px;">Total Eestimated Revenue : {{totalEstimat}}</li>
 				</ul>
@@ -94,7 +94,7 @@
 											</a>
 											<ul class="dropdown-menu" role="menu"
 												aria-labelledby="dLabel"
-												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}')">
+												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
 												<datetimepicker data-ng-model="data.startDate"
 													data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
 											</ul>
@@ -120,8 +120,6 @@
 													data-datetimepicker-config="{ dropdownSelector: '#dropdownendDate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
 											</ul>
 										</div>
-										<%-- <input type="date" name="endDate" style="width: 100%;"
-										value='${editNodeMetaData.endDate}' required  /> --%>
 									</div>
 								</div>
 							</div>
@@ -185,7 +183,6 @@
 								</div>
 							</div>
 							
-							
 							<div class="form-group">
 								<div class="col-md-6" style="margin-top: 15px;"
 									ng-if="${editNodeMetaData.level} == 0">
@@ -212,6 +209,194 @@
 								<div style="display: none;" id="closeDialog"
 									ng-click="closeThisDialog()"></div>
 							</div>
+							<div ng-if="${editNodeMetaData.level == 0}">
+								<div class="form-group">
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label class="col-md-12">Opportunity No :</label>
+									<div class="col-md-12">
+										<input type="text" name="opportunityNo"
+											value='${editNodeMetaData.opportunityNo}' style="width: 100%;"> 
+									</div>
+								</div>
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label for="org-type" class="col-md-12">CreatedDate :</label>
+									<div class="col-md-6">
+										<div class="dropdown">
+											<a class="dropdown-toggle" id="dropdowncreatedDate" role="button"
+												data-toggle="dropdown" data-target="#" href="#">
+												<div class="input-group">
+													<input type="text" class="form-control" name="createdDate"
+														value="{{data.createdDate | date:'dd-MM-yyyy'}}">
+												</div>
+											</a>
+											<ul class="dropdown-menu" role="menu"
+												aria-labelledby="dLabel">
+												<datetimepicker data-ng-model="data.createdDate"
+													data-datetimepicker-config="{dropdownSelector: '#dropdowncreatedDate',minView: 'day'}" />
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							
+							<div class="form-group" style="float: left; width: 100%;">
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label class="col-md-12">Region :</label>
+									<div class="col-md-12">
+									<select name="region" 
+											 style="width: 100%;">
+											<option	value="North" <c:if test="${editNodeMetaData.region eq 'North'}">Selected</c:if>>North</option>
+											<option	value="South" <c:if test="${editNodeMetaData.region eq 'South'}">Selected</c:if>>South</option>
+											<option	value="West" <c:if test="${editNodeMetaData.region eq 'West'}">Selected</c:if>>West</option>
+											<option	value="Asean" <c:if test="${editNodeMetaData.region eq 'Asean'}">Selected</c:if>>Asean</option>
+										</select>
+										<%-- <input type="text" name="region"
+											value='${editNodeMetaData.projectTypes}' style="width: 100%;">  --%>
+									</div>
+								</div>
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label for="org-type" class="col-md-12">End Customer Location :</label>
+									<div class="col-md-12">
+										<input type="text" name="endCustomerLocation"
+											value='${editNodeMetaData.endCustomerLocation}' style="width: 100%;"> 
+									</div>
+								</div>
+							</div>
+							<!-- ------------------ -->
+							
+							<div class="form-group" style="float: left; width: 100%;">
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label class="col-md-12">Project Name/ Application :</label>
+									<div class="col-md-12">
+										<select name="projectNameApplication" 
+											 style="width: 100%;">
+											 <option value="VTS" <c:if test="${editNodeMetaData.projectNameApplication eq 'VTS'}">Selected</c:if>>VTS</option>
+											<option	value="Energy Meter" <c:if test="${editNodeMetaData.projectNameApplication eq 'Energy Meter'}">Selected</c:if>>Energy Meter</option>
+											<option	value="Medical" <c:if test="${editNodeMetaData.projectNameApplication eq 'Medical'}">Selected</c:if>>Medical</option>
+											
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label for="org-type" class="col-md-12">Production Date :</label>
+									<div class="col-md-6">
+										<div class="dropdown">
+											<a class="dropdown-toggle" id="dropdownproductionDate" role="button"
+												data-toggle="dropdown" data-target="#" href="#">
+												<div class="input-group">
+													<input type="text" class="form-control" name="productionDate"
+														value="{{data.productionDate | date:'dd-MM-yyyy'}}">
+												</div>
+											</a>
+											<ul class="dropdown-menu" role="menu"
+												aria-labelledby="dLabel">
+												<datetimepicker data-ng-model="data.productionDate"
+													data-datetimepicker-config="{dropdownSelector: '#dropdownproductionDate',minView: 'day'}" />
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<div class="col-md-6">
+									<label class="col-md-12">Product Lifetime :</label>
+									<div class="col-md-12">
+									<select name="productLifeTime" 
+											 style="width: 100%;">
+											<option	value="1yr" <c:if test="${editNodeMetaData.productLifeTime eq '1yr'}">Selected</c:if>>1 yr</option>
+											<option	value="2yrs" <c:if test="${editNodeMetaData.productLifeTime eq '2yrs'}">Selected</c:if>>2 yrs</option>
+											<option	value="3yrs" <c:if test="${editNodeMetaData.productLifeTime eq '3yrs'}">Selected</c:if>>3 yrs</option>
+											<option	value="4yrs" <c:if test="${editNodeMetaData.productLifeTime eq '4yrs'}">Selected</c:if>>4 yrs</option>
+											<option	value="5yrs" <c:if test="${editNodeMetaData.productLifeTime eq '5yrs'}">Selected</c:if>>5 yrs</option>
+											<option	value="MoreThen5yrs" <c:if test="${editNodeMetaData.productLifeTime eq 'MoreThen5yrs'}">Selected</c:if>>More then 5 yrs</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="org-type" class="col-md-12">Supplier Registation :</label>
+									<div class="col-md-12">
+										<select name="supplierRegistion" 
+											 style="width: 100%;">
+											<option	value="Yes" <c:if test="${editNodeMetaData.supplierRegistion eq 'Yes'}">Selected</c:if>>Yes</option>
+											<option	value="No" <c:if test="${editNodeMetaData.supplierRegistion eq 'No'}">Selected</c:if>>No</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+							<div class="col-md-6" style="margin-top: 15px;">
+									<label for="org-type" class="col-md-12">Project Last Updated :</label>
+									<div class="col-md-6">
+										<div class="dropdown">
+											<a class="dropdown-toggle" id="dropdownprojectLastUpdate" role="button"
+												data-toggle="dropdown" data-target="#" href="#">
+												<div class="input-group">
+													<input type="text" class="form-control" name="projectLastUpdate"
+														value="{{data.projectLastUpdate | date:'dd-MM-yyyy'}}">
+												</div>
+											</a>
+											<ul class="dropdown-menu" role="menu"
+												aria-labelledby="dLabel">
+												<datetimepicker data-ng-model="data.projectLastUpdate"
+													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day'}" />
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-md-12">Serial No. :</label>
+									<div class="col-md-12">
+										<input type="text" name="serialNo"
+											value='${editNodeMetaData.serialNo}' style="width: 100%;"> 
+									</div>
+								</div>
+								
+							</div>
+							<div class="form-group" style="float: left;width: 100%;">
+								<div class="col-md-6" style="margin-top: 15px;">
+									<label class="col-md-12">Project Win :</label>
+									<div class="col-md-12">
+										<input type="radio" name="projectWin" value="Yes" checked="<c:if test="${editNodeMetaData.projectWin eq 'Yes'}">checked</c:if>"> Yes
+										<input type="radio" name="projectWin" value="InProgress" checked="<c:if test="${editNodeMetaData.projectWin eq 'InProgress'}">checked</c:if>"> InProgress
+										<input type="radio" name="projectWin" value="No" checked="<c:if test="${editNodeMetaData.projectWin eq 'No'}">checked</c:if>"> No
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="org-type" class="col-md-12">Supplier FAE :</label>
+									<div class="col-md-12">
+										<select name="supplierFae" 
+											 style="width: 100%;">
+											<option	value="Shailendra Vengurlekar" <c:if test="${editNodeMetaData.supplierFae eq 'Shailendra Vengurlekar'}">Selected</c:if>>Shailendra Vengurlekar</option>
+											<option	value="Prashant Devasthale" <c:if test="${editNodeMetaData.supplierFae eq 'Prashant Devasthale'}">Selected</c:if>>Prashant Devasthale</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-md-6">
+									<label class="col-md-12">Supplier Salesperson :</label>
+									<div class="col-md-12">
+									<select name="supplierSaleperson" 
+											 style="width: 100%;">
+											<option	value="Parag Kulkarni" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Parag Kulkarni'}">Selected</c:if>>Parag Kulkarni</option>
+											<option	value="Ajit Bapat" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Ajit Bapat'}">Selected</c:if>>Ajit Bapat</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-md-12"></label>
+									<div class="col-md-12">
+									
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<!-- -------------------------- -->
+							
 
 							<input size="16" type="text"
 								value='${editNodeMetaData.projectTypes}'
@@ -241,16 +426,14 @@
 												<c:choose>
 													<c:when test="${pValue.type == 'Date'}">
 														<div class="col-md-12">
-															<%-- <input type="date" value='${pValue.attriValue}'
-																name="${pValue.name}" /> --%>
 													
 												<div class="input-append date" id="dp_${pValue.name}" data-date="${pValue.attriValue}" data-date-format="dd-mm-yyyy">
 												  <input class="span2" size="16" type="text" name="${pValue.name}" value="${pValue.attriValue}">
 												  <span class="add-on"><i class="icon-th"></i></span>
 												</div>		
-										         <script>
+										          <script>
 										            $('#dp_${pValue.name}').datepicker();
-										         </script>
+										         </script> 
 										
 														
 														</div>
@@ -407,6 +590,17 @@
 										
 					      			  </select>	
 					    			  </div>
+								  </div>
+								   <div class="col-md-2" style="width: 120px;padding: 0px;">
+									  <div class="col-md-12">
+						
+								         <label>PITS</label>
+				    				  </div>
+				       				  <select class="col-md-12" name="supplier{{$index}}" data-ng-model="find.pits" placeholder="Select Supplier" style="padding: 0px;">
+										<option ng-repeat="pitsinfo in findPits"
+												value="{{pitsinfo.id}}" ng-selected="pitsinfo.id == find.pits">{{pitsinfo.pitsName}}</option>
+										
+					      			  </select>	
 								  </div>
 				   				 
 				   				   <div class="col-md-1" style="width: 66px;">

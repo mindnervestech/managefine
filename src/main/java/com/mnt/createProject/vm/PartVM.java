@@ -13,6 +13,7 @@ public class PartVM {
 	public String claimStatus;
 	public Long supplier;
 	public String leadTime;
+	public Long pits;
 	
 	
 	public Long getId() {
@@ -69,6 +70,12 @@ public class PartVM {
 	}
 	public void setLeadTime(String leadTime) {
 		this.leadTime = leadTime;
+	}
+	public Long getPits() {
+		return pits;
+	}
+	public void setPits(Long pits) {
+		this.pits = pits;
 	}
 	
 	

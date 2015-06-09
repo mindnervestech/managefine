@@ -29,10 +29,16 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 	buttons.push(new primitives.orgdiagram.ButtonConfig("edit", "ui-icon-gear", "Edit"));
 	buttons.push(new primitives.orgdiagram.ButtonConfig("editInfo", "ui-icon-close", "EditInfo"));
 	$scope.data = {};
-    $scope.initDate = function (startTime, endTime) {
+    $scope.initDate = function (startTime, endTime,createdDate,productionDate,projectLastUpdate) {
     	console.log("endTime" + endTime) ;
+    
+       	
     	$scope.data.startDate = new Date(moment(startTime,"YYYY-MM-DD")); 
     	$scope.data.endDate =	new Date(moment(endTime,"YYYY-MM-DD"));
+    	$scope.data.createdDate =	createdDate;
+    	$scope.data.productionDate =	productionDate;
+    	$scope.data.projectLastUpdate =	projectLastUpdate;
+    	console.log($scope.data);
     		
     }
 	$scope.myOptions = {
@@ -401,7 +407,10 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
   	    	
   	    });
     	  
-    	 
+    	 $http({method:'GET',url:'/time/findPits'}).success(function(response) {
+  	    	$scope.findPits = response;
+  	    	console.log($scope.findPits);
+  	    });
     	    
     	    $http({method:'GET',url:'/time/findUser'}).success(function(response) {
     	    	console.log(response);
@@ -467,6 +476,13 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	
     
     }
+    
+   /* $scope.defineParts = function(){
+    	 $http({method:'GET',url:'/time/findPits'}).success(function(response) {
+ 	    	$scope.findPits = response;
+ 	    	console.log($scope.findPits);
+ 	    });
+    }*/
     
    $scope.downloadfile = function(id){
 	   

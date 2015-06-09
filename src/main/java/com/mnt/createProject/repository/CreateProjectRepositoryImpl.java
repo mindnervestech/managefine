@@ -28,6 +28,7 @@ import play.data.DynamicForm;
 import com.avaje.ebean.SqlRow;
 import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.DefinePart;
+import com.mnt.createProject.model.Pits;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.ProjectComment;
 import com.mnt.createProject.model.ProjectPart;
@@ -88,6 +89,19 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 		pVm.setCustomer(projectinstance.getClientId());
 		pVm.setEndCustomer(projectinstance.getEndCustomer().getId());
+		pVm.setOpportunityNo(projectinstance.getOpportunityNo());
+		pVm.setCreatedDate(projectinstance.getCreatedDate());
+		pVm.setRegion(projectinstance.getRegion());
+		pVm.setEndCustomerLocation(projectinstance.getEndCustomerLocation());
+		pVm.setProjectNameApplication(projectinstance.getProjectNameApplication());
+		pVm.setProductLifeTime(projectinstance.getProductLifeTime());
+		pVm.setSupplierRegistion(projectinstance.getSupplierRegistion());
+		pVm.setProjectLastUpdate(projectinstance.getProjectLastUpdate());
+		pVm.setSerialNo(projectinstance.getSerialNo());
+		pVm.setSupplierFae(projectinstance.getSupplierFae());
+		pVm.setProductionDate(projectinstance.getProductionDate());
+		pVm.setSupplierSaleperson(projectinstance.getSupplierSaleperson());
+		pVm.setProjectWin(projectinstance.getProjectWin());
 		if(projectinstance.getProjectManager() != null){
 			pVm.setProjectManager(projectinstance.getProjectManager().getId().toString());
 		}
@@ -703,6 +717,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			dPart.setClaimStatus(pvm.getClaimStatus());
 			dPart.setLeadTime(pvm.getLeadTime());
 			dPart.setSupplier(Supplier.findById(pvm.getSupplier()));
+			dPart.setPits(Pits.getById(pvm.getPits()));
 			dPart.setProjectinstance(Projectinstance.findById(Long.parseLong(dpVm.projectId)));
 			
 			dPart.save();
@@ -739,6 +754,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			pVm.setSuggestedResale(dp.getSuggestedResale());
 			pVm.setLeadTime(dp.getLeadTime());
 			pVm.setSupplier(dp.getSupplier().getId());
+			pVm.setPits(dp.getPits().getId());
 			partVMs.add(pVm);
 		}
 		dVm.setPartsValue(partVMs);

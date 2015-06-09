@@ -38,6 +38,7 @@ import play.data.DynamicForm;
 
 import com.google.gson.Gson;
 import com.mnt.createProject.model.AduitLog;
+import com.mnt.createProject.model.Pits;
 import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
@@ -172,6 +173,14 @@ public class CreateProjectController {
 		return createProjectService.getfindSupplier();
 	}
 	
+	
+	
+	@RequestMapping(value="/findPits",method=RequestMethod.GET)
+	public @ResponseBody List findPits() {
+		List<Pits> pits= Pits.getAllPits();
+		return pits;
+	}
+	
 	@RequestMapping(value="/edit/project/{projectId}",method=RequestMethod.GET)
 	public String showEditProject(@PathVariable("projectId")Long projectId,@CookieValue("username")String username,Model model){
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
@@ -211,9 +220,20 @@ public class CreateProjectController {
 				projectinstance.setProjectName(form.data().get("projectName"));
 				projectinstance.setClientId(Long.parseLong(form.data().get("customer")));
 				projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
-				
 				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
-				
+				projectinstance.setOpportunityNo(form.data().get("opportunityNo"));
+				projectinstance.setCreatedDate(form.data().get("createdDate"));
+				projectinstance.setRegion(form.data().get("region"));
+				projectinstance.setEndCustomerLocation(form.data().get("endCustomerLocation"));
+				projectinstance.setProjectNameApplication(form.data().get("projectNameApplication"));
+				projectinstance.setProductionDate(form.data().get("productionDate"));
+				projectinstance.setProductLifeTime(form.data().get("productLifeTime"));
+				projectinstance.setSupplierRegistion(form.data().get("supplierRegistion"));
+				projectinstance.setProjectLastUpdate(form.data().get("projectLastUpdate"));
+				projectinstance.setSerialNo(form.data().get("serialNo"));
+				projectinstance.setSupplierFae(form.data().get("supplierFae"));
+				projectinstance.setProjectWin(form.data().get("projectWin"));
+				projectinstance.setSupplierSaleperson(form.data().get("supplierSaleperson"));
 				
 				projectinstance.update();
 				
@@ -314,8 +334,20 @@ public class CreateProjectController {
 				projectinstance.setProjectName(form.data().get("projectName"));
 				projectinstance.setClientId(Long.parseLong(form.data().get("customer")));
 				projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
-
 				projectinstance.setProjectManager(User.findById(Long.parseLong(form.data().get("projectManager"))));
+				projectinstance.setOpportunityNo(form.data().get("opportunityNo"));
+				projectinstance.setCreatedDate(form.data().get("createdDate"));
+				projectinstance.setRegion(form.data().get("region"));
+				projectinstance.setEndCustomerLocation(form.data().get("endCustomerLocation"));
+				projectinstance.setProjectNameApplication(form.data().get("projectNameApplication"));
+				projectinstance.setProductionDate(form.data().get("productionDate"));
+				projectinstance.setProductLifeTime(form.data().get("productLifeTime"));
+				projectinstance.setSupplierRegistion(form.data().get("supplierRegistion"));
+				projectinstance.setProjectLastUpdate(form.data().get("projectLastUpdate"));
+				projectinstance.setSerialNo(form.data().get("serialNo"));
+				projectinstance.setSupplierFae(form.data().get("supplierFae"));
+				projectinstance.setSupplierSaleperson(form.data().get("supplierSaleperson"));
+				projectinstance.setProjectWin(form.data().get("projectWin"));
 				projectinstance.update();
 
 			//	projectinstance.removeAllUser();
