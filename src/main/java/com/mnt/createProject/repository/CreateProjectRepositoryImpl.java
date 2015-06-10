@@ -450,7 +450,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				supplierVM.setId(String.valueOf(slist.getId()));
 				supplierVM.setEmail(slist.getEmail());
 				supplierVM.setSupplierName(slist.getSupplierName());
-				supplierVM.setAddress(slist.getAddress());
+				supplierVM.setAddress(slist.getWebsite());
 				
 				result.add(supplierVM);
 			}
