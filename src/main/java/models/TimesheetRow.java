@@ -26,6 +26,7 @@ public class TimesheetRow extends Model{
     
     public boolean overTime;
     
+    
     @OneToMany
     public List<TimesheetDays> timesheetDays;
      
@@ -87,6 +88,11 @@ public class TimesheetRow extends Model{
 	public static List<TimesheetRow> getByTimesheet(Timesheet timesheet) {
 		return find.where().eq("timesheet", timesheet).findList();
 	}
+
+	public static List<TimesheetRow> getByTimesheetAndStage(Timesheet timesheet) {
+		return find.where().eq("timesheet", timesheet).findList();
+	}
+	
 	
 	
 }

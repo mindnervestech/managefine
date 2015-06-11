@@ -1585,7 +1585,9 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			.success(function(data) {
 				console.log('success');
 				console.log(data);
-				$scope.projectList = data;
+				$scope.projectList = data.projectList;
+				$scope.supplierList = data.supplierList;
+				$scope.customerList = data.customerList;
 				$scope.getByWeek($scope.wk,$scope.yr);
 			});
 			
@@ -1996,6 +1998,117 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		
 		
+	}
+	
+	$scope.addCustomerAndSupplier = function(index,day) {
+		$scope.rowIndex = index;
+		$scope.dayVal = day;
+		if($scope.dayVal == 'mon') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].monSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].monCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].monNotes;
+		}
+		if($scope.dayVal == 'tue') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].tueSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].tueCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].tueNotes;
+		}
+		if($scope.dayVal == 'wed') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].wedSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].wedCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].wedNotes;
+		}
+		if($scope.dayVal == 'thu') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].thuSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].thuCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].thuNotes;
+		}
+		if($scope.dayVal == 'fri') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].friSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].friCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].friNotes;
+		}
+		if($scope.dayVal == 'sat') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].satSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].satCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].satNotes;
+		}
+		if($scope.dayVal == 'sun') {
+			$scope.supplierCode = $scope.timesheetData[$scope.rowIndex].sunSupplier;
+			$scope.customerCode = $scope.timesheetData[$scope.rowIndex].sunCustomer;
+			$scope.notes = $scope.timesheetData[$scope.rowIndex].sunNotes;
+		}
+		$('#popupBtn5').click();
+	}
+	
+	$scope.addData = function() {
+		if($scope.dayVal == 'mon') {
+			$scope.timesheetData[$scope.rowIndex].monSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].monCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].monNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'tue') {
+			$scope.timesheetData[$scope.rowIndex].tueSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].tueCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].tueNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'wed') {
+			$scope.timesheetData[$scope.rowIndex].wedSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].wedCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].wedNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'thu') {
+			$scope.timesheetData[$scope.rowIndex].thuSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].thuCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].thuNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'fri') {
+			$scope.timesheetData[$scope.rowIndex].friSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].friCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].friNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'sat') {
+			$scope.timesheetData[$scope.rowIndex].satSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].satCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].satNotes = $scope.notes;
+		}
+		if($scope.dayVal == 'sun') {
+			$scope.timesheetData[$scope.rowIndex].sunSupplier = $scope.supplierCode;
+			$scope.timesheetData[$scope.rowIndex].sunCustomer = $scope.customerCode;
+			$scope.timesheetData[$scope.rowIndex].sunNotes = $scope.notes;
+		}
+		
+		if($scope.timesheetData[$scope.rowIndex].rowId != 0 || !angular.isUndefined($scope.timesheetData[$scope.rowIndex].rowId)) {
+			if($scope.dayVal == 'mon') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].mondayId;
+			}
+			if($scope.dayVal == 'tue') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].tuesdayId;
+			}
+			if($scope.dayVal == 'wed') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].wednesdayId;
+			}
+			if($scope.dayVal == 'thu') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].thursdayId;
+			}
+			if($scope.dayVal == 'fri') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].fridayId;
+			}
+			if($scope.dayVal == 'sat') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].saturdayId;
+			}
+			if($scope.dayVal == 'sun') {
+				$scope.dayId = $scope.timesheetData[$scope.rowIndex].sundayId;
+			}
+			
+			$http({method:'GET',url:contextPath+'/addSupplierCustomerToActual',params:{dayId:$scope.dayId,supplierCode:$scope.supplierCode,customerCode:$scope.customerCode,notes:$scope.notes}})
+			.success(function(data) {
+				console.log('success');
+				
+			});
+			
+		}
+		$('#modal5Close').click();
 	}
 	
 	
@@ -2574,6 +2687,7 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 	$scope.flag = 0;
 	$scope.init = function(data) {
 		$scope.flag = 0;
+		$scope.reportLevel = "task";
 		$scope.userId = $('#userID').val();
 		for(var i=0;i<data.length;i++) {
 			if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
@@ -2620,6 +2734,7 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 		});
 		
 		var today = new Date();
+		$scope.currentDateObject = today;
 		var todaysWeek = today.getWeek();
 		var day =   today.getDay();
 		if(day == 0) {
@@ -2641,24 +2756,51 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 		$scope.flag = 0;
 		$scope.userId = $('#userID').val();
 		var d = (date.getMonth()+1)+'/'+date.getDate()+'/'+date.getFullYear();
-		$http({method:'GET',url:contextPath+'/getStaffWeekReport',params:{userId:$scope.userId,date:d}}).success(function(data) {
-			console.log(data);
-			for(var i=0;i<data.length;i++) {
-				if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
-					data[i].flag = false;
-				} else {
-					data[i].flag = true;
+		if($scope.reportLevel == "task") {
+			$http({method:'GET',url:contextPath+'/getStaffWeekReport',params:{userId:$scope.userId,date:d}}).success(function(data) {
+				console.log(data);
+				for(var i=0;i<data.length;i++) {
+					if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
+						data[i].flag = false;
+					} else {
+						data[i].flag = true;
+					}
 				}
-			}
-			$scope.staffs = data;
-			
-			angular.forEach($scope.staffs, function(obj, index){
-				if(obj.weekReport != null){
-					$scope.flag = 1;
-				}
+				$scope.staffs = data;
+				
+				angular.forEach($scope.staffs, function(obj, index){
+					if(obj.weekReport != null){
+						$scope.flag = 1;
+					}
+				});
 			});
-		});
+		}
+		
+		if($scope.reportLevel == "stage") {
+			$http({method:'GET',url:contextPath+'/getStaffStageReport',params:{userId:$scope.userId,date:d}}).success(function(data) {
+				console.log(data);
+				for(var i=0;i<data.length;i++) {
+					if(data[i].weekReport == null || angular.isUndefined(data[i].weekReport)) {
+						data[i].flag = false;
+					} else {
+						data[i].flag = true;
+					}
+				}
+				$scope.staffs = data;
+				
+				angular.forEach($scope.staffs, function(obj, index){
+					if(obj.weekReport != null){
+						$scope.flag = 1;
+					}
+				});
+			});
+		}
+		
 	};
+	
+	$scope.getReportByLevel = function(date) {
+		$scope.changeWeek(date);
+	}
 	
 	$scope.getWeekDayData = function(day,week,year,userId) {
 		var htmlTemplate = "";
@@ -2735,3 +2877,128 @@ app.controller("SchedularWeekReportController", function($scope,$http,$compile) 
 		};
 });
 
+app.controller("UsageReportController", function($scope,$http,$compile) {
+	$scope.currentDateObject = new Date(); 
+	$scope.showDaywise = true;
+	$scope.init = function(plannedTask,actualTask) {
+		console.log(plannedTask);
+		console.log(actualTask);
+		$scope.plannedTask = plannedTask;
+		$scope.actualTask = actualTask;
+		$scope.reportLevel = "task";
+		$scope.reportView = "daywise";
+		$scope.userId = $('#userID').val();
+		$http({method:'GET',url:contextPath+'/getUsersForReport',params:{userId:$scope.userId}})
+		.success(function(data) {
+			$scope.userList = data;
+			$scope.selectedUser = data[0].id;
+		});
+		
+		var d = ($scope.currentDateObject.getMonth()+1)+'/'+$scope.currentDateObject.getDate()+'/'+$scope.currentDateObject.getFullYear();
+		$http({method:'GET',url:contextPath+'/getTaskWeekTotal',params:{userId:$scope.userId,date:d}}).success(function(data) {
+			$scope.taskWeekTotal = data;
+			$scope.showDaywise = false;
+		});
+		
+		Date.prototype.getWeek = function() {
+			var onejan = new Date(this.getFullYear(),0,1);
+			var w = Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
+			if(w>52) {
+				w -=52;
+			}
+			return w;
+		};
+		var startOfWeek;
+		Date.prototype.getStartOfWeek = function() {
+			var day =   this.getDay() - 1;
+			var startOfWeek;
+			if (day != -1) {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * day ));
+			} else {
+				startOfWeek = new Date(this.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			}
+			return startOfWeek;
+		};
+
+		$('.week-picker').datepicker({
+			chooseWeek:true,
+			calendarWeeks:true,
+			weekStart:1,
+			format: 'dd M yy'
+		}).on("changeDate",function(ev){
+			
+			$scope.currentDateObject = ev.date;
+			
+		});
+		
+		var today = new Date();
+		$scope.currentDateObject = today;
+		var todaysWeek = today.getWeek();
+		var day =   today.getDay();
+		if(day == 0) {
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 6 ));
+			var endOfWeek = today;
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		} else {
+			day = day - 1;
+			startOfWeek = new Date(today.getTime() - (24 * 60 * 60 * 1000 * day ));
+			var endOfWeek = new Date(today.getTime() + (24 * 60 * 60 * 1000 * (6  - day) ));
+			$('.week-picker').val($.datepicker.formatDate('dd M yy', startOfWeek) + " - " +
+					$.datepicker.formatDate('dd M yy', endOfWeek));
+		}
+	};
+	
+	$scope.getReportData = function() {
+		$scope.userId = $('#userID').val();
+		var d = ($scope.currentDateObject.getMonth()+1)+'/'+$scope.currentDateObject.getDate()+'/'+$scope.currentDateObject.getFullYear();
+		if($scope.reportLevel == "task") {
+			$http({method:'GET',url:contextPath+'/getTaskLevelReport',params:{userId:$scope.selectedUser,date:d}}).success(function(data) {
+				console.log(data);
+				$scope.plannedTask = data.plannedTasks;
+				$scope.actualTask = data.actualTasks;
+				$scope.showDaywise = true;
+			});
+			
+			$http({method:'GET',url:contextPath+'/getTaskWeekTotal',params:{userId:$scope.selectedUser,date:d}}).success(function(data) {
+				$scope.taskWeekTotal = data;
+				$scope.showDaywise = false;
+			});
+		}
+		
+		
+		if($scope.reportLevel == "stage") {
+			$http({method:'GET',url:contextPath+'/getStageLevelReport',params:{userId:$scope.selectedUser,date:d}}).success(function(data) {
+				console.log(data);
+				$scope.plannedTask = data.plannedStages;
+				$scope.actualTask = data.actualStages;
+				$scope.showDaywise = true;
+			});
+			
+			$http({method:'GET',url:contextPath+'/getStageWeekTotal',params:{userId:$scope.selectedUser,date:d}}).success(function(data) {
+				$scope.taskWeekTotal = data;
+				$scope.showDaywise = false;
+			});
+		}
+		
+	};
+	
+	$scope.config = {
+			tooltips: true,
+			labels: true,
+			mouseover: function() {},
+			mouseout: function() {},
+			click: function() {},
+			innerRadius: '40%',
+			colors:['blue','green','black','red'],
+			legend: {
+				display: false,
+				//could be 'left, right'
+				position: 'right'
+			}
+		};
+
+		
+	
+	
+});	

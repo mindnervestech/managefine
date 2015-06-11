@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.StaffWeekReportVM;
 
 import com.mnt.time.dao.TimesheetDAO;
 import com.mnt.time.service.TimesheetService;
@@ -63,4 +64,31 @@ public class TimesheetServiceImpl implements TimesheetService{
 		return timesheetDAO.getProjectData(id);
 	}
 	
+	public List getStageReport(Integer weekOfYear, Integer year, User user) {
+		return timesheetDAO.getStageReport(weekOfYear, year, user);
+	}
+	
+	public StaffWeekReportVM getTimesheetTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		return timesheetDAO.getTimesheetTaskWeekReport(weekOfYear, year, user, date);
+	}
+	
+	public StaffWeekReportVM getCalendarTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		return timesheetDAO.getCalendarTaskWeekReport(weekOfYear, year, user, date);
+	}
+	
+	public StaffWeekReportVM getTimesheetStageWeekReport(Integer weekOfYear, Integer year, User user) {
+		return timesheetDAO.getTimesheetStageWeekReport(weekOfYear, year, user);
+	}
+	
+	public StaffWeekReportVM getCalendarStageWeekReport(Integer weekOfYear, Integer year, User user) {
+		return timesheetDAO.getCalendarStageWeekReport(weekOfYear, year, user);
+	}
+	
+	public StaffWeekReportVM getTaskWeekTotal(Integer weekOfYear, Integer year, User user) {
+		return timesheetDAO.getTaskWeekTotal(weekOfYear, year, user);
+	}
+	
+	public StaffWeekReportVM getStageWeekTotal(Integer weekOfYear, Integer year, User user) {
+		return timesheetDAO.getStageWeekTotal(weekOfYear, year, user);
+	}
 }

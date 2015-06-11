@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonNode;
 import viewmodel.GanttVM;
 import viewmodel.MonthVM;
 import viewmodel.StaffLeaveVM;
+import viewmodel.StaffWeekReportVM;
 
 public interface TimesheetDAO {
 	
@@ -33,4 +34,18 @@ public interface TimesheetDAO {
 	List getWeekReport(Integer weekOfYear, Integer year, User user, Date date);
 	
 	GanttVM getProjectData(Long id);
+	
+	List getStageReport(Integer weekOfYear, Integer year, User user);
+	
+	StaffWeekReportVM getTimesheetTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date);
+	
+	StaffWeekReportVM getCalendarTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date);
+	
+	StaffWeekReportVM getTimesheetStageWeekReport(Integer weekOfYear, Integer year, User user);
+	
+	StaffWeekReportVM getCalendarStageWeekReport(Integer weekOfYear, Integer year, User user);
+	
+	StaffWeekReportVM getTaskWeekTotal(Integer weekOfYear, Integer year, User user);
+	
+	StaffWeekReportVM getStageWeekTotal(Integer weekOfYear, Integer year, User user);
 }

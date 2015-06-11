@@ -7,7 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 
 import play.db.ebean.Model;
 
@@ -35,6 +40,15 @@ public class TimesheetDays extends Model {
 	
 	@ManyToOne
 	public TimesheetRow timesheetRow;
+	
+	public String stage;
+	 
+	@OneToOne
+	public User user;
+	
+	public Integer weekOfYear;
+	
+	public String taskCode;
 	
 	public static Model.Finder<Long, TimesheetDays> find = new Model.Finder<Long,TimesheetDays>(Long.class, TimesheetDays.class);
 	
@@ -121,6 +135,38 @@ public class TimesheetDays extends Model {
 		this.notes = notes;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
+
+	public Integer getWeekOfYear() {
+		return weekOfYear;
+	}
+
+	public void setWeekOfYear(Integer weekOfYear) {
+		this.weekOfYear = weekOfYear;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+
 	public static List<TimesheetDays> getByTimesheetRow(TimesheetRow timesheetRow) {
 		return find.where().eq("timesheetRow", timesheetRow).findList();
 	}
@@ -135,6 +181,33 @@ public class TimesheetDays extends Model {
 	
 	public static TimesheetDays findByDayAndTimesheet(String day,TimesheetRow timesheetRow) {
 		return find.where().eq("day", day).eq("timesheetRow", timesheetRow).findUnique();
+	}
+	
+	public static List<SqlRow> getMinutesTotalByDay(String date,Long userId) {
+		String sql = "select sum(timesheet_days.work_minutes) as minutes,stage from timesheet_days where timesheet_days.timesheet_date = :date and timesheet_days.user_id = :id group by timesheet_days.stage";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("date", date);
+		sqlQuery.setParameter("id", userId);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
+	
+	public static List<SqlRow> getWeekReportOfTask(Integer weekOfYear,Long userId) {
+		String sql = "select sum(timesheet_days.work_minutes) as minutes,task_code from timesheet_days where timesheet_days.week_of_year = :week and timesheet_days.user_id = :id group by timesheet_days.task_code";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("week", weekOfYear);
+		sqlQuery.setParameter("id", userId);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
+	}
+	
+	public static List<SqlRow> getWeekReportOfStage(Integer weekOfYear,Long userId) {
+		String sql = "select sum(timesheet_days.work_minutes) as minutes,stage from timesheet_days where timesheet_days.week_of_year = :week and timesheet_days.user_id = :id group by timesheet_days.stage";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("week", weekOfYear);
+		sqlQuery.setParameter("id", userId);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
 	}
 	
 }

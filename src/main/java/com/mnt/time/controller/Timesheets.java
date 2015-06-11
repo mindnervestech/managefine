@@ -201,6 +201,32 @@ public class Timesheets{
 		return "schedularWeekReport";
     }
 	
+	@RequestMapping(value="/showUsageReport", method = RequestMethod.GET)
+	public String showUsageReport(ModelMap model, @CookieValue("username") String username) {
+		User user = User.findByEmail(username);
+		
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		cal.setTime(date);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String dt = df.format(date);
+		try {
+			date = df.parse(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		
+		model.addAttribute("plannedTask", Json.toJson(timesheetService.getCalendarTaskWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, date)));
+		model.addAttribute("actualTask", Json.toJson(timesheetService.getTimesheetTaskWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, date)));
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+		model.addAttribute("user", user);
+		
+		return "showUsageReport";
+    }
 	
 	@RequestMapping(value="/showGantt/{id}", method = RequestMethod.GET)
 	public String showGantt(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id) {
@@ -248,6 +274,107 @@ public class Timesheets{
 		
 	}
 	
+	@RequestMapping(value="/getTaskLevelReport", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getTaskLevelReport(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		Map map = new HashMap<>();
+		map.put("plannedTasks", timesheetService.getCalendarTaskWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
+		map.put("actualTasks", timesheetService.getTimesheetTaskWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user, dt));
+		return Json.toJson(map);
+		
+	}
+	
+	@RequestMapping(value="/getStageLevelReport", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getStageLevelReport(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		Map map = new HashMap<>();
+		map.put("plannedStages", timesheetService.getCalendarStageWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user));
+		map.put("actualStages", timesheetService.getTimesheetStageWeekReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user));
+		return Json.toJson(map);
+		
+	}
+	
+	@RequestMapping(value="/getTaskWeekTotal", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getTaskWeekTotal(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		return Json.toJson(timesheetService.getTaskWeekTotal(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user));
+		
+	}
+	
+	@RequestMapping(value="/getStageWeekTotal", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getStageWeekTotal(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		return Json.toJson(timesheetService.getStageWeekTotal(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user));
+		
+	}
+	
+	@RequestMapping(value="/getStaffStageReport", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getStaffStageReport(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
+		User user = User.findById(Long.parseLong(userId));
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date dt = null;
+		try {
+			dt = df.parse(date);
+			cal.setTime(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(cal.get(Calendar.DAY_OF_WEEK)==1) {
+			cal.set(Calendar.WEEK_OF_YEAR, cal.get(Calendar.WEEK_OF_YEAR)-1);
+		}
+		return Json.toJson(timesheetService.getStageReport(cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR), user));
+		
+	}
+	
 	@RequestMapping(value="/getTodayAllByDate", method = RequestMethod.GET)
 	public @ResponseBody JsonNode getTodayAllByDate(ModelMap model,@RequestParam("userId") String userId,@RequestParam("date") String date) {
 		User user = User.findById(Long.parseLong(userId));
@@ -285,7 +412,36 @@ public class Timesheets{
 		
 		return Json.toJson(staffList);
 	}	
+	
+	@RequestMapping(value="/getUsersForReport", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getUsersForReport(ModelMap model,@RequestParam("userId") String userId) {
+		User user = User.findById(Long.parseLong(userId));
+		List<StaffVM> staffList = new ArrayList<>();
+		StaffVM staffVM = new StaffVM();
+		staffVM.id = user.getId();
+		staffVM.name = user.getFirstName()+" "+user.getLastName();
+		staffList.add(staffVM);
+		if(user.getUsertype() == null || user.getUsertype().equals("Admin")) {
+			List<User> userList = User.findByUserType();
+			for(User userObj : userList) {
+				StaffVM staffObj = new StaffVM();
+				staffObj.id = userObj.getId();
+				staffObj.name = userObj.getFirstName()+" "+userObj.getLastName();
+				staffList.add(staffObj);
+			}
+		} else {
+			List<User> userList = User.findByManager(user);
+			for(User userObj : userList) {
+				StaffVM staffObj = new StaffVM();
+				staffObj.id = userObj.getId();
+				staffObj.name = userObj.getFirstName()+" "+userObj.getLastName();
+				staffList.add(staffObj);
+			}
+		}
 		
+		return Json.toJson(staffList);
+	}	
+	
 	@RequestMapping(value="/setupHoliday", method = RequestMethod.GET)
 	public String setupHoliday(ModelMap model, @CookieValue("username") String username) {
 		User user = User.findByEmail(username);
@@ -880,38 +1036,59 @@ public class Timesheets{
 						timesheetRowVM.monFrom = day.getTimeFrom();
 						timesheetRowVM.monTo = day.getTimeTo();
 						timesheetRowVM.mondayId = day.getId();
+						timesheetRowVM.monSupplier = day.getSupplierId();
+						timesheetRowVM.monCustomer = day.getCustomerId();
+						timesheetRowVM.monNotes = day.getNotes();
 					}
 					if(day.getDay().equals("tuesday")) {
 						timesheetRowVM.tueFrom = day.getTimeFrom();
 						timesheetRowVM.tueTo = day.getTimeTo();
 						timesheetRowVM.tuesdayId = day.getId();
+						timesheetRowVM.tueSupplier = day.getSupplierId();
+						timesheetRowVM.tueCustomer = day.getCustomerId();
+						timesheetRowVM.tueNotes = day.getNotes();
 					}
 					
 					if(day.getDay().equals("wednesday")) {
 						timesheetRowVM.wedFrom = day.getTimeFrom();
 						timesheetRowVM.wedTo = day.getTimeTo();
 						timesheetRowVM.wednesdayId = day.getId();
+						timesheetRowVM.wedSupplier = day.getSupplierId();
+						timesheetRowVM.wedCustomer = day.getCustomerId();
+						timesheetRowVM.wedNotes = day.getNotes();
 					}
 					
 					if(day.getDay().equals("thursday")) {
 						timesheetRowVM.thuFrom = day.getTimeFrom();
 						timesheetRowVM.thuTo = day.getTimeTo();
 						timesheetRowVM.thursdayId = day.getId();
+						timesheetRowVM.thuSupplier = day.getSupplierId();
+						timesheetRowVM.thuCustomer = day.getCustomerId();
+						timesheetRowVM.thuNotes = day.getNotes();
 					}
 					if(day.getDay().equals("friday")) {
 						timesheetRowVM.friFrom = day.getTimeFrom();
 						timesheetRowVM.friTo = day.getTimeTo();
 						timesheetRowVM.fridayId = day.getId();
+						timesheetRowVM.friSupplier = day.getSupplierId();
+						timesheetRowVM.friCustomer = day.getCustomerId();
+						timesheetRowVM.friNotes = day.getNotes();
 					}
 					if(day.getDay().equals("saturday")) {
 						timesheetRowVM.satFrom = day.getTimeFrom();
 						timesheetRowVM.satTo = day.getTimeTo();
 						timesheetRowVM.saturdayId = day.getId();
+						timesheetRowVM.satSupplier = day.getSupplierId();
+						timesheetRowVM.satCustomer = day.getCustomerId();
+						timesheetRowVM.satNotes = day.getNotes();
 					}
 					if(day.getDay().equals("sunday")) {
 						timesheetRowVM.sunFrom = day.getTimeFrom();
 						timesheetRowVM.sunTo = day.getTimeTo();
 						timesheetRowVM.sundayId = day.getId();
+						timesheetRowVM.sunSupplier = day.getSupplierId();
+						timesheetRowVM.sunCustomer = day.getCustomerId();
+						timesheetRowVM.sunNotes = day.getNotes();
 					}
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
@@ -1178,38 +1355,59 @@ public class Timesheets{
 						timesheetRowVM.monFrom = day.getTimeFrom();
 						timesheetRowVM.monTo = day.getTimeTo();
 						timesheetRowVM.mondayId = day.getId();
+						timesheetRowVM.monSupplier = day.getSupplierId();
+						timesheetRowVM.monCustomer = day.getCustomerId();
+						timesheetRowVM.monNotes = day.getNotes();
 					}
 					if(day.getDay().equals("tuesday")) {
 						timesheetRowVM.tueFrom = day.getTimeFrom();
 						timesheetRowVM.tueTo = day.getTimeTo();
 						timesheetRowVM.tuesdayId = day.getId();
+						timesheetRowVM.tueSupplier = day.getSupplierId();
+						timesheetRowVM.tueCustomer = day.getCustomerId();
+						timesheetRowVM.tueNotes = day.getNotes();
 					}
 					
 					if(day.getDay().equals("wednesday")) {
 						timesheetRowVM.wedFrom = day.getTimeFrom();
 						timesheetRowVM.wedTo = day.getTimeTo();
 						timesheetRowVM.wednesdayId = day.getId();
+						timesheetRowVM.wedSupplier = day.getSupplierId();
+						timesheetRowVM.wedCustomer = day.getCustomerId();
+						timesheetRowVM.wedNotes = day.getNotes();
 					}
 					
 					if(day.getDay().equals("thursday")) {
 						timesheetRowVM.thuFrom = day.getTimeFrom();
 						timesheetRowVM.thuTo = day.getTimeTo();
 						timesheetRowVM.thursdayId = day.getId();
+						timesheetRowVM.thuSupplier = day.getSupplierId();
+						timesheetRowVM.thuCustomer = day.getCustomerId();
+						timesheetRowVM.thuNotes = day.getNotes();
 					}
 					if(day.getDay().equals("friday")) {
 						timesheetRowVM.friFrom = day.getTimeFrom();
 						timesheetRowVM.friTo = day.getTimeTo();
 						timesheetRowVM.fridayId = day.getId();
+						timesheetRowVM.friSupplier = day.getSupplierId();
+						timesheetRowVM.friCustomer = day.getCustomerId();
+						timesheetRowVM.friNotes = day.getNotes();
 					}
 					if(day.getDay().equals("saturday")) {
 						timesheetRowVM.satFrom = day.getTimeFrom();
 						timesheetRowVM.satTo = day.getTimeTo();
 						timesheetRowVM.saturdayId = day.getId();
+						timesheetRowVM.satSupplier = day.getSupplierId();
+						timesheetRowVM.satCustomer = day.getCustomerId();
+						timesheetRowVM.satNotes = day.getNotes();
 					}
 					if(day.getDay().equals("sunday")) {
 						timesheetRowVM.sunFrom = day.getTimeFrom();
 						timesheetRowVM.sunTo = day.getTimeTo();
 						timesheetRowVM.sundayId = day.getId();
+						timesheetRowVM.sunSupplier = day.getSupplierId();
+						timesheetRowVM.sunCustomer = day.getCustomerId();
+						timesheetRowVM.sunNotes = day.getNotes();
 					}
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
@@ -1233,6 +1431,15 @@ public class Timesheets{
 	@RequestMapping(value="/addSupplierCustomer", method = RequestMethod.GET)
 	public @ResponseBody void addSupplierCustomer(ModelMap model,@RequestParam("dayId") String dayId,@RequestParam("supplierCode") String supplierCode,@RequestParam("customerCode") String customerCode,@RequestParam("notes") String notes) {
 		TimesheetDays day = TimesheetDays.findById(Long.parseLong(dayId));
+		day.setSupplierId(supplierCode);
+		day.setCustomerId(customerCode);
+		day.setNotes(notes);
+		day.update();
+	}
+	
+	@RequestMapping(value="/addSupplierCustomerToActual", method = RequestMethod.GET)
+	public @ResponseBody void addSupplierCustomerToActual(ModelMap model,@RequestParam("dayId") String dayId,@RequestParam("supplierCode") String supplierCode,@RequestParam("customerCode") String customerCode,@RequestParam("notes") String notes) {
+		TimesheetDaysActual day = TimesheetDaysActual.findById(Long.parseLong(dayId));
 		day.setSupplierId(supplierCode);
 		day.setCustomerId(customerCode);
 		day.setNotes(notes);
@@ -1682,6 +1889,10 @@ public class Timesheets{
 			timesheetRow.setTaskCode(rowVM.taskCode.toString());
 			timesheetRow.setTimesheetActual(timesheetObj);
 			timesheetRow.setOverTime(rowVM.isOverTime);
+			Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(rowVM.taskCode.toString()));
+			while(classNode.getLevel() != 1) {
+				classNode = Projectclassnode.getProjectById(classNode.getParentId());
+			}
 			timesheetRow.save();
 			
 			cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
@@ -1698,7 +1909,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(monTo[0]) * 60) + Integer.parseInt(monTo[1]));
 				monday.setWorkMinutes(to - from);
 			}
+			monday.setSupplierId(rowVM.monSupplier);
+			monday.setCustomerId(rowVM.monCustomer);
+			monday.setNotes(rowVM.monNotes);
 			monday.setTimesheetRowActual(timesheetRow);
+			monday.setTaskCode(rowVM.taskCode.toString());
+			monday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				monday.setStage(classNode.getId().toString());
+			}
+			monday.setUser(user);
 			monday.save();
 			
 			TimesheetDaysActual tuesday = new TimesheetDaysActual();
@@ -1714,7 +1935,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(tueTo[0]) * 60) + Integer.parseInt(tueTo[1]));
 				tuesday.setWorkMinutes(to - from);
 			}	
+			tuesday.setSupplierId(rowVM.tueSupplier);
+			tuesday.setCustomerId(rowVM.tueCustomer);
+			tuesday.setNotes(rowVM.tueNotes);
 			tuesday.setTimesheetRowActual(timesheetRow);
+			tuesday.setTaskCode(rowVM.taskCode.toString());
+			tuesday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				tuesday.setStage(classNode.getId().toString());
+			}
+			tuesday.setUser(user);
 			tuesday.save();
 			
 			TimesheetDaysActual wednesday = new TimesheetDaysActual();
@@ -1730,7 +1961,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(wedTo[0]) * 60) + Integer.parseInt(wedTo[1]));
 				wednesday.setWorkMinutes(to - from);
 			}
+			wednesday.setSupplierId(rowVM.wedSupplier);
+			wednesday.setCustomerId(rowVM.wedCustomer);
+			wednesday.setNotes(rowVM.wedNotes);
 			wednesday.setTimesheetRowActual(timesheetRow);
+			wednesday.setTaskCode(rowVM.taskCode.toString());
+			wednesday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				wednesday.setStage(classNode.getId().toString());
+			}
+			wednesday.setUser(user);
 			wednesday.save();
 			
 			TimesheetDaysActual thursday = new TimesheetDaysActual();
@@ -1746,7 +1987,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(thuTo[0]) * 60) + Integer.parseInt(thuTo[1]));
 				thursday.setWorkMinutes(to - from);
 			}
+			thursday.setSupplierId(rowVM.thuSupplier);
+			thursday.setCustomerId(rowVM.thuCustomer);
+			thursday.setNotes(rowVM.thuNotes);
 			thursday.setTimesheetRowActual(timesheetRow);
+			thursday.setTaskCode(rowVM.taskCode.toString());
+			thursday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				thursday.setStage(classNode.getId().toString());
+			}
+			thursday.setUser(user);
 			thursday.save();
 			
 			TimesheetDaysActual friday = new TimesheetDaysActual();
@@ -1762,7 +2013,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(friTo[0]) * 60) + Integer.parseInt(friTo[1]));
 				friday.setWorkMinutes(to - from);
 			}
+			friday.setSupplierId(rowVM.friSupplier);
+			friday.setCustomerId(rowVM.friCustomer);
+			friday.setNotes(rowVM.friNotes);
 			friday.setTimesheetRowActual(timesheetRow);
+			friday.setTaskCode(rowVM.taskCode.toString());
+			friday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				friday.setStage(classNode.getId().toString());
+			}
+			friday.setUser(user);
 			friday.save();
 			
 			TimesheetDaysActual saturday = new TimesheetDaysActual();
@@ -1778,7 +2039,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(satTo[0]) * 60) + Integer.parseInt(satTo[1]));
 				saturday.setWorkMinutes(to - from);
 			}
+			saturday.setSupplierId(rowVM.satSupplier);
+			saturday.setCustomerId(rowVM.satCustomer);
+			saturday.setNotes(rowVM.satNotes);
 			saturday.setTimesheetRowActual(timesheetRow);
+			saturday.setTaskCode(rowVM.taskCode.toString());
+			saturday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				saturday.setStage(classNode.getId().toString());
+			}
+			saturday.setUser(user);
 			saturday.save();
 			
 			TimesheetDaysActual sunday = new TimesheetDaysActual();
@@ -1795,7 +2066,17 @@ public class Timesheets{
 				int to = ((Integer.parseInt(sunTo[0]) * 60) + Integer.parseInt(sunTo[1]));
 				sunday.setWorkMinutes(to - from);
 			}
+			sunday.setSupplierId(rowVM.sunSupplier);
+			sunday.setCustomerId(rowVM.sunCustomer);
+			sunday.setNotes(rowVM.sunNotes);
 			sunday.setTimesheetRowActual(timesheetRow);
+			sunday.setTaskCode(rowVM.taskCode.toString());
+			sunday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				sunday.setStage(classNode.getId().toString());
+			}
+			sunday.setUser(user);
 			sunday.save();
 			
 		}
@@ -1811,6 +2092,12 @@ public class Timesheets{
 			timesheetSavedObj.update();
 			
 			for(TimesheetRowVM row: timesheet.timesheetRows) {
+				
+				Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode.toString()));
+				while(classNode.getLevel() != 1) {
+					classNode = Projectclassnode.getProjectById(classNode.getParentId());
+				}
+				
 				if(row.rowId != 0L) {
 				TimesheetRowActual timesheetRow =  TimesheetRowActual.findById(row.rowId);
 				timesheetRow.setProjectCode(row.projectCode.toString());
@@ -1829,6 +2116,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(monTo[0]) * 60) + Integer.parseInt(monTo[1]));
 					monday.setWorkMinutes(to - from);
 				}
+				monday.setSupplierId(row.monSupplier);
+				monday.setCustomerId(row.monCustomer);
+				monday.setNotes(row.monNotes);
+				monday.setTaskCode(row.taskCode.toString());
+				monday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					monday.setStage(classNode.getId().toString());
+				}
+				monday.setUser(user);
 				monday.update();
 				
 				TimesheetDaysActual tuesday = TimesheetDaysActual.findById(row.tuesdayId);
@@ -1841,6 +2138,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(tueTo[0]) * 60) + Integer.parseInt(tueTo[1]));
 					tuesday.setWorkMinutes(to - from);
 				}	
+				tuesday.setSupplierId(row.tueSupplier);
+				tuesday.setCustomerId(row.tueCustomer);
+				tuesday.setNotes(row.tueNotes);
+				tuesday.setTaskCode(row.taskCode.toString());
+				tuesday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					tuesday.setStage(classNode.getId().toString());
+				}
+				tuesday.setUser(user);
 				tuesday.update();
 				
 				TimesheetDaysActual wednesday = TimesheetDaysActual.findById(row.wednesdayId);
@@ -1853,6 +2160,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(wedTo[0]) * 60) + Integer.parseInt(wedTo[1]));
 					wednesday.setWorkMinutes(to - from);
 				}
+				wednesday.setSupplierId(row.wedSupplier);
+				wednesday.setCustomerId(row.wedCustomer);
+				wednesday.setNotes(row.wedNotes);
+				wednesday.setTaskCode(row.taskCode.toString());
+				wednesday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					wednesday.setStage(classNode.getId().toString());
+				}
+				wednesday.setUser(user);
 				wednesday.update();
 				
 				TimesheetDaysActual thursday = TimesheetDaysActual.findById(row.thursdayId);
@@ -1865,6 +2182,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(thuTo[0]) * 60) + Integer.parseInt(thuTo[1]));
 					thursday.setWorkMinutes(to - from);
 				}
+				thursday.setSupplierId(row.thuSupplier);
+				thursday.setCustomerId(row.thuCustomer);
+				thursday.setNotes(row.thuNotes);
+				thursday.setTaskCode(row.taskCode.toString());
+				thursday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					thursday.setStage(classNode.getId().toString());
+				}
+				thursday.setUser(user);
 				thursday.update();
 				
 				TimesheetDaysActual friday = TimesheetDaysActual.findById(row.fridayId);
@@ -1877,6 +2204,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(friTo[0]) * 60) + Integer.parseInt(friTo[1]));
 					friday.setWorkMinutes(to - from);
 				}
+				friday.setSupplierId(row.friSupplier);
+				friday.setCustomerId(row.friCustomer);
+				friday.setNotes(row.friNotes);
+				friday.setTaskCode(row.taskCode.toString());
+				friday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					friday.setStage(classNode.getId().toString());
+				}
+				friday.setUser(user);
 				friday.update();
 				
 				TimesheetDaysActual saturday = TimesheetDaysActual.findById(row.saturdayId);
@@ -1889,6 +2226,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(satTo[0]) * 60) + Integer.parseInt(satTo[1]));
 					saturday.setWorkMinutes(to - from);
 				}
+				saturday.setSupplierId(row.satSupplier);
+				saturday.setCustomerId(row.satCustomer);
+				saturday.setNotes(row.satNotes);
+				saturday.setTaskCode(row.taskCode.toString());
+				saturday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					saturday.setStage(classNode.getId().toString());
+				}
+				saturday.setUser(user);
 				saturday.update();
 				
 				TimesheetDaysActual sunday = TimesheetDaysActual.findById(row.sundayId);
@@ -1901,6 +2248,16 @@ public class Timesheets{
 					int to = ((Integer.parseInt(sunTo[0]) * 60) + Integer.parseInt(sunTo[1]));
 					sunday.setWorkMinutes(to - from);
 				}
+				sunday.setSupplierId(row.sunSupplier);
+				sunday.setCustomerId(row.sunCustomer);
+				sunday.setNotes(row.sunNotes);
+				sunday.setTaskCode(row.taskCode.toString());
+				sunday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					sunday.setStage(classNode.getId().toString());
+				}
+				sunday.setUser(user);
 				sunday.update();
 				
 				} else {
@@ -1926,7 +2283,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(monTo[0]) * 60) + Integer.parseInt(monTo[1]));
 						monday.setWorkMinutes(to - from);
 					}
+					monday.setSupplierId(row.monSupplier);
+					monday.setCustomerId(row.monCustomer);
+					monday.setNotes(row.monNotes);
 					monday.setTimesheetRowActual(timesheetRow);
+					monday.setTaskCode(row.taskCode.toString());
+					monday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						monday.setStage(classNode.getId().toString());
+					}
+					monday.setUser(user);
 					monday.save();
 					
 					TimesheetDaysActual tuesday = new TimesheetDaysActual();
@@ -1942,7 +2309,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(tueTo[0]) * 60) + Integer.parseInt(tueTo[1]));
 						tuesday.setWorkMinutes(to - from);
 					}	
+					tuesday.setSupplierId(row.tueSupplier);
+					tuesday.setCustomerId(row.tueCustomer);
+					tuesday.setNotes(row.tueNotes);
 					tuesday.setTimesheetRowActual(timesheetRow);
+					tuesday.setTaskCode(row.taskCode.toString());
+					tuesday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						tuesday.setStage(classNode.getId().toString());
+					}
+					tuesday.setUser(user);
 					tuesday.save();
 					
 					TimesheetDaysActual wednesday = new TimesheetDaysActual();
@@ -1958,7 +2335,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(wedTo[0]) * 60) + Integer.parseInt(wedTo[1]));
 						wednesday.setWorkMinutes(to - from);
 					}
+					wednesday.setSupplierId(row.wedSupplier);
+					wednesday.setCustomerId(row.wedCustomer);
+					wednesday.setNotes(row.wedNotes);
 					wednesday.setTimesheetRowActual(timesheetRow);
+					wednesday.setTaskCode(row.taskCode.toString());
+					wednesday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						wednesday.setStage(classNode.getId().toString());
+					}
+					wednesday.setUser(user);
 					wednesday.save();
 					
 					TimesheetDaysActual thursday = new TimesheetDaysActual();
@@ -1974,7 +2361,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(thuTo[0]) * 60) + Integer.parseInt(thuTo[1]));
 						thursday.setWorkMinutes(to - from);
 					}
+					thursday.setSupplierId(row.thuSupplier);
+					thursday.setCustomerId(row.thuCustomer);
+					thursday.setNotes(row.thuNotes);
 					thursday.setTimesheetRowActual(timesheetRow);
+					thursday.setTaskCode(row.taskCode.toString());
+					thursday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						thursday.setStage(classNode.getId().toString());
+					}
+					thursday.setUser(user);
 					thursday.save();
 					
 					TimesheetDaysActual friday = new TimesheetDaysActual();
@@ -1990,7 +2387,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(friTo[0]) * 60) + Integer.parseInt(friTo[1]));
 						friday.setWorkMinutes(to - from);
 					}
+					friday.setSupplierId(row.friSupplier);
+					friday.setCustomerId(row.friCustomer);
+					friday.setNotes(row.friNotes);
 					friday.setTimesheetRowActual(timesheetRow);
+					friday.setTaskCode(row.taskCode.toString());
+					friday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						friday.setStage(classNode.getId().toString());
+					}
+					friday.setUser(user);
 					friday.save();
 					
 					TimesheetDaysActual saturday = new TimesheetDaysActual();
@@ -2006,7 +2413,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(satTo[0]) * 60) + Integer.parseInt(satTo[1]));
 						saturday.setWorkMinutes(to - from);
 					}
+					saturday.setSupplierId(row.satSupplier);
+					saturday.setCustomerId(row.satCustomer);
+					saturday.setNotes(row.satNotes);
 					saturday.setTimesheetRowActual(timesheetRow);
+					saturday.setTaskCode(row.taskCode.toString());
+					saturday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						saturday.setStage(classNode.getId().toString());
+					}
+					saturday.setUser(user);
 					saturday.save();
 					
 					TimesheetDaysActual sunday = new TimesheetDaysActual();
@@ -2023,7 +2440,17 @@ public class Timesheets{
 						int to = ((Integer.parseInt(sunTo[0]) * 60) + Integer.parseInt(sunTo[1]));
 						sunday.setWorkMinutes(to - from);
 					}
+					sunday.setSupplierId(row.sunSupplier);
+					sunday.setCustomerId(row.sunCustomer);
+					sunday.setNotes(row.sunNotes);
 					sunday.setTimesheetRowActual(timesheetRow);
+					sunday.setTaskCode(row.taskCode.toString());
+					sunday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						sunday.setStage(classNode.getId().toString());
+					}
+					sunday.setUser(user);
 					sunday.save();
 					
 				}
@@ -2213,7 +2640,16 @@ public class Timesheets{
 			timesheetRow.setTaskCode(rowVM.taskCode.toString());
 			timesheetRow.setTimesheet(timesheetObj);
 			timesheetRow.setOverTime(rowVM.isOverTime);
+			
+			Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(rowVM.taskCode.toString()));
+			while(classNode.getLevel() != 1) {
+				classNode = Projectclassnode.getProjectById(classNode.getParentId());
+			}
+			
+			
 			timesheetRow.save();
+			
+			
 			
 			cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 			TimesheetDays monday = new TimesheetDays();
@@ -2233,6 +2669,13 @@ public class Timesheets{
 			monday.setCustomerId(rowVM.monCustomer);
 			monday.setNotes(rowVM.monNotes);
 			monday.setTimesheetRow(timesheetRow);
+			monday.setTaskCode(rowVM.taskCode.toString());
+			monday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				monday.setStage(classNode.getId().toString());
+			}
+			monday.setUser(user);
 			monday.save();
 			
 			TimesheetDays tuesday = new TimesheetDays();
@@ -2252,6 +2695,13 @@ public class Timesheets{
 			tuesday.setCustomerId(rowVM.tueCustomer);
 			tuesday.setNotes(rowVM.tueNotes);
 			tuesday.setTimesheetRow(timesheetRow);
+			tuesday.setTaskCode(rowVM.taskCode.toString());
+			tuesday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				tuesday.setStage(classNode.getId().toString());
+			}
+			tuesday.setUser(user);
 			tuesday.save();
 			
 			TimesheetDays wednesday = new TimesheetDays();
@@ -2271,6 +2721,13 @@ public class Timesheets{
 			wednesday.setCustomerId(rowVM.wedCustomer);
 			wednesday.setNotes(rowVM.wedNotes);
 			wednesday.setTimesheetRow(timesheetRow);
+			wednesday.setTaskCode(rowVM.taskCode.toString());
+			wednesday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				wednesday.setStage(classNode.getId().toString());
+			}
+			wednesday.setUser(user);
 			wednesday.save();
 			
 			TimesheetDays thursday = new TimesheetDays();
@@ -2290,6 +2747,13 @@ public class Timesheets{
 			thursday.setCustomerId(rowVM.thuCustomer);
 			thursday.setNotes(rowVM.thuNotes);
 			thursday.setTimesheetRow(timesheetRow);
+			thursday.setTaskCode(rowVM.taskCode.toString());
+			thursday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				thursday.setStage(classNode.getId().toString());
+			}
+			thursday.setUser(user);
 			thursday.save();
 			
 			TimesheetDays friday = new TimesheetDays();
@@ -2309,6 +2773,13 @@ public class Timesheets{
 			friday.setCustomerId(rowVM.friCustomer);
 			friday.setNotes(rowVM.friNotes);
 			friday.setTimesheetRow(timesheetRow);
+			friday.setTaskCode(rowVM.taskCode.toString());
+			friday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				friday.setStage(classNode.getId().toString());
+			}
+			friday.setUser(user);
 			friday.save();
 			
 			TimesheetDays saturday = new TimesheetDays();
@@ -2328,6 +2799,13 @@ public class Timesheets{
 			saturday.setCustomerId(rowVM.satCustomer);
 			saturday.setNotes(rowVM.satNotes);
 			saturday.setTimesheetRow(timesheetRow);
+			saturday.setTaskCode(rowVM.taskCode.toString());
+			saturday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				saturday.setStage(classNode.getId().toString());
+			}
+			saturday.setUser(user);
 			saturday.save();
 			
 			TimesheetDays sunday = new TimesheetDays();
@@ -2348,6 +2826,13 @@ public class Timesheets{
 			sunday.setCustomerId(rowVM.sunCustomer);
 			sunday.setNotes(rowVM.sunNotes);
 			sunday.setTimesheetRow(timesheetRow);
+			sunday.setTaskCode(rowVM.taskCode.toString());
+			sunday.setWeekOfYear(timesheet.weekOfYear);
+			
+			if(classNode.getLevel() == 1) {
+				sunday.setStage(classNode.getId().toString());
+			}
+			sunday.setUser(user);
 			sunday.save();
 			
 		}
@@ -2362,11 +2847,16 @@ public class Timesheets{
 			timesheetSavedObj.update();
 			
 			for(TimesheetRowVM row: timesheet.timesheetRows) {
+				Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode.toString()));
+				while(classNode.getLevel() != 1) {
+					classNode = Projectclassnode.getProjectById(classNode.getParentId());
+				}
 				if(row.rowId != 0L) {
 				TimesheetRow timesheetRow =  TimesheetRow.findById(row.rowId);
 				timesheetRow.setProjectCode(row.projectCode.toString());
 				timesheetRow.setTaskCode(row.taskCode.toString());
 				timesheetRow.setOverTime(row.isOverTime);
+				
 				timesheetRow.update();
 				
 				
@@ -2383,6 +2873,13 @@ public class Timesheets{
 				monday.setSupplierId(row.monSupplier);
 				monday.setCustomerId(row.monCustomer);
 				monday.setNotes(row.monNotes);
+				monday.setTaskCode(row.taskCode.toString());
+				monday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					monday.setStage(classNode.getId().toString());
+				}
+				monday.setUser(user);
 				monday.update();
 				
 				TimesheetDays tuesday = TimesheetDays.findById(row.tuesdayId);
@@ -2398,6 +2895,13 @@ public class Timesheets{
 				tuesday.setSupplierId(row.tueSupplier);
 				tuesday.setCustomerId(row.tueCustomer);
 				tuesday.setNotes(row.tueNotes);
+				tuesday.setTaskCode(row.taskCode.toString());
+				tuesday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					tuesday.setStage(classNode.getId().toString());
+				}
+				tuesday.setUser(user);
 				tuesday.update();
 				
 				TimesheetDays wednesday = TimesheetDays.findById(row.wednesdayId);
@@ -2413,6 +2917,13 @@ public class Timesheets{
 				wednesday.setSupplierId(row.wedSupplier);
 				wednesday.setCustomerId(row.wedCustomer);
 				wednesday.setNotes(row.wedNotes);
+				wednesday.setTaskCode(row.taskCode.toString());
+				wednesday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					wednesday.setStage(classNode.getId().toString());
+				}
+				wednesday.setUser(user);
 				wednesday.update();
 				
 				TimesheetDays thursday = TimesheetDays.findById(row.thursdayId);
@@ -2428,6 +2939,13 @@ public class Timesheets{
 				thursday.setSupplierId(row.thuSupplier);
 				thursday.setCustomerId(row.thuCustomer);
 				thursday.setNotes(row.thuNotes);
+				thursday.setTaskCode(row.taskCode.toString());
+				thursday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					thursday.setStage(classNode.getId().toString());
+				}
+				thursday.setUser(user);
 				thursday.update();
 				
 				TimesheetDays friday = TimesheetDays.findById(row.fridayId);
@@ -2443,6 +2961,13 @@ public class Timesheets{
 				friday.setSupplierId(row.friSupplier);
 				friday.setCustomerId(row.friCustomer);
 				friday.setNotes(row.friNotes);
+				friday.setTaskCode(row.taskCode.toString());
+				friday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					friday.setStage(classNode.getId().toString());
+				}
+				friday.setUser(user);
 				friday.update();
 				
 				TimesheetDays saturday = TimesheetDays.findById(row.saturdayId);
@@ -2458,6 +2983,13 @@ public class Timesheets{
 				saturday.setSupplierId(row.satSupplier);
 				saturday.setCustomerId(row.satCustomer);
 				saturday.setNotes(row.satNotes);
+				saturday.setTaskCode(row.taskCode.toString());
+				saturday.setWeekOfYear(timesheet.weekOfYear);
+				
+				if(classNode.getLevel() == 1) {
+					saturday.setStage(classNode.getId().toString());
+				}
+				saturday.setUser(user);
 				saturday.update();
 				
 				TimesheetDays sunday = TimesheetDays.findById(row.sundayId);
@@ -2472,7 +3004,14 @@ public class Timesheets{
 				}
 				sunday.setSupplierId(row.sunSupplier);
 				sunday.setCustomerId(row.sunCustomer);
+				sunday.setTaskCode(row.taskCode.toString());
+				sunday.setWeekOfYear(timesheet.weekOfYear);
+				
 				sunday.setNotes(row.sunNotes);
+				if(classNode.getLevel() == 1) {
+					sunday.setStage(classNode.getId().toString());
+				}
+				sunday.setUser(user);
 				sunday.update();
 				
 				} else {
@@ -2482,6 +3021,7 @@ public class Timesheets{
 					timesheetRow.setTaskCode(row.taskCode.toString());
 					timesheetRow.setTimesheet(timesheetSavedObj);
 					timesheetRow.setOverTime(row.isOverTime);
+					
 					timesheetRow.save();
 					
 					cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
@@ -2501,7 +3041,14 @@ public class Timesheets{
 					monday.setSupplierId(row.monSupplier);
 					monday.setCustomerId(row.monCustomer);
 					monday.setNotes(row.monNotes);
+					monday.setTaskCode(row.taskCode.toString());
+					monday.setWeekOfYear(timesheet.weekOfYear);
+					
 					monday.setTimesheetRow(timesheetRow);
+					if(classNode.getLevel() == 1) {
+						monday.setStage(classNode.getId().toString());
+					}
+					monday.setUser(user);
 					monday.save();
 					
 					TimesheetDays tuesday = new TimesheetDays();
@@ -2521,6 +3068,13 @@ public class Timesheets{
 					tuesday.setCustomerId(row.tueCustomer);
 					tuesday.setNotes(row.tueNotes);
 					tuesday.setTimesheetRow(timesheetRow);
+					tuesday.setTaskCode(row.taskCode.toString());
+					tuesday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						tuesday.setStage(classNode.getId().toString());
+					}
+					tuesday.setUser(user);
 					tuesday.save();
 					
 					TimesheetDays wednesday = new TimesheetDays();
@@ -2540,6 +3094,13 @@ public class Timesheets{
 					wednesday.setCustomerId(row.wedCustomer);
 					wednesday.setNotes(row.wedNotes);
 					wednesday.setTimesheetRow(timesheetRow);
+					wednesday.setTaskCode(row.taskCode.toString());
+					wednesday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						wednesday.setStage(classNode.getId().toString());
+					}
+					wednesday.setUser(user);
 					wednesday.save();
 					
 					TimesheetDays thursday = new TimesheetDays();
@@ -2559,6 +3120,13 @@ public class Timesheets{
 					thursday.setCustomerId(row.thuCustomer);
 					thursday.setNotes(row.thuNotes);
 					thursday.setTimesheetRow(timesheetRow);
+					thursday.setTaskCode(row.taskCode.toString());
+					thursday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						thursday.setStage(classNode.getId().toString());
+					}
+					thursday.setUser(user);
 					thursday.save();
 					
 					TimesheetDays friday = new TimesheetDays();
@@ -2578,6 +3146,13 @@ public class Timesheets{
 					friday.setCustomerId(row.friCustomer);
 					friday.setNotes(row.friNotes);
 					friday.setTimesheetRow(timesheetRow);
+					friday.setTaskCode(row.taskCode.toString());
+					friday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						friday.setStage(classNode.getId().toString());
+					}
+					friday.setUser(user);
 					friday.save();
 					
 					TimesheetDays saturday = new TimesheetDays();
@@ -2597,6 +3172,13 @@ public class Timesheets{
 					saturday.setCustomerId(row.satCustomer);
 					saturday.setNotes(row.satNotes);
 					saturday.setTimesheetRow(timesheetRow);
+					saturday.setTaskCode(row.taskCode.toString());
+					saturday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						saturday.setStage(classNode.getId().toString());
+					}
+					saturday.setUser(user);
 					saturday.save();
 					
 					TimesheetDays sunday = new TimesheetDays();
@@ -2617,6 +3199,13 @@ public class Timesheets{
 					sunday.setCustomerId(row.sunCustomer);
 					sunday.setNotes(row.sunNotes);
 					sunday.setTimesheetRow(timesheetRow);
+					sunday.setTaskCode(row.taskCode.toString());
+					sunday.setWeekOfYear(timesheet.weekOfYear);
+					
+					if(classNode.getLevel() == 1) {
+						sunday.setStage(classNode.getId().toString());
+					}
+					sunday.setUser(user);
 					sunday.save();
 					
 				}

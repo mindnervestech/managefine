@@ -93,10 +93,10 @@ public interface Application {
 
 }
 
-public interface ProjectHealth {
+public interface UsageReport {
 	
-	public interface gantt {
-		public static String url="/showGantt";
+	public interface usageReport {
+		public static String url="/showUsageReport";
 	}
 	
 }

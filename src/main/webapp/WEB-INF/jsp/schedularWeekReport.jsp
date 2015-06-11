@@ -28,12 +28,19 @@
 <section class="full-container inner-content" ng-init='init(${weekReport})' style="min-height: 500px;overflow: auto;">
 	<section class="inner-content-full">
 		<div class="row" style="margin: 0px 0px 0px 0px; position: relative;">
+		<div style="float:left;">
 			<aside style="margin-bottom: 10px;">
 				<span><!-- <input style="height: 26px;background: #037CA9;border: none;width: 140px;color: white;" type="week" ng-change="changeWeek(currentDate)" name="input" ng-model="currentDate"
 			      	placeholder="YYYY-W##"  /> --><input class="week-picker" type="text" value="" readonly ng-change="changeWeek(currentDateObject)"></span> <!-- <a href="javascript:void(0);"
 					class="cal13 tip" title="Change Date"></a> -->
 			</aside>
-			
+		</div>
+		<div style="float:right;">	
+			<select ng-model="reportLevel" ng-change="getReportByLevel(currentDateObject)">
+				<option value="task">Task Level</option>
+				<option value="stage">Stage Level</option>
+			</select>
+		</div>	
 			<div ng-if="flag == 1">
 			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
 			<div ng-show="s.weekReport != null">
@@ -88,6 +95,7 @@
 						<h1> {{s.name}}</h1>
 						<h3>{{s.speciality}}</h3>
 						<p>{{s.bio}}</p>
+						
 						<!-- <p>
 							Monday, <span>27 Aug, 2014, 10:00 am</span> Follow Up visit, <span>0123
 								456 780</span>

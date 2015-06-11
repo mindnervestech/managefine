@@ -13,8 +13,11 @@ import java.util.Map;
 import models.Client;
 import models.Supplier;
 import models.Timesheet;
+import models.TimesheetActual;
 import models.TimesheetDays;
+import models.TimesheetDaysActual;
 import models.TimesheetRow;
+import models.TimesheetRowActual;
 import models.User;
 import models.UserLeave;
 
@@ -1265,6 +1268,244 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		return staffWeekReportList;
 	}
 	
+	@Override
+	public StaffWeekReportVM getTimesheetTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, weekOfYear, year);
+			
+			if(timesheet != null) {
+				List<TimesheetRowActual> timesheetRows = TimesheetRowActual.getByTimesheet(timesheet);
+				if(timesheetRows != null) {
+						String day = "";
+						List<WeekReportVM> weekReportList = new ArrayList<>();
+						for(int i=0;i<=6;i++) {
+							if(i == 0) {
+								day = "monday";
+							}
+							if(i == 1) {
+								day = "tuesday";
+							}
+							if(i == 2) {
+								day = "wednesday";
+							}
+							if(i == 3) {
+								day = "thursday";
+							}
+							if(i == 4) {
+								day = "friday";
+							}
+							if(i == 5) {
+								day = "saturday";
+							}
+							if(i == 6) {
+								day = "sunday";
+							}
+							WeekReportVM weekReportVM = new WeekReportVM();
+							int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+							List<ReportEvent> reportEventList = new ArrayList<>();
+							for(TimesheetRowActual row : timesheetRows) {
+								TimesheetDaysActual timesheetDay = TimesheetDaysActual.findByDayAndTimesheet(day, row);
+								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+								weekReportVM.date = "("+df.format(timesheetDay.getTimesheetDate())+")";
+								if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
+									
+									hours = timesheetDay.getWorkMinutes()/60;
+									totalMins = totalMins + timesheetDay.getWorkMinutes();
+									percent = (timesheetDay.getWorkMinutes()*100)/540;
+									totalPercent = totalPercent + percent;
+									ReportEvent reportEvent2 = new ReportEvent();
+									Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode));
+									Projectinstancenode instanceNode = Projectinstancenode.getByClassNodeAndInstance(classNode, Long.parseLong(row.getProjectCode()));
+									reportEvent2.setTooltip(classNode.getProjectTypes());
+									reportEvent2.setX("");
+									List<Integer> y2 = new ArrayList<Integer>();
+									y2.add(percent);
+									reportEvent2.setY(y2);
+									reportEvent2.setColor(classNode.getProjectColor());
+									if(timesheetDay.getWorkMinutes() % 60 == 0) {
+										reportEvent2.setLabel(hours+"Hrs");
+									} else {
+										int mins = timesheetDay.getWorkMinutes() % 60;
+										if(hours == 0) {
+											reportEvent2.setLabel(mins+" min");
+										} else {
+											reportEvent2.setLabel(hours+"."+mins+"Hrs");
+										}
+									}
+									
+									reportEventList.add(reportEvent2);
+								}
+							}
+							
+							totalHrs = (540-totalMins)/60;
+							
+							if(totalPercent == 0) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								reportEvent.setLabel("9Hrs");
+								reportEventList.add(reportEvent);
+							} 
+							if(totalPercent>0 && totalPercent<=100) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100-totalPercent);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								int min = (540-totalMins)%60;
+								if(min == 0) {
+									reportEvent.setLabel(totalHrs+"Hrs");
+								} else {
+									reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+								}
+								
+								reportEventList.add(reportEvent);
+								
+								
+							}
+							weekReportVM.data = reportEventList;
+							weekReportList.add(weekReportVM);
+							
+					}
+						reportVM.weekReport = weekReportList;
+				}	
+			}
+		
+		
+		return reportVM;
+	}
+	
+	@Override
+	public StaffWeekReportVM getCalendarTaskWeekReport(Integer weekOfYear, Integer year, User user, Date date) {
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
+			
+			if(timesheet != null) {
+				List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
+				if(timesheetRows != null) {
+						String day = "";
+						List<WeekReportVM> weekReportList = new ArrayList<>();
+						for(int i=0;i<=6;i++) {
+							if(i == 0) {
+								day = "monday";
+							}
+							if(i == 1) {
+								day = "tuesday";
+							}
+							if(i == 2) {
+								day = "wednesday";
+							}
+							if(i == 3) {
+								day = "thursday";
+							}
+							if(i == 4) {
+								day = "friday";
+							}
+							if(i == 5) {
+								day = "saturday";
+							}
+							if(i == 6) {
+								day = "sunday";
+							}
+							WeekReportVM weekReportVM = new WeekReportVM();
+							int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+							List<ReportEvent> reportEventList = new ArrayList<>();
+							for(TimesheetRow row : timesheetRows) {
+								TimesheetDays timesheetDay = TimesheetDays.findByDayAndTimesheet(day, row);
+								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+								weekReportVM.date = "("+df.format(timesheetDay.getTimesheetDate())+")";
+								if(timesheetDay.getTimeFrom() != null && timesheetDay.getTimeTo() != null) {
+									
+									hours = timesheetDay.getWorkMinutes()/60;
+									totalMins = totalMins + timesheetDay.getWorkMinutes();
+									percent = (timesheetDay.getWorkMinutes()*100)/540;
+									totalPercent = totalPercent + percent;
+									ReportEvent reportEvent2 = new ReportEvent();
+									Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode));
+									Projectinstancenode instanceNode = Projectinstancenode.getByClassNodeAndInstance(classNode, Long.parseLong(row.getProjectCode()));
+									reportEvent2.setTooltip(classNode.getProjectTypes());
+									reportEvent2.setX("");
+									List<Integer> y2 = new ArrayList<Integer>();
+									y2.add(percent);
+									reportEvent2.setY(y2);
+									reportEvent2.setColor(classNode.getProjectColor());
+									if(timesheetDay.getWorkMinutes() % 60 == 0) {
+										reportEvent2.setLabel(hours+"Hrs");
+									} else {
+										int mins = timesheetDay.getWorkMinutes() % 60;
+										if(hours == 0) {
+											reportEvent2.setLabel(mins+" min");
+										} else {
+											reportEvent2.setLabel(hours+"."+mins+"Hrs");
+										}
+									}
+									
+									reportEventList.add(reportEvent2);
+								}
+							}
+							
+							totalHrs = (540-totalMins)/60;
+							
+							if(totalPercent == 0) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								reportEvent.setLabel("9Hrs");
+								reportEventList.add(reportEvent);
+							} 
+							if(totalPercent>0 && totalPercent<=100) {
+								ReportEvent reportEvent = new ReportEvent();
+								reportEvent.setTooltip("Free Time!");
+								reportEvent.setX("");
+								List<Integer> y = new ArrayList<Integer>();
+								y.add(100-totalPercent);
+								reportEvent.setY(y);
+								reportEvent.setColor("#FF0000");
+								int min = (540-totalMins)%60;
+								if(min == 0) {
+									reportEvent.setLabel(totalHrs+"Hrs");
+								} else {
+									reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+								}
+								
+								reportEventList.add(reportEvent);
+								
+								
+							}
+							weekReportVM.data = reportEventList;
+							weekReportList.add(weekReportVM);
+							
+					}
+						reportVM.weekReport = weekReportList;
+				}	
+			}
+		
+		
+		return reportVM;
+	}
+	
 	public GanttVM getProjectDataOriginal(Long id) {
 		
 		GanttVM ganttVM = new GanttVM();
@@ -1378,6 +1619,698 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		
 	}
 	
+	@Override
+	public List getStageReport(Integer weekOfYear, Integer year, User user) {
+		List<User> userList = User.findByManager(user);
+		List<StaffWeekReportVM> staffWeekReportList = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR,year);
+		cal.set(Calendar.WEEK_OF_YEAR,weekOfYear);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for(User userObj: userList) {
+			
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = userObj.getId();
+			reportVM.name = userObj.getFirstName()+" "+userObj.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			Timesheet timesheet = Timesheet.getByUserWeekAndYear(userObj, weekOfYear, year);
+			if(timesheet != null) {
+				List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
+			if(timesheetRows != null) {
+				
+				List<WeekReportVM> weekReportList = new ArrayList<>();
+				
+				DateFormat dfm = new SimpleDateFormat("MM-dd-yyyy");
+				
+			for(int i=0;i<=6;i++) {
+				if(i == 0) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+				}
+				if(i == 1) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.TUESDAY);
+				}
+				if(i == 2) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.WEDNESDAY);
+				}
+				if(i == 3) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.THURSDAY);
+				}
+				if(i == 4) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.FRIDAY);
+				}
+				if(i == 5) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
+				}
+				if(i == 6) {
+					cal.set(Calendar.WEEK_OF_YEAR,weekOfYear+1);
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+				}
+		
+				WeekReportVM weekReportVM = new WeekReportVM();
+				weekReportVM.date = dfm.format(cal.getTime());
+				List<SqlRow> dayRows = TimesheetDays.getMinutesTotalByDay(df.format(cal.getTime()), userObj.getId());
+				int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+				List<ReportEvent> reportEventList = new ArrayList<>();
+				
+				for(SqlRow row: dayRows) {
+					if(row.get("minutes") != null) {
+					int totalMinutes = Integer.parseInt(row.get("minutes").toString());
+					hours = totalMinutes/60;
+					totalMins = totalMins + totalMinutes;
+					percent = (totalMinutes*100)/540;
+					totalPercent = totalPercent + percent;
+					ReportEvent reportEvent2 = new ReportEvent();
+					Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("stage").toString()));
+					reportEvent2.setTooltip(classNode.getProjectTypes());
+					reportEvent2.setX("");
+					List<Integer> y2 = new ArrayList<Integer>();
+					y2.add(percent);
+					reportEvent2.setY(y2);
+					reportEvent2.setColor(classNode.getProjectColor());
+					if(totalMinutes % 60 == 0) {
+						reportEvent2.setLabel(hours+"Hrs");
+					} else {
+						int mins = totalMinutes % 60;
+						if(hours == 0) {
+							reportEvent2.setLabel(mins+" min");
+						} else {
+							reportEvent2.setLabel(hours+"."+mins+"Hrs");
+						}
+					}
+					
+						reportEventList.add(reportEvent2);
+					}
+				}
+			
+				totalHrs = (540-totalMins)/60;
+				if(totalPercent == 0) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					reportEvent.setLabel("9Hrs");
+					reportEventList.add(reportEvent);
+				} 
+				if(totalPercent>0 && totalPercent<=100) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100-totalPercent);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					int min = (540-totalMins)%60;
+					if(min == 0) {
+						reportEvent.setLabel(totalHrs+"Hrs");
+					} else {
+						reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+					}
+					
+					reportEventList.add(reportEvent);
+					
+					
+				}
+					weekReportVM.data = reportEventList;
+					weekReportList.add(weekReportVM);
+					reportVM.weekReport = weekReportList;
+			}
+			
+			}
+		  }	
+			
+			staffWeekReportList.add(reportVM);
+				
+				
+		}
+			
+		return staffWeekReportList;
+	}
 	
+	@Override
+	public StaffWeekReportVM getCalendarStageWeekReport(Integer weekOfYear, Integer year, User user) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR,year);
+		cal.set(Calendar.WEEK_OF_YEAR,weekOfYear);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			Timesheet timesheet = Timesheet.getByUserWeekAndYear(user, weekOfYear, year);
+			if(timesheet != null) {
+				List<TimesheetRow> timesheetRows = TimesheetRow.getByTimesheet(timesheet);
+			if(timesheetRows != null) {
+				
+				List<WeekReportVM> weekReportList = new ArrayList<>();
+				
+				DateFormat dfm = new SimpleDateFormat("MM-dd-yyyy");
+				
+			for(int i=0;i<=6;i++) {
+				if(i == 0) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+				}
+				if(i == 1) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.TUESDAY);
+				}
+				if(i == 2) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.WEDNESDAY);
+				}
+				if(i == 3) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.THURSDAY);
+				}
+				if(i == 4) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.FRIDAY);
+				}
+				if(i == 5) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
+				}
+				if(i == 6) {
+					cal.set(Calendar.WEEK_OF_YEAR,weekOfYear+1);
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+				}
+		
+				WeekReportVM weekReportVM = new WeekReportVM();
+				weekReportVM.date = "("+dfm.format(cal.getTime())+")";
+				List<SqlRow> dayRows = TimesheetDays.getMinutesTotalByDay(df.format(cal.getTime()), user.getId());
+				int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+				List<ReportEvent> reportEventList = new ArrayList<>();
+				
+				for(SqlRow row: dayRows) {
+					if(row.get("minutes") != null) {
+					int totalMinutes = Integer.parseInt(row.get("minutes").toString());
+					hours = totalMinutes/60;
+					totalMins = totalMins + totalMinutes;
+					percent = (totalMinutes*100)/540;
+					totalPercent = totalPercent + percent;
+					ReportEvent reportEvent2 = new ReportEvent();
+					Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("stage").toString()));
+					reportEvent2.setTooltip(classNode.getProjectTypes());
+					reportEvent2.setX("");
+					List<Integer> y2 = new ArrayList<Integer>();
+					y2.add(percent);
+					reportEvent2.setY(y2);
+					reportEvent2.setColor(classNode.getProjectColor());
+					if(totalMinutes % 60 == 0) {
+						reportEvent2.setLabel(hours+"Hrs");
+					} else {
+						int mins = totalMinutes % 60;
+						if(hours == 0) {
+							reportEvent2.setLabel(mins+" min");
+						} else {
+							reportEvent2.setLabel(hours+"."+mins+"Hrs");
+						}
+					}
+					
+						reportEventList.add(reportEvent2);
+					}
+				}
+			
+				totalHrs = (540-totalMins)/60;
+				if(totalPercent == 0) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					reportEvent.setLabel("9Hrs");
+					reportEventList.add(reportEvent);
+				} 
+				if(totalPercent>0 && totalPercent<=100) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100-totalPercent);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					int min = (540-totalMins)%60;
+					if(min == 0) {
+						reportEvent.setLabel(totalHrs+"Hrs");
+					} else {
+						reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+					}
+					
+					reportEventList.add(reportEvent);
+					
+					
+				}
+					weekReportVM.data = reportEventList;
+					weekReportList.add(weekReportVM);
+			}
+				reportVM.weekReport = weekReportList;
+			}
+		  }	
+			
+			
+		return reportVM;
+	}
+	
+	@Override
+	public StaffWeekReportVM getTimesheetStageWeekReport(Integer weekOfYear, Integer year, User user) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR,year);
+		cal.set(Calendar.WEEK_OF_YEAR,weekOfYear);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			TimesheetActual timesheet = TimesheetActual.getByUserWeekAndYear(user, weekOfYear, year);
+			if(timesheet != null) {
+				List<TimesheetRowActual> timesheetRows = TimesheetRowActual.getByTimesheet(timesheet);
+			if(timesheetRows != null) {
+				
+				List<WeekReportVM> weekReportList = new ArrayList<>();
+				
+				DateFormat dfm = new SimpleDateFormat("MM-dd-yyyy");
+				
+			for(int i=0;i<=6;i++) {
+				if(i == 0) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+				}
+				if(i == 1) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.TUESDAY);
+				}
+				if(i == 2) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.WEDNESDAY);
+				}
+				if(i == 3) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.THURSDAY);
+				}
+				if(i == 4) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.FRIDAY);
+				}
+				if(i == 5) {
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
+				}
+				if(i == 6) {
+					cal.set(Calendar.WEEK_OF_YEAR,weekOfYear+1);
+					cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+				}
+		
+				WeekReportVM weekReportVM = new WeekReportVM();
+				weekReportVM.date = "("+dfm.format(cal.getTime())+")";
+				List<SqlRow> dayRows = TimesheetDaysActual.getMinutesTotalByDay(df.format(cal.getTime()), user.getId());
+				int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+				List<ReportEvent> reportEventList = new ArrayList<>();
+				
+				for(SqlRow row: dayRows) {
+					if(row.get("minutes") != null) {
+					int totalMinutes = Integer.parseInt(row.get("minutes").toString());
+					hours = totalMinutes/60;
+					totalMins = totalMins + totalMinutes;
+					percent = (totalMinutes*100)/540;
+					totalPercent = totalPercent + percent;
+					ReportEvent reportEvent2 = new ReportEvent();
+					Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("stage").toString()));
+					reportEvent2.setTooltip(classNode.getProjectTypes());
+					reportEvent2.setX("");
+					List<Integer> y2 = new ArrayList<Integer>();
+					y2.add(percent);
+					reportEvent2.setY(y2);
+					reportEvent2.setColor(classNode.getProjectColor());
+					if(totalMinutes % 60 == 0) {
+						reportEvent2.setLabel(hours+"Hrs");
+					} else {
+						int mins = totalMinutes % 60;
+						if(hours == 0) {
+							reportEvent2.setLabel(mins+" min");
+						} else {
+							reportEvent2.setLabel(hours+"."+mins+"Hrs");
+						}
+					}
+					
+						reportEventList.add(reportEvent2);
+					}
+				}
+			
+				totalHrs = (540-totalMins)/60;
+				if(totalPercent == 0) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					reportEvent.setLabel("9Hrs");
+					reportEventList.add(reportEvent);
+				} 
+				if(totalPercent>0 && totalPercent<=100) {
+					ReportEvent reportEvent = new ReportEvent();
+					reportEvent.setTooltip("Free Time!");
+					reportEvent.setX("");
+					List<Integer> y = new ArrayList<Integer>();
+					y.add(100-totalPercent);
+					reportEvent.setY(y);
+					reportEvent.setColor("#FF0000");
+					int min = (540-totalMins)%60;
+					if(min == 0) {
+						reportEvent.setLabel(totalHrs+"Hrs");
+					} else {
+						reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+					}
+					
+					reportEventList.add(reportEvent);
+					
+					
+				}
+					weekReportVM.data = reportEventList;
+					weekReportList.add(weekReportVM);
+			}
+				reportVM.weekReport = weekReportList;
+			}
+		  }	
+			
+			
+		return reportVM;
+	}
+	
+	
+	@Override
+	public StaffWeekReportVM getTaskWeekTotal(Integer weekOfYear, Integer year, User user) {
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			List<WeekReportVM> weekReportList = new ArrayList<>();
+							WeekReportVM weekReportVM = new WeekReportVM();
+							int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+							List<ReportEvent> reportEventList = new ArrayList<>();
+							List<SqlRow> dayRows = TimesheetDays.getWeekReportOfTask(weekOfYear, user.getId());
+								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+								
+								for(SqlRow row: dayRows) {
+									if(row.get("minutes") != null) {
+									int totalMinutes = Integer.parseInt(row.get("minutes").toString());
+									hours = totalMinutes/60;
+									totalMins = totalMins + totalMinutes;
+									percent = (totalMinutes*100)/3780;
+									totalPercent = totalPercent + percent;
+									ReportEvent reportEvent2 = new ReportEvent();
+									Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("task_code").toString()));
+									reportEvent2.setTooltip(classNode.getProjectTypes());
+									reportEvent2.setX("");
+									List<Integer> y2 = new ArrayList<Integer>();
+									y2.add(percent);
+									reportEvent2.setY(y2);
+									reportEvent2.setColor(classNode.getProjectColor());
+									if(totalMinutes % 60 == 0) {
+										reportEvent2.setLabel(hours+"Hrs");
+									} else {
+										int mins = totalMinutes % 60;
+										if(hours == 0) {
+											reportEvent2.setLabel(mins+" min");
+										} else {
+											reportEvent2.setLabel(hours+"."+mins+"Hrs");
+										}
+									}
+									
+										reportEventList.add(reportEvent2);
+									}
+								}
+							
+								totalHrs = (3780-totalMins)/60;
+								if(totalPercent == 0) {
+									ReportEvent reportEvent = new ReportEvent();
+									reportEvent.setTooltip("Free Time!");
+									reportEvent.setX("");
+									List<Integer> y = new ArrayList<Integer>();
+									y.add(100);
+									reportEvent.setY(y);
+									reportEvent.setColor("#FF0000");
+									reportEvent.setLabel("63Hrs");
+									reportEventList.add(reportEvent);
+								} 
+								if(totalPercent>0 && totalPercent<=100) {
+									ReportEvent reportEvent = new ReportEvent();
+									reportEvent.setTooltip("Free Time!");
+									reportEvent.setX("");
+									List<Integer> y = new ArrayList<Integer>();
+									y.add(100-totalPercent);
+									reportEvent.setY(y);
+									reportEvent.setColor("#FF0000");
+									int min = (3780-totalMins)%60;
+									if(min == 0) {
+										reportEvent.setLabel(totalHrs+"Hrs");
+									} else {
+										reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+									}
+									
+									reportEventList.add(reportEvent);
+									
+									
+								}
+									weekReportVM.data = reportEventList;
+									weekReportList.add(weekReportVM);
+							
+									WeekReportVM weekReportVM2 = new WeekReportVM();
+									int hours2 = 0,totalPercent2 = 0,totalHrs2 = 0,percent2,totalMins2 = 0;
+									List<ReportEvent> reportEventList2 = new ArrayList<>();
+									List<SqlRow> dayRows2 = TimesheetDaysActual.getWeekReportOfTask(weekOfYear, user.getId());
+										
+										for(SqlRow row: dayRows2) {
+											if(row.get("minutes") != null) {
+											int totalMinutes2 = Integer.parseInt(row.get("minutes").toString());
+											hours2 = totalMinutes2/60;
+											totalMins2 = totalMins2 + totalMinutes2;
+											percent2 = (totalMinutes2*100)/3780;
+											totalPercent2 = totalPercent2 + percent2;
+											ReportEvent reportEvent2 = new ReportEvent();
+											Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("task_code").toString()));
+											reportEvent2.setTooltip(classNode.getProjectTypes());
+											reportEvent2.setX("");
+											List<Integer> y2 = new ArrayList<Integer>();
+											y2.add(percent2);
+											reportEvent2.setY(y2);
+											reportEvent2.setColor(classNode.getProjectColor());
+											if(totalMinutes2 % 60 == 0) {
+												reportEvent2.setLabel(hours2+"Hrs");
+											} else {
+												int mins = totalMinutes2 % 60;
+												if(hours2 == 0) {
+													reportEvent2.setLabel(mins+" min");
+												} else {
+													reportEvent2.setLabel(hours2+"."+mins+"Hrs");
+												}
+											}
+											
+												reportEventList2.add(reportEvent2);
+											}
+										}
+									
+										totalHrs2 = (3780-totalMins2)/60;
+										if(totalPercent2 == 0) {
+											ReportEvent reportEvent = new ReportEvent();
+											reportEvent.setTooltip("Free Time!");
+											reportEvent.setX("");
+											List<Integer> y = new ArrayList<Integer>();
+											y.add(100);
+											reportEvent.setY(y);
+											reportEvent.setColor("#FF0000");
+											reportEvent.setLabel("63Hrs");
+											reportEventList2.add(reportEvent);
+										} 
+										if(totalPercent2>0 && totalPercent2<=100) {
+											ReportEvent reportEvent = new ReportEvent();
+											reportEvent.setTooltip("Free Time!");
+											reportEvent.setX("");
+											List<Integer> y = new ArrayList<Integer>();
+											y.add(100-totalPercent2);
+											reportEvent.setY(y);
+											reportEvent.setColor("#FF0000");
+											int min = (3780-totalMins2)%60;
+											if(min == 0) {
+												reportEvent.setLabel(totalHrs2+"Hrs");
+											} else {
+												reportEvent.setLabel(totalHrs2+"."+min+"Hrs");
+											}
+											
+											reportEventList2.add(reportEvent);
+											
+											
+										}
+											weekReportVM2.data = reportEventList2;
+											weekReportList.add(weekReportVM2);			
+									
+									
+								reportVM.weekReport = weekReportList;
+							
+							
+						return reportVM;
+	}
+	
+	@Override
+	public StaffWeekReportVM getStageWeekTotal(Integer weekOfYear, Integer year, User user) {
+		
+			StaffWeekReportVM reportVM = new StaffWeekReportVM();
+			reportVM.staffId = user.getId();
+			reportVM.name = user.getFirstName()+" "+user.getLastName();
+			reportVM.week = weekOfYear;
+			reportVM.year = year;
+			
+			List<WeekReportVM> weekReportList = new ArrayList<>();
+							WeekReportVM weekReportVM = new WeekReportVM();
+							int hours = 0,totalPercent = 0,totalHrs = 0,percent,totalMins = 0;
+							List<ReportEvent> reportEventList = new ArrayList<>();
+							List<SqlRow> dayRows = TimesheetDays.getWeekReportOfStage(weekOfYear, user.getId());
+								DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+								
+								for(SqlRow row: dayRows) {
+									if(row.get("minutes") != null) {
+									int totalMinutes = Integer.parseInt(row.get("minutes").toString());
+									hours = totalMinutes/60;
+									totalMins = totalMins + totalMinutes;
+									percent = (totalMinutes*100)/3780;
+									totalPercent = totalPercent + percent;
+									ReportEvent reportEvent2 = new ReportEvent();
+									Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("stage").toString()));
+									reportEvent2.setTooltip(classNode.getProjectTypes());
+									reportEvent2.setX("");
+									List<Integer> y2 = new ArrayList<Integer>();
+									y2.add(percent);
+									reportEvent2.setY(y2);
+									reportEvent2.setColor(classNode.getProjectColor());
+									if(totalMinutes % 60 == 0) {
+										reportEvent2.setLabel(hours+"Hrs");
+									} else {
+										int mins = totalMinutes % 60;
+										if(hours == 0) {
+											reportEvent2.setLabel(mins+" min");
+										} else {
+											reportEvent2.setLabel(hours+"."+mins+"Hrs");
+										}
+									}
+									
+										reportEventList.add(reportEvent2);
+									}
+								}
+							
+								totalHrs = (3780-totalMins)/60;
+								if(totalPercent == 0) {
+									ReportEvent reportEvent = new ReportEvent();
+									reportEvent.setTooltip("Free Time!");
+									reportEvent.setX("");
+									List<Integer> y = new ArrayList<Integer>();
+									y.add(100);
+									reportEvent.setY(y);
+									reportEvent.setColor("#FF0000");
+									reportEvent.setLabel("63Hrs");
+									reportEventList.add(reportEvent);
+								} 
+								if(totalPercent>0 && totalPercent<=100) {
+									ReportEvent reportEvent = new ReportEvent();
+									reportEvent.setTooltip("Free Time!");
+									reportEvent.setX("");
+									List<Integer> y = new ArrayList<Integer>();
+									y.add(100-totalPercent);
+									reportEvent.setY(y);
+									reportEvent.setColor("#FF0000");
+									int min = (3780-totalMins)%60;
+									if(min == 0) {
+										reportEvent.setLabel(totalHrs+"Hrs");
+									} else {
+										reportEvent.setLabel(totalHrs+"."+min+"Hrs");
+									}
+									
+									reportEventList.add(reportEvent);
+									
+									
+								}
+									weekReportVM.data = reportEventList;
+									weekReportList.add(weekReportVM);
+							
+									WeekReportVM weekReportVM2 = new WeekReportVM();
+									int hours2 = 0,totalPercent2 = 0,totalHrs2 = 0,percent2,totalMins2 = 0;
+									List<ReportEvent> reportEventList2 = new ArrayList<>();
+									List<SqlRow> dayRows2 = TimesheetDaysActual.getWeekReportOfStage(weekOfYear, user.getId());
+										
+										for(SqlRow row: dayRows2) {
+											if(row.get("minutes") != null) {
+											int totalMinutes2 = Integer.parseInt(row.get("minutes").toString());
+											hours2 = totalMinutes2/60;
+											totalMins2 = totalMins2 + totalMinutes2;
+											percent2 = (totalMinutes2*100)/3780;
+											totalPercent2 = totalPercent2 + percent2;
+											ReportEvent reportEvent2 = new ReportEvent();
+											Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.get("stage").toString()));
+											reportEvent2.setTooltip(classNode.getProjectTypes());
+											reportEvent2.setX("");
+											List<Integer> y2 = new ArrayList<Integer>();
+											y2.add(percent2);
+											reportEvent2.setY(y2);
+											reportEvent2.setColor(classNode.getProjectColor());
+											if(totalMinutes2 % 60 == 0) {
+												reportEvent2.setLabel(hours2+"Hrs");
+											} else {
+												int mins = totalMinutes2 % 60;
+												if(hours2 == 0) {
+													reportEvent2.setLabel(mins+" min");
+												} else {
+													reportEvent2.setLabel(hours2+"."+mins+"Hrs");
+												}
+											}
+											
+												reportEventList2.add(reportEvent2);
+											}
+										}
+									
+										totalHrs2 = (3780-totalMins2)/60;
+										if(totalPercent2 == 0) {
+											ReportEvent reportEvent = new ReportEvent();
+											reportEvent.setTooltip("Free Time!");
+											reportEvent.setX("");
+											List<Integer> y = new ArrayList<Integer>();
+											y.add(100);
+											reportEvent.setY(y);
+											reportEvent.setColor("#FF0000");
+											reportEvent.setLabel("63Hrs");
+											reportEventList2.add(reportEvent);
+										} 
+										if(totalPercent2>0 && totalPercent2<=100) {
+											ReportEvent reportEvent = new ReportEvent();
+											reportEvent.setTooltip("Free Time!");
+											reportEvent.setX("");
+											List<Integer> y = new ArrayList<Integer>();
+											y.add(100-totalPercent2);
+											reportEvent.setY(y);
+											reportEvent.setColor("#FF0000");
+											int min = (3780-totalMins2)%60;
+											if(min == 0) {
+												reportEvent.setLabel(totalHrs2+"Hrs");
+											} else {
+												reportEvent.setLabel(totalHrs2+"."+min+"Hrs");
+											}
+											
+											reportEventList2.add(reportEvent);
+											
+											
+										}
+											weekReportVM2.data = reportEventList2;
+											weekReportList.add(weekReportVM2);			
+									
+									
+								reportVM.weekReport = weekReportList;
+							
+							
+						return reportVM;
+	}
 	
 }

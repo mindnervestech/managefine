@@ -269,6 +269,10 @@ public class User extends Model {
 		return find.where().eq("manager", user).findList();
 	}
 	
+	public static List<User> findByUserType() {
+		return find.where().eq("usertype", "User").findList();
+	}
+	
 	public static List<User> findByManagerBycompny(User user,String query, Long projectId) {
 		List<User> uList = new ArrayList<User>();
 		Projectinstance projectinstance = Projectinstance.findById(projectId);
