@@ -1,5 +1,7 @@
 package com.mnt.time.controller;
 
+import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
+
 public class routes {
 	
 public interface Application {
@@ -576,6 +578,14 @@ public interface Leaves {
 
 	public interface retractLeave {
 		public static String url="/leave/retractLeave";
+	}
+}
+
+public interface ProjectHealth
+{
+	public interface gantt
+	{
+		public static String url="/showGantt";
 	}
 }
 
