@@ -483,9 +483,17 @@ public interface CalendarBuckets {
 	}
 }
 
-
+public interface custmer{
+	public interface clientinfo{
+		public static String url="/clientinfo";
+	}
+	
+}
 
 public interface Leaves {
+	public interface clientinfo{
+		public static String url="/clientinfo";
+	}
 	public interface defineLeaves{
 		public static String url="/defineLeaves";
 	}

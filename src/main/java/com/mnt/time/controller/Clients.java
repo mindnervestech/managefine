@@ -204,6 +204,12 @@ public class Clients {
 			 Cell cell6 = rowHeader.createCell(cellnum++);
 			 cell6.setCellValue("Region");
 			 
+			 Cell cell111 = rowHeader.createCell(cellnum++);
+			 cell111.setCellValue("capital");
+			 
+			 Cell cell222 = rowHeader.createCell(cellnum++);
+			 cell222.setCellValue("typeofcompany");
+			 
 			 Cell cell7 = rowHeader.createCell(cellnum++);
 			 cell7.setCellValue("State");
 			 
@@ -601,6 +607,24 @@ public class Clients {
 	            	    if(s.getRegion() != null){
 	            	    	Cell cell = rowHeader.createCell(cellnum++);
 	            	    	cell.setCellValue(s.getRegion());
+	            	     }else{
+	            	    	 Cell cell = rowHeader.createCell(cellnum++);
+	            	    	 cell.setCellValue("");
+	            	    }
+	            	    
+	            	    
+	            	    if(s.getCapital() != null){
+	            	    	Cell cell = rowHeader.createCell(cellnum++);
+	            	    	cell.setCellValue(s.getCapital());
+	            	     }else{
+	            	    	 Cell cell = rowHeader.createCell(cellnum++);
+	            	    	 cell.setCellValue("");
+	            	    }
+	            	    
+	            	    
+	            	    if(s.getTypeofcompany() != null){
+	            	    	Cell cell = rowHeader.createCell(cellnum++);
+	            	    	cell.setCellValue(s.getTypeofcompany());
 	            	     }else{
 	            	    	 Cell cell = rowHeader.createCell(cellnum++);
 	            	    	 cell.setCellValue("");
@@ -1510,6 +1534,8 @@ public class Clients {
 	            	    	 Cell cell = rowHeader.createCell(cellnum++);
 	            	    	 cell.setCellValue("");
 	            	    }
+	            	    
+	            	    
 			 	}
 		      //Code  columns values End
 		try{

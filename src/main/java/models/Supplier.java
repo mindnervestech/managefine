@@ -117,25 +117,36 @@ public class Supplier extends Model {
 	@UIFields(order=10,label="Region")
 	public String region;
 	
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=11,label="Capital")
+	public String capital;
+	
+	
+	@WizardCardUI(name="Personal Info",step=2)
+	@UIFields(order=12,label="Type of Company(Pvt Ltd,LLC,Public Ltd,Govt Enterprise, Semi Govt) ")
+	public String typeofcompany;
+	
+	
 
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=11,label="WEBSITE")
+	@UIFields(order=13,label="WEBSITE")
 	public String website;
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=12,label="Type")
+	@UIFields(order=14,label="Type")
 	@Enumerated(EnumType.STRING)
 	public Locality locality;
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=13,label="Customer Type")
+	@UIFields(order=15,label="Customer Type")
     public String customerType;
 		
 
 
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=14,label="segment ")
+	@UIFields(order=16,label="segment ")
     public String segment;
 	
 	/*@WizardCardUI(name="Personal Info",step=2)
@@ -143,21 +154,21 @@ public class Supplier extends Model {
     public String sagment;*/
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=15,label="subsegment ")
+	@UIFields(order=17,label="subsegment ")
     public String subsagment;
 	
 
 		
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=16,label="Number of Employees ")
+	@UIFields(order=18,label="Number of Employees ")
     public String numberOfEmployees;
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=17,label="Estabilshment year")
+	@UIFields(order=19,label="Estabilshment year")
     public String estabilshmentYear;
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=18,label="Company Registration Nos")
+	@UIFields(order=20,label="Company Registration Nos")
     public String companyRegistrationNos;
 	
 	/*@WizardCardUI(name="Personal Info",step=2)
@@ -165,7 +176,7 @@ public class Supplier extends Model {
     public String capital;*/
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=19,label="Tier Large, Medium, Small")
+	@UIFields(order=21,label="Tier Large, Medium, Small")
     public String tierLargeMediumSmall;
 	
 	/*@WizardCardUI(name="Factory",step=2)
@@ -180,31 +191,31 @@ public class Supplier extends Model {
     public String officeAddress ;
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=1,label="Land line Nos of Office")
+	@UIFields(order=2,label="Land line Nos of Office")
     public String landlinenosofoffice;
 	
 	
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=2,label="Factory Address")
+	@UIFields(order=3,label="Factory Address")
     public String factoryAddress ;
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=3,label="Production Head Name")
+	@UIFields(order=4,label="Production Head Name")
     public String productionHeadName ;
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=4,label="Production Head Cell nos")
+	@UIFields(order=5,label="Production Head Cell nos")
 	@Validation(digits=true)
     public String productionHeadCellnos ;
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=5,label="Mail Id of Production  Head")
+	@UIFields(order=6,label="Mail Id of Production  Head")
 	@Validation(email=true)
     public String mailIdofProductionHead ;
 	
 	@WizardCardUI(name="Office And Factory",step=3)
-	@UIFields(order=6,label="Average stay with Company")
+	@UIFields(order=7,label="Average stay with Company")
     public String averagestaywithCompanyFactory ;
 	
 	//0000000000000000000000000000000000000000000000000000000000
@@ -615,12 +626,10 @@ public class Supplier extends Model {
 	
 	@WizardCardUI(name="Others",step=11)
 	@UIFields(order=12,label="Tel.No.")
-	@Validation(digits=true)
 	public String telNo;
 	
 	@WizardCardUI(name="Others",step=11)
 	@UIFields(order=13,label="Hp.No.")
-	@Validation(digits=true)
 	public String hpNo;
 	
 	@WizardCardUI(name="Others",step=11)
@@ -1735,6 +1744,22 @@ public class Supplier extends Model {
 
 	
 
+
+	public String getCapital() {
+		return capital;
+	}
+
+	public void setCapital(String capital) {
+		this.capital = capital;
+	}
+
+	public String getTypeofcompany() {
+		return typeofcompany;
+	}
+
+	public void setTypeofcompany(String typeofcompany) {
+		this.typeofcompany = typeofcompany;
+	}
 
 	public String getSubLocation() {
 		return subLocation;

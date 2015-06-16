@@ -133,6 +133,13 @@
     	<put-attribute name="content" value="/WEB-INF/jsp/create-project.jsp" />
   	</definition>
   	
+  	
+  	<definition name="clientInfo" extends="base.definition">
+    	<put-attribute name="title" value="Client Info" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/clientInfo.jsp" />
+  	</definition>
+  	
+  	
   	<definition name="nodeMetaData" extends="base.definition">
     	<put-attribute name="title" value="Create Projects" />
     	<put-attribute name="content" value="/WEB-INF/jsp/nodeMetaData.jsp" />
