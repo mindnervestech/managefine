@@ -1,9 +1,9 @@
-package com.mnt.clientinfo.vm;
+package com.mnt.supplierinfo.vm;
 
 
-public class clientinfoVm {
+public class supplierinfoVm {
 	
-	public String clientname;
+	public String suppliername;
 	public long id;
 	public String phoneno;
 	public String email;
@@ -142,6 +142,12 @@ public class clientinfoVm {
     
     
     
+	public String getSuppliername() {
+		return suppliername;
+	}
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
 	public String getTodate() {
 		return todate;
 	}
@@ -166,12 +172,7 @@ public class clientinfoVm {
 	public void setCustomertype(String customertype) {
 		this.customertype = customertype;
 	}
-	public String getClientname() {
-		return clientname;
-	}
-	public void setClientname(String clientname) {
-		this.clientname = clientname;
-	}
+	
 	public String getPhoneno() {
 		return phoneno;
 	}

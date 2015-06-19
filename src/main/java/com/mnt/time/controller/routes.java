@@ -496,6 +496,9 @@ public interface Leaves {
 	public interface clientinfo{
 		public static String url="/clientinfo";
 	}
+	public interface supplierinfo{
+		public static String url="/supplierinfo";
+	}
 	public interface defineLeaves{
 		public static String url="/defineLeaves";
 	}

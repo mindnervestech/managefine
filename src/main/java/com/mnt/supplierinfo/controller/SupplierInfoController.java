@@ -1,4 +1,4 @@
-package com.mnt.clientinfo.controller;
+package com.mnt.supplierinfo.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,26 +19,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mnt.clientinfo.vm.clientinfoVm;
+import com.mnt.supplierinfo.vm.supplierinfoVm;
 
 import dto.fixtures.MenuBarFixture;
 @Controller
-public class ClientInfoController {
+public class SupplierInfoController {
 
 	@Autowired
-	com.mnt.clientinfo.service.ClientInfoService clientInfoService;
+	com.mnt.supplierinfo.service.SupplierInfoService SupplierInfoService;
 	
 	
-	@RequestMapping(value="/clientinfo",method=RequestMethod.GET)
+	@RequestMapping(value="/supplierinfo",method=RequestMethod.GET)
 	public String clientdata(@CookieValue("username")String username,Model model) {
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
 		model.addAttribute("user", User.findByEmail(username));
-		return "clientInfo";
+		return "supplierInfo";
 	}
 	
-	@RequestMapping(value="/clientinformation",method=RequestMethod.GET)
-	public @ResponseBody List clientdatabase() {
-		List<Client>result=Client.getClientList();
-		List<clientinfoVm>finalinfo=new ArrayList<clientinfoVm>();
+	@RequestMapping(value="/supplierinformation",method=RequestMethod.GET)
+	public @ResponseBody List supplierdatabase() {
+		List<Supplier>result=Supplier.getSupplierList();
+		List<supplierinfoVm>finalinfo=new ArrayList<supplierinfoVm>();
 		System.out.println("list size="+result.size());
 		List<String>x=new ArrayList<String>();
 		
@@ -54,11 +55,11 @@ public class ClientInfoController {
         s2[1]=i+"";
         String s3=s2[0]+"-"+s2[1]+"-"+s2[2];
 		
-		for(Client s:result)
+		for(Supplier s:result)
 		{
-			clientinfoVm vm=new clientinfoVm();
+			supplierinfoVm vm=new supplierinfoVm();
 			vm.setId(s.getId());
-			vm.setClientname(s.getClientName());
+			vm.setSuppliername(s.getSupplierName());
 			vm.setPhoneno(s.getPhoneNo());
 			vm.setEmail(s.getEmail());
 			vm.setCountry(s.getCountry().toString());
@@ -71,25 +72,25 @@ public class ClientInfoController {
 			finalinfo.add(vm);
 		
 			//System.out.println("x="+s.getClientName());
-			x.add(s.getClientName());
+			//x.add(s.getClientName());
 		}
 		//return x;*/
 		return finalinfo;
 	}
 	
 	
-	@RequestMapping(value="/selectedclientinfo",method=RequestMethod.GET)
-	public @ResponseBody clientinfoVm showclientdatabase(@RequestParam("id")Long id) {
+	@RequestMapping(value="/selectedsupplierinfo",method=RequestMethod.GET)
+	public @ResponseBody supplierinfoVm showclientdatabase(@RequestParam("id")Long id) {
 		System.out.println("idxxxxxxxxxxxxxxxxxxxxxxx="+id);
-		Client s=Client.findById(id);
+		Supplier s=Supplier.findById(id);
           System.out.println("result="+s.getCountry().toString());		
      
 		
-			clientinfoVm vm=new clientinfoVm();
+			supplierinfoVm vm=new supplierinfoVm();
 			
 			vm.setId(s.getId());
 			
-			vm.setClientname(s.getClientName());
+			vm.setSuppliername(s.getSupplierName());
 			
 			if(s.getPhoneNo().equals("")||s.getPhoneNo()==null)
 			{

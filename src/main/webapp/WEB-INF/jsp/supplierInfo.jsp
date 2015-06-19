@@ -1,44 +1,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="menuContext.jsp" />
-<div ng-app="ClientInfoApp" ng-controller="ClientInfoController">
- <h4>
-		<b style="margin-left: 20px;"><i>Client Info</i></b>
-	</h4>
+<div ng-app="SupplierInfoApp" ng-controller="SupplierInfoController">
 
+	<h4>
+		<b style="margin-left: 20px;"><i>Supplier Info</i></b>
+	</h4>
+<div class="col-md-12">
 	<select
 		class="col-md-3 ng-pristine ng-invalid ng-invalid-required ng-touched"
-		data-ng-model="item.id" ng-change="viewdata(item.id)"
-		style="margin-left: 15px;" required="">
+		data-ng-model="item.id" ng-change="viewdata(item.id)" required="">
 		<option value="">Select Customer</option>
-		<option value="{{item.id}}" ng-repeat="item in clientlist">{{item.clientname}}</option>
+		<option value="{{item.id}}" ng-repeat="item in supplierlist">{{item.suppliername}}</option>
 
-
-
-
-	</select> <label style="margin-left: 2%; margin-bottom: -1px;"
-		class="control-label" for="selectbasic">From Date</label>
-	<div data-provide="datepicker" class="input-append date datepicker"
-		data-date="" data-date-format="dd-mm-yyyy"
-		style="margin-top: -25px; margin-left: 72px;">
+	</select> 
+	
+	<label class="col-md-1" for="selectbasic">From Date</label>
+	<div data-provide="datepicker" class="input-append date datepicker col-md-2"
+		data-date="" data-date-format="dd-mm-yyyy">
 		<input style="width: 80%; height: 20px;" id="LeaveaddstartDateWindow"
-			size="16" type="text" value="{{clientlist[0].fromdate}}"
+			size="16" type="text" value="{{supplierlist[0].fromdate}}"
 			readonly="" name="startDateWindow"><span class="add-on"><i
 			class="icon-calendar"></i></span>
 	</div>
 
-	<label style="margin-left: 52%; margin-top: -39px; margin-left: 545px;"
-		class="control-label" for="selectbasic">To Date</label>
-	<div data-provide="datepicker" class="input-append date datepicker"
-		data-date="" data-date-format="dd-mm-yyyy"
-		style="margin-top: -34px; margin-left: 17px;">
-		<input style="width: 29%; height: 20px; margin-left: 285px;"
+	<label class="col-md-1" for="selectbasic">To Date</label>
+	<div data-provide="datepicker" class="input-append date datepicker col-md-2"
+		data-date="" data-date-format="dd-mm-yyyy">
+		<input style="width: 80%; height: 20px;"
 			id="LeaveaddstartDateWindow" size="16" type="text"
-			value="{{clientlist[0].todate}}" readonly="" name="startDateWindow"><span
+			value="{{supplierlist[0].todate}}" readonly="" name="startDateWindow"><span
 			class="add-on"><i class="icon-calendar"></i></span>
 	</div>
 
-
+</div>
 	<!-- <div class="tabs">
 				<ul class="tab-links">
 					<li class="active"><a href="#tab1" data-toggle="tab">Project</a></li>
@@ -131,7 +126,7 @@
     padding: 0px">
 
 
-						<label class="control-label" for="textinput">Customer Name
+						<label class="control-label" for="textinput">Supplier Name
 
 
 						</label>
@@ -140,7 +135,7 @@
 
 							<input id="CustomerclientName" name="clientName"
 								class="input-large" type="text" rel="popover"
-								value="{{clientlist1.clientname}}" disabled="disabled">
+								value="{{supplierlist1.suppliername}}" disabled="disabled">
 
 
 
@@ -157,7 +152,7 @@
 
 
 							<input id="CustomerphoneNo" name="phoneNo" class="input-large"
-								value="{{clientlist1.phoneno}}" type="text"
+								value="{{supplierlist1.phoneno}}" type="text"
 								disabled="disabled">
 
 
@@ -175,7 +170,7 @@
 
 
 							<input id="CustomerEmail" name="Email" class="input-large"
-								value="{{clientlist1.email}}" type="text" disabled="disabled">
+								value="{{supplierlist1.email}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -192,7 +187,7 @@
 
 
 							<input id="Customerstreet" name="street" class="input-large"
-								value="{{clientlist1.street}}" type="text" disabled="disabled">
+								value="{{supplierlist1.street}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -209,7 +204,7 @@
 
 
 							<input id="Customercountry" name="country" class="input-large"
-								value="{{clientlist1.country}}" type="text" rel="popover"
+								value="{{supplierlist1.country}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -228,7 +223,7 @@
 
 
 							<input id="Customerstate" name="state" class="input-large"
-								value="{{clientlist1.state}}" type="text" disabled="disabled">
+								value="{{supplierlist1.state}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -244,7 +239,7 @@
 
 
 							<input id="Customercity" name="city" class="input-large"
-								value="{{clientlist1.city}}" type="text" disabled="disabled">
+								value="{{supplierlist1.city}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -263,7 +258,7 @@
 
 
 							<input id="Customersublocation" name="sublocation"
-								value="{{clientlist1.sublocation}}" class="input-large"
+								value="{{supplierlist1.sublocation}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -280,7 +275,7 @@
 
 
 							<input id="Customerpin" name="pin" class="input-large"
-								value="{{clientlist1.pin}}" type="text" rel="popover"
+								value="{{supplierlist1.pin}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -299,7 +294,7 @@
 
 
 							<input id="CustomerRegion" name="Region" class="input-large"
-								value="{{clientlist1.region}}" type="text" disabled="disabled">
+								value="{{supplierlist1.region}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -315,7 +310,7 @@
 
 
 							<input id="Customerwebsite" name="website" class="input-large"
-								value="{{clientlist1.website}}" type="text"
+								value="{{supplierlist1.website}}" type="text"
 								disabled="disabled">
 
 
@@ -331,7 +326,7 @@
 
 
 							<input id="Customertype" name="type" class="input-large"
-								value="{{clientlist1.locality}}" type="text"
+								value="{{supplierlist1.locality}}" type="text"
 								disabled="disabled">
 
 
@@ -351,7 +346,7 @@
 
 
 							<input id="Customercustomertype" name="customertype"
-								value="{{clientlist1.customertype}}" class="input-large"
+								value="{{supplierlist1.customertype}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -369,7 +364,7 @@
 
 
 							<input id="Customersegment" name="segment" class="input-large"
-								value="{{clientlist1.sagment}}" type="text"
+								value="{{supplierlist1.sagment}}" type="text"
 								disabled="disabled">
 
 
@@ -385,7 +380,7 @@
 
 
 							<input id="Customersubsegment" name="subsegment"
-								value="{{clientlist1.subsagment}}" class="input-large"
+								value="{{supplierlist1.subsagment}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -403,7 +398,7 @@
 
 
 							<input id="Customernoofemp" name="noofemp" class="input-large"
-								value="{{clientlist1.noofemp}}" type="text"
+								value="{{supplierlist1.noofemp}}" type="text"
 								disabled="disabled">
 
 
@@ -420,7 +415,7 @@
 
 
 							<input id="Customeryear" name="year" class="input-large"
-								value="{{clientlist1.estabilshmentyear}}" type="text"
+								value="{{supplierlist1.estabilshmentyear}}" type="text"
 								rel="popover" disabled="disabled">
 
 
@@ -439,7 +434,7 @@
 
 
 							<input id="Customercompregno" name="compregno"
-								value="{{clientlist1.companyregno}}" class="input-large"
+								value="{{supplierlist1.companyregno}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -458,7 +453,7 @@
 
 
 							<input id="Customerlms" name="lms" class="input-large"
-								value="{{clientlist1.tier}}" type="text" disabled="disabled">
+								value="{{supplierlist1.tier}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -474,7 +469,7 @@
 
 
 							<input id="Customertypeofcompany" name="typeofcompany"
-								class="input-large" value="{{clientlist1.typeofcompany}}"
+								class="input-large" value="{{supplierlist1.typeofcompany}}"
 								type="text" disabled="disabled">
 
 
@@ -521,7 +516,7 @@
 
 
 							<input id="Customerofficeaddress" name="officeaddress"
-								value="{{clientlist1.officeaddress}}" class="input-large"
+								value="{{supplierlist1.officeaddress}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -541,7 +536,7 @@
 
 							<input id="Customerlandlinenosofoffice"
 								name="landlinenosofoffice" class="input-large"
-								value="{{clientlist1.landlineno}}" type="text"
+								value="{{supplierlist1.landlineno}}" type="text"
 								disabled="disabled">
 
 
@@ -559,7 +554,7 @@
 
 
 							<input id="Customerfactoryaddress" name="factoryaddress"
-								class="input-large" value="{{clientlist1.factoryaddress}}"
+								class="input-large" value="{{supplierlist1.factoryaddress}}"
 								type="text" disabled="disabled">
 
 
@@ -577,7 +572,7 @@
 
 
 							<input id="Customerproductionheadname" name="productionheadname"
-								class="input-large" value="{{clientlist1.productheadname}}"
+								class="input-large" value="{{supplierlist1.productheadname}}"
 								type="text" disabled="disabled">
 
 
@@ -597,7 +592,7 @@
 
 							<input id="Customerproductionheadcellnos"
 								name="productionheadcellnos" class="input-large"
-								value="{{clientlist1.productheadcell}}" type="text"
+								value="{{supplierlist1.productheadcell}}" type="text"
 								rel="popover" disabled="disabled">
 
 
@@ -618,7 +613,7 @@
 
 							<input id="Customermailidofproductionhead"
 								name="mailidofproductionhead" class="input-large"
-								value="{{clientlist1.mailhead}}" type="text"
+								value="{{supplierlist1.mailhead}}" type="text"
 								disabled="disabled">
 
 
@@ -637,7 +632,7 @@
 
 							<input id="Customeraveragestaywithcompany"
 								name="averagestaywithcompany" class="input-large"
-								value="{{clientlist1.avgfactory}}" type="text"
+								value="{{supplierlist1.avgfactory}}" type="text"
 								disabled="disabled">
 
 
@@ -683,7 +678,7 @@
 
 
 							<input id="Customernamedesign1" name="namedesign1"
-								value="{{clientlist1.randdname}}" class="input-large"
+								value="{{supplierlist1.randdname}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -703,7 +698,7 @@
 
 
 							<input id="Customercelldesign1" name="celldesign1"
-								value="{{clientlist1.randdcell}}" class="input-large"
+								value="{{supplierlist1.randdcell}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -721,7 +716,7 @@
 
 
 							<input id="Customeremaildesign1" name="emaildesign1"
-								value="{{clientlist1.mailrandd}}" class="input-large"
+								value="{{supplierlist1.mailrandd}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -739,7 +734,7 @@
 
 
 							<input id="Customeraveragestaydesign1" name="averagestaydesign1"
-								value="{{clientlist1.avgranddfirst}}" class="input-large"
+								value="{{supplierlist1.avgranddfirst}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -758,7 +753,7 @@
 
 
 							<input id="Customernamedesign2" name="namedesign2"
-								value="{{clientlist1.randdsecondname}}" class="input-large"
+								value="{{supplierlist1.randdsecondname}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -778,7 +773,7 @@
 
 
 							<input id="Customercelldesign2" name="celldesign2"
-								value="{{clientlist1.randdsecondcell}}" class="input-large"
+								value="{{supplierlist1.randdsecondcell}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -796,7 +791,7 @@
 
 
 							<input id="Customeremaildesign2" name="emaildesign2"
-								value="{{clientlist1.mailranddsecond}}" class="input-large"
+								value="{{supplierlist1.mailranddsecond}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -814,7 +809,7 @@
 
 
 							<input id="Customeraveragestaydesign2" name="averagestaydesign2"
-								value="{{clientlist1.avgranddsecond}}" class="input-large"
+								value="{{supplierlist1.avgranddsecond}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -856,7 +851,7 @@
 
 
 							<input id="Customernameaccount1" name="nameaccount1"
-								value="{{clientlist1.accountname}}" class="input-large"
+								value="{{supplierlist1.accountname}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -876,7 +871,7 @@
 
 
 							<input id="Customercellaccount1" name="cellaccount1"
-								value="{{clientlist1.accountcell}}" class="input-large"
+								value="{{supplierlist1.accountcell}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -894,7 +889,7 @@
 
 
 							<input id="Customeremailaccount1" name="emailaccount1"
-								value="{{clientlist1.mailaccount}}" class="input-large"
+								value="{{supplierlist1.mailaccount}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -913,7 +908,7 @@
 
 
 							<input id="Customernameaccount2" name="nameaccount2"
-								value="{{clientlist1.accountsecondname}}" class="input-large"
+								value="{{supplierlist1.accountsecondname}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -932,7 +927,7 @@
 
 
 							<input id="Customercellaccount2" name="cellaccount2"
-								value="{{clientlist1.accountsecondcell}}" class="input-large"
+								value="{{supplierlist1.accountsecondcell}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -951,7 +946,7 @@
 
 
 							<input id="Customeremailaccount2" name="emailaccount2"
-								value="{{clientlist1.mailaccountsecond}}" class="input-large"
+								value="{{supplierlist1.mailaccountsecond}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -991,7 +986,7 @@
 
 
 							<input id="Customernamebuyer1" name="namebuyer1"
-								value="{{clientlist1.purchasename}}" class="input-large"
+								value="{{supplierlist1.purchasename}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1009,7 +1004,7 @@
 
 
 							<input id="Customercellbuyer1" name="cellbuyer1"
-								value="{{clientlist1.purchasecell}}" class="input-large"
+								value="{{supplierlist1.purchasecell}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1025,7 +1020,7 @@
 
 
 							<input id="Customeremailbuyer1" name="emailbuyer1"
-								value="{{clientlist1.mailpurchase}}" class="input-large"
+								value="{{supplierlist1.mailpurchase}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1042,7 +1037,7 @@
 
 
 							<input id="Customeraveragestaybuyer1" name="averagestaybuyer1"
-								value="{{clientlist1.avgbuyer}}" class="input-large"
+								value="{{supplierlist1.avgbuyer}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1058,7 +1053,7 @@
 
 
 							<input id="Customernamebuyer" name="namebuyer2"
-								value="{{clientlist1.purchasesecondname}}" class="input-large"
+								value="{{supplierlist1.purchasesecondname}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1076,7 +1071,7 @@
 
 
 							<input id="Customercellbuyer2" name="cellbuyer2"
-								value="{{clientlist1.purchasesecondcell}}" class="input-large"
+								value="{{supplierlist1.purchasesecondcell}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1092,7 +1087,7 @@
 
 
 							<input id="Customeremailbuyer2" name="emailbuyer2"
-								value="{{clientlist1.mailpurchasesecond}}" class="input-large"
+								value="{{supplierlist1.mailpurchasesecond}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1109,7 +1104,7 @@
 
 
 							<input id="Customeraveragestaybuyer" name="averagestaybuyer"
-								value="{{clientlist1.avgpurchasesecond}}" class="input-large"
+								value="{{supplierlist1.avgpurchasesecond}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1125,7 +1120,7 @@
 
 
 							<input id="Customeroverseassupplier1" name="overseassupplier1"
-								value="{{clientlist1.overseassupplier1}}" class="input-large"
+								value="{{supplierlist1.overseassupplier1}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1143,7 +1138,7 @@
 
 
 							<input id="Customeroverseassupplier2" name="overseassupplier2"
-								value="{{clientlist1.overseassupplier2}}" class="input-large"
+								value="{{supplierlist1.overseassupplier2}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1159,7 +1154,7 @@
 
 
 							<input id="Customeroverseassupplier3" name="overseassupplier3"
-								value="{{clientlist1.overseassupplier3}}" class="input-large"
+								value="{{supplierlist1.overseassupplier3}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1175,7 +1170,7 @@
 
 
 							<input id="Customeroverseassupplier4" name="overseassupplier4"
-								value="{{clientlist1.overseassupplier4}}" class="input-large"
+								value="{{supplierlist1.overseassupplier4}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1191,7 +1186,7 @@
 
 
 							<input id="Customeroverseassupplier5" name="overseassupplier5"
-								value="{{clientlist1.overseassupplier5}}" class="input-large"
+								value="{{supplierlist1.overseassupplier5}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1208,7 +1203,7 @@
 
 
 							<input id="Customerlocalsupplier1" name="localsupplier1"
-								value="{{clientlist1.localsupplier1}}" class="input-large"
+								value="{{supplierlist1.localsupplier1}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1223,7 +1218,7 @@
 
 
 							<input id="Customerlocalsupplier2" name="localsupplier2"
-								value="{{clientlist1.localsupplier2}}" class="input-large"
+								value="{{supplierlist1.localsupplier2}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1239,7 +1234,7 @@
 
 
 							<input id="Customerlocalsupplier3" name="localsupplier3"
-								value="{{clientlist1.localsupplier3}}" class="input-large"
+								value="{{supplierlist1.localsupplier3}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1255,7 +1250,7 @@
 
 
 							<input id="Customerlocalsupplier4" name="localsupplier4"
-								value="{{clientlist1.localsupplier4}}" class="input-large"
+								value="{{supplierlist1.localsupplier4}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1272,7 +1267,7 @@
 
 
 							<input id="Customerlocalsupplier5" name="localsupplier5"
-								value="{{clientlist1.localsupplier5}}" class="input-large"
+								value="{{supplierlist1.localsupplier5}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1313,7 +1308,7 @@
 
 
 							<input id="Customername1" name="name1" class="input-large"
-								value="{{clientlist1.director1name}}" type="text"
+								value="{{supplierlist1.director1name}}" type="text"
 								rel="popover" disabled="disabled">
 
 
@@ -1331,7 +1326,7 @@
 
 
 							<input id="Customercellno1" name="cellno1" class="input-large"
-								value="{{clientlist1.director1cell}}" type="text"
+								value="{{supplierlist1.director1cell}}" type="text"
 								disabled="disabled">
 
 
@@ -1347,7 +1342,7 @@
 
 
 							<input id="Customeremail1" name="email1" class="input-large"
-								value="{{clientlist1.maildirector1}}" type="text"
+								value="{{supplierlist1.maildirector1}}" type="text"
 								disabled="disabled">
 
 
@@ -1363,7 +1358,7 @@
 
 
 							<input id="Customerexpert1" name="expert1" class="input-large"
-								value="{{clientlist1.expert1}}" type="text"
+								value="{{supplierlist1.expert1}}" type="text"
 								disabled="disabled">
 
 
@@ -1382,7 +1377,7 @@
 
 
 							<input id="Customerqualification1" name="qualification1"
-								value="{{clientlist1.qualification1}}" class="input-large"
+								value="{{supplierlist1.qualification1}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1400,7 +1395,7 @@
 
 
 							<input id="Customerageofdirector1" name="ageofdirector1"
-								value="{{clientlist1.agedirector1}}" class="input-large"
+								value="{{supplierlist1.agedirector1}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1416,7 +1411,7 @@
 
 
 							<input id="Customerdirectorwork" name="directorwork "
-								value="{{clientlist1.directorwork}}" class="input-large"
+								value="{{supplierlist1.directorwork}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1433,7 +1428,7 @@
 
 
 							<input id="Customername2" name="name2" class="input-large"
-								value="{{clientlist1.director2name}}" type="text"
+								value="{{supplierlist1.director2name}}" type="text"
 								disabled="disabled">
 
 
@@ -1449,7 +1444,7 @@
 
 
 							<input id="Customercellno2" name="cellno2" class="input-large"
-								value="{{clientlist1.director2cell}}" type="text"
+								value="{{supplierlist1.director2cell}}" type="text"
 								rel="popover" disabled="disabled">
 
 
@@ -1467,7 +1462,7 @@
 
 
 							<input id="Customeremail2" name="email2" class="input-large"
-								value="{{clientlist1.maildirector2}}" type="text"
+								value="{{supplierlist1.maildirector2}}" type="text"
 								disabled="disabled">
 
 
@@ -1482,7 +1477,7 @@
 
 
 							<input id="Customerexpert2" name="expert2" class="input-large"
-								value="{{clientlist1.expert2}}" type="text"
+								value="{{supplierlist1.expert2}}" type="text"
 								disabled="disabled">
 
 
@@ -1499,7 +1494,7 @@
 
 
 							<input id="Customerqualification2" name="qualification2"
-								value="{{clientlist1.qualification2}}" class="input-large"
+								value="{{supplierlist1.qualification2}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1515,7 +1510,7 @@
 
 
 							<input id="Customerageofdirector2" name="ageofdirector2"
-								value="{{clientlist1.agedirector2}}" class="input-large"
+								value="{{supplierlist1.agedirector2}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1532,7 +1527,7 @@
 
 
 							<input id="Customername3" name="name3" class="input-large"
-								value="{{clientlist1.director3name}}" type="text"
+								value="{{supplierlist1.director3name}}" type="text"
 								disabled="disabled">
 
 
@@ -1547,7 +1542,7 @@
 
 
 							<input id="Customercellno3" name="cellno3" class="input-large"
-								value="{{clientlist1.director3cell}}" type="text"
+								value="{{supplierlist1.director3cell}}" type="text"
 								disabled="disabled">
 
 
@@ -1563,7 +1558,7 @@
 
 
 							<input id="Customeremail3" name="email3" class="input-large"
-								value="{{clientlist1.maildirector3}}" type="text"
+								value="{{supplierlist1.maildirector3}}" type="text"
 								disabled="disabled">
 
 
@@ -1578,7 +1573,7 @@
 
 
 							<input id="Customerexpert3" name="expert3" class="input-large"
-								value="{{clientlist1.expert3}}" type="text" rel="popover"
+								value="{{supplierlist1.expert3}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -1596,7 +1591,7 @@
 
 
 							<input id="Customerqualification" name="qualification"
-								value="{{clientlist1.qualification}}" class="input-large"
+								value="{{supplierlist1.qualification}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1613,7 +1608,7 @@
 
 
 							<input id="Customerageofdirector3" name="ageofdirector3"
-								value="{{clientlist1.agedirector3}}" class="input-large"
+								value="{{supplierlist1.agedirector3}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1656,7 +1651,7 @@
 
 
 							<input id="Customerp1" name="p1" class="input-large" type="text"
-								value="{{clientlist1.product1}}" rel="popover"
+								value="{{supplierlist1.product1}}" rel="popover"
 								disabled="disabled">
 
 
@@ -1673,7 +1668,7 @@
 
 
 							<input id="Customerp2" name="p2" class="input-large" type="text"
-								value="{{clientlist1.product2}}" disabled="disabled">
+								value="{{supplierlist1.product2}}" disabled="disabled">
 
 
 						</div>
@@ -1687,7 +1682,7 @@
 
 
 							<input id="Customerp3" name="p3" class="input-large" type="text"
-								value="{{clientlist1.product3}}" disabled="disabled">
+								value="{{supplierlist1.product3}}" disabled="disabled">
 
 
 						</div>
@@ -1702,7 +1697,7 @@
 
 
 							<input id="Customerp4" name="p4" class="input-large" type="text"
-								value="{{clientlist1.product4}}" disabled="disabled">
+								value="{{supplierlist1.product4}}" disabled="disabled">
 
 
 						</div>
@@ -1717,7 +1712,7 @@
 
 
 							<input id="Customerp5" name="p5" class="input-large" type="text"
-								value="{{clientlist1.product5}}" rel="popover"
+								value="{{supplierlist1.product5}}" rel="popover"
 								disabled="disabled">
 
 
@@ -1734,7 +1729,7 @@
 
 
 							<input id="Customerp6" name="p6" class="input-large" type="text"
-								value="{{clientlist1.product6}}" disabled="disabled">
+								value="{{supplierlist1.product6}}" disabled="disabled">
 
 
 						</div>
@@ -1748,7 +1743,7 @@
 
 
 							<input id="Customerp7" name="p7" class="input-large" type="text"
-								value="{{clientlist1.product7}}" disabled="disabled">
+								value="{{supplierlist1.product7}}" disabled="disabled">
 
 
 						</div>
@@ -1763,7 +1758,7 @@
 
 
 							<input id="Customerp8" name="p8" class="input-large" type="text"
-								value="{{clientlist1.product8}}" disabled="disabled">
+								value="{{supplierlist1.product8}}" disabled="disabled">
 
 
 						</div>
@@ -1777,7 +1772,7 @@
 
 
 							<input id="Customerp9" name="p9" class="input-large" type="text"
-								value="{{clientlist1.product9}}" rel="popover"
+								value="{{supplierlist1.product9}}" rel="popover"
 								disabled="disabled">
 
 
@@ -1794,7 +1789,7 @@
 
 
 							<input id="Customerp10" name="p10" class="input-large"
-								value="{{clientlist1.product10}}" type="text"
+								value="{{supplierlist1.product10}}" type="text"
 								disabled="disabled">
 
 
@@ -1839,7 +1834,7 @@
 
 
 							<input id="Customerproject2012" name="project2012"
-								value="{{clientlist1.turnover2012}}" class="input-large"
+								value="{{supplierlist1.turnover2012}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1857,7 +1852,7 @@
 
 
 							<input id="Customerproject2013" name="project2013"
-								value="{{clientlist1.turnover2013}}" class="input-large"
+								value="{{supplierlist1.turnover2013}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1873,7 +1868,7 @@
 
 
 							<input id="Customerproject2014" name="project2014"
-								value="{{clientlist1.turnover2014}}" class="input-large"
+								value="{{supplierlist1.turnover2014}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1890,7 +1885,7 @@
 
 
 							<input id="Customerproject2015" name="project2015"
-								value="{{clientlist1.turnover2015}}" class="input-large"
+								value="{{supplierlist1.turnover2015}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1907,7 +1902,7 @@
 
 
 							<input id="Customerproject2016" name="project2016"
-								value="{{clientlist1.turnover2016}}" class="input-large"
+								value="{{supplierlist1.turnover2016}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -1925,7 +1920,7 @@
 
 
 							<input id="Customerproject2017" name="project2017"
-								value="{{clientlist1.turnover2017}}" class="input-large"
+								value="{{supplierlist1.turnover2017}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1941,7 +1936,7 @@
 
 
 							<input id="Customersalesheadname" name="salesheadname"
-								value="{{clientlist1.salesname}}" class="input-large"
+								value="{{supplierlist1.salesname}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -1958,7 +1953,7 @@
 
 
 							<input id="Customeraveragepriceofproduct"
-								value="{{clientlist1.avgproduct}}"
+								value="{{supplierlist1.avgproduct}}"
 								name="averagepriceofproduct" class="input-large" type="text"
 								disabled="disabled">
 
@@ -1975,7 +1970,7 @@
 
 
 							<input id="Customerpursuingapproval" name="pursuingapproval"
-								value="{{clientlist1.pursuingapprovals}}" class="input-large"
+								value="{{supplierlist1.pursuingapprovals}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -2023,7 +2018,7 @@
 
 
 							<input id="Customerbank1" name="bank1" class="input-large"
-								value="{{clientlist1.bank1}}" type="text" rel="popover"
+								value="{{supplierlist1.bank1}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -2040,7 +2035,7 @@
 
 
 							<input id="Customerbank2" name="bank2" class="input-large"
-								value="{{clientlist1.bank2}}" type="text" disabled="disabled">
+								value="{{supplierlist1.bank2}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2054,7 +2049,7 @@
 
 
 							<input id="Customerbank3" name="bank3" class="input-large"
-								value="{{clientlist1.bank3}}" type="text" disabled="disabled">
+								value="{{supplierlist1.bank3}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2069,7 +2064,7 @@
 
 
 							<input id="Customerlimit" name="limit" class="input-large"
-								value="{{clientlist1.limit}}" type="text" disabled="disabled">
+								value="{{supplierlist1.limit}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2084,7 +2079,7 @@
 
 
 							<input id="Customervatno" name="vatno" class="input-large"
-								value="{{clientlist1.vatno}}" type="text" rel="popover"
+								value="{{supplierlist1.vatno}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -2101,7 +2096,7 @@
 
 
 							<input id="Customercstno" name="cstno" class="input-large"
-								value="{{clientlist1.cstno}}" type="text" disabled="disabled">
+								value="{{supplierlist1.cstno}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2115,7 +2110,7 @@
 
 
 							<input id="Customerexcsieno" name="excsieno" class="input-large"
-								value="{{clientlist1.excsieno}}" type="text"
+								value="{{supplierlist1.excsieno}}" type="text"
 								disabled="disabled">
 
 
@@ -2133,7 +2128,7 @@
 
 
 							<input id="Customerexcsierange" name="excsierange "
-								value="{{clientlist1.excsierange}}" class="input-large"
+								value="{{supplierlist1.excsierange}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2149,7 +2144,7 @@
 
 
 							<input id="Customerexcsiedivision" name="excsiedivision"
-								value="{{clientlist1.excsiediv}}" class="input-large"
+								value="{{supplierlist1.excsiediv}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -2168,7 +2163,7 @@
 
 							<input id="Customerexcsiecommisionrate"
 								name="excsiecommisionrate" class="input-large" type="text"
-								value="{{clientlist1.excsiecomm}}" disabled="disabled">
+								value="{{supplierlist1.excsiecomm}}" disabled="disabled">
 
 
 						</div>
@@ -2182,7 +2177,7 @@
 
 
 							<input id="Customerpanno" name="panno" class="input-large"
-								value="{{clientlist1.panno}}" type="text" disabled="disabled">
+								value="{{supplierlist1.panno}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2226,7 +2221,7 @@
 
 
 							<input id="Customerfutureproduct" name="futureproduct"
-								value="{{clientlist1.futureproduct}}" class="input-large"
+								value="{{supplierlist1.futureproduct}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -2243,7 +2238,7 @@
 
 
 							<input id="Customerbenchmark" name="benchmark"
-								value="{{clientlist1.benchmark}}" class="input-large"
+								value="{{supplierlist1.benchmark}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2259,7 +2254,7 @@
 
 
 							<input id="Customercompetitorno1" name="competitorno1"
-								value="{{clientlist1.competitorno1}}" class="input-large"
+								value="{{supplierlist1.competitorno1}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2276,7 +2271,7 @@
 
 
 							<input id="Customercompetitorno2" name="competitorno2"
-								value="{{clientlist1.competitorno2}}" class="input-large"
+								value="{{supplierlist1.competitorno2}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2293,7 +2288,7 @@
 
 
 							<input id="Customercompetitorno3" name="competitorno3"
-								value="{{clientlist1.competitorno3}}" class="input-large"
+								value="{{supplierlist1.competitorno3}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -2311,7 +2306,7 @@
 
 
 							<input id="Customerorganazationchart" name="organazationchart"
-								value="{{clientlist1.organazationchat}}" class="input-large"
+								value="{{supplierlist1.organazationchat}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2327,7 +2322,7 @@
 
 
 							<input id="Customeraverageageemp" name="averageageemp"
-								value="{{clientlist1.avgofemp}}" class="input-large"
+								value="{{supplierlist1.avgofemp}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2344,7 +2339,7 @@
 
 
 							<input id="Customeraveragestayarc" name="averagestayarc"
-								value="{{clientlist1.avgarchiechture}}" class="input-large"
+								value="{{supplierlist1.avgarchiechture}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2360,7 +2355,7 @@
 
 
 							<input id="Customercontactperson" name="contactperson"
-								value="{{clientlist1.cantactname}}" class="input-large"
+								value="{{supplierlist1.cantactname}}" class="input-large"
 								type="text" rel="popover" disabled="disabled">
 
 
@@ -2377,7 +2372,7 @@
 
 
 							<input id="Customerdesignation" name="designation"
-								value="{{clientlist1.designation}}" class="input-large"
+								value="{{supplierlist1.designation}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2392,7 +2387,7 @@
 
 
 							<input id="Customeremailaddress" name="emailaddress"
-								value="{{clientlist1.emailaddrerss}}" class="input-large"
+								value="{{supplierlist1.emailaddrerss}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2407,7 +2402,7 @@
 
 
 							<input id="Customertelno" name="telno" class="input-large"
-								value="{{clientlist1.telno}}" type="text" disabled="disabled">
+								value="{{supplierlist1.telno}}" type="text" disabled="disabled">
 
 
 						</div>
@@ -2421,7 +2416,7 @@
 
 
 							<input id="Customerhpno" name="customerhpno" class="input-large"
-								value="{{clientlist1.hpno}}" type="text" rel="popover"
+								value="{{supplierlist1.hpno}}" type="text" rel="popover"
 								disabled="disabled">
 
 
@@ -2437,7 +2432,7 @@
 
 
 							<input id="Customernavisionid" name="navisionid"
-								value="{{clientlist1.navisionid}}" class="input-large"
+								value="{{supplierlist1.navisionid}}" class="input-large"
 								type="text" disabled="disabled">
 
 
@@ -2465,9 +2460,9 @@
 </div>
 
 <script type="text/javascript"
-	src='<c:url value="/resources/customScripts/clientInfoController/app.js"/>'></script>
+	src='<c:url value="/resources/customScripts/supplierInfoController/app.js"/>'></script>
 <script type="text/javascript"
-	src='<c:url value="/resources/customScripts/clientInfoController/controller.js"/>'></script>
+	src='<c:url value="/resources/customScripts/supplierInfoController/controller.js"/>'></script>
 
 
 <style>

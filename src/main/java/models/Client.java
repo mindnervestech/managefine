@@ -666,7 +666,6 @@ public class Client extends Model {
 	public static List<Client> getClientList() {
 		return find.all();
 	}
-	
 	public static Map<String,String> autoCompleteAction=new HashMap<String, String>();
 	
 	

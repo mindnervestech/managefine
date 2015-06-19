@@ -140,6 +140,12 @@
   	</definition>
   	
   	
+  	<definition name="supplierInfo" extends="base.definition">
+    	<put-attribute name="title" value="Supplier Info" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/supplierInfo.jsp" />
+  	</definition>
+  	
+  	
   	<definition name="nodeMetaData" extends="base.definition">
     	<put-attribute name="title" value="Create Projects" />
     	<put-attribute name="content" value="/WEB-INF/jsp/nodeMetaData.jsp" />

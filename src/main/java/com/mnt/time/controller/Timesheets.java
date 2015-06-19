@@ -3719,20 +3719,22 @@ public class Timesheets{
 	public String editTimesheet(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id){
 		User user = User.findByEmail(username);
 		Timesheet timesheet = Timesheet.findById(Long.parseLong(id));
-		List<TimesheetDays> list = timesheet.getTimesheetRows().get(0).getTimesheetDays();
-		
 		TimesheetVM timesheetVM = new TimesheetVM();
 		timesheetVM.id = timesheet.getId();
 		timesheetVM.status = timesheet.getStatus().getName();
 		timesheetVM.weekOfYear = timesheet.getWeekOfYear();
 		timesheetVM.year = timesheet.getYear();
 		timesheetVM.userId = user.getId();
-		
-		for(TimesheetDays day : list) {
-			if(day.getDay().equals("sunday")) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(day.getTimesheetDate());
-				timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
+		if(timesheet.getTimesheetRows().size()>0)
+		{
+		List<TimesheetDays> list = timesheet.getTimesheetRows().get(0).getTimesheetDays();
+		System.out.println("list size="+list.size());
+			for(TimesheetDays day : list) {
+				if(day.getDay().equals("sunday")) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(day.getTimesheetDate());
+					timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
+				}
 			}
 		}
 		
@@ -3747,7 +3749,7 @@ public class Timesheets{
 	public String timesheetActualEdit(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id){
 		User user = User.findByEmail(username);
 		TimesheetActual timesheet = TimesheetActual.findById(Long.parseLong(id));
-		List<TimesheetDaysActual> list = timesheet.getTimesheetRowsActual().get(0).getTimesheetDaysActual();
+		System.out.println("sssssssssssssssssssssssssss");
 		
 		TimesheetVM timesheetVM = new TimesheetVM();
 		timesheetVM.id = timesheet.getId();
@@ -3756,12 +3758,17 @@ public class Timesheets{
 		timesheetVM.year = timesheet.getYear();
 		timesheetVM.userId = user.getId();
 		
-		for(TimesheetDaysActual day : list) {
-			if(day.getDay().equals("sunday")) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(day.getTimesheetDate());
-				timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
-			}
+		if(timesheet.getTimesheetRowsActual().size()>0)
+		{
+			List<TimesheetDaysActual> list = timesheet.getTimesheetRowsActual().get(0).getTimesheetDaysActual();
+			System.out.println("list size="+list.size());
+				for(TimesheetDaysActual day : list) {
+					if(day.getDay().equals("sunday")) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(day.getTimesheetDate());
+						timesheetVM.date = cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
+					}
+				}
 		}
 		
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));

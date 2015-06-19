@@ -74,6 +74,7 @@ public enum Permissions {
 	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
 	
 	Custmers(routes.Leaves.clientinfo.url,null,"Custmer"),
+	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),
 	//Custmer("#",null,"Custmer"),
 	
 	ProjectHealth("#",null,"ProjectHealth"),
