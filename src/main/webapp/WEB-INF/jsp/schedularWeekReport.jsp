@@ -45,7 +45,7 @@
 			<div class="col-md-12 col-sm-12" id="week_appoinment" ng-repeat="s in staffs">
 			<div ng-show="s.weekReport != null">
 				
-                     <label style="width: 305px;float:left;" >Staffs</label>        
+                     <label style="width: 305px;float:left;" ng-show="$first">Staffs</label>        
                      <label style="width: 155px;margin-left: -1%;float:left;" ng-show="$first">Mon ({{s.weekReport[0].date}})</label>
                      <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue ({{s.weekReport[1].date}})</label>
                      <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed ({{s.weekReport[2].date}})</label>
