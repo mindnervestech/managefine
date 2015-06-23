@@ -73,12 +73,12 @@ public enum Permissions {
 	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy"),
 	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
 	
-	Custmers(routes.Leaves.clientinfo.url,null,"Custmer"),
-	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),
-	//Custmer("#",null,"Custmer"),
 	
-	ProjectHealth("#",null,"ProjectHealth"),
-	GanttView(routes.ProjectHealth.gantt.url,ProjectHealth,"Show Gantt");
+	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),
+	UsageReport("#",null,"Usage Report"),
+	ShowReport(routes.UsageReport.usageReport.url,UsageReport,"Show Report");
+	
+	
 	
 	private String url;
 	private int level;

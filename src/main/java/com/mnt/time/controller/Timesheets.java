@@ -3728,7 +3728,6 @@ public class Timesheets{
 		if(timesheet.getTimesheetRows().size()>0)
 		{
 		List<TimesheetDays> list = timesheet.getTimesheetRows().get(0).getTimesheetDays();
-		System.out.println("list size="+list.size());
 			for(TimesheetDays day : list) {
 				if(day.getDay().equals("sunday")) {
 					Calendar cal = Calendar.getInstance();
@@ -3749,7 +3748,7 @@ public class Timesheets{
 	public String timesheetActualEdit(ModelMap model, @CookieValue("username") String username, @PathVariable("id") String id){
 		User user = User.findByEmail(username);
 		TimesheetActual timesheet = TimesheetActual.findById(Long.parseLong(id));
-		System.out.println("sssssssssssssssssssssssssss");
+		
 		
 		TimesheetVM timesheetVM = new TimesheetVM();
 		timesheetVM.id = timesheet.getId();
@@ -3761,7 +3760,7 @@ public class Timesheets{
 		if(timesheet.getTimesheetRowsActual().size()>0)
 		{
 			List<TimesheetDaysActual> list = timesheet.getTimesheetRowsActual().get(0).getTimesheetDaysActual();
-			System.out.println("list size="+list.size());
+			
 				for(TimesheetDaysActual day : list) {
 					if(day.getDay().equals("sunday")) {
 						Calendar cal = Calendar.getInstance();

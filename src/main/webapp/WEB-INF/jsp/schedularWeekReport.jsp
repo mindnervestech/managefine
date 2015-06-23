@@ -46,13 +46,13 @@
 			<div ng-show="s.weekReport != null">
 				
                      <label style="width: 305px;float:left;" >Staffs</label>        
-                     <label style="width: 155px;margin-left: -1%;float:left;">Mon ({{s.weekReport[0].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Tue ({{s.weekReport[1].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Wed ({{s.weekReport[2].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Thu ({{s.weekReport[3].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Fri ({{s.weekReport[4].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Sat ({{s.weekReport[5].date}})</label>
-                     <label style="width: 139px;margin-left: -1%;float:left;">Sun ({{s.weekReport[6].date}})</label>
+                     <label style="width: 155px;margin-left: -1%;float:left;" ng-show="$first">Mon ({{s.weekReport[0].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Tue ({{s.weekReport[1].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Wed ({{s.weekReport[2].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Thu ({{s.weekReport[3].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Fri ({{s.weekReport[4].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sat ({{s.weekReport[5].date}})</label>
+                     <label style="width: 139px;margin-left: -1%;float:left;" ng-show="$first">Sun ({{s.weekReport[6].date}})</label>
                 </div>
 			</div>
 			</div>

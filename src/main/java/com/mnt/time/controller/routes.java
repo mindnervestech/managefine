@@ -485,12 +485,7 @@ public interface CalendarBuckets {
 	}
 }
 
-public interface custmer{
-	public interface clientinfo{
-		public static String url="/clientinfo";
-	}
-	
-}
+
 
 public interface Leaves {
 	public interface clientinfo{
@@ -581,14 +576,6 @@ public interface Leaves {
 
 	public interface retractLeave {
 		public static String url="/leave/retractLeave";
-	}
-}
-
-public interface ProjectHealth
-{
-	public interface gantt
-	{
-		public static String url="/showGantt";
 	}
 }
 

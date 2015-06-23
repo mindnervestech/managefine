@@ -1629,7 +1629,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for(User userObj: userList) {
-			
+			cal.set(Calendar.WEEK_OF_YEAR,weekOfYear);
 			StaffWeekReportVM reportVM = new StaffWeekReportVM();
 			reportVM.staffId = userObj.getId();
 			reportVM.name = userObj.getFirstName()+" "+userObj.getLastName();
