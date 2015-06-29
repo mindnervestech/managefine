@@ -237,7 +237,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				ProjectclassnodeVM pVm = new ProjectclassnodeVM();
 			    for(Projectinstancenode projectList: pList){
 				
-					if(projectclassnode.getId() == projectList.getProjectclassnode().getId()){
+					if(projectclassnode.getId().equals(projectList.getProjectclassnode().getId())){
 						pVm.setCompleted(projectList.getTaskCompilation());
 					
 						
@@ -876,7 +876,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 						}
 						
 						Projectinstancenode childColor = Projectinstancenode.getById(projectList.getId());
-						long expected = (100*dayDiff2)/dayDiff1;
+						long expected;
+						if(dayDiff2 == 0 && dayDiff1 == 0){
+							expected = 0;
+						}else{
+							expected = (100*dayDiff2)/dayDiff1;
+						}	
 						if(projectList.getTaskCompilation() < (expected-10)){
 							childColor.setColor("#ff0000");
 							pVm.setStatus("danger");
