@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.vm.AttributDataVM;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.DateWiseHistoryVM;
 import com.mnt.createProject.vm.DefinePartVM;
@@ -57,6 +58,18 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	public Long saveComment(ProjectsupportattributVM pVm,String username) {
 		// TODO Auto-generated method stub
 		return createProjectRepository.saveComment(pVm,username);
+	}
+	
+	@Override
+	public Long saveAttribues(AttributDataVM aDataVm,String username) {
+		// TODO Auto-generated method stub
+		return createProjectRepository.saveAttribues(aDataVm,username);
+	}
+	
+	@Override
+	public AttributDataVM findattributes(Long mainInstance) {
+		// TODO Auto-generated method stub
+		return createProjectRepository.findattributes(mainInstance);
 	}
 	
 	@Override
@@ -134,5 +147,6 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	public List<DateWiseHistoryVM> getAllHistory(){
 		return  createProjectRepository.getAllHistory();
 	}
+	
 	
 }

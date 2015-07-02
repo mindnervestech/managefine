@@ -403,4 +403,28 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
         return result;
     };
 
+    $scope.selectPartFile = function(files) {
+    	file = files[0];
+    };
+    
+ $scope.savePartFile = function(){
+    	
+    	$upload.upload({
+            url: 'savePartNo',
+            file: file,
+            method:'post'
+        }).success(function (data, status, headers, config) {
+        	console.log("Save");
+        	console.log(data);
+        	$.pnotify({
+                title: "success",
+                type:'success',
+                text: "File Import successful",
+            });
+           
+        });
+    	
+    
+    }
+    
 });

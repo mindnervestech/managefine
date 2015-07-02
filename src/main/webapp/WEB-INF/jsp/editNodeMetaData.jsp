@@ -48,6 +48,7 @@
 					<li class="active"><a href="#tab1" data-toggle="tab">Project</a></li>
 					<li><a href="#tab2"  ng-if="${editNodeMetaData.level == 0}" data-toggle="tab">Define Parts</a></li> 
 					<li><a href="#tab3" ng-click="history()" data-toggle="tab">History</a></li>
+					<li><a href="#tab4" ng-click="findattributes()" data-toggle="tab">Attributes</a></li>
 					<li style="margin-left: 323px;font-size: 19px;color: #0044cc;margin-top: 6px;">Total Eestimated Revenue : {{totalEstimat}}</li>
 				</ul>
 				<div class="tab-content" style="max-height: 437px;">
@@ -269,13 +270,9 @@
 								<div class="col-md-6" style="margin-top: 15px;">
 									<label class="col-md-12">Project Name/ Application :</label>
 									<div class="col-md-12">
-										<select name="projectNameApplication" 
-											 style="width: 100%;">
-											 <option value="VTS" <c:if test="${editNodeMetaData.projectNameApplication eq 'VTS'}">Selected</c:if>>VTS</option>
-											<option	value="Energy Meter" <c:if test="${editNodeMetaData.projectNameApplication eq 'Energy Meter'}">Selected</c:if>>Energy Meter</option>
-											<option	value="Medical" <c:if test="${editNodeMetaData.projectNameApplication eq 'Medical'}">Selected</c:if>>Medical</option>
-											
-										</select>
+										
+										<input type="text" name="projectNameApplication"
+											value='${editNodeMetaData.projectNameApplication}' style="width: 100%;">
 									</div>
 								</div>
 								<div class="col-md-6" style="margin-top: 15px;">
@@ -366,11 +363,13 @@
 								<div class="col-md-6">
 									<label for="org-type" class="col-md-12">Supplier FAE :</label>
 									<div class="col-md-12">
-										<select name="supplierFae" 
+										<%-- <select name="supplierFae" 
 											 style="width: 100%;">
 											<option	value="Shailendra Vengurlekar" <c:if test="${editNodeMetaData.supplierFae eq 'Shailendra Vengurlekar'}">Selected</c:if>>Shailendra Vengurlekar</option>
 											<option	value="Prashant Devasthale" <c:if test="${editNodeMetaData.supplierFae eq 'Prashant Devasthale'}">Selected</c:if>>Prashant Devasthale</option>
-										</select>
+										</select> --%>
+										<input type="text" name="supplierFae"
+											value='${editNodeMetaData.supplierFae}' style="width: 100%;">
 									</div>
 								</div>
 							</div>
@@ -379,11 +378,14 @@
 								<div class="col-md-6">
 									<label class="col-md-12">Supplier Salesperson :</label>
 									<div class="col-md-12">
-									<select name="supplierSaleperson" 
+									<%-- <select name="supplierSaleperson" 
 											 style="width: 100%;">
 											<option	value="Parag Kulkarni" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Parag Kulkarni'}">Selected</c:if>>Parag Kulkarni</option>
 											<option	value="Ajit Bapat" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Ajit Bapat'}">Selected</c:if>>Ajit Bapat</option>
-										</select>
+										</select> --%>
+										<input type="text" name="supplierSaleperson"
+											value='${editNodeMetaData.supplierSaleperson}' style="width: 100%;">
+										
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -662,12 +664,139 @@
 						</div>
 
 					</div>
-					
+					<div id="tab4" class="tab">
+						<div class="form-group">
+						  <div class="col-md-12">
+							<label class="col-md-4">Revival Plan of Old Customers :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[0].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[0].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[0].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[0].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Unique Customer - BOM %  :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[1].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[1].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[1].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[1].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">New Discovery Claims :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[2].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[2].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[2].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[2].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">New Azerity Customers :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[3].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[3].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[3].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[3].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Own Solution Proposed :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[4].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[4].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[4].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[4].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">MBO Projects :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[5].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[5].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[5].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[5].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Cumulative NNR :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[6].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[6].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[6].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[6].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Cumulative Design Win :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[7].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[7].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[7].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[7].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Sourcing Projects :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[8].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[8].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[8].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[8].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Socket Replacement Projects :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[9].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[9].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[9].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[9].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">New Development Projects :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[10].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[10].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[10].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[10].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<label class="col-md-4">Addition of new lines Projects :</label>
+							<div class="col-md-6">
+							<input type="checkbox" data-ng-model="projAttri[11].q1" name="Q1" value="Q1"> Q1
+							<input type="checkbox" data-ng-model="projAttri[11].q2" name="Q2" value="Q2" style="margin-left: 13px;"> Q2
+							<input type="checkbox" data-ng-model="projAttri[11].q3" name="Q3" value="Q3" style="margin-left: 13px;"> Q3
+							<input type="checkbox" data-ng-model="projAttri[11].q4" name="Q4" value="Q4" style="margin-left: 13px;"> Q4
+							</div>
+						  </div>
+						  
+						  <div class="col-md-12">
+							<button type="button" class="btn btn-primary" ng-click="saveAttributes(projAttri)" > Save </button>
+							</div>
+						  
+						</div>
+					</div>
 					
 				</div>
 				</div>
 				<div class="modal-body" style="max-height: 800px;">
-
+					
 				</div>
 			</div>
 		</div>

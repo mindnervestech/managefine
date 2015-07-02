@@ -829,6 +829,10 @@ public interface Roles {
 	public interface showRoles {
 		public static String url="/showRoles";
 	}
+	
+	public interface importPartNo{
+		public static String url="/importPartNo";
+	}
 
 	public interface index {
 		public static String url="/roleIndex";

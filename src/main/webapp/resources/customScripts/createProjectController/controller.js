@@ -477,6 +477,65 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     
     }
     
+    
+    
+    $scope.projAttri = [];
+	for(var i=0;i<12;i++) {
+		var j = {keyValue:'',q1:'',q2:'',q3:'',q4:''};
+		$scope.projAttri[i] = j;
+	}
+	
+	$scope.saveAttribut = {};
+	
+	$scope.saveAttributes = function(projectAtt){
+		console.log($scope.projAttri);
+		$scope.projAttri[0].keyValue = "Revival Plan of Old Customers";
+		$scope.projAttri[1].keyValue = "Unique Customer - BOM %";
+		$scope.projAttri[2].keyValue = "New Discovery Claims";
+		$scope.projAttri[3].keyValue = "New Azerity Customers";
+		$scope.projAttri[4].keyValue = "Own Solution Proposed";
+		$scope.projAttri[5].keyValue = "MBO Projects";
+		$scope.projAttri[6].keyValue = "Cumulative NNR";
+		$scope.projAttri[7].keyValue = "Cumulative Design Win";
+		$scope.projAttri[8].keyValue = "Sourcing Projects";
+		$scope.projAttri[9].keyValue = "Socket Replacement Projects";
+		$scope.projAttri[10].keyValue = "New Development Projects";
+		$scope.projAttri[11].keyValue = "Addition of new lines Projects";
+		
+		angular.forEach($scope.projAttri, function(obj, index){
+			if(obj.q1 == ""){
+				obj.q1 = false;
+			}
+			if(obj.q2 == ""){
+				obj.q2 = false;
+			}
+			if(obj.q3 == ""){
+				obj.q3 = false;
+			}
+			if(obj.q4 == ""){
+				obj.q4 = false;
+			}
+		});
+		$scope.saveAttribut.projectAtt = projectAtt;
+		$scope.saveAttribut.currentParentId = $rootScope.currentParentId;
+		$scope.saveAttribut.MainInstance = $rootScope.MainInstance;
+		console.log($scope.saveAttribut);
+		
+		
+		 $http({method:'POST',url:'/time/saveAttribues',data:$scope.saveAttribut}).success(function(response) {
+			 console.log("okokok");
+		 });
+		
+		
+	}
+	
+	$scope.findattributes = function(){
+		 $http({method:'GET',url:'/time/findattributes',params:{mainInstance:$rootScope.MainInstance}}).success(function(data) {
+			 console.log("Hiiii..Bye");
+			 console.log(data);
+			 $scope.projAttri = data.projectAtt;
+		 });
+	}
    /* $scope.defineParts = function(){
     	 $http({method:'GET',url:'/time/findPits'}).success(function(response) {
  	    	$scope.findPits = response;

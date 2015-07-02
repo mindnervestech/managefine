@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mnt.createProject.model.Projectinstance;
+import com.mnt.createProject.vm.AttributDataVM;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.DateWiseHistoryVM;
 import com.mnt.createProject.vm.DefinePartVM;
@@ -38,5 +39,7 @@ public interface CreateProjectService {
 	Long saveDefineParts(DefinePartVM dpVm,String username);
 	List<ProjectPartVM> getAllPartNo(String username);
 	DefinePartVM getAllDefinePartData(Long projectId,String username);
+	Long saveAttribues(AttributDataVM aDataVm,String username);
+	AttributDataVM findattributes(Long mainInstance);
 	
 }

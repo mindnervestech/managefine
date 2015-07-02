@@ -51,4 +51,8 @@ public class ProjectPart extends Model{
 		return find.byId(id);
 	}
 	
+	public static ProjectPart getPartNo(String  partNo) {
+		return find.where().eq("partNo", partNo).findUnique();
+	}
+	
 }

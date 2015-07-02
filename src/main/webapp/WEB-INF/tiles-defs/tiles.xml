@@ -118,6 +118,12 @@
   	</definition>
   	
   	
+  	<definition name="importPartNo" extends="base.definition">
+    	<put-attribute name="title" value="Import PartNo" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/importPartNo.jsp" />
+  	</definition>
+  	
+  	
   	<definition name="employeeHierarchy" extends="base.definition">
     	<put-attribute name="title" value="Define Roles" />
     	<put-attribute name="content" value="/WEB-INF/jsp/employeeHierarchy.jsp" />

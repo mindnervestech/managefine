@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import play.data.DynamicForm;
 import utils.ExceptionHandler;
 
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
@@ -109,8 +110,8 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		
 		String email = form.data().get("email");
 		
-		//User user = User.findByEmail(email);
-		//Expression exp1 = Expr.eq("userid.id", user.getId());
+		User user = User.findByEmail(email);
+		//Expression exp1 = Expr.eq("projectManager.id", user.getId());
 		//Expression exp1 = Expr.eq("companyObj.companyCode", user1.getCompanyobject().getCompanyCode());
 
 		int count = 0;
@@ -139,7 +140,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		int start = limit*page - limit;//orderBy(sidx+" "+sord)
 		List<Projectinstance> results =  exp == null ?Projectinstance.find.setFirstRow(start).setMaxRows(limit).where().findList()
 				:Projectinstance.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findList();
-		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
+		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat());
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
 	}

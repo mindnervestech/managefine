@@ -1,9 +1,21 @@
 package com.mnt.projectHierarchy.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import models.User;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mnt.createProject.model.ProjectPart;
 import com.mnt.projectHierarchy.vm.ProjectclassVM;
 import com.mnt.projectHierarchy.vm.ProjectsupportattributVM;
 import com.mnt.roleHierarchy.vm.RoleVM;
@@ -99,5 +112,101 @@ public class ProjectHierarchyController {
 		return projectHierarchyService.deleteProjectChild(id);
 	}
 	
+	@RequestMapping(value="/savePartNo",method=RequestMethod.POST) 
+	public @ResponseBody Long savePartNo(@RequestParam("file")MultipartFile file1,@CookieValue("username")String username) {
+		
+		File excelfile = new File(file1.getOriginalFilename());
+		
+			try {
+				file1.transferTo(excelfile);
+			} catch (IllegalStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		
+		String filename = file1.getOriginalFilename();
+		
+		Workbook wb_xssf; 
+	    Workbook wb_hssf;
+		
+		int newRows = 0;
+		int updatedRows = 0;
+		Sheet sheet = null;
+		String  jobNum = ""; 
+		String userPosition = "";
+		
+		try {
+			
+			 FileInputStream file = new FileInputStream(excelfile);
+			 String fileExtn = FilenameUtils.getExtension(filename);
+			 
+			 if (fileExtn.equalsIgnoreCase("xlsx")){
+			       wb_xssf = new XSSFWorkbook(file);
+			       
+			       sheet = wb_xssf.getSheetAt(0);
+		      }
+			 
+			 if (fileExtn.equalsIgnoreCase("xls")){
+			      POIFSFileSystem fs = new POIFSFileSystem(file);
+		    	  wb_hssf = new HSSFWorkbook(fs);
+		    	  sheet = wb_hssf.getSheetAt(0);
+		      }
+			 
+			 ProjectPart projectpart = null;
+				Row row;
+				String reqNo = null;
+				String posName = "";
+				String level = "" ;
+	 			
+				Iterator<Row> rowIterator = sheet.iterator();
+				rowIterator.next();
+				
+			//	List<ProjectPart> pList = ProjectPart.getProjectPartNo();
+					
+					while (rowIterator.hasNext()) {
+						reqNo = null;
+						row = rowIterator.next();
+						if (!row.getZeroHeight()) {
+
+							
+							ProjectPart pp = new ProjectPart();
+							Cell c = row.getCell(0);
+							
+							/*for(ProjectPart part:pList){
+								
+							}*/
+							ProjectPart part = ProjectPart.getPartNo(c.getStringCellValue());
+							
+							if(part == null){
+								switch (c.getCellType()) {
+								
+								case Cell.CELL_TYPE_STRING:
+									
+									pp.setPartNo(c.getStringCellValue());
+									break;
+								}
+								
+									System.out.println("storeExcelFile"
+											+ pp);
+									pp.save();
+							}
+							
+						}	
+					}
+					
+				
+				
+			 
+		} catch (Exception e) {
+			
+		}
+		
+		
+		return null;
+	}
 	
 }

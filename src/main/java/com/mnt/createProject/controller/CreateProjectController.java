@@ -43,6 +43,7 @@ import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
+import com.mnt.createProject.vm.AttributDataVM;
 import com.mnt.createProject.vm.DefinePartVM;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
@@ -58,15 +59,13 @@ public class CreateProjectController {
 	@Value("${imageRootDir}")
 	String imageRootDir;
 	
-	/*@RequestMapping(value="/createProject",method=RequestMethod.GET)
-	public String orgHierarchy(@CookieValue("username")String username,Model model) {
-		System.out.println("hhhhhhhhh");
-		System.out.println(username);
-		model.addAttribute("_menuContext", MenuBarFixture.build(username));
-    	model.addAttribute("user", User.findByEmail(username));
-    	//model.addAttribute("data",Json.toJson(roleHierarchyService.getRoleHierarchy()));
-		return "createProject";
-	}*/
+	@RequestMapping(value="/importPartNo",method=RequestMethod.GET)
+	public String importPartNo(@CookieValue("username")String username,Model model) {
+		
+			model.addAttribute("_menuContext", MenuBarFixture.build(username));
+   	model.addAttribute("user", User.findByEmail(username));
+		return "importPartNo";
+	}
 	
 	@RequestMapping(value="/selectAllProjectType",method=RequestMethod.GET) 
 	public @ResponseBody List selectAllProjectType(@RequestParam("id")Long id,@RequestParam("rootId")Long rootId) {
@@ -110,11 +109,23 @@ public class CreateProjectController {
 		return createProjectService.findAttachFile(id,mainInstance);
 	}
 	
+	@RequestMapping(value="/findattributes",method=RequestMethod.GET)
+	public @ResponseBody AttributDataVM findattributes(@RequestParam("mainInstance")Long mainInstance) {
+		
+		return createProjectService.findattributes(mainInstance);
+	}
 	
 	@RequestMapping(value="/saveComment",method=RequestMethod.POST) 
 	public @ResponseBody Long saveComment(@RequestBody ProjectsupportattributVM pVm,@CookieValue("username")String username) {
 		return createProjectService.saveComment(pVm,username);
 	}
+	
+	
+	@RequestMapping(value="/saveAttribues",method=RequestMethod.POST) 
+	public @ResponseBody Long saveAttribues(@RequestBody AttributDataVM aDataVm,@CookieValue("username")String username) {
+		return createProjectService.saveAttribues(aDataVm,username);
+	}
+	
 	
 	
 	@RequestMapping(value="/saveDefineParts",method=RequestMethod.POST) 

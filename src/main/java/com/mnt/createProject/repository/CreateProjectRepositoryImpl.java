@@ -27,6 +27,7 @@ import play.data.DynamicForm;
 
 import com.avaje.ebean.SqlRow;
 import com.mnt.createProject.model.AduitLog;
+import com.mnt.createProject.model.AttributesProject;
 import com.mnt.createProject.model.DefinePart;
 import com.mnt.createProject.model.Pits;
 import com.mnt.createProject.model.ProjectAttachment;
@@ -35,6 +36,8 @@ import com.mnt.createProject.model.ProjectPart;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.model.Projectinstancenode;
 import com.mnt.createProject.model.Saveattributes;
+import com.mnt.createProject.vm.AttributDataVM;
+import com.mnt.createProject.vm.AttributVM;
 import com.mnt.createProject.vm.ClientVM;
 import com.mnt.createProject.vm.DateWiseHistoryVM;
 import com.mnt.createProject.vm.DefinePartVM;
@@ -88,7 +91,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 		Projectinstance projectinstance= Projectinstance.getById(mainInstance);
 		pVm.setCustomer(projectinstance.getClientId());
-		pVm.setEndCustomer(projectinstance.getEndCustomer().getId());
+		if(projectinstance.getEndCustomer() != null){
+			pVm.setEndCustomer(projectinstance.getEndCustomer().getId());
+		}
 		pVm.setOpportunityNo(projectinstance.getOpportunityNo());
 		pVm.setCreatedDate(projectinstance.getCreatedDate());
 		pVm.setRegion(projectinstance.getRegion());
@@ -764,6 +769,60 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	}
 	
 	@Override
+	public Long saveAttribues(AttributDataVM aDataVm,String username) {
+		
+		List<AttributesProject> aProject = AttributesProject.getAttributByProject(aDataVm.getMainInstance());
+		if(aProject == null){
+			for(AttributVM aVm:aDataVm.projectAtt){
+				AttributesProject apProject = new AttributesProject();
+				apProject.setKeyValue(aVm.getKeyValue());
+				apProject.setQ1(aVm.q1);
+				apProject.setQ2(aVm.q2);
+				apProject.setQ3(aVm.q3);
+				apProject.setQ4(aVm.q4);
+				apProject.setProjectinstance(Projectinstance.findById(aDataVm.MainInstance));
+				apProject.save();
+			}
+		}else{
+			for(AttributesProject attributesProject:aProject){
+				for(AttributVM aVm:aDataVm.projectAtt){
+					if(attributesProject.getKeyValue().equals(aVm.getKeyValue())){
+						attributesProject.setQ1(aVm.q1);
+						attributesProject.setQ2(aVm.q2);
+						attributesProject.setQ3(aVm.q3);
+						attributesProject.setQ4(aVm.q4);
+						attributesProject.update();
+					}
+					
+				}
+			}
+		}
+		
+		
+		return aDataVm.MainInstance;
+		
+	}
+	
+	@Override
+	public AttributDataVM findattributes(Long mainInstance) {
+		AttributDataVM aDataVM = new AttributDataVM();
+		System.out.println(mainInstance);
+		List<AttributVM> aList = new ArrayList<>();
+		List<AttributesProject> aProject = AttributesProject.getAttributByProject(mainInstance);
+		for(AttributesProject aProject2:aProject){
+			AttributVM aVm = new AttributVM();
+			aVm.keyValue = aProject2.getKeyValue();
+			aVm.q1 = aProject2.getQ1();
+			aVm.q2 = aProject2.getQ2();
+			aVm.q3 = aProject2.getQ3();
+			aVm.q4 = aProject2.getQ4();
+			aList.add(aVm);
+		}
+		aDataVM.setProjectAtt(aList);
+		return aDataVM;
+	}
+	
+	@Override
 	public Long saveComment(ProjectsupportattributVM pVm,String username) {
 		Date dt = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -977,6 +1036,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		
 	}
 	
+		
 	
 }
 

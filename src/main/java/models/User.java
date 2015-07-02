@@ -23,6 +23,7 @@ import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Expr;
+import com.custom.domain.AreaOfExpertise;
 import com.custom.domain.Currency;
 import com.custom.domain.EmployeeStatus;
 import com.custom.domain.Gender;
@@ -161,7 +162,147 @@ public class User extends Model {
 	@Validation(required = true)
 	public static List<DomainEnum> dept;
 	
-	@WizardCardUI(name="Flexi Attribute",step=3)
+		
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=1,label="Total No. of Years Experience")
+	public String totalYearExp;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=2,label="No. of Years Experience Previously")
+	public String yearExpPrevious;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=3,label="Team Handled Previously")
+	public String teamHandledPreviously;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=4,label="Team Handled today")
+	public String teamHandledToday;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=5,label="Industry Expertise 1")
+	public String industryExpertise1;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=6,label="Industry Expertise 1")
+	public String industryExpertise2;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=7,label="Industry Expertise 1")
+	public String industryExpertise3;
+	
+	@WizardCardUI(name="Experience",step=3)
+	@UIFields(order=8,label="Industry Expertise 1")
+	public String industryExpertise4;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=1,label="Problem Solving")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise problemSolving;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=2,label="Initiative & Leadership")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise initiativeLeadership;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=3,label="Teamwork")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise teamwork;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=4,label="Planning & Organization")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise planningOrganization;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=5,label="Design & Development")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise designDevelopment;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=6,label="Project Management")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise projectManagement;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=7,label="Client Co-ordination")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise clientCoordination;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=8,label="Innovation")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise innovation;
+	
+	@WizardCardUI(name="Area Of Expertise",step=4)
+	@UIFields(order=9,label="Sales")
+	@Enumerated(EnumType.STRING)
+	public AreaOfExpertise sales;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=1,label="From")
+	@Formats.DateTime(pattern="yyyy")
+	public Date from1;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=2,label="To")
+	@Formats.DateTime(pattern="yyyy")
+	public Date to1;
+	
+	/*@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=3,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from2;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=4,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to2;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=5,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=6,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=7,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from4;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=8,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to4;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=9,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from5;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=10,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to5;
+	*/
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=1,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date fromEdu1;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=2,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date toEdu1;
+	
+	
+	@WizardCardUI(name="Flexi Attribute",step=6)
 	@UIFields(order=1,label="flexiAttributes")
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<UserFlexi> flexiAttributes;
@@ -652,6 +793,177 @@ public class User extends Model {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
+
+	public String getTotalYearExp() {
+		return totalYearExp;
+	}
+
+	public void setTotalYearExp(String totalYearExp) {
+		this.totalYearExp = totalYearExp;
+	}
+
+	public String getYearExpPrevious() {
+		return yearExpPrevious;
+	}
+
+	public void setYearExpPrevious(String yearExpPrevious) {
+		this.yearExpPrevious = yearExpPrevious;
+	}
+
+	public String getTeamHandledPreviously() {
+		return teamHandledPreviously;
+	}
+
+	public void setTeamHandledPreviously(String teamHandledPreviously) {
+		this.teamHandledPreviously = teamHandledPreviously;
+	}
+
+	public String getTeamHandledToday() {
+		return teamHandledToday;
+	}
+
+	public void setTeamHandledToday(String teamHandledToday) {
+		this.teamHandledToday = teamHandledToday;
+	}
+
+	public String getIndustryExpertise1() {
+		return industryExpertise1;
+	}
+
+	public void setIndustryExpertise1(String industryExpertise1) {
+		this.industryExpertise1 = industryExpertise1;
+	}
+
+	public String getIndustryExpertise2() {
+		return industryExpertise2;
+	}
+
+	public void setIndustryExpertise2(String industryExpertise2) {
+		this.industryExpertise2 = industryExpertise2;
+	}
+
+	public String getIndustryExpertise3() {
+		return industryExpertise3;
+	}
+
+	public void setIndustryExpertise3(String industryExpertise3) {
+		this.industryExpertise3 = industryExpertise3;
+	}
+
+	public String getIndustryExpertise4() {
+		return industryExpertise4;
+	}
+
+	public void setIndustryExpertise4(String industryExpertise4) {
+		this.industryExpertise4 = industryExpertise4;
+	}
+
+	public AreaOfExpertise getProblemSolving() {
+		return problemSolving;
+	}
+
+	public void setProblemSolving(AreaOfExpertise problemSolving) {
+		this.problemSolving = problemSolving;
+	}
+
+	public AreaOfExpertise getInitiativeLeadership() {
+		return initiativeLeadership;
+	}
+
+	public void setInitiativeLeadership(AreaOfExpertise initiativeLeadership) {
+		this.initiativeLeadership = initiativeLeadership;
+	}
+
+	public AreaOfExpertise getTeamwork() {
+		return teamwork;
+	}
+
+	public void setTeamwork(AreaOfExpertise teamwork) {
+		this.teamwork = teamwork;
+	}
+
+	public AreaOfExpertise getPlanningOrganization() {
+		return planningOrganization;
+	}
+
+	public void setPlanningOrganization(AreaOfExpertise planningOrganization) {
+		this.planningOrganization = planningOrganization;
+	}
+
+	public AreaOfExpertise getDesignDevelopment() {
+		return designDevelopment;
+	}
+
+	public void setDesignDevelopment(AreaOfExpertise designDevelopment) {
+		this.designDevelopment = designDevelopment;
+	}
+
+	public AreaOfExpertise getProjectManagement() {
+		return projectManagement;
+	}
+
+	public void setProjectManagement(AreaOfExpertise projectManagement) {
+		this.projectManagement = projectManagement;
+	}
+
+	public AreaOfExpertise getClientCoordination() {
+		return clientCoordination;
+	}
+
+	public void setClientCoordination(AreaOfExpertise clientCoordination) {
+		this.clientCoordination = clientCoordination;
+	}
+
+	public AreaOfExpertise getInnovation() {
+		return innovation;
+	}
+
+	public void setInnovation(AreaOfExpertise innovation) {
+		this.innovation = innovation;
+	}
+
+	public AreaOfExpertise getSales() {
+		return sales;
+	}
+
+	public void setSales(AreaOfExpertise sales) {
+		this.sales = sales;
+	}
+
+	public Date getFrom1() {
+		return from1;
+	}
+
+	public void setFrom1(Date from1) {
+		this.from1 = from1;
+	}
+
+	public Date getTo1() {
+		return to1;
+	}
+
+	public void setTo1(Date to1) {
+		this.to1 = to1;
+	}
+
+	public Date getFromEdu1() {
+		return fromEdu1;
+	}
+
+	public void setFromEdu1(Date fromEdu1) {
+		this.fromEdu1 = fromEdu1;
+	}
+
+	public Date getToEdu1() {
+		return toEdu1;
+	}
+
+	public void setToEdu1(Date toEdu1) {
+		this.toEdu1 = toEdu1;
+	}
+
+	
+	
 	
 	
 	

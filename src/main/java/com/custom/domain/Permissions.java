@@ -72,6 +72,7 @@ public enum Permissions {
 	OrgHierarchy(routes.Roles.OrgHierarchy.url,Setting,"Org Hierarchy"),
 	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy"),
 	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
+	ImportPartNo(routes.Roles.importPartNo.url,Setting,"Import PartNo"),
 	
 	
 	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),
