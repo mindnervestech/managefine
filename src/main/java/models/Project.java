@@ -122,6 +122,7 @@ public class Project extends Model{
 	@ManyToMany
 	public List<Task> task;
 	
+	
 	public static Model.Finder<Long,Project> find = new Model.Finder<Long,Project>(Long.class, Project.class);
 	
 	

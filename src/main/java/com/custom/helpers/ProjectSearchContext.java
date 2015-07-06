@@ -3,9 +3,12 @@ package com.custom.helpers;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import models.Client;
+import models.Supplier;
 import models.User;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -15,6 +18,7 @@ import utils.ExceptionHandler;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
+import com.avaje.ebean.SqlRow;
 import com.google.common.base.Function;
 import com.mnt.core.helper.ASearchContext;
 import com.mnt.core.ui.component.BuildGridActionButton;
@@ -120,7 +124,44 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}else{
 			count = Project.find.where().add(exp1).add(exp).findRowCount();
 		}*/
-		count = Projectinstance.find.where().findRowCount();
+		
+		List<Projectinstance> pList = new ArrayList<>();
+		
+		if(user.getUsertype() == null){
+			pList = Projectinstance.getProjectList();
+		}else if(user.getUsertype().equals("User")){
+			//pList = Projectinstance.getProjectByUser(user.getId());
+			List<SqlRow> sqlRows = Projectinstance.getProjectsOfUser(user.getId());
+			for(SqlRow row: sqlRows) {
+				Projectinstance projectinstance =Projectinstance.findById(row.getLong("projectinstance_id"));
+				pList.add(projectinstance);
+				
+			}
+				List<Projectinstance> projectList = Projectinstance.getProjectsOfManager(user);
+			if (projectList != null) {
+				for (Projectinstance project : projectList) {
+					Projectinstance projectInstance = Projectinstance
+							.getById(project.getId());
+					pList.add(projectInstance);
+				}
+			}
+	   }else if(user.getUsertype().equals("Customer User")){
+			Client client = Client.findByUserId(user.getId());
+			 if(client != null){
+			    pList = Projectinstance.getProjectByClient(client.getId());
+			 }
+		}else if(user.getUsertype().equals("Supplier User")){
+			Supplier supplier = Supplier.findByUserId(user.getId());
+			 if(supplier != null){
+			    pList = Projectinstance.getProjectBySupplier(supplier.getId());
+			 }
+		}
+		
+		
+		List<Projectinstance> pList1 = new ArrayList<>();
+		
+		
+		count = pList.size(); //Projectinstance.find.where().findRowCount();
 		String sidx = form.get("sidx");
 		String sord = form.get("sord");
 		double min = Double.parseDouble(form.get("rows"));
@@ -138,8 +179,113 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}
 		
 		int start = limit*page - limit;//orderBy(sidx+" "+sord)
-		List<Projectinstance> results =  exp == null ?Projectinstance.find.setFirstRow(start).setMaxRows(limit).where().findList()
-				:Projectinstance.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findList();
+		limit = limit + start;
+		
+		if(pList.size() > start && pList.size() < limit){
+			limit = pList.size(); 
+		}
+		int j = 0;
+		for(int i = start;i < limit;i++){
+			pList1.add(pList.get(i));
+			j++;
+		}
+		
+		List<Projectinstance> results = null;
+		List<Projectinstance> pList2 = new ArrayList<>();
+		if(form.data().get("clientName") != null && form.data().get("clientName") != ""){
+			
+			for(Projectinstance projList:pList1){
+				
+				if(projList.clientName.equals(form.data().get("clientName"))){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else if(form.data().get("projectName") != null && form.data().get("projectName") != ""){
+			for(Projectinstance projList:pList1){
+				if(projList.projectName.equals(form.data().get("projectName"))){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else if(form.data().get("projectTypeName") != null && form.data().get("projectTypeName") != ""){
+			for(Projectinstance projList:pList1){
+				if(projList.projectTypeName.equals(form.data().get("projectTypeName"))){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else if(form.data().get("startDate") != null && form.data().get("startDate") != ""){
+			for(Projectinstance projList:pList1){
+				if(projList.startDate.equals(form.data().get("startDate"))){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else if(form.data().get("endDate") != null && form.data().get("endDate") != ""){
+			for(Projectinstance projList:pList1){
+				if(projList.endDate.equals(form.data().get("endDate"))){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else if(form.data().get("status") != null && form.data().get("status") != ""){
+			for(Projectinstance projList:pList1){
+				if(projList.status != null){
+					if(projList.status.equals(form.data().get("status"))){
+						pList2.add(projList);
+					}
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+			
+			
+		}else{
+				results = pList1;
+		}
+		
+		/*List<Projectinstance> results = exp == null ?Projectinstance.find.setFirstRow(start).setMaxRows(limit).where().findList()
+				:Projectinstance.find.where().add(exp).setFirstRow(start).setMaxRows(limit).findList();*/
 		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat());
 		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
 		return gridViewModel;
@@ -158,7 +304,8 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 									project.getClientName(),
 									project.getStartDate(),
 									project.getEndDate(),
-									project.getStatus()
+									project.getStatus(),
+									project.getProjectTypeName()
 									
 									));
 				} catch (Exception e) {

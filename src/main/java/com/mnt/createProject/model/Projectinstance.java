@@ -11,12 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import models.Client;
 import models.Supplier;
 import models.User;
 import play.db.ebean.Model;
-import scala.sys.process.processInternal;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
@@ -57,6 +57,10 @@ public class Projectinstance extends Model{
 	@SearchFilterOnUI(label="Client Name")
 	public String clientName;
 	
+	@SearchColumnOnUI(rank=7,colName="ProjectType Name",width=20)
+	@SearchFilterOnUI(label="ProjectType Name")
+	public String projectTypeName;
+	
 	@SearchColumnOnUI(rank=4,colName="Start Date",width=15)
 	@SearchFilterOnUI(label="Start Date")
 	public String startDate;
@@ -91,8 +95,12 @@ public class Projectinstance extends Model{
 	public String supplierSaleperson;
 	public String projectWin;
 	
-//	public String createdDate;
-	//public String
+	
+	/*
+	@Transient
+	@SearchColumnOnUI(rank=4,colName="Project Type",width=20)
+	@SearchFilterOnUI(label="Project Type")
+	public String projectType;*/
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	public List<User> user;
@@ -112,7 +120,7 @@ public class Projectinstance extends Model{
 	public Long getId() {
 		return id;
 	}
-
+	//@Transactional
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -399,10 +407,13 @@ public class Projectinstance extends Model{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	
-	
-	
+	public String getProjectTypeName() {
+		return projectTypeName;
+	}
+	public void setProjectTypeName(String projectTypeName) {
+		this.projectTypeName = projectTypeName;
+	}
 	public String getProjectWin() {
 		return projectWin;
 	}

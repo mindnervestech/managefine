@@ -48,6 +48,7 @@ import com.mnt.createProject.vm.ProjectCommentVM;
 import com.mnt.createProject.vm.ProjectPartVM;
 import com.mnt.createProject.vm.SupplierDataVM;
 import com.mnt.createProject.vm.UserVM;
+import com.mnt.projectHierarchy.model.Projectclass;
 import com.mnt.projectHierarchy.model.Projectclassnode;
 import com.mnt.projectHierarchy.model.Projectclassnodeattribut;
 import com.mnt.projectHierarchy.vm.ProjectattributSelect;
@@ -305,6 +306,8 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			projectinstance.setEndCustomer(Client.findById(Long.parseLong(form.data().get("endCustomer"))));
 			//
 			projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
+			Projectclass projectclass = Projectclass.getProjectById(Long.parseLong(form.data().get("projectTypeId")));
+			projectinstance.setProjectTypeName(projectclass.getProjectTypes());
 			projectinstance.setProjectDescription(form.data().get("projectDescription"));
 			if(form.data().get("client") != null){
 				Client client = Client.findById(Long.parseLong(form.data().get("client")));
