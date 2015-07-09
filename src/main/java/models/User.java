@@ -250,7 +250,7 @@ public class User extends Model {
 	@Formats.DateTime(pattern="yyyy")
 	public Date to1;
 	
-	/*@WizardCardUI(name="Experience Breakup",step=5)
+	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=3,label="From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date from2;
@@ -289,7 +289,6 @@ public class User extends Model {
 	@UIFields(order=10,label="To")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date to5;
-	*/
 	
 	@WizardCardUI(name="Education Breakup",step=5)
 	@UIFields(order=1,label="From")
@@ -300,6 +299,46 @@ public class User extends Model {
 	@UIFields(order=2,label="To")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date toEdu1;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=3,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date fromEdu2;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=4,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date toEdu2;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=5,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date fromEdu3;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=6,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date toEdu3;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=7,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date fromEdu4;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=8,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date toEdu4;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=9,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date fromEdu5;
+	
+	@WizardCardUI(name="Education Breakup",step=5)
+	@UIFields(order=10,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date toEdu5;
 	
 	
 	@WizardCardUI(name="Flexi Attribute",step=6)
@@ -962,9 +1001,134 @@ public class User extends Model {
 		this.toEdu1 = toEdu1;
 	}
 
-	
-	
-	
+	public Date getFrom2() {
+		return from2;
+	}
+
+	public void setFrom2(Date from2) {
+		this.from2 = from2;
+	}
+
+	public Date getTo2() {
+		return to2;
+	}
+
+	public void setTo2(Date to2) {
+		this.to2 = to2;
+	}
+
+	public Date getFrom3() {
+		return from3;
+	}
+
+	public void setFrom3(Date from3) {
+		this.from3 = from3;
+	}
+
+	public Date getTo3() {
+		return to3;
+	}
+
+	public void setTo3(Date to3) {
+		this.to3 = to3;
+	}
+
+	public Date getFrom4() {
+		return from4;
+	}
+
+	public void setFrom4(Date from4) {
+		this.from4 = from4;
+	}
+
+	public Date getTo4() {
+		return to4;
+	}
+
+	public void setTo4(Date to4) {
+		this.to4 = to4;
+	}
+
+	public Date getFrom5() {
+		return from5;
+	}
+
+	public void setFrom5(Date from5) {
+		this.from5 = from5;
+	}
+
+	public Date getTo5() {
+		return to5;
+	}
+
+	public void setTo5(Date to5) {
+		this.to5 = to5;
+	}
+
+	public Date getFromEdu2() {
+		return fromEdu2;
+	}
+
+	public void setFromEdu2(Date fromEdu2) {
+		this.fromEdu2 = fromEdu2;
+	}
+
+	public Date getToEdu2() {
+		return toEdu2;
+	}
+
+	public void setToEdu2(Date toEdu2) {
+		this.toEdu2 = toEdu2;
+	}
+
+	public Date getFromEdu3() {
+		return fromEdu3;
+	}
+
+	public void setFromEdu3(Date fromEdu3) {
+		this.fromEdu3 = fromEdu3;
+	}
+
+	public Date getToEdu3() {
+		return toEdu3;
+	}
+
+	public void setToEdu3(Date toEdu3) {
+		this.toEdu3 = toEdu3;
+	}
+
+	public Date getFromEdu4() {
+		return fromEdu4;
+	}
+
+	public void setFromEdu4(Date fromEdu4) {
+		this.fromEdu4 = fromEdu4;
+	}
+
+	public Date getToEdu4() {
+		return toEdu4;
+	}
+
+	public void setToEdu4(Date toEdu4) {
+		this.toEdu4 = toEdu4;
+	}
+
+	public Date getFromEdu5() {
+		return fromEdu5;
+	}
+
+	public void setFromEdu5(Date fromEdu5) {
+		this.fromEdu5 = fromEdu5;
+	}
+
+	public Date getToEdu5() {
+		return toEdu5;
+	}
+
+	public void setToEdu5(Date toEdu5) {
+		this.toEdu5 = toEdu5;
+	}
+
 	
 	
 	
