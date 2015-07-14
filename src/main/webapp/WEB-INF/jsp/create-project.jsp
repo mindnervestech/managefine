@@ -113,7 +113,7 @@ function myFunction() {
 	  var sDate = new Date(startD);
 	  console.log(eDate);
 	  console.log(sDate);
-	if (startD <= endD) {
+	/* if (parseDate(startD) <= parseDate(endD)) { */
 	$.ajax({
 		type : "POST",
 		data : $("#form").serialize(),
@@ -127,9 +127,9 @@ function myFunction() {
             }); */
 		}
 	});
-	}else{
+	/* }else{
 		alert("Please ensure that the End Date is greater than Start Date.");
-	}
+	} */
 }
 
 

@@ -378,23 +378,41 @@
 								<div class="col-md-6">
 									<label class="col-md-12">Supplier Salesperson :</label>
 									<div class="col-md-12">
-									<%-- <select name="supplierSaleperson" 
-											 style="width: 100%;">
-											<option	value="Parag Kulkarni" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Parag Kulkarni'}">Selected</c:if>>Parag Kulkarni</option>
-											<option	value="Ajit Bapat" <c:if test="${editNodeMetaData.supplierSaleperson eq 'Ajit Bapat'}">Selected</c:if>>Ajit Bapat</option>
-										</select> --%>
 										<input type="text" name="supplierSaleperson"
 											value='${editNodeMetaData.supplierSaleperson}' style="width: 100%;">
 										
 									</div>
 								</div>
 								<div class="col-md-6">
-									<label class="col-md-12"></label>
+									<label class="col-md-12">Purchase Customer Contact Number :</label>
 									<div class="col-md-12">
-									
+										<input type="text" name="purchaseCustContactNo"
+											value='${editNodeMetaData.purchaseCustContactNo}' style="width: 100%;">           <%--  value='${editNodeMetaData.purchaseCustContactNo}' --%>
+										
 									</div>
 								</div>
 							</div>
+							
+							<div class="form-group">
+								<div class="col-md-6">
+									<label class="col-md-12">Purchase Customer EMAIL ID :</label>
+									<div class="col-md-12">
+										<input type="text" name="purchaseCustEmail"
+											value='${editNodeMetaData.purchaseCustEmail}' style="width: 100%;">   <%-- value='${editNodeMetaData.purchaseCustEmail}' --%>
+										
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-md-12">Remark :</label>
+									<div class="col-md-12">
+										<input type="text" name="remark"
+											value='${editNodeMetaData.remark}' style="width: 100%;">  <%-- value='${editNodeMetaData.remark}' --%>
+										
+									</div>
+								</div>
+							</div>
+							
+							
 							</div>
 							
 							<!-- -------------------------- -->

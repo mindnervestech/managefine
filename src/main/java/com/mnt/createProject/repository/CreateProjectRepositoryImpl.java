@@ -108,6 +108,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setProductionDate(projectinstance.getProductionDate());
 		pVm.setSupplierSaleperson(projectinstance.getSupplierSaleperson());
 		pVm.setProjectWin(projectinstance.getProjectWin());
+		pVm.setPurchaseCustContactNo(projectinstance.getPurchaseCustContactNo());
+		pVm.setPurchaseCustEmail(projectinstance.getPurchaseCustEmail());
+		pVm.setRemark(projectinstance.getRemark());
 		if(projectinstance.getProjectManager() != null){
 			pVm.setProjectManager(projectinstance.getProjectManager().getId().toString());
 		}
@@ -761,8 +764,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			pVm.setId(dp.getPartNo().getId());
 			pVm.setSuggestedResale(dp.getSuggestedResale());
 			pVm.setLeadTime(dp.getLeadTime());
-			pVm.setSupplier(dp.getSupplier().getId());
-			pVm.setPits(dp.getPits().getId());
+			if(dp.getSupplier() != null){
+				pVm.setSupplier(dp.getSupplier().getId());
+			}
+			if(dp.getPits() != null){
+				pVm.setPits(dp.getPits().getId());
+			}
 			partVMs.add(pVm);
 		}
 		dVm.setPartsValue(partVMs);

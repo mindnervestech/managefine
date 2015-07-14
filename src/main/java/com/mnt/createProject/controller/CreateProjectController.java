@@ -245,6 +245,10 @@ public class CreateProjectController {
 				projectinstance.setSupplierFae(form.data().get("supplierFae"));
 				projectinstance.setProjectWin(form.data().get("projectWin"));
 				projectinstance.setSupplierSaleperson(form.data().get("supplierSaleperson"));
+				projectinstance.setPurchaseCustContactNo(form.data().get("purchaseCustContactNo"));
+				projectinstance.setPurchaseCustEmail(form.data().get("purchaseCustEmail"));
+				projectinstance.setRemark(form.data().get("remark"));
+				
 				
 				projectinstance.update();
 				

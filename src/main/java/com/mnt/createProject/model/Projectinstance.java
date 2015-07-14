@@ -94,6 +94,9 @@ public class Projectinstance extends Model{
 	public String supplierFae;
 	public String supplierSaleperson;
 	public String projectWin;
+	public String purchaseCustContactNo;
+	public String purchaseCustEmail;
+	public String remark;
 	
 	
 	/*
@@ -376,7 +379,24 @@ public class Projectinstance extends Model{
 	public void setSupplierSaleperson(String supplierSaleperson) {
 		this.supplierSaleperson = supplierSaleperson;
 	}
-
+	public String getPurchaseCustContactNo() {
+		return purchaseCustContactNo;
+	}
+	public void setPurchaseCustContactNo(String purchaseCustContactNo) {
+		this.purchaseCustContactNo = purchaseCustContactNo;
+	}
+	public String getPurchaseCustEmail() {
+		return purchaseCustEmail;
+	}
+	public void setPurchaseCustEmail(String purchaseCustEmail) {
+		this.purchaseCustEmail = purchaseCustEmail;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	public void removeAllSupplier() {
 		if(this.supplier == null)
 			return;

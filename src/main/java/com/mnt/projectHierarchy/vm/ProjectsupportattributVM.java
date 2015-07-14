@@ -42,6 +42,9 @@ public class ProjectsupportattributVM {
 	public String supplierFae;
 	public String supplierSaleperson;
 	public String projectWin;
+	public String purchaseCustContactNo;
+	public String purchaseCustEmail;
+	public String remark;
 	public List<ProjectclassnodeattributVM> projectValue;
 	public List<ProjectAttachmentVM> projectAttachment;
 	public List<ProjectCommentVM> projectcomments;
@@ -256,6 +259,24 @@ public class ProjectsupportattributVM {
 	}
 	public void setProjectWin(String projectWin) {
 		this.projectWin = projectWin;
+	}
+	public String getPurchaseCustContactNo() {
+		return purchaseCustContactNo;
+	}
+	public void setPurchaseCustContactNo(String purchaseCustContactNo) {
+		this.purchaseCustContactNo = purchaseCustContactNo;
+	}
+	public String getPurchaseCustEmail() {
+		return purchaseCustEmail;
+	}
+	public void setPurchaseCustEmail(String purchaseCustEmail) {
+		this.purchaseCustEmail = purchaseCustEmail;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	
