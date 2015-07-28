@@ -776,17 +776,16 @@ public class Application  {
    
    
    @RequestMapping(value="/exportCSV",method=RequestMethod.GET) 
-	public String exportCSV() {
+	public @ResponseBody FileSystemResource exportCSV(final HttpServletResponse response) {
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		CSVWriter writer = null;
 		try {
-			writer = new CSVWriter(new FileWriter("E:\\projectInfo.csv"));
+			writer = new CSVWriter(new FileWriter(imageRootDir+"/projectInfo.csv"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-   	
+		
    	List<SqlRow> sqlRows = Projectinstance.getImportProject();
    	
    	String []rowHeaders = new String[42];
@@ -873,8 +872,6 @@ public class Application  {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-   		System.out.println("()()(*()*()*)(*)(");
-   		System.out.println(sDate);
    		row[28] = format.format(sDate);
    		row[29] = rowData.getString("project_types");
    		row[30] = rowData.getString("stag");
@@ -907,11 +904,16 @@ public class Application  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-   	return "redirect:" + "/index";
-   	 //return "home";
-
+   	 
+   	 
+	
+	 response.setContentType("application/x-download");
+     response.setHeader("Content-Transfer-Encoding", "binary"); 
+     response.setHeader("Content-disposition","attachment; filename=\""+"projectInfo.csv");
+     File file = new File(imageRootDir+ File.separator + "projectInfo.csv");
+     
+     return new FileSystemResource(file);
+   	 
 	}
    
 }
