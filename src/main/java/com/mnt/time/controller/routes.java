@@ -833,6 +833,10 @@ public interface Roles {
 	public interface importPartNo{
 		public static String url="/importPartNo";
 	}
+	
+	public interface exportproject{
+		public static String url="/exportCSV";
+	}
 
 	public interface index {
 		public static String url="/roleIndex";

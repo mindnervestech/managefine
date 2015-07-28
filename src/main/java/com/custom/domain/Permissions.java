@@ -73,6 +73,7 @@ public enum Permissions {
 	RoleHierarchy(routes.Roles.showRoles.url,Setting,"Role Hierarchy"),
 	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
 	ImportPartNo(routes.Roles.importPartNo.url,Setting,"Import PartNo"),
+	ExportProject(routes.Roles.exportproject.url,Setting,"Export Project"),
 	
 	
 	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),

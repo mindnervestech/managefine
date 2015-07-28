@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import models.Client;
 import models.Supplier;
@@ -543,6 +542,13 @@ public class Projectinstance extends Model{
 	
 	public static SearchContext  getSearchContext(String onFieldNamePrefix){
 		return  ProjectSearchContext.getInstance().withFieldNamePrefix(onFieldNamePrefix);
+	}
+	
+	public static List<SqlRow> getImportProject() {
+		String sql = "select * from test";
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		List<SqlRow> list = sqlQuery.findList();
+		 return list;
 	}
 
 	public static List<SqlRow> getProjectsOfUser(Long id) {

@@ -4,6 +4,12 @@ import static com.google.common.collect.Lists.transform;
 import static play.data.Form.form;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -40,9 +46,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
+import com.avaje.ebean.SqlRow;
 import com.custom.domain.LeaveStatus;
 import com.custom.domain.Status;
 import com.custom.domain.TimesheetStatus;
@@ -50,6 +58,7 @@ import com.custom.emails.Email;
 import com.google.common.base.Function;
 import com.mnt.core.ui.component.AutoComplete;
 import com.mnt.core.workflow.ActivitiHelper;
+import com.mnt.createProject.model.Projectinstance;
 
 import dto.fixtures.MenuBarFixture;
 
@@ -766,5 +775,143 @@ public class Application  {
    }
    
    
+   @RequestMapping(value="/exportCSV",method=RequestMethod.GET) 
+	public String exportCSV() {
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		CSVWriter writer = null;
+		try {
+			writer = new CSVWriter(new FileWriter("C:\\projectInfo.csv"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   	
+   	List<SqlRow> sqlRows = Projectinstance.getImportProject();
+   	
+   	String []rowHeaders = new String[42];
+   	rowHeaders[0] = "id";
+   	rowHeaders[1] = "project_name";
+   	rowHeaders[2] = "client_name";
+   	rowHeaders[3] = "start_date";
+   	rowHeaders[4] = "end_date";
+   	rowHeaders[5] = "end_client";
+   	rowHeaders[6] = "projectType";
+   	rowHeaders[7] = "percentage";
+   	rowHeaders[8] = "UserName";
+   	rowHeaders[9] = "managername";
+   	rowHeaders[10] = "total_estimated_revenue";
+   	rowHeaders[11] = "opportunity_no";
+   	rowHeaders[12] = "created_date";
+   	rowHeaders[13] = "region";
+   	rowHeaders[14] = "end_customer_location";
+   	rowHeaders[15] = "project_name_application";
+   	rowHeaders[16] = "production_date";
+   	rowHeaders[17] = "product_life_time";
+   	rowHeaders[18] = "supplier_registion";
+   	rowHeaders[19] = "project_last_update";
+   	rowHeaders[20] = "serial_no";
+   	rowHeaders[21] = "supplier_fae";
+   	rowHeaders[22] = "supplier_saleperson";
+   	rowHeaders[23] = "project_win";
+   	rowHeaders[24] = "project_type_name";
+   	rowHeaders[25] = "purchase_cust_contact_no";
+   	rowHeaders[26] = "purchase_cust_email";
+   	rowHeaders[27] = "remark";
+   	rowHeaders[28] = "start_date";
+   	rowHeaders[29] = "project_types";
+   	rowHeaders[30] = "stag";
+   	rowHeaders[31] = "part_no";
+   	rowHeaders[32] = "annual_qty";
+   	rowHeaders[33] = "cost_price";
+   	rowHeaders[34] = "suggested_resale";
+   	rowHeaders[35] = "estimated_revenue";
+   	rowHeaders[36] = "claim_status";
+   	rowHeaders[37] = "lead_time";
+   	rowHeaders[38] = "part supplier_name";
+   	rowHeaders[39] = "pits_id";
+   	rowHeaders[40] = "project supplier";
+   	rowHeaders[41] = "members";
+   	
+   	
+   	writer.writeNext(rowHeaders);
+   	
+   	for(SqlRow rowData: sqlRows){
+   		String []row = new String[42];
+   		row[0] = rowData.getString("id");
+   		row[1] = rowData.getString("project_name");
+   		row[2] = rowData.getString("client_name");
+   		row[3] = rowData.getString("startdate");
+   		row[4] = rowData.getString("end_date");
+   		row[5] = rowData.getString("end_client");
+   		row[6] = rowData.getString("projectType");
+   		row[7] = rowData.getString("percentage");
+   		row[8] = rowData.getString("UserName");
+   		row[9] = rowData.getString("managername");
+   		row[10] = rowData.getString("total_estimated_revenue");
+   		row[11] = rowData.getString("opportunity_no");
+   		row[12] = rowData.getString("created_date");
+   		row[13] = rowData.getString("region");
+   		row[14] = rowData.getString("end_customer_location");
+   		row[15] = rowData.getString("project_name_application");
+   		row[16] = rowData.getString("production_date");
+   		row[17] = rowData.getString("product_life_time");
+   		row[18] = rowData.getString("supplier_registion");
+   		row[19] = rowData.getString("project_last_update");
+   		row[20] = rowData.getString("serial_no");
+   		row[21] = rowData.getString("supplier_fae");
+   		row[22] = rowData.getString("supplier_saleperson");
+   		row[23] = rowData.getString("project_win");
+   		row[24] = rowData.getString("project_type_name");
+   		row[25] = rowData.getString("purchase_cust_contact_no");
+   		row[26] = rowData.getString("purchase_cust_email");
+   		row[27] = rowData.getString("remark");
+   		Date sDate = null;
+			try {
+				sDate = format.parse(rowData.getString("start_date"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+   		System.out.println("()()(*()*()*)(*)(");
+   		System.out.println(sDate);
+   		row[28] = format.format(sDate);
+   		row[29] = rowData.getString("project_types");
+   		row[30] = rowData.getString("stag");
+   		row[31] = rowData.getString("part_no");
+   		row[32] = rowData.getString("annual_qty");
+   		row[33] = rowData.getString("cost_price");
+   		row[34] = rowData.getString("suggested_resale");
+   		row[35] = rowData.getString("estimated_revenue");
+   		row[36] = rowData.getString("claim_status");
+   		row[37] = rowData.getString("lead_time");
+   		row[38] = rowData.getString("supplier_name");
+   		row[39] = rowData.getString("pits_id");
+   		row[40] = rowData.getString("supp");
+   		
+   		Projectinstance projectinstance = Projectinstance.findById(Long.parseLong(rowData.getString("id")));
+   		String members = "";
+   		for( User user:projectinstance.getUser()){
+   			members = members + user.getFirstName() + "," ;
+   		}
+   		
+   		row[41] = members;
+   		
+			writer.writeNext(row);
+		}
+   	
+   	    	
+   	 try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+   	return "redirect:" + "/index";
+   	 //return "home";
+
+	}
    
 }
