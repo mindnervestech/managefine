@@ -291,4 +291,11 @@
  
  
 <script type="text/javascript" src='<c:url value="/resources/customScripts/projectController/app.js"/>'></script>
-<script type="text/javascript" src='<c:url value="/resources/customScripts/createProjectController/controller.js"/>'></script> 
+<script type="text/javascript" src='<c:url value="/resources/customScripts/createProjectController/controller.js"/>'></script>
+
+<style>
+.ui-jqgrid .ui-jqgrid-bdiv{
+	height: 420px !important;
+}
+
+</style> 

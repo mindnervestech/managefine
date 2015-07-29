@@ -160,7 +160,7 @@
 			   	],
 			   	pagination : true,
 			   	pager: '#${_searchContext.entityName()}${mode}${"_jqGrid_pager"}',
-			   	rowNum:10,
+			   	rowNum:20,
 			   	rowList:[10,20,30],
 			   	viewrecords: true,
 			   	gridview: true,

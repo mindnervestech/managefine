@@ -196,7 +196,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			for(Projectinstance projList:pList1){
 				
-				if(projList.clientName.equals(form.data().get("clientName"))){
+				if(projList.clientName.toUpperCase().startsWith(form.data().get("clientName").toUpperCase())){
 					pList2.add(projList);
 				}
 			}
@@ -210,7 +210,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 		}else if(form.data().get("projectName") != null && form.data().get("projectName") != ""){
 			for(Projectinstance projList:pList1){
-				if(projList.projectName.equals(form.data().get("projectName"))){
+				if(projList.projectName.toUpperCase().startsWith(form.data().get("projectName").toUpperCase())){
 					pList2.add(projList);
 				}
 			}
@@ -224,8 +224,10 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 		}else if(form.data().get("projectTypeName") != null && form.data().get("projectTypeName") != ""){
 			for(Projectinstance projList:pList1){
-				if(projList.projectTypeName.equals(form.data().get("projectTypeName"))){
+				if(projList.projectTypeName != null){
+				if(projList.projectTypeName.startsWith(form.data().get("projectTypeName"))){
 					pList2.add(projList);
+				}
 				}
 			}
 			results = pList2;
@@ -267,7 +269,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}else if(form.data().get("status") != null && form.data().get("status") != ""){
 			for(Projectinstance projList:pList1){
 				if(projList.status != null){
-					if(projList.status.equals(form.data().get("status"))){
+					if(projList.status.toUpperCase().startsWith(form.data().get("status").toUpperCase())){
 						pList2.add(projList);
 					}
 				}
