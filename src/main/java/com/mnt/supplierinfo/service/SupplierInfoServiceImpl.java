@@ -130,9 +130,9 @@ public class SupplierInfoServiceImpl implements  SupplierInfoService{
 		return  createProjectRepository.saveFiles(file, pVm, username);
 	}
 	
-	@Override
+	/*@Override
 	public List<DateWiseHistoryVM> getAllHistory(){
 		return  createProjectRepository.getAllHistory();
-	}
+	}*/
 	
 }
