@@ -544,10 +544,12 @@ public class Timesheets{
 				boolean flag = false;
 				for(Projectinstancenode nodeData : instanceNodeList) {
 					Projectclassnode classNodeData = nodeData.getProjectclassnode();
-					if(classNodeData.getParentId() == classNode.getId()) {
-						flag = true;
-						break;
-					} 
+					if(classNodeData.getParentId() != null) {
+						if(classNodeData.getParentId().longValue() == classNode.getId().longValue() || classNode.getParentId() == null) {
+							flag = true;
+							break;
+						} 
+					}
 				}
 				 if(flag == false) {
 					 TaskVM taskVM = new TaskVM();
@@ -575,10 +577,12 @@ public class Timesheets{
 					boolean flag = false;
 					for(Projectinstancenode nodeData : instanceNodeList) {
 						Projectclassnode classNodeData = nodeData.getProjectclassnode();
-						if(classNodeData.getParentId() == classNode.getId()) {
-							flag = true;
-							break;
-						} 
+						if(classNodeData.getParentId() != null) {
+							if(classNodeData.getParentId().longValue() == classNode.getId().longValue() || classNode.getParentId() == null) {
+								flag = true;
+								break;
+							} 
+						}
 					}
 					 if(flag == false) {
 						 TaskVM taskVM = new TaskVM();
