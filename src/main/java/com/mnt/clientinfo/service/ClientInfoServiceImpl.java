@@ -130,9 +130,9 @@ public class ClientInfoServiceImpl implements  ClientInfoService{
 		return  createProjectRepository.saveFiles(file, pVm, username);
 	}
 	
-	@Override
+	/*@Override
 	public List<DateWiseHistoryVM> getAllHistory(){
 		return  createProjectRepository.getAllHistory();
-	}
+	}*/
 	
 }
