@@ -805,7 +805,8 @@
 						  </div>
 						  
 						  <div class="col-md-12">
-							<button type="button" class="btn btn-primary" ng-click="saveAttributes(projAttri)" > Save </button>
+							<button type="button" class="btn btn-primary col-md-2" ng-click="saveAttributes(projAttri)" > Save </button>
+							<label ng-if="showMsgSave == 1" class="col-md-4" style="color:green">Save Attributes</label>
 							</div>
 						  
 						</div>

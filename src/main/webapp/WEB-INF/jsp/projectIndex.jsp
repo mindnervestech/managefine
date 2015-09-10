@@ -78,7 +78,7 @@
 										<textarea style="width: 95%; resize: none;"
 											name="projectDescription"
 											ng-model="projectinfo.projectDescriptions" rows="3"
-											placeholder="Enter Project Description." required></textarea>
+											placeholder="Enter Project Description."></textarea>
 									</div>
 								</div>
 							</div>

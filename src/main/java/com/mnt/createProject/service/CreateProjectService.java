@@ -35,7 +35,7 @@ public interface CreateProjectService {
 	List<SupplierDataVM> getfindSupplier();
 	List<String> getselectedUser(Long mainInstance, Long projectId);
 	List<String> getselectedSupplier(Long mainInstance);
-	List<DateWiseHistoryVM> getAllHistory();
+	List<DateWiseHistoryVM> getAllHistory(Long mainInstance);
 	Long saveDefineParts(DefinePartVM dpVm,String username);
 	List<ProjectPartVM> getAllPartNo(String username);
 	DefinePartVM getAllDefinePartData(Long projectId,String username);

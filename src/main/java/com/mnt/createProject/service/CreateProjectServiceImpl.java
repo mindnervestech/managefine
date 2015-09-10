@@ -144,8 +144,8 @@ public class CreateProjectServiceImpl implements CreateProjectService{
 	}
 	
 	@Override
-	public List<DateWiseHistoryVM> getAllHistory(){
-		return  createProjectRepository.getAllHistory();
+	public List<DateWiseHistoryVM> getAllHistory(Long mainInstance){
+		return  createProjectRepository.getAllHistory(mainInstance);
 	}
 	
 	

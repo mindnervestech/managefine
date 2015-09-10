@@ -74,8 +74,8 @@ public class CreateProjectController {
 	
 	
 	@RequestMapping(value="/getAllHistory",method=RequestMethod.GET) 
-	public @ResponseBody List getAllHistory() {
-		return createProjectService.getAllHistory();
+	public @ResponseBody List getAllHistory(@RequestParam("mainInstance")Long mainInstance) {
+		return createProjectService.getAllHistory(mainInstance);
 	}
 	
 	@RequestMapping(value="/AddJspPage",method=RequestMethod.GET)
@@ -457,7 +457,7 @@ public class CreateProjectController {
 				
 			}
 		//	Projectinstancenode projectinstancenode1= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
-			compare(projectinstancenodeOld,projectinstancenode, "Projectinstancenode" , projectinstancenode.getId(), username);
+			compare(projectinstancenodeOld,projectinstancenode, "Projectinstancenode" , projectinstancenode.getId(), username, projectinstancenode.getProjectinstanceid());
 		}
 	
 		return Long.parseLong(form.data().get("projectId"));
@@ -500,7 +500,7 @@ public class CreateProjectController {
 	}	
 	
 	
-	private static void compare(Object o, Object n, String entity, Long EntityId, String username) {
+	private static void compare(Object o, Object n, String entity, Long EntityId, String username,Long projectinstanceid) {
 		Javers javers = JaversBuilder.javers().build();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -533,6 +533,7 @@ public class CreateProjectController {
          al.setJsonData(json);
          al.setUser(User.findById(user.getId()));
          al.setChangeDate(dt);
+         al.setProjectinstance(projectinstanceid);
          al.save();
 
 	}

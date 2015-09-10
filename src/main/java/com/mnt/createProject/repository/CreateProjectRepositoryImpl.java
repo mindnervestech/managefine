@@ -783,7 +783,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	public Long saveAttribues(AttributDataVM aDataVm,String username) {
 		
 		List<AttributesProject> aProject = AttributesProject.getAttributByProject(aDataVm.getMainInstance());
-		if(aProject == null){
+		if(aProject.size() == 0){
 			for(AttributVM aVm:aDataVm.projectAtt){
 				AttributesProject apProject = new AttributesProject();
 				apProject.setKeyValue(aVm.getKeyValue());
@@ -803,7 +803,16 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 						attributesProject.setQ3(aVm.q3);
 						attributesProject.setQ4(aVm.q4);
 						attributesProject.update();
-					}
+					}/*else{
+						AttributesProject apProject = new AttributesProject();
+						apProject.setKeyValue(aVm.getKeyValue());
+						apProject.setQ1(aVm.q1);
+						apProject.setQ2(aVm.q2);
+						apProject.setQ3(aVm.q3);
+						apProject.setQ4(aVm.q4);
+						apProject.setProjectinstance(Projectinstance.findById(aDataVm.MainInstance));
+						apProject.save();
+					}*/
 					
 				}
 			}
@@ -982,9 +991,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		return result;
 	}
 
-	public List<DateWiseHistoryVM> getAllHistory(){
+	public List<DateWiseHistoryVM> getAllHistory(Long mainInstance){
 		//DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-			List<SqlRow> sqlRows = AduitLog.getDateWiseHistory();
+			List<SqlRow> sqlRows = AduitLog.getDateWiseHistory(mainInstance);
 			List<DateWiseHistoryVM> vmList = new ArrayList<>();
 			for(SqlRow row: sqlRows){
 				DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
@@ -992,7 +1001,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				List<SqlRow> aLog = null;
 					System.out.println("&&&&");
 					System.out.println(row.getString("date"));
-						aLog = AduitLog.getDateHistory(row.getString("date"));
+						aLog = AduitLog.getDateHistory(row.getString("date"), mainInstance);
 					
 				dHistoryVM.setChangeDate(row.getString("date"));
 				List<HistoryAllLogVM> hAllList = new ArrayList<>();

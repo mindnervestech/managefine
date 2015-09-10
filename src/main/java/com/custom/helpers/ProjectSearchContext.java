@@ -194,7 +194,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		List<Projectinstance> pList2 = new ArrayList<>();
 		if(form.data().get("clientName") != null && form.data().get("clientName") != ""){
 			
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				
 				if(projList.clientName.toUpperCase().startsWith(form.data().get("clientName").toUpperCase())){
 					pList2.add(projList);
@@ -209,7 +209,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			
 		}else if(form.data().get("projectName") != null && form.data().get("projectName") != ""){
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				if(projList.projectName.toUpperCase().startsWith(form.data().get("projectName").toUpperCase())){
 					pList2.add(projList);
 				}
@@ -223,7 +223,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			
 		}else if(form.data().get("projectTypeName") != null && form.data().get("projectTypeName") != ""){
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				if(projList.projectTypeName != null){
 				if(projList.projectTypeName.startsWith(form.data().get("projectTypeName"))){
 					pList2.add(projList);
@@ -239,7 +239,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			
 		}else if(form.data().get("startDate") != null && form.data().get("startDate") != ""){
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				if(projList.startDate.equals(form.data().get("startDate"))){
 					pList2.add(projList);
 				}
@@ -253,7 +253,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			
 		}else if(form.data().get("endDate") != null && form.data().get("endDate") != ""){
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				if(projList.endDate.equals(form.data().get("endDate"))){
 					pList2.add(projList);
 				}
@@ -267,7 +267,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 			
 		}else if(form.data().get("status") != null && form.data().get("status") != ""){
-			for(Projectinstance projList:pList1){
+			for(Projectinstance projList:pList){
 				if(projList.status != null){
 					if(projList.status.toUpperCase().startsWith(form.data().get("status").toUpperCase())){
 						pList2.add(projList);

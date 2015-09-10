@@ -157,6 +157,12 @@ public class ProjectHierarchyController {
 		    	  sheet = wb_hssf.getSheetAt(0);
 		      }
 			 
+			 /*if (fileExtn.equalsIgnoreCase("csv")){
+			      POIFSFileSystem fs = new POIFSFileSystem(file);
+		    	  wb_hssf = new HSSFWorkbook(fs);
+		    	  sheet = wb_hssf.getSheetAt(0);
+		      }*/
+			 
 			 ProjectPart projectpart = null;
 				Row row;
 				String reqNo = null;

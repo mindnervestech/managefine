@@ -480,27 +480,68 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     
     
     $scope.projAttri = [];
-	for(var i=0;i<12;i++) {
-		var j = {keyValue:'',q1:'',q2:'',q3:'',q4:''};
-		$scope.projAttri[i] = j;
-	}
+	//for(var i=0;i<12;i++) {
+		//var j = {keyValue:'',q1:'',q2:'',q3:'',q4:''};
+		//$scope.projAttri[i] = j;
+	//}
+    
+    $scope.projAttri = [{keyValue:'Revival Plan of Old Customers',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Unique Customer - BOM %',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'New Discovery Claims',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'New Azerity Customers',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Own Solution Proposed',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'MBO Projects',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Cumulative NNR',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Cumulative Design Win',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Sourcing Projects',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Socket Replacement Projects',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'New Development Projects',q1:'',q2:'',q3:'',q4:''},
+                		{keyValue:'Addition of new lines Projects',q1:'',q2:'',q3:'',q4:''}];
+                	//}
+                		console.log($scope.projAttri);
 	
 	$scope.saveAttribut = {};
-	
+	$scope.showMsgSave = 0;
 	$scope.saveAttributes = function(projectAtt){
 		console.log($scope.projAttri);
-		$scope.projAttri[0].keyValue = "Revival Plan of Old Customers";
-		$scope.projAttri[1].keyValue = "Unique Customer - BOM %";
-		$scope.projAttri[2].keyValue = "New Discovery Claims";
-		$scope.projAttri[3].keyValue = "New Azerity Customers";
-		$scope.projAttri[4].keyValue = "Own Solution Proposed";
-		$scope.projAttri[5].keyValue = "MBO Projects";
-		$scope.projAttri[6].keyValue = "Cumulative NNR";
-		$scope.projAttri[7].keyValue = "Cumulative Design Win";
-		$scope.projAttri[8].keyValue = "Sourcing Projects";
-		$scope.projAttri[9].keyValue = "Socket Replacement Projects";
-		$scope.projAttri[10].keyValue = "New Development Projects";
-		$scope.projAttri[11].keyValue = "Addition of new lines Projects";
+	
+		
+		if($scope.projAttri[0] != undefined){
+			$scope.projAttri[0].keyValue = "Revival Plan of Old Customers";
+		}
+		if($scope.projAttri[1] != undefined){
+			$scope.projAttri[1].keyValue = "Unique Customer - BOM %";
+		}
+		if($scope.projAttri[2] != undefined){
+			$scope.projAttri[2].keyValue = "New Discovery Claims";
+		}
+		if($scope.projAttri[3] != undefined){
+			$scope.projAttri[3].keyValue = "New Azerity Customers";
+		}
+		if($scope.projAttri[4] != undefined){
+			$scope.projAttri[4].keyValue = "Own Solution Proposed";
+		}
+		if($scope.projAttri[5] != undefined){
+			$scope.projAttri[5].keyValue = "MBO Projects";
+		}
+		if($scope.projAttri[6] != undefined){
+			$scope.projAttri[6].keyValue = "Cumulative NNR";
+		}
+		if($scope.projAttri[7] != undefined){
+			$scope.projAttri[7].keyValue = "Cumulative Design Win";
+		}
+		if($scope.projAttri[8] != undefined){
+			$scope.projAttri[8].keyValue = "Sourcing Projects";
+		}
+		if($scope.projAttri[9] != undefined){
+			$scope.projAttri[9].keyValue = "Socket Replacement Projects";
+		}
+		if($scope.projAttri[10] != undefined){
+			$scope.projAttri[10].keyValue = "New Development Projects";
+		}
+		if($scope.projAttri[11] != undefined){
+			$scope.projAttri[11].keyValue = "Addition of new lines Projects";
+		}
 		
 		angular.forEach($scope.projAttri, function(obj, index){
 			if(obj.q1 == ""){
@@ -523,7 +564,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 		
 		
 		 $http({method:'POST',url:'/time/saveAttribues',data:$scope.saveAttribut}).success(function(response) {
-			 console.log("okokok");
+			 $scope.showMsgSave = 1;
 		 });
 		
 		
@@ -687,7 +728,9 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	
     $scope.history = function(){
     	console.log("history call");
-    	$http({method:'GET',url:'/time/getAllHistory'}).success(function(response) {
+    	console.log($rootScope.currentParentId);
+    	console.log();
+    	$http({method:'GET',url:'/time/getAllHistory',params:{mainInstance:$rootScope.MainInstance}}).success(function(response) {
     		
     		console.log(response);
     		$scope.historyRecord = response;

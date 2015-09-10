@@ -26,6 +26,7 @@ public class AduitLog extends Model{
 	private String entity;
 	private String jsonData;
 	private Long entityId;
+	private Long projectinstance;
 	
 	
 	public static Finder<Long,AduitLog> find = new Finder<Long,AduitLog>(Long.class,AduitLog.class);
@@ -79,6 +80,16 @@ public class AduitLog extends Model{
 		this.entityId = entityId;
 	}
 	
+	
+
+	public Long getProjectinstance() {
+		return projectinstance;
+	}
+
+	public void setProjectinstance(Long projectinstance) {
+		this.projectinstance = projectinstance;
+	}
+
 	public static AduitLog getById(Long id) {
 		return find.byId(id);
 	}
@@ -87,7 +98,7 @@ public class AduitLog extends Model{
 		return find.where().eq("userid.id", username).findList();
 	}
 	
-	public static List<SqlRow> getDateHistory(String date) {
+	public static List<SqlRow> getDateHistory(String date, Long mainInstance) {
 		
 		String[] gvalue = date.split("/");
 		String mainDate = gvalue[2]+"-"+gvalue[1]+"-"+gvalue[0];
@@ -95,7 +106,7 @@ public class AduitLog extends Model{
 		System.out.println(mainDate);
 		
 		
-		String sql = "select id from aduit_log where change_date= :mainDate";
+		String sql = "select id from aduit_log where change_date= :mainDate and projectinstance = '"+mainInstance+"'";
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		sqlQuery.setParameter("mainDate", mainDate);
 		List<SqlRow> list = sqlQuery.findList();
@@ -106,9 +117,9 @@ public class AduitLog extends Model{
 	SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 	sqlQuery.setParameter("id", id);*/
 	
-	public static List<SqlRow> getDateWiseHistory() {
+	public static List<SqlRow> getDateWiseHistory(Long mainInstance) {
 		//select DISTINCT Date_Format(change_date,'%d/%m/%Y') as DateFound from aduit_log;
-		String sql = "select DISTINCT Date_Format(change_date,'%d/%m/%Y') as date from aduit_log where entity = 'Projectinstancenode'";
+		String sql = "select DISTINCT Date_Format(change_date,'%d/%m/%Y') as date from aduit_log where entity = 'Projectinstancenode' and projectinstance = '"+mainInstance+"'";
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> list = sqlQuery.findList();
 		 return list;
