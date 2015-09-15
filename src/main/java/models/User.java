@@ -242,12 +242,12 @@ public class User extends Model {
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=1,label="From")
-	@Formats.DateTime(pattern="yyyy")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date from1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=2,label="To")
-	@Formats.DateTime(pattern="yyyy")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date to1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
