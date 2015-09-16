@@ -729,7 +729,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			dPart.setClaimStatus(pvm.getClaimStatus());
 			dPart.setLeadTime(pvm.getLeadTime());
 			dPart.setSupplier(Supplier.findById(pvm.getSupplier()));
-			dPart.setPits(Pits.getById(pvm.getPits()));
+			if(pvm.getPits() != null){
+				dPart.setPits(Pits.getById(pvm.getPits()));
+			}
 			dPart.setProjectinstance(Projectinstance.findById(Long.parseLong(dpVm.projectId)));
 			
 			dPart.save();
@@ -786,13 +788,15 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		if(aProject.size() == 0){
 			for(AttributVM aVm:aDataVm.projectAtt){
 				AttributesProject apProject = new AttributesProject();
-				apProject.setKeyValue(aVm.getKeyValue());
-				apProject.setQ1(aVm.q1);
-				apProject.setQ2(aVm.q2);
-				apProject.setQ3(aVm.q3);
-				apProject.setQ4(aVm.q4);
-				apProject.setProjectinstance(Projectinstance.findById(aDataVm.MainInstance));
-				apProject.save();
+				
+					apProject.setKeyValue(aVm.getKeyValue());
+					apProject.setQ1(aVm.q1);
+					apProject.setQ2(aVm.q2);
+					apProject.setQ3(aVm.q3);
+					apProject.setQ4(aVm.q4);
+					apProject.setProjectinstance(Projectinstance.findById(aDataVm.MainInstance));
+					apProject.save();
+				
 			}
 		}else{
 			for(AttributesProject attributesProject:aProject){

@@ -499,13 +499,15 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
                 		{keyValue:'Addition of new lines Projects',q1:'',q2:'',q3:'',q4:''}];
                 	//}
                 		console.log($scope.projAttri);
+                		$scope.newArray = [];
+                		$scope.newArray.push.apply($scope.newArray, $scope.projAttri);
 	
 	$scope.saveAttribut = {};
 	$scope.showMsgSave = 0;
 	$scope.saveAttributes = function(projectAtt){
+		console.log($scope.newArray);
 		console.log($scope.projAttri);
 	
-		
 		if($scope.projAttri[0] != undefined){
 			$scope.projAttri[0].keyValue = "Revival Plan of Old Customers";
 		}
@@ -543,7 +545,30 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 			$scope.projAttri[11].keyValue = "Addition of new lines Projects";
 		}
 		
-		angular.forEach($scope.projAttri, function(obj, index){
+		angular.forEach($scope.newArray, function(obj, index){
+			angular.forEach($scope.projAttri, function(obj1, index1){
+				console.log(obj.keyValue);
+				console.log(obj1.keyValue);
+				if(obj.keyValue == obj1.keyValue){
+					console.log("-=-=-");
+					if(obj1.q1 == true){
+						obj.q1 = true;
+					}
+					if(obj1.q2 == true){
+						obj.q2 = true;
+					}
+					if(obj1.q3 == true){
+						obj.q3 = true;
+					}
+					if(obj1.q4 == true){
+						obj.q4 = true;
+					}
+				}
+			});
+		});
+		
+		
+		angular.forEach($scope.newArray, function(obj, index){
 			if(obj.q1 == ""){
 				obj.q1 = false;
 			}
@@ -557,7 +582,8 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 				obj.q4 = false;
 			}
 		});
-		$scope.saveAttribut.projectAtt = projectAtt;
+		console.log($scope.newArray);
+		$scope.saveAttribut.projectAtt = $scope.newArray;
 		$scope.saveAttribut.currentParentId = $rootScope.currentParentId;
 		$scope.saveAttribut.MainInstance = $rootScope.MainInstance;
 		console.log($scope.saveAttribut);

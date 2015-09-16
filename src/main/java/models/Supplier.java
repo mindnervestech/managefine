@@ -140,7 +140,7 @@ public class Supplier extends Model {
 	public Locality locality;
 	
 	@WizardCardUI(name="Personal Info",step=2)
-	@UIFields(order=15,label="Customer Type")
+	@UIFields(order=15,label="Supplier Type")
     public String customerType;
 		
 
@@ -325,43 +325,43 @@ public class Supplier extends Model {
     public String averagestaywithCompanyBuyerSecond;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=9,label="Present  overseas supplier 1")
+	@UIFields(order=9,label="Present  overseas customer 1")
     public String overseassupplier1;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=10,label="Present  overseas supplier 2")
+	@UIFields(order=10,label="Present  overseas customer 2")
     public String overseassupplier2;
 
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=11,label="Present  overseas supplier 3")
+	@UIFields(order=11,label="Present  overseas customer 3")
     public String overseassupplier3;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=12,label="Present  overseas supplier 4")
+	@UIFields(order=12,label="Present  overseas customer 4")
     public String overseassupplier4;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=13,label="Present  overseas supplier 5")
+	@UIFields(order=13,label="Present  overseas customer 5")
     public String overseassupplier5;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=14,label="Present  Local  supplier 1")
+	@UIFields(order=14,label="Present  Local  customer 1")
     public String  localsupplier1 ;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=15,label="Present  Local  supplier 2")
+	@UIFields(order=15,label="Present  Local  customer 2")
     public String  localsupplier2;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=16,label="Present  Local  supplier 3")
+	@UIFields(order=16,label="Present  Local  customer 3")
     public String  localsupplier3 ;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=17,label="Present  Local  supplier 4")
+	@UIFields(order=17,label="Present  Local  customer 4")
     public String  localsupplier4 ;
 	
 	@WizardCardUI(name="Buyer",step=6)
-	@UIFields(order=18,label="Present  Local  supplier 5")
+	@UIFields(order=18,label="Present  Local  customer 5")
     public String  localsupplier5 ;
 
 	
