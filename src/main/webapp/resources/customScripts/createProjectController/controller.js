@@ -32,12 +32,20 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     $scope.initDate = function (startTime, endTime,createdDate,productionDate,projectLastUpdate) {
     	console.log("endTime" + endTime) ;
     
+    	var arrlast = projectLastUpdate.split("-");
+    	var lastArr = arrlast[2]+"-"+arrlast[1]+"-"+arrlast[0];
+    	
+    	var arrPdate = productionDate.split("-");
+    	var aDateArr = arrPdate[2]+"-"+arrPdate[1]+"-"+arrPdate[0];
+    	
+    	var arrCdate = createdDate.split("-");
+    	var cDateArr = arrCdate[2]+"-"+arrCdate[1]+"-"+arrCdate[0];
        	
     	$scope.data.startDate = new Date(moment(startTime,"YYYY-MM-DD")); 
     	$scope.data.endDate =	new Date(moment(endTime,"YYYY-MM-DD"));
-    	$scope.data.createdDate =	createdDate;
-    	$scope.data.productionDate =	productionDate;
-    	$scope.data.projectLastUpdate =	projectLastUpdate;
+    	$scope.data.createdDate =	new Date(moment(cDateArr,"YYYY-MM-DD"));
+    	$scope.data.productionDate =	new Date(moment(aDateArr,"YYYY-MM-DD"));
+    	$scope.data.projectLastUpdate =	new Date(moment(lastArr,"YYYY-MM-DD"));
     	console.log($scope.data);
     		
     }

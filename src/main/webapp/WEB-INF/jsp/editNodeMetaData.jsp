@@ -337,7 +337,7 @@
 											<ul class="dropdown-menu" role="menu"
 												aria-labelledby="dLabel">
 												<datetimepicker data-ng-model="data.projectLastUpdate"
-													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day'}" />
+													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
 											</ul>
 										</div>
 									</div>
