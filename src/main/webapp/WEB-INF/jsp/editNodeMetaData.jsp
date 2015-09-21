@@ -231,7 +231,8 @@
 												</div>
 											</a>
 											<ul class="dropdown-menu" role="menu"
-												aria-labelledby="dLabel">
+												aria-labelledby="dLabel"
+												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
 												<datetimepicker data-ng-model="data.createdDate"
 													data-datetimepicker-config="{dropdownSelector: '#dropdowncreatedDate',minView: 'day'}" />
 											</ul>
@@ -287,7 +288,8 @@
 												</div>
 											</a>
 											<ul class="dropdown-menu" role="menu"
-												aria-labelledby="dLabel">
+												aria-labelledby="dLabel"
+												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
 												<datetimepicker data-ng-model="data.productionDate"
 													data-datetimepicker-config="{dropdownSelector: '#dropdownproductionDate',minView: 'day'}" />
 											</ul>
@@ -335,7 +337,8 @@
 												</div>
 											</a>
 											<ul class="dropdown-menu" role="menu"
-												aria-labelledby="dLabel">
+												aria-labelledby="dLabel"
+												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
 												<datetimepicker data-ng-model="data.projectLastUpdate"
 													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
 											</ul>
@@ -567,7 +570,7 @@
 						
 								         <label>EstRev </label>
 				    				  </div>
-				       				  <div class="col-md-12">
+				       				  <div class="col-md-12" style="padding-left: 1px;padding-right: 1px;">
 				         
 					   						  <input type="text" class="col-md-12" name="estimatedRevenue{{$index}}" data-ng-model="find.estimatedRevenue" disabled="disabled" value="{{totalEstimat}}">
 					    			  </div>

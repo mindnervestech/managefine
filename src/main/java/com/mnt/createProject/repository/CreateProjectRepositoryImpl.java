@@ -132,6 +132,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		}else{
 			pVm.setStartDateLimit("01-01-2005");
 			pVm.setEndDateLimit("01-01-2035");
+			
 		}
 
 		List<Projectclassnodeattribut> projectclassnodeattribut= Projectclassnodeattribut.getattributByprojectId(id);
@@ -149,6 +150,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		}else{
 			pVm.setStartDate(sdf.format(dt));
 			pVm.setEndDate(sdf.format(dt));
+			pVm.setProductionDate(sdf.format(dt));
+			pVm.setCreatedDate(sdf.format(dt));
+			pVm.setProjectLastUpdate(sdf.format(dt));
 		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){
