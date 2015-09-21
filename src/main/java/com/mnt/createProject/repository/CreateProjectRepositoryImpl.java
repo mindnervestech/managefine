@@ -65,7 +65,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	
 	public ProjectsupportattributVM getAddJspPage(Long id,Long mainInstance) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date dt = new Date();
 		
@@ -106,10 +106,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setSerialNo(projectinstance.getSerialNo());
 		pVm.setSupplierFae(projectinstance.getSupplierFae());
 		
-		if(projectinstance.getProductionDate() != null){
-			String[] gvalue = projectinstance.getProductionDate().split("-");
-			pVm.setProductionDate(gvalue[2]+"-"+gvalue[1]+"-"+gvalue[0]);
-		}
+	//	if(projectinstance.getProductionDate() != null){
+	//		String[] gvalue = projectinstance.getProductionDate().split("-");
+		//	pVm.setProductionDate(gvalue[2]+"-"+gvalue[1]+"-"+gvalue[0]);
+	//	}
+		
+		pVm.setProductionDate(projectinstance.getProductionDate());
 		pVm.setSupplierSaleperson(projectinstance.getSupplierSaleperson());
 		pVm.setProjectWin(projectinstance.getProjectWin());
 		pVm.setPurchaseCustContactNo(projectinstance.getPurchaseCustContactNo());
@@ -148,15 +150,14 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			if(projectinstancenode.getEndDate() != null){
 				pVm.setEndDate(format.format(projectinstancenode.getEndDate()));
 			}
-
 			pVm.setWeightage(projectinstancenode.getWeightage());
 
 		}else{
 			pVm.setStartDate(sdf.format(dt));
 			pVm.setEndDate(sdf.format(dt));
 			pVm.setProductionDate(format1.format(dt));
-			pVm.setCreatedDate(sdf.format(dt));
-			pVm.setProjectLastUpdate(sdf.format(dt));
+			pVm.setCreatedDate(format1.format(dt));
+			pVm.setProjectLastUpdate(format1.format(dt));
 		}
 		List<ProjectclassnodeattributVM> pList2 = new ArrayList<ProjectclassnodeattributVM>();
 		for(Projectclassnodeattribut proAtt:projectclassnodeattribut){

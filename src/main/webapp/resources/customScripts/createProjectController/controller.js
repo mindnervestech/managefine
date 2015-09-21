@@ -33,6 +33,7 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     	console.log("endTime" + endTime) ;
     	console.log(productionDate);
     	console.log(createdDate);
+    	console.log(projectLastUpdate);
     
     	var arrlast = projectLastUpdate.split("-");
     	var lastArr = arrlast[2]+"-"+arrlast[1]+"-"+arrlast[0];
@@ -47,9 +48,9 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
        	
     	$scope.data.startDate = new Date(moment(startTime,"YYYY-MM-DD")); 
     	$scope.data.endDate =	new Date(moment(endTime,"YYYY-MM-DD"));
-    	$scope.data.createdDate = createdDate;//new Date(moment(cDateArr,"YYYY-MM-DD"));
-    	$scope.data.productionDate = productionDate;//new Date(moment(aDateArr,"YYYY-MM-DD"));
-    	$scope.data.projectLastUpdate = projectLastUpdate;//$filter('date')(lastArr, "yyyy-MM-dd");
+    	$scope.data.createdDate = new Date(moment(cDateArr,"YYYY-MM-DD"));
+    	$scope.data.productionDate = new Date(moment(aDateArr,"YYYY-MM-DD"));
+    	$scope.data.projectLastUpdate = new Date(moment(lastArr,"YYYY-MM-DD"));
     	//$scope.data.projectLastUpdate = new Date(moment(lastArr,"YYYY-MM-DD"));
     	console.log($scope.data);
     		
