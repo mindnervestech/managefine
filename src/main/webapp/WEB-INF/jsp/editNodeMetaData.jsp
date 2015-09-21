@@ -340,7 +340,7 @@
 												aria-labelledby="dLabel"
 												ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
 												<datetimepicker data-ng-model="data.projectLastUpdate"
-													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
+													data-datetimepicker-config="{dropdownSelector: '#dropdownprojectLastUpdate',minView: 'day'}" />
 											</ul>
 										</div>
 									</div>

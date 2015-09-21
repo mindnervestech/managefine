@@ -105,7 +105,11 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		pVm.setProjectLastUpdate(projectinstance.getProjectLastUpdate());
 		pVm.setSerialNo(projectinstance.getSerialNo());
 		pVm.setSupplierFae(projectinstance.getSupplierFae());
-		pVm.setProductionDate(projectinstance.getProductionDate());
+		
+		if(projectinstance.getProductionDate() != null){
+			String[] gvalue = projectinstance.getProductionDate().split("-");
+			pVm.setProductionDate(gvalue[2]+"-"+gvalue[1]+"-"+gvalue[0]);
+		}
 		pVm.setSupplierSaleperson(projectinstance.getSupplierSaleperson());
 		pVm.setProjectWin(projectinstance.getProjectWin());
 		pVm.setPurchaseCustContactNo(projectinstance.getPurchaseCustContactNo());
@@ -150,7 +154,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		}else{
 			pVm.setStartDate(sdf.format(dt));
 			pVm.setEndDate(sdf.format(dt));
-			pVm.setProductionDate(sdf.format(dt));
+			pVm.setProductionDate(format1.format(dt));
 			pVm.setCreatedDate(sdf.format(dt));
 			pVm.setProjectLastUpdate(sdf.format(dt));
 		}
