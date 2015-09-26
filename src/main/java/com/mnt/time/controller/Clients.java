@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import play.data.DynamicForm;
 import play.libs.Json;
+import utils.ExceptionHandler;
 
 import com.avaje.ebean.Expr;
 import com.custom.helpers.ClientSave;
@@ -151,7 +152,8 @@ public class Clients {
 			extra.put("user", u);
 			saveUtils.doSave(false, request);
 		} catch (Exception e) {
-			// ExceptionHandler.onError(request().uri(),e);
+			e.printStackTrace();
+			 ExceptionHandler.onError(request.getRequestURI(),e);
 		}
 		return "Clients Created Successfully";
 	}

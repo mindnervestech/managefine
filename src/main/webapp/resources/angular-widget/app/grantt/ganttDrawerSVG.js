@@ -545,7 +545,7 @@ Ganttalendar.prototype.drawTask = function (task) {
     //external box
     var layout = svg.rect(taskSvg, 0, 0, "100%", "100%", {class:"taskLayout", rx:"2", ry:"2"});
 
-    svg.rect(taskSvg, 0, 0, "100%", "100%", {fill:"rgba(255,255,255,.3)"});
+    svg.rect(taskSvg, 0, 0, "100%", "100%", {fill:"rgba(15,112,212,.89)"});
 
     //external dep
     if (task.hasExternalDep)

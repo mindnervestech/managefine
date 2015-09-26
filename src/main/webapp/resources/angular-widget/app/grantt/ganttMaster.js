@@ -45,7 +45,7 @@ function GanttMaster() {
 
   this.currentTask; // task currently selected;
 
-  this.resourceUrl = 'resources/angular-widget/app/grantt/res/'; // URL to resources (images etc.)
+  this.resourceUrl = '/time/resources/angular-widget/app/grantt/res/'; // URL to resources (images etc.)
   this.__currentTransaction;  // a transaction object holds previous state during changes
   this.__undoStack = [];
   this.__redoStack = [];
