@@ -140,7 +140,7 @@
 											name="timesheetRows[1].taskCode"
 											class="largeInput taskInput" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
-											<option ng-repeat="task in taskListArray[$index]" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
+											<option ng-repeat="task in taskListArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
 										</select>
 								<span class="help-inline"></span> <span class="help-block"></span>
 							</div>

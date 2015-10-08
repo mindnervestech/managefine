@@ -172,7 +172,8 @@ public class User extends Model {
 	public String yearExpPrevious;
 	
 	@WizardCardUI(name="Experience",step=3)
-	@UIFields(order=3,label="Team Handled Previously")
+	@UIFields(order=3,label="Team Handled Previously(Number Only)")
+	@Validation(digits=true,minlength=0,maxlength=10)
 	public String teamHandledPreviously;
 	
 	@WizardCardUI(name="Experience",step=3)
@@ -184,15 +185,15 @@ public class User extends Model {
 	public String industryExpertise1;
 	
 	@WizardCardUI(name="Experience",step=3)
-	@UIFields(order=6,label="Industry Expertise 1")
+	@UIFields(order=6,label="Industry Expertise 2")
 	public String industryExpertise2;
 	
 	@WizardCardUI(name="Experience",step=3)
-	@UIFields(order=7,label="Industry Expertise 1")
+	@UIFields(order=7,label="Industry Expertise 3")
 	public String industryExpertise3;
 	
 	@WizardCardUI(name="Experience",step=3)
-	@UIFields(order=8,label="Industry Expertise 1")
+	@UIFields(order=8,label="Industry Expertise 4")
 	public String industryExpertise4;
 	
 	@WizardCardUI(name="Area Of Expertise",step=4)
@@ -240,58 +241,99 @@ public class User extends Model {
 	@Enumerated(EnumType.STRING)
 	public AreaOfExpertise sales;
 	
-	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=1,label="From")
-	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date from1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=2,label="To")
-	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date to1;
+	@UIFields(order=1,label="Company Name1")
+	public String companyName1;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=2,label="Designation1")
+	public String designation1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=3,label="From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date from2;
+	public Date from1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=4,label="To")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date to2;
+	public Date to1;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=5,label="From")
-	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date from3;
+	@UIFields(order=5,label="Company Name2")
+	public String companyName2;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=6,label="To")
-	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date to3;
+	@UIFields(order=6,label="Designation2")
+	public String designation2;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=7,label="From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
-	public Date from4;
+	public Date from2;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
 	@UIFields(order=8,label="To")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to2;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=9,label="Company Name3")
+	public String companyName3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=10,label="Designation3")
+	public String designation3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=11,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=12,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date to3;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=13,label="Company Name4")
+	public String companyName4;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=14,label="Designation4")
+	public String designation4;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=15,label="From")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
+	public Date from4;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=16,label="To")
+	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date to4;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=9,label="From")
+	@UIFields(order=17,label="Company Name5")
+	public String companyName5;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=18,label="Designation5")
+	public String designation5;
+	
+	@WizardCardUI(name="Experience Breakup",step=5)
+	@UIFields(order=19,label="From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date from5;
 	
 	@WizardCardUI(name="Experience Breakup",step=5)
-	@UIFields(order=10,label="To")
+	@UIFields(order=20,label="To")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date to5;
 	
 	@WizardCardUI(name="Education Breakup",step=5)
-	@UIFields(order=1,label="From")
+	@UIFields(order=1,label="(SSC) From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date fromEdu1;
 	
@@ -301,7 +343,7 @@ public class User extends Model {
 	public Date toEdu1;
 	
 	@WizardCardUI(name="Education Breakup",step=5)
-	@UIFields(order=3,label="From")
+	@UIFields(order=3,label="(HSC) From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date fromEdu2;
 	
@@ -311,7 +353,7 @@ public class User extends Model {
 	public Date toEdu2;
 	
 	@WizardCardUI(name="Education Breakup",step=5)
-	@UIFields(order=5,label="From")
+	@UIFields(order=5,label="(Graduation) From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date fromEdu3;
 	
@@ -321,7 +363,7 @@ public class User extends Model {
 	public Date toEdu3;
 	
 	@WizardCardUI(name="Education Breakup",step=5)
-	@UIFields(order=7,label="From")
+	@UIFields(order=7,label="(Post Graduation) From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date fromEdu4;
 	
@@ -331,7 +373,7 @@ public class User extends Model {
 	public Date toEdu4;
 	
 	@WizardCardUI(name="Education Breakup",step=5)
-	@UIFields(order=9,label="From")
+	@UIFields(order=9,label="(Other) From")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date fromEdu5;
 	
@@ -371,7 +413,7 @@ public class User extends Model {
 	public User manager;
 	
 	@WizardCardUI(name="Professional Info",step=2)
-	@UIFields(order=7,label="Date of Release")
+	@UIFields(order=7,label="Date of Relieving")
 	@Formats.DateTime(pattern="dd-MM-yyyy")
 	public Date releaseDate;
 	
@@ -969,6 +1011,22 @@ public class User extends Model {
 		this.sales = sales;
 	}
 
+	public String getCompanyName1() {
+		return companyName1;
+	}
+
+	public void setCompanyName1(String companyName1) {
+		this.companyName1 = companyName1;
+	}
+
+	public String getDesignation1() {
+		return designation1;
+	}
+
+	public void setDesignation1(String designation1) {
+		this.designation1 = designation1;
+	}
+
 	public Date getFrom1() {
 		return from1;
 	}
@@ -983,6 +1041,70 @@ public class User extends Model {
 
 	public void setTo1(Date to1) {
 		this.to1 = to1;
+	}
+
+	public String getCompanyName2() {
+		return companyName2;
+	}
+
+	public void setCompanyName2(String companyName2) {
+		this.companyName2 = companyName2;
+	}
+
+	public String getDesignation2() {
+		return designation2;
+	}
+
+	public void setDesignation2(String designation2) {
+		this.designation2 = designation2;
+	}
+
+	public String getCompanyName3() {
+		return companyName3;
+	}
+
+	public void setCompanyName3(String companyName3) {
+		this.companyName3 = companyName3;
+	}
+
+	public String getDesignation3() {
+		return designation3;
+	}
+
+	public void setDesignation3(String designation3) {
+		this.designation3 = designation3;
+	}
+
+	public String getCompanyName4() {
+		return companyName4;
+	}
+
+	public void setCompanyName4(String companyName4) {
+		this.companyName4 = companyName4;
+	}
+
+	public String getDesignation4() {
+		return designation4;
+	}
+
+	public void setDesignation4(String designation4) {
+		this.designation4 = designation4;
+	}
+
+	public String getCompanyName5() {
+		return companyName5;
+	}
+
+	public void setCompanyName5(String companyName5) {
+		this.companyName5 = companyName5;
+	}
+
+	public String getDesignation5() {
+		return designation5;
+	}
+
+	public void setDesignation5(String designation5) {
+		this.designation5 = designation5;
 	}
 
 	public Date getFromEdu1() {

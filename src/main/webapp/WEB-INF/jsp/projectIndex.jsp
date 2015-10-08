@@ -145,8 +145,8 @@
 								<div class="col-md-6" style="padding: 0px;margin-top:40px;">
 									<div class="col-md-11"></div>
 									<div class="col-md-11">
-										<button type="submit" class="btn btn-primary">Add
-											Project</button>
+										<input type="submit" class="btn btn-primary" value="Add Project">
+											
 									</div>
 								</div>
 							</div>
@@ -292,6 +292,20 @@
  
 <script type="text/javascript" src='<c:url value="/resources/customScripts/projectController/app.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/customScripts/createProjectController/controller.js"/>'></script>
+
+
+
+<script type="text/javascript">
+		
+$('input[type=submit]').click(function() {
+    $(this).attr('disabled', 'disabled');
+    $(this).parents('form').submit()
+})
+/* $('input:submit').click(function(){
+	$('p').text("Form submiting.....").addClass('submit');
+	$('input:submit').attr("disabled", true);	
+}); */
+</script>
 
 <style>
 .ui-jqgrid .ui-jqgrid-bdiv{
