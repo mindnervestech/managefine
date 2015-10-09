@@ -311,6 +311,13 @@
     	<put-attribute name="title" value="Organization Hierarchy" />
     	<put-attribute name="content" value="/WEB-INF/jsp/org-hierarchy.jsp" />
   	</definition>
+  	
+  	
+  	<definition name="addCountryCity" extends="base.definition">
+    	<put-attribute name="title" value="addcountry" />
+    	<put-attribute name="content" value="/WEB-INF/jsp/addCountryCity.jsp" />
+  	</definition>
+  	
   	<definition name="addOrganization" template="/WEB-INF/jsp/addOrganization.jsp"/> 
   		<definition name="editOrganization" template="/WEB-INF/jsp/editOrganization.jsp"/>
   		<definition name="addRoleOrganization" template="/WEB-INF/jsp/addRoleOrganization.jsp"/>

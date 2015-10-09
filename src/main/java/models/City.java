@@ -60,4 +60,14 @@ public class City extends Model {
 		return getCityName() + " ("+getId()+")";
 	}
 	
+	public static List<City> getCityList() {
+		
+		System.out.println("In City List ");
+		return find.all();
+	}
+	public static List<City> getCityListByState(Long id) {
+		List<City> cList = City.find.where().eq("state.id", id).findList();
+		return cList;
+	}
+	
 }

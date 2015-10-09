@@ -40,6 +40,14 @@ public class OrgHierarchyController {
 		return "orgHierarchy";
 	}
 	
+	
+	@RequestMapping(value="/addCountry",method=RequestMethod.GET)
+	public String addCountry(@CookieValue("username")String username,Model model) {
+		model.addAttribute("_menuContext", MenuBarFixture.build(username));
+    	model.addAttribute("user", User.findByEmail(username));
+		return "addCountryCity";
+	}
+	
 	@RequestMapping(value="/deleteOrgChild",method=RequestMethod.GET)
 	public @ResponseBody Boolean deleteOrgChild(@RequestParam("id")Long id) {
 		return orgHierarchyService.deleteOrgChild(id);

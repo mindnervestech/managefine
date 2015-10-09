@@ -74,6 +74,7 @@ public enum Permissions {
 	Holiday(routes.Schedule.setupHoliday.url,Setting,"Setup Holiday"),
 	ImportPartNo(routes.Roles.importPartNo.url,Setting,"Import PartNo"),
 	ExportProject(routes.Roles.exportproject.url,Setting,"Export Project"),
+	AddCountry(routes.Roles.addCountry.url,Setting,"Add Country"),
 	
 	
 	Suppliers(routes.Leaves.supplierinfo.url,null,"Supplier"),

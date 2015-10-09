@@ -837,6 +837,10 @@ public interface Roles {
 	public interface exportproject{
 		public static String url="/exportCSV";
 	}
+	
+	public interface addCountry{
+		public static String url="/addCountry";
+	}
 
 	public interface index {
 		public static String url="/roleIndex";

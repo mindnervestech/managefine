@@ -428,3 +428,73 @@ app.controller("ProjectHierarchyController",function($scope,$http,ngDialog,$uplo
     }
     
 });
+
+
+app.controller("CountryController",function($scope,$http,ngDialog,$upload) {
+	
+	console.log("In Country Controller");
+	$http({method:'GET',url:'GetCountry'}).success(function(response) {
+	    	
+	    	$scope.countryList = response.countryList;
+	    	$scope.stateList = response.stateList;
+	    	$scope.cityList = response.cityList;
+	    });
+    
+	
+	$scope.selectState = function(country){
+		console.log(country);
+		$scope.country = country;
+		console.log($scope.country);
+		$http({method:'GET',url:'getStateByCountry',params:{id:country}}).success(function(response) {
+	    	console.log(response);
+	    	$scope.stateList = response;
+			
+	    });
+		
+	}
+	$scope.selectCity = function(state){
+		console.log(state);
+		$http({method:'GET',url:'getCityByState',params:{id:state}}).success(function(response) {
+	    	console.log(response);
+	    	$scope.cityList = response;
+			
+	    });
+		
+	}
+	$scope.message = 0;
+	$scope.saveCountry = function(data){
+		$scope.data = data;
+		$http({method:'POST',url:'saveCountry',data:$scope.data}).success(function(response) {
+			
+			console.log("OK");
+			$scope.message = 1;
+			
+			
+		});
+		
+	}
+	
+	$scope.saveState = function(data){
+		console.log(data);
+		$scope.data = data;
+		$http({method:'POST',url:'saveState',data:$scope.data}).success(function(response) {
+			
+			console.log("OK");
+			$scope.message = 1;
+			
+		});
+	}
+	
+	$scope.saveCity = function(data){
+		console.log(data);
+		$scope.data = data;
+		$http({method:'POST',url:'saveCity',data:$scope.data}).success(function(response) {
+			
+			console.log("OK");
+			$scope.message = 1;
+			
+		});
+	}
+	
+});
+
