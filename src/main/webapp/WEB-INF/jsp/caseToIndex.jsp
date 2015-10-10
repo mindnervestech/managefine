@@ -117,7 +117,7 @@
 									<div class="col-md-5">
 
 										<input type="file" ng-file-select="selectFile($files)"
-											id="org-profile" required>
+											id="org-profile" >
 
 									</div>
 

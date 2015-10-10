@@ -37,6 +37,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -325,6 +326,10 @@ public class Cases {
 			String[] filenames = file.getOriginalFilename().split("\\.");
 			String filename = rootDir+File.separator+ caseSVM.getType() + File.separator +caseSVM.getCaseId()+  File.separator + file.getOriginalFilename();
 			
+			CaseData cData = CaseData.findById(Long.parseLong(caseSVM.getCaseId()));
+			cData.setStatus(caseSVM.getCaseStatus());
+			cData.update();
+			
 			File f = new File(filename);
 			try {
 				file.transferTo(f);
@@ -364,6 +369,40 @@ public class Cases {
 			attachment.setCaseNotes(CaseNotes.getById(cNotes.getId()));
 			attachment.setType(caseSVM.getType());
 			attachment.save();
+			
+		return null;
+		
+		//return null;
+		
+	}
+	
+	@RequestMapping(value="/saveFileAndNotes1",method=RequestMethod.POST) 
+	public @ResponseBody Long saveFileAndNotes(@RequestBody caseSupportVM caseSVM,@CookieValue("username")String username) {
+		
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+			
+			CaseData cData = CaseData.findById(Long.parseLong(caseSVM.getCaseId()));
+			cData.setStatus(caseSVM.getCaseStatus());
+			cData.update();
+			
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			
+			User user = User.findByEmail(username);
+			CaseNotes cNotes = new CaseNotes();
+			cNotes.setCasenote(caseSVM.getComment());
+			cNotes.setCasedata(CaseData.findById(Long.parseLong(caseSVM.caseId)));
+			cNotes.setNoteUser(user.getId());
+			try {
+				cNotes.setNoteDate(format.parse(sdf.format(dt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cNotes.save();
+			
+		
 			
 		return null;
 		

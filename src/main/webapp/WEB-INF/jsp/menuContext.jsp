@@ -33,7 +33,6 @@
 		 		</c:if>	
 		 			<a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">${items.name} <b class="caret"></b></a>
 		 			<ul class="dropdown-menu">
-		 			
                   	<c:forEach var="subMenu" items="${items.getSubMenu()}">
                  	 <li><a href='${pageContext.request.contextPath}${subMenu.url}' >${subMenu.name}</a></li>
                  	</c:forEach>

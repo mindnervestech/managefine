@@ -620,11 +620,8 @@ public class Application  {
 
 	   if(user !=  null)
 		   	{
-			   count = CaseData.find.where().eq("assignto_id",user.getId()).findRowCount();
+			   count = CaseData.find.where().eq("assignto_id",user.getId()).eq("status", "Assigned").findRowCount();
 		   	}
-	   
-	
-	   
 	  
 	   return count;
    }

@@ -73,7 +73,6 @@ public abstract class SaveModel<model extends Model> {
 			parameterMap.put(key, new String[]{Json.toJson(metaFiles).toString()});
 		}
 		
-		
 		Form<? extends Model> form = form(ctx).bindFromRequest(parameterMap);
 		preSave(form);
 		

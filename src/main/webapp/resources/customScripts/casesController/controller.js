@@ -70,24 +70,34 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 		    	$scope.caseData.caseId = $('#myitem').val();
 		    	$scope.caseData.type = "case";
 		    	console.log($scope.caseData);
-		    	$upload.upload({
-		            url: 'saveFileAndNotes',
-		            data: $scope.caseData,
-		            file: file,
-		            method:'post'
-		        }).progress(function (evt) {
-		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-		            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-		        }).success(function (data, status, headers, config) {
-		            console.log(data);
-		            $.pnotify({
-                        title: "Success",
-                        type:'Success',
-                        text: "File and Activity save Successfully",
-                    });
-		           
-		        });
-		    	
+		    	if(file == null){
+		    		$http({method:'POST',url:'saveFileAndNotes1',data:$scope.caseData}).success(function(response) {
+			    		 $.pnotify({
+		                        title: "Success",
+		                        type:'Success',
+		                        text: "File and Activity save Successfully",
+		                    });
+			    	 });
+		    	}else{
+		    		$upload.upload({
+			            url: 'saveFileAndNotes',
+			            data: $scope.caseData,
+			            file: file,
+			            method:'post'
+			        }).progress(function (evt) {
+			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+			        }).success(function (data, status, headers, config) {
+			            console.log(data);
+			            $.pnotify({
+	                        title: "Success",
+	                        type:'Success',
+	                        text: "File and Activity save Successfully",
+	                    });
+			           
+			        });
+		    	}
+		    	 
 		    
 		    }
 		  
