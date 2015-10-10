@@ -78,7 +78,7 @@
 					<form ng-submit="saveCity(data)">
 						<div class="col-md-12" style="text-align: center;">
 							<label>City</label>
-							<select class="" ng-change="selectState(data.country)" required>
+							<select class="" ng-model="country" ng-change="selectState(country)" required>
 							        <option value="">Select Country</option>
 									<option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
 							</select>
