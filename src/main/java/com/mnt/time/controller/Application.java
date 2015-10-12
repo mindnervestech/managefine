@@ -642,10 +642,10 @@ public class Application  {
 			 //  int count1 = User.find.where().ilike("userStatus","PendingApproval").add(exp1).add(exp2).findRowCount();
 			   int count1 = Timesheet.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
 				// int count2 = ApplyLeave.find.where().eq("status",LeaveStatus.Submitted).findRowCount();
-				 int count2 = ApplyLeave.find.where().and(Expr.eq("status", LeaveStatus.Submitted),Expr.eq("pendingWith", user)).findRowCount();
+				 //int count2 = ApplyLeave.find.where().and(Expr.eq("status", LeaveStatus.Submitted),Expr.eq("pendingWith", user)).findRowCount();
 				 
 				 int count3 = TimesheetActual.find.where().and(Expr.eq("status", TimesheetStatus.Submitted),Expr.eq("timesheetWith", user)).findRowCount();
-					count = count1 + count2 + count3;
+					count = count1 + count3;
 		   	}
 	   
 	   

@@ -461,7 +461,7 @@ public class Cases {
 		 response.setContentType("application/x-download");
          response.setHeader("Content-Transfer-Encoding", "binary"); 
          response.setHeader("Content-disposition","attachment; filename=\""+list.get(0).n);
-         File file = new File(rootDir+File.separator+ "caseData" + File.separator + cFlexi.getCaseData().getId()  + File.separator + list.get(0).n);
+         File file = new File(rootDir+File.separator+ "CaseData" + File.separator + cFlexi.getCaseData().getId() + File.separator + "flexi" + File.separator + list.get(0).n);
          
          return new FileSystemResource(file);
 		
