@@ -225,7 +225,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}else if(form.data().get("projectTypeName") != null && form.data().get("projectTypeName") != ""){
 			for(Projectinstance projList:pList){
 				if(projList.projectTypeName != null){
-				if(projList.projectTypeName.startsWith(form.data().get("projectTypeName"))){
+				if(projList.projectTypeName.toUpperCase().startsWith(form.data().get("projectTypeName").toUpperCase())){
 					pList2.add(projList);
 				}
 				}
@@ -240,7 +240,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 			
 		}else if(form.data().get("startDate") != null && form.data().get("startDate") != ""){
 			for(Projectinstance projList:pList){
-				if(projList.startDate.equals(form.data().get("startDate"))){
+				if(projList.startDate.toUpperCase().equals(form.data().get("startDate").toUpperCase())){
 					pList2.add(projList);
 				}
 			}
