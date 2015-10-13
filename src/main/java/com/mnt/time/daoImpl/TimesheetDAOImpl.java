@@ -1585,10 +1585,20 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		task.id = root.getId();
 		task.name= classNode.getProjectTypes();
 		task.level = classNode.getLevel();
-		task.status = root.getStatus();
+		if(root.getStatus() != null){
+			if(root.getStatus().equals("Completed")){
+				task.status = "STATUS_ACTIVE";
+			}
+			if(root.getStatus().equals("Inprogress")){
+				task.status = "STATUS_SUSPENDED";
+			}
+		}else{
+			task.status = "STATUS_UNDEFINED";
+		}
 		task.canWrite = true;
 		task.start = root.getStartDate().getTime();
 		task.end = root.getEndDate().getTime();
+		task.progress = root.getTaskCompilation();
 		
 		long diff = root.getEndDate().getTime() - root.getStartDate().getTime();
 		long diffDays = diff / (24 * 60 * 60 * 1000);

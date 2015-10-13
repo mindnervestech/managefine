@@ -21,6 +21,7 @@ public class GanttTask {
 	public List<String> assigs = new ArrayList<>();
 	public String description;
 	public String depends;
-	public int progress;
+	public Long progress;
 	public boolean hasChild;
+	
 }
