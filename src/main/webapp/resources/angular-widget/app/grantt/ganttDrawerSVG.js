@@ -565,7 +565,7 @@ Ganttalendar.prototype.drawTask = function (task) {
     }
 
     if (task.hasChild)
-      svg.rect(taskSvg, 0, 0, "100%", 3, {fill:"#000"});
+      svg.rect(taskSvg, 0, 0, "100%", 3, {fill:""});
 
     if (task.startIsMilestone) {
       svg.image(taskSvg, -9, dimensions.height/2-9, 18, 18, self.master.resourceUrl + "milestone.png")
