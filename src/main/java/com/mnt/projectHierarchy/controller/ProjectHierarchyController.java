@@ -55,7 +55,6 @@ public class ProjectHierarchyController {
 		return "defineProjects";
 	}
 	
-		
 	@RequestMapping(value="/AllProjectType",method=RequestMethod.GET)
 	public @ResponseBody List AllProjectType() {
 		return projectHierarchyService.getAllProjectType();

@@ -483,7 +483,7 @@
       </div>
       <div class="modal-body">
         <div class="form-inline">
-		  <div class="form-group">
+		  <div class="form-group"> 
 		    <label>Supplier</label>
 		    <select class="form-control" ng-model="supplierCode" style="width:182px;">
 		    	<option value="">--Select Supplier--</option>
