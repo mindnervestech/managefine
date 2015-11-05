@@ -487,14 +487,14 @@
 		    <label>Supplier</label>
 		    <select class="form-control" ng-model="supplierCode" style="width:182px;">
 		    	<option value="">--Select Supplier--</option>
-		    	<option ng-repeat="supplier in supplierList" value="{{supplier.id}}">{{supplier.name}}</option>
+		    	<option ng-repeat="supplier in supplierList | orderBy:'name'" value="{{supplier.id}}">{{supplier.name}}</option>
 		    </select>
 		  </div>
 		  <div class="form-group">
 		    <label>Customer</label>
 		     <select class="form-control" ng-model="customerCode" style="width:182px;">
 		    	<option value="">--Select Customer--</option>
-		    	<option ng-repeat="cust in customerList" value="{{cust.id}}">{{cust.name}}</option>
+		    	<option ng-repeat="cust in customerList | orderBy:'name'" value="{{cust.id}}">{{cust.name}}</option>
 		    </select>
 		  </div>
 		  
