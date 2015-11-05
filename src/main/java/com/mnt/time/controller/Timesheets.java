@@ -1928,7 +1928,7 @@ public class Timesheets{
 			monday.setTaskCode(rowVM.taskCode.toString());
 			monday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				monday.setStage(classNode.getId().toString());
 			}
 			monday.setUser(user);
@@ -1954,7 +1954,7 @@ public class Timesheets{
 			tuesday.setTaskCode(rowVM.taskCode.toString());
 			tuesday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				tuesday.setStage(classNode.getId().toString());
 			}
 			tuesday.setUser(user);
@@ -1980,7 +1980,7 @@ public class Timesheets{
 			wednesday.setTaskCode(rowVM.taskCode.toString());
 			wednesday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				wednesday.setStage(classNode.getId().toString());
 			}
 			wednesday.setUser(user);
@@ -2006,7 +2006,7 @@ public class Timesheets{
 			thursday.setTaskCode(rowVM.taskCode.toString());
 			thursday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				thursday.setStage(classNode.getId().toString());
 			}
 			thursday.setUser(user);
@@ -2032,7 +2032,7 @@ public class Timesheets{
 			friday.setTaskCode(rowVM.taskCode.toString());
 			friday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				friday.setStage(classNode.getId().toString());
 			}
 			friday.setUser(user);
@@ -2058,7 +2058,7 @@ public class Timesheets{
 			saturday.setTaskCode(rowVM.taskCode.toString());
 			saturday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				saturday.setStage(classNode.getId().toString());
 			}
 			saturday.setUser(user);
@@ -2085,7 +2085,7 @@ public class Timesheets{
 			sunday.setTaskCode(rowVM.taskCode.toString());
 			sunday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				sunday.setStage(classNode.getId().toString());
 			}
 			sunday.setUser(user);
@@ -2134,7 +2134,7 @@ public class Timesheets{
 				monday.setTaskCode(row.taskCode.toString());
 				monday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					monday.setStage(classNode.getId().toString());
 				}
 				monday.setUser(user);
@@ -2156,7 +2156,7 @@ public class Timesheets{
 				tuesday.setTaskCode(row.taskCode.toString());
 				tuesday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					tuesday.setStage(classNode.getId().toString());
 				}
 				tuesday.setUser(user);
@@ -2200,7 +2200,7 @@ public class Timesheets{
 				thursday.setTaskCode(row.taskCode.toString());
 				thursday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					thursday.setStage(classNode.getId().toString());
 				}
 				thursday.setUser(user);
@@ -2675,7 +2675,7 @@ public class Timesheets{
 			timesheetRow.setOverTime(rowVM.isOverTime);
 			
 			Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(rowVM.taskCode.toString()));
-			while(classNode.getLevel() != 1) {
+			while(classNode.getLevel() != 1 && classNode.getLevel() != 0) {
 				classNode = Projectclassnode.getProjectById(classNode.getParentId());
 			}
 			
@@ -2705,7 +2705,7 @@ public class Timesheets{
 			monday.setTaskCode(rowVM.taskCode.toString());
 			monday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				monday.setStage(classNode.getId().toString());
 			}
 			monday.setUser(user);
@@ -2731,7 +2731,7 @@ public class Timesheets{
 			tuesday.setTaskCode(rowVM.taskCode.toString());
 			tuesday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				tuesday.setStage(classNode.getId().toString());
 			}
 			tuesday.setUser(user);
@@ -2757,7 +2757,7 @@ public class Timesheets{
 			wednesday.setTaskCode(rowVM.taskCode.toString());
 			wednesday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				wednesday.setStage(classNode.getId().toString());
 			}
 			wednesday.setUser(user);
@@ -2783,7 +2783,7 @@ public class Timesheets{
 			thursday.setTaskCode(rowVM.taskCode.toString());
 			thursday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				thursday.setStage(classNode.getId().toString());
 			}
 			thursday.setUser(user);
@@ -2809,7 +2809,7 @@ public class Timesheets{
 			friday.setTaskCode(rowVM.taskCode.toString());
 			friday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				friday.setStage(classNode.getId().toString());
 			}
 			friday.setUser(user);
@@ -2835,7 +2835,7 @@ public class Timesheets{
 			saturday.setTaskCode(rowVM.taskCode.toString());
 			saturday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				saturday.setStage(classNode.getId().toString());
 			}
 			saturday.setUser(user);
@@ -2862,7 +2862,7 @@ public class Timesheets{
 			sunday.setTaskCode(rowVM.taskCode.toString());
 			sunday.setWeekOfYear(timesheet.weekOfYear);
 			
-			if(classNode.getLevel() == 1) {
+			if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 				sunday.setStage(classNode.getId().toString());
 			}
 			sunday.setUser(user);
@@ -2881,7 +2881,7 @@ public class Timesheets{
 			
 			for(TimesheetRowVM row: timesheet.timesheetRows) {
 				Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(row.taskCode.toString()));
-				while(classNode.getLevel() != 1) {
+				while(classNode.getLevel() != 1 && classNode.getLevel() != 0) {
 					classNode = Projectclassnode.getProjectById(classNode.getParentId());
 				}
 				if(row.rowId != 0L) {
@@ -2909,7 +2909,7 @@ public class Timesheets{
 				monday.setTaskCode(row.taskCode.toString());
 				monday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					monday.setStage(classNode.getId().toString());
 				}
 				monday.setUser(user);
@@ -2931,7 +2931,7 @@ public class Timesheets{
 				tuesday.setTaskCode(row.taskCode.toString());
 				tuesday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					tuesday.setStage(classNode.getId().toString());
 				}
 				tuesday.setUser(user);
@@ -2953,7 +2953,7 @@ public class Timesheets{
 				wednesday.setTaskCode(row.taskCode.toString());
 				wednesday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					wednesday.setStage(classNode.getId().toString());
 				}
 				wednesday.setUser(user);
@@ -2975,7 +2975,7 @@ public class Timesheets{
 				thursday.setTaskCode(row.taskCode.toString());
 				thursday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					thursday.setStage(classNode.getId().toString());
 				}
 				thursday.setUser(user);
@@ -2997,7 +2997,7 @@ public class Timesheets{
 				friday.setTaskCode(row.taskCode.toString());
 				friday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					friday.setStage(classNode.getId().toString());
 				}
 				friday.setUser(user);
@@ -3019,7 +3019,7 @@ public class Timesheets{
 				saturday.setTaskCode(row.taskCode.toString());
 				saturday.setWeekOfYear(timesheet.weekOfYear);
 				
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					saturday.setStage(classNode.getId().toString());
 				}
 				saturday.setUser(user);
@@ -3041,7 +3041,7 @@ public class Timesheets{
 				sunday.setWeekOfYear(timesheet.weekOfYear);
 				
 				sunday.setNotes(row.sunNotes);
-				if(classNode.getLevel() == 1) {
+				if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 					sunday.setStage(classNode.getId().toString());
 				}
 				sunday.setUser(user);
@@ -3078,7 +3078,7 @@ public class Timesheets{
 					monday.setWeekOfYear(timesheet.weekOfYear);
 					
 					monday.setTimesheetRow(timesheetRow);
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						monday.setStage(classNode.getId().toString());
 					}
 					monday.setUser(user);
@@ -3104,7 +3104,7 @@ public class Timesheets{
 					tuesday.setTaskCode(row.taskCode.toString());
 					tuesday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						tuesday.setStage(classNode.getId().toString());
 					}
 					tuesday.setUser(user);
@@ -3130,7 +3130,7 @@ public class Timesheets{
 					wednesday.setTaskCode(row.taskCode.toString());
 					wednesday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						wednesday.setStage(classNode.getId().toString());
 					}
 					wednesday.setUser(user);
@@ -3156,7 +3156,7 @@ public class Timesheets{
 					thursday.setTaskCode(row.taskCode.toString());
 					thursday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						thursday.setStage(classNode.getId().toString());
 					}
 					thursday.setUser(user);
@@ -3182,7 +3182,7 @@ public class Timesheets{
 					friday.setTaskCode(row.taskCode.toString());
 					friday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						friday.setStage(classNode.getId().toString());
 					}
 					friday.setUser(user);
@@ -3208,7 +3208,7 @@ public class Timesheets{
 					saturday.setTaskCode(row.taskCode.toString());
 					saturday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						saturday.setStage(classNode.getId().toString());
 					}
 					saturday.setUser(user);
@@ -3235,7 +3235,7 @@ public class Timesheets{
 					sunday.setTaskCode(row.taskCode.toString());
 					sunday.setWeekOfYear(timesheet.weekOfYear);
 					
-					if(classNode.getLevel() == 1) {
+					if(classNode.getLevel() == 1 && classNode.getLevel() == 0) {
 						sunday.setStage(classNode.getId().toString());
 					}
 					sunday.setUser(user);
