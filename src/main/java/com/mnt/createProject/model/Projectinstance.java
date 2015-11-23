@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
@@ -21,6 +23,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
+import com.avaje.ebean.annotation.EnumValue;
+import com.custom.domain.ProjectStatus;
 import com.custom.helpers.ProjectSearchContext;
 import com.mnt.core.helper.SearchContext;
 import com.mnt.core.ui.annotation.SearchColumnOnUI;
@@ -70,9 +74,12 @@ public class Projectinstance extends Model{
 	
 	@SearchColumnOnUI(rank=6,colName="Status",width=20)
 	@WizardCardUI(name="Basic Info",step=1)
-	@SearchFilterOnUI(label="Status")
 	@UIFields(order=6,label="Due Date")
-	public String status;
+	//public String status;
+	
+	@SearchFilterOnUI(label="Status")
+	@Enumerated(EnumType.STRING)
+	public ProjectStatus status;
 	
 	public Long clientId;
 	@OneToOne
@@ -419,11 +426,11 @@ public class Projectinstance extends Model{
 		return find.where().eq("id", id).eq("projectManager.id", userId).findUnique();
 	}
 	
-	public String getStatus() {
+	public ProjectStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(ProjectStatus status) {
 		this.status = status;
 	}
 	

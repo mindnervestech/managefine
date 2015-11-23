@@ -205,7 +205,7 @@ public class Wdgets {
 				tVm.name = projectinstance.getProjectName();
 				tVm.startDate = projectinstance.getStartDate();
 				tVm.endDate = projectinstance.getEndDate();
-				tVm.status = projectinstance.getStatus();
+				tVm.status = projectinstance.getStatus().getName();
 				if(projectinstance.getPercentage() != null){
 					tVm.percentage = String.valueOf(projectinstance.getPercentage());
 				}

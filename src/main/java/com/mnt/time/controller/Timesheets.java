@@ -71,6 +71,7 @@ import viewmodel.SupplierVM;
 import viewmodel.TaskCommentVM;
 import viewmodel.TaskDetailVM;
 import viewmodel.TaskVM;
+import viewmodel.TimesheetDaysVM;
 import viewmodel.TimesheetRowVM;
 import viewmodel.TimesheetVM;
 import viewmodel.WeekDayVM;
@@ -1536,7 +1537,10 @@ public class Timesheets{
 				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
+
+				
 				for(TimesheetDays day : timesheetDaysList) {
+					
 					if(day.getDay().equals("monday")) {
 						timesheetRowVM.monFrom = day.getTimeFrom();
 						timesheetRowVM.monTo = day.getTimeTo();
@@ -1544,6 +1548,7 @@ public class Timesheets{
 						timesheetRowVM.monSupplier = day.getSupplierId();
 						timesheetRowVM.monCustomer = day.getCustomerId();
 						timesheetRowVM.monNotes = day.getNotes();
+						
 					}
 					if(day.getDay().equals("tuesday")) {
 						timesheetRowVM.tueFrom = day.getTimeFrom();
@@ -1595,8 +1600,11 @@ public class Timesheets{
 						timesheetRowVM.sunCustomer = day.getCustomerId();
 						timesheetRowVM.sunNotes = day.getNotes();
 					}
+					
+					
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
+				
 				timesheetRowVMList.add(timesheetRowVM);
 			}
 			timesheetVM.timesheetRows = timesheetRowVMList;
@@ -2655,7 +2663,6 @@ public class Timesheets{
 		if(timesheetSavedObj == null) {
 			
 		Timesheet timesheetObj = new Timesheet();
-		
 		timesheetObj.setUser(user);
 		timesheetObj.setStatus(TimesheetStatus.valueOf(timesheet.status));
 		timesheetObj.setWeekOfYear(timesheet.weekOfYear);
@@ -2673,11 +2680,18 @@ public class Timesheets{
 			timesheetRow.setTaskCode(rowVM.taskCode.toString());
 			timesheetRow.setTimesheet(timesheetObj);
 			timesheetRow.setOverTime(rowVM.isOverTime);
+			//for(TimesheetDaysVM d : rowVM.timesheetRowDays) {
+				TimesheetDays days=new TimesheetDays();
+			days.setSupplierId(rowVM.supplier);
+			days.setCustomerId(rowVM.customer);
+			days.setNotes(rowVM.note);
 			
+			//}
 			Projectclassnode classNode = Projectclassnode.getProjectById(Long.parseLong(rowVM.taskCode.toString()));
 			while(classNode.getLevel() != 1 && classNode.getLevel() != 0) {
 				classNode = Projectclassnode.getProjectById(classNode.getParentId());
 			}
+			
 			
 			
 			timesheetRow.save();
@@ -3281,6 +3295,11 @@ public class Timesheets{
 				timesheetRowVM.projectCode =Long.parseLong(timesheetRow.getProjectCode());
 				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
+			
+				TimesheetDays day1= new TimesheetDays();
+				timesheetRowVM.supplier = day1.getSupplierId();
+				timesheetRowVM.customer = day1.getCustomerId();
+				timesheetRowVM.note = day1.getNotes();
 				
 				for(TimesheetDays day : timesheetDaysList) {
 					if(day.getDay().equals("monday")) {
@@ -3341,6 +3360,10 @@ public class Timesheets{
 						timesheetRowVM.sunCustomer = day.getCustomerId();
 						timesheetRowVM.sunNotes = day.getNotes();
 					}
+					
+										
+					System.out.println( day.getSupplierId());
+					
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
 				timesheetRowVMList.add(timesheetRowVM);
@@ -3364,6 +3387,11 @@ public class Timesheets{
 				timesheetRowVM.taskCode = Long.parseLong(timesheetRow.getTaskCode());
 				timesheetRowVM.isOverTime = timesheetRow.isOverTime();
 				
+				TimesheetDays day1= new TimesheetDays();
+				timesheetRowVM.supplier = day1.getSupplierId();
+				timesheetRowVM.customer = day1.getCustomerId();
+				timesheetRowVM.note = day1.getNotes();
+		
 				for(TimesheetDays day : timesheetDaysList) {
 					if(day.getDay().equals("monday")) {
 						timesheetRowVM.monFrom = day.getTimeFrom();
@@ -3425,6 +3453,9 @@ public class Timesheets{
 						timesheetRowVM.sunCustomer = day.getCustomerId();
 						timesheetRowVM.sunNotes = day.getNotes();
 					}
+					
+					
+					
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
 				timesheetRowVMList.add(timesheetRowVM);

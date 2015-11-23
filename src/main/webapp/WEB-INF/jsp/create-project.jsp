@@ -113,12 +113,15 @@ function myFunction() {
 	  var sDate = new Date(startD);
 	  console.log(eDate);
 	  console.log(sDate);
+	  //console.log("kkkkokoakoskaosakso");
 	/* if (parseDate(startD) <= parseDate(endD)) { */
 	$.ajax({
 		type : "POST",
 		data : $("#form").serialize(),
 		url : "${pageContext.request.contextPath}/saveCreateProjectAttributes",
 		success : function(data) {
+			console.log(data);
+			console.log("saved");
 			$("#closeDialog").trigger("click");
 			/* $.pnotify({
                 title: "Error",

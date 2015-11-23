@@ -49,7 +49,7 @@
 					<li><a href="#tab2"  ng-if="${editNodeMetaData.level == 0}" data-toggle="tab">Define Parts</a></li> 
 					<li><a href="#tab3" ng-click="history()" data-toggle="tab">History</a></li>
 					<li><a href="#tab4" ng-click="findattributes()" data-toggle="tab">Attributes</a></li>
-					<li style="margin-left: 323px;font-size: 19px;color: #0044cc;margin-top: 6px;">Total Eestimated Revenue : {{totalEstimat}}</li>
+					<li style="margin-left: 323px;font-size: 19px;color: #0044cc;margin-top: 6px;">Total Estimated Revenue : {{totalEstimat}}</li>
 				</ul>
 				<div class="tab-content" style="max-height: 437px;">
 					<div id="tab1" class="tab active">
@@ -80,9 +80,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" ng-if="${editNodeMetaData.level} == 0">
+									<div class="col-md-12" style="padding: 0px;">	
+										<div class="col-md-6" style="margin-top: 15px;">
+											<label class="col-md-12">Status</label>
+											<div class="col-md-12">
+												<select name="status" 
+													 style="width: 100%;" required>
+													  <option value="NotStarted">Not Started</option>
+													  <option value="Inprogress">In Progress</option>
+													  <option value="won">won</option>
+													  <option value="lost">lost</option>
+													  <option value="closed">Closed</option>
+													
+												</select>
+											</div>
+										</div>
+									
 								<div class="col-md-6" style="margin-top: 15px;">
-									<label class="col-md-12">Start Date</label>
+									<label  class="col-md-6">Start Date</label>
+								<label  class="col-md-6">End Date</label>
 									<div class="col-md-6">
 										<div class="dropdown">
 											<a class="dropdown-toggle" id="dropdownstartdate"
@@ -102,9 +119,7 @@
 										</div>
 										
 									</div>
-								</div>
-								<div class="col-md-6" style="margin-top: 15px;">
-									<label for="org-type" class="col-md-12">End Date</label>
+									
 									<div class="col-md-6">
 										<div class="dropdown">
 											<a class="dropdown-toggle" id="dropdownendDate" role="button"
@@ -122,11 +137,61 @@
 											</ul>
 										</div>
 									</div>
+								
+								</div>
 								</div>
 							</div>
+							
+							<div class="form-group" ng-if="${editNodeMetaData.level} != 0">
+							<div>
+									<div class="col-md-6" style="margin-top: 15px;">
+									<label  class="col-md-12">Start Date</label>
+										<div class="col-md-12">
+											<div class="dropdown">
+													<a class="dropdown-toggle" id="dropdownstartdate"
+														role="button" data-toggle="dropdown" data-target="#"
+														href="#">
+														<div class="input-group">
+															<input type="text" class="form-control" name="startDate"
+																value="{{data.startDate | date:'dd-MM-yyyy'}}">
+														</div>
+													</a>
+													<ul class="dropdown-menu" role="menu"
+														aria-labelledby="dLabel"
+														ng-init="initDate('${editNodeMetaData.startDate}','${editNodeMetaData.endDate}','${editNodeMetaData.createdDate}','${editNodeMetaData.productionDate}','${editNodeMetaData.projectLastUpdate}')">
+														<datetimepicker data-ng-model="data.startDate"
+															data-datetimepicker-config="{ dropdownSelector: '#dropdownstartdate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
+													</ul>
+												</div>
+										</div>
+										</div>
+										
+										<div class="col-md-6" style="margin-top: 15px;">
+										<label  class="col-md-12">End Date</label>
+										<div class="col-md-12">
+											<div class="dropdown">
+											<a class="dropdown-toggle" id="dropdownendDate" role="button"
+												data-toggle="dropdown" data-target="#" href="#">
+												<div class="input-group">
+													<input type="text" class="form-control" name="endDate"
+														value="{{data.endDate | date:'dd-MM-yyyy'}}">
+												</div>
+											</a>
+											<ul class="dropdown-menu" role="menu"
+												aria-labelledby="dLabel">
+												<datetimepicker data-ng-model="data.endDate"
+													data-datetimepicker-config="{ dropdownSelector: '#dropdownendDate',minView: 'day', minDate:'${editNodeMetaData.startDateLimit}',maxDate:'${editNodeMetaData.endDateLimit}' }" />
+											</ul>
+										</div>
+										
+										</div>
+										</div>
+							</div>
+							</div>
+							
 							<div class="form-group">
-								<div class="col-md-6" style="margin-top: 15px;"
-									ng-if="${editNodeMetaData.level} == 0">
+							<div class="col-md-12" style="padding: 0px;">
+								<div class="col-md-6" style="margin-top: 15px;" ng-if="${editNodeMetaData.level} == 0">
 									<label class="col-md-12">Project Manager</label>
 									<div class="col-md-12">
 										<select name="projectManager" 
@@ -155,6 +220,7 @@
 										</select>
 
 									</div>
+								</div>
 								</div>
 							</div>
 							

@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import play.data.DynamicForm;
 
+import com.custom.domain.ProjectStatus;
 import com.google.gson.Gson;
 import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.Pits;
@@ -212,7 +213,7 @@ public class CreateProjectController {
 		
 		String supplierValues[] = request.getParameterValues("supplier");
 		String memberValues[] = request.getParameterValues("member");
-
+		
 		List<Projectclassnodeattribut> attributesArray = null;
 		Projectinstancenode projectnode = null;
 		if(form.data().get("projectId") != null){
@@ -248,7 +249,7 @@ public class CreateProjectController {
 				projectinstance.setPurchaseCustContactNo(form.data().get("purchaseCustContactNo"));
 				projectinstance.setPurchaseCustEmail(form.data().get("purchaseCustEmail"));
 				projectinstance.setRemark(form.data().get("remark"));
-				
+				projectinstance.setStatus(ProjectStatus.valueOf(form.data().get("status")));
 				
 				projectinstance.update();
 				
@@ -363,6 +364,8 @@ public class CreateProjectController {
 				projectinstance.setSupplierFae(form.data().get("supplierFae"));
 				projectinstance.setSupplierSaleperson(form.data().get("supplierSaleperson"));
 				projectinstance.setProjectWin(form.data().get("projectWin"));
+				projectinstance.setStatus(ProjectStatus.valueOf(form.data().get("status")));
+				
 				projectinstance.update();
 
 			//	projectinstance.removeAllUser();
@@ -459,7 +462,7 @@ public class CreateProjectController {
 		//	Projectinstancenode projectinstancenode1= Projectinstancenode.getProjectParentId(Long.parseLong(form.data().get("projectId")),Long.parseLong(form.data().get("projectInstance")));
 			compare(projectinstancenodeOld,projectinstancenode, "Projectinstancenode" , projectinstancenode.getId(), username, projectinstancenode.getProjectinstanceid());
 		}
-	
+
 		return Long.parseLong(form.data().get("projectId"));
 	}
 	

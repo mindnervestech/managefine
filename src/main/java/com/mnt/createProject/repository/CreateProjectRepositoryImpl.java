@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import play.data.DynamicForm;
 
 import com.avaje.ebean.SqlRow;
+import com.custom.domain.ProjectStatus;
 import com.mnt.createProject.model.AduitLog;
 import com.mnt.createProject.model.AttributesProject;
 import com.mnt.createProject.model.DefinePart;
@@ -927,7 +928,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			}else{
 				Projectinstancenode projectinstancenode2=Projectinstancenode.getProjectParentId(projectclassnode.getId(), mainInstance);
 				Projectinstance projectinstance = Projectinstance.getById(mainInstance);
-				projectinstance.setStatus(projectinstancenode2.getStatus());
+				projectinstance.setStatus(ProjectStatus.valueOf(projectinstancenode2.getStatus()));
 				projectinstance.setPercentage(projectinstancenode2.getTaskCompilation());
 				projectinstance.update();
 			}

@@ -62,6 +62,10 @@ public class TimesheetRowVM {
 	public String sunSupplier;
 	public String sunCustomer;
 	public String sunNotes;
+	public String supplier;
+	public String customer;
+	public String note;
+	
 	public List<TimesheetDaysVM> timesheetRowDays;
 	
 	
@@ -425,6 +429,25 @@ public class TimesheetRowVM {
 	}
 	public void setSunNotes(String sunNotes) {
 		this.sunNotes = sunNotes;
+	}
+	
+	public String getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+	public String getCustomer() {
+		return customer;
+	}
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 	

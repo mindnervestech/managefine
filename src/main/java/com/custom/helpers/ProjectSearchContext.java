@@ -269,7 +269,7 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 		}else if(form.data().get("status") != null && form.data().get("status") != ""){
 			for(Projectinstance projList:pList){
 				if(projList.status != null){
-					if(projList.status.toUpperCase().startsWith(form.data().get("status").toUpperCase())){
+					if(projList.status.getName().toUpperCase().startsWith(form.data().get("status").toUpperCase())){
 						pList2.add(projList);
 					}
 				}
@@ -306,8 +306,9 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 									project.getClientName(),
 									project.getStartDate(),
 									project.getEndDate(),
-									project.getStatus(),
+									project.getStatus().getName(),
 									project.getProjectTypeName()
+									
 									
 									));
 				} catch (Exception e) {
