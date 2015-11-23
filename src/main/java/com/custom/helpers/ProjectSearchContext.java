@@ -308,8 +308,6 @@ public class ProjectSearchContext extends ASearchContext<Projectinstance>{ //Pro
 									project.getEndDate(),
 									project.getStatus().getName(),
 									project.getProjectTypeName()
-									
-									
 									));
 				} catch (Exception e) {
 					ExceptionHandler.onError(e);
