@@ -238,7 +238,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
-					$scope.setTaskOfProject($scope.dayData[i].projectCode,i);
+					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 				}
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
@@ -613,7 +613,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				console.log($scope.xyztimesheetData[j]);
 				$scope.dayData.push($scope.xyztimesheetData[j]);
 				oldday.push($scope.xyztimesheetData[j]);
-				for(var i=0;i<$scope.projectLst.length;i++) {
+			 for(var i=0;i<$scope.projectLst.length;i++) {
 					if($scope.projectLst[i].id == $scope.xyztimesheetData[j].projectCode) {
 						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
 						k++;
