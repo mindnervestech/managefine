@@ -758,14 +758,16 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}	
 	
 	$scope.confirmDelete = function(index,rowId) {
-		//$scope.flag1 = 'true';
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
+		console.log($scope.deleteRowId);
+		for(var i=0;i<$scope.timesheetData.length;i++)
+			if($scope.timesheetData[i].rowId==$scope.deleteRowId)
+			$scope.deleteIndex1 = i;
 		$('#popupBtn4').click();
 	}
 	
 	$scope.confirmDlt = function(index,rowId) {
-		//$scope.flag1 = 'true';
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
 		$('#popupBtn4').click();
@@ -790,11 +792,11 @@ app.controller("TimeSheetController", function($scope,$http) {
 				}
 			$scope.dayData.splice($scope.deleteIndex,1);
 			$scope.xyztimesheetData.splice($scope.deleteIndex,1);
-			$scope.timesheetData.splice($scope.deleteIndex,1);
+			$scope.timesheetData.splice($scope.deleteIndex1,1);
 			
 			
 			console.log($scope.timesheetData);
-			$scope.taskListArray.splice($scope.deleteIndex,1);
+			$scope.taskListArray.splice($scope.deleteIndex1,1);
 			$scope.taskLstArray.splice($scope.deleteIndex,1);
 			
 			
