@@ -97,25 +97,25 @@
 						</div>
 					<div class="innerDaysDiv">
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('monday')" id="monLabel">
-							Mon<br> <span id="dayLabel_0"></span>
+							<a href="" style="text-decoration: none; color:inherit">Mon<br> <span id="dayLabel_0"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('tuesday')" id="tueLabel">
-							Tue<br> <span id="dayLabel_1"></span>
+							<a href="" style="text-decoration: none; color:inherit">Tue<br> <span id="dayLabel_1"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('wednesday')" id="wedLabel">
-							Wed<br> <span id="dayLabel_2"></span>
+							<a href="" style="text-decoration: none; color:inherit">Wed<br> <span id="dayLabel_2"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('thursday')" id="thuLabel">
-							Thu<br> <span id="dayLabel_3"></span>
+							<a href="" style="text-decoration: none; color:inherit">Thu<br> <span id="dayLabel_3"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('friday')" id="friLabel">
-							Fri<br> <span id="dayLabel_4"></span>
+							<a href="" style="text-decoration: none; color:inherit">Fri<br> <span id="dayLabel_4"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('saturday')" id="satLabel">
-							Sat<br> <span id="dayLabel_5"></span>
+							<a href="" style="text-decoration: none; color:inherit">Sat<br> <span id="dayLabel_5"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('sunday')" id="sunLabel">
-							Sun<br> <span id="dayLabel_6"></span>
+							<a href="" style="text-decoration: none; color:inherit">Sun<br> <span id="dayLabel_6"></span></a>
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->

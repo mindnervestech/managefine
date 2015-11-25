@@ -91,25 +91,25 @@
 						</div>
 					<div class="innerDaysDiv">
 						<div class="smallInputLabel clearfix" ng-click="addData1('mon')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;" id="monLabel">
-							Mon<br> <span id="dayLabel_0"></span>
+							<a href="" style="text-decoration: none; color:inherit">Mon<br> <span id="dayLabel_0"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" ng-click="addData1('tue')" id="tueLabel">
-							Tue<br> <span id="dayLabel_1"></span>
+							<a href="" style="text-decoration: none; color:inherit">Tue<br> <span id="dayLabel_1"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" ng-click="addData1('wed')" id="wedLabel">
-							Wed<br> <span id="dayLabel_2"></span>
+							<a href="" style="text-decoration: none; color:inherit">Wed<br> <span id="dayLabel_2"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" ng-click="addData1('thu')" id="thuLabel">
-							Thu<br> <span id="dayLabel_3"></span>
+							<a href="" style="text-decoration: none; color:inherit">Thu<br> <span id="dayLabel_3"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" ng-click="addData1('fri')" id="friLabel">
-							Fri<br> <span id="dayLabel_4"></span>
+							<a href="" style="text-decoration: none; color:inherit">Fri<br> <span id="dayLabel_4"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix"  ng-click="addData1('sat')"id="satLabel">
-							Sat<br> <span id="dayLabel_5"></span>
+							<a href="" style="text-decoration: none; color:inherit">Sat<br> <span id="dayLabel_5"></span></a>
 						</div>
 						<div class="smallInputLabel clearfix" ng-click="addData1('sun')" id="sunLabel">
-							Sun<br> <span id="dayLabel_6"></span>
+							<a href="" style="text-decoration: none; color:inherit">Sun<br> <span id="dayLabel_6"></span></a>
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
