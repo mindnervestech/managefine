@@ -454,7 +454,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style=" z-index:10000";>
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index:10000";>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

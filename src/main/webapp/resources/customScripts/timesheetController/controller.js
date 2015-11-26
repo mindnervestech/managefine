@@ -2032,6 +2032,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.timesheetData = [];
 	$scope.projectList = [];
 	$scope.taskList = [];
+	$scope.n_timesheetData = [];
+	var popupClose;
+	var oldData = [];
+	var oldday = [];
+	$scope.dayScope="day";
+	$scope.dayData= [];
+	
 	$scope.weekDayData;
 	$scope.isCopyFromLastweek = false;
 	
@@ -2185,6 +2192,10 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			$scope.projectList = data.projectList;
 			$scope.supplierList = data.supplierList;
 			$scope.customerList = data.customerList;
+			
+			$scope.projectLst = data.projectList;
+			$scope.supplierLst = data.supplierList;
+			$scope.customerLst = data.customerList;
 			$scope.getTimesheetByWeek();
 		});
 		
@@ -2202,6 +2213,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		$http({method:'GET',url:contextPath+'/getActualTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
+			oldData=[];
+			$scope.n_timesheetData=[];
 			console.log('success');
 			console.log(data);
 			if(data.timesheetData.id != null) {
@@ -2210,6 +2223,12 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$scope.timesheetStatus = data.timesheetData.status;
 				$scope.timesheetId = data.timesheetData.id;
 				$scope.timesheetData = data.timesheetData.timesheetRows;
+				
+				angular.forEach($scope.timesheetData, function(value, key){
+					var o = $.extend({},value);
+					oldData.push(o);
+					$scope.n_timesheetData.push(o);
+					});
 				
 				if(data.holidayList[0] == true) {
 					$('#sunLabel').css("color","red");
@@ -2331,6 +2350,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	$scope.getTimesheetByWeek = function() {
 		$http({method:'GET',url:contextPath+'/getActualTimesheetByCurrentWeek',params:{userId:$scope.userId}})
 		.success(function(data) {
+			oldData=[];
+			$scope.n_timesheetData=[];
 			console.log('success');
 			console.log(data);
 			if(data.timesheetData.id != null) {
@@ -2340,6 +2361,11 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$scope.timesheetId = data.timesheetData.id;
 				$scope.timesheetData = data.timesheetData.timesheetRows;
 				
+				angular.forEach($scope.timesheetData, function(value, key){
+					var o = $.extend({},value);
+					oldData.push(o);
+					$scope.n_timesheetData.push(o);
+					});
 				if(data.holidayList[0] == true) {
 					$('#sunLabel').css("color","red");
 				} else{
@@ -2438,6 +2464,8 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			
 			$http({method:'GET',url:contextPath+'/getActualTimesheetByLastWeek',params:{userId:$scope.userId,week:$scope.weekOfYear,year:$scope.year}})
 			.success(function(data) {
+				olData=[];
+				$scope.n_timesheetData =[];
 				console.log('success');
 				$('#lastWeekClose').click();
 				console.log(data);
@@ -2448,6 +2476,12 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					
 					$scope.timesheetData = data.timesheetRows;
 					$scope.isCopyFromLastweek = true;
+					
+					angular.forEach($scope.timesheetData, function(value, key){
+						var o = $.extend({},value);
+						oldData.push(o);
+						$scope.n_timesheetData.push(o);
+						});
 					
 					for(var i=0;i<$scope.timesheetData.length;i++) {
 						$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
@@ -2587,17 +2621,221 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		$scope.timesheetData.push({});
     }
 	
-	$scope.confirmDelete = function(index,rowId) {
-		$scope.deleteIndex = index;
-		$scope.deleteRowId = rowId;
-		$('#popupBtn4').click();
+	$scope.addMore1 = function() {
+		$scope.dayData.push({});
+    
 	}
 	
-	$scope.confirmDlt = function(index,rowId) {
+	$scope.confirmDelete = function(index,rowId) {
+		/*$scope.deleteIndex = index;
+		$scope.deleteRowId = rowId;
+		$('#popupBtn4').click();*/
+		
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
+		console.log($scope.deleteRowId);
+		for(var i=0;i<$scope.timesheetData.length;i++)
+			if($scope.timesheetData[i].rowId==$scope.deleteRowId)
+			$scope.deleteIndex1 = i;
+		$('#popupBtn4').click();
+	}
+	$scope.addDataOnPlus = function(day1)
+	{
+		$scope.headerData="";		
+		$scope.taskLstArray = [];		
+		$scope.dayData = [];		
+		oldday = [];		
+		console.log($scope.taskLstArray);		
+		var k= 0;		
+		var f=0;		
+		if (day1=='mon'){		
+			k = 0;		
+			 $scope.dayScope="mon";		
+			 $scope.headerData="Monday Data";
+			 console.log("mon call");
+			for(var j=0; j<$scope.n_timesheetData.length;j++) {		
+				f=0;		
+				if(($scope.n_timesheetData[j].monTo!=null) && ($scope.n_timesheetData[j].monFrom!=null)){					
+				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;		
+				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].monSupplier;		
+				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;		
+				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].monNotes;		
+				console.log($scope.n_timesheetData[j]);		
+				$scope.dayData.push($scope.n_timesheetData[j]);		
+				oldday.push($scope.n_timesheetData[j]);		
+						
+			 for(var i=0;i<$scope.projectLst.length;i++) {		
+					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+						f++;		
+						if(f==1)		
+						{		
+						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+						k++;		
+						}		
+								
+					}		
+				}		
+			  }		
+			};		
+		}		
+				
+		if (day1=='tue')		
+			{		
+			k = 0;		
+			 $scope.dayScope="tue";		
+			 $scope.headerData="Tuesday Data";		
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+					f=0;		
+					if(($scope.n_timesheetData[j].tueTo!=null) && ($scope.n_timesheetData[j].tueFrom!=null)){		
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;		
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].tueCustomer;		
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].tueNotes;			
+					$scope.dayData.push($scope.n_timesheetData[j]);		
+					oldday.push($scope.n_timesheetData[j]);		
+					for(var i=0;i<$scope.projectLst.length;i++) {				
+							if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+							f++		
+							if(f==1)		
+							{		
+							$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+							k++;		
+							}		
+						}		
+					}		
+					}		
+				};		
+			}		
+		if (day1=='wed')		
+		{		
+			k=0;		
+		 $scope.dayScope="wed";		
+		 $scope.headerData="Wednesday Data";		
+		for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+			f=0;		
+			if(($scope.n_timesheetData[j].wedTo!=null) && ($scope.n_timesheetData[j].wedFrom!=null))		
+			{		
+			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;		
+			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;		
+			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].wedNotes;				
+			$scope.dayData.push($scope.n_timesheetData[j]);		
+			oldday.push($scope.n_timesheetData[j]);		
+			for(var i=0;i<$scope.projectLst.length;i++) {		
+				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+					f++;		
+					if(f==1){		
+					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+					k++;		
+					}		
+				}		
+			  }		
+			}		
+			};		
+		}		
+		if (day1=='thu')		
+		{		
+			k=0;		
+		 $scope.dayScope="thu";		
+		 $scope.headerData="Thursday Data";		
+		for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+			f=0;		
+			if(($scope.n_timesheetData[j].thuTo!=null) && ($scope.n_timesheetData[j].thuFrom!=null)){		
+			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;		
+			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;		
+			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].thuNotes;		
+			$scope.dayData.push($scope.n_timesheetData[j]);		
+			oldday.push($scope.n_timesheetData[j]);		
+			for(var i=0;i<$scope.projectLst.length;i++) {		
+				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+					f++;		
+					if(f==1){		
+					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+					k++;		
+					}		
+				}		
+		   	 }		
+			}		
+			};		
+		}		
+		if (day1=='fri')		
+		{		
+		 $scope.dayScope="fri";		
+		 $scope.headerData="Friday Data";		
+		 console.log(" fri  called");		
+		for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+			f=0;		
+			if(($scope.n_timesheetData[j].friTo!=null) && ($scope.n_timesheetData[j].friFrom!=null)){		
+			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;		
+			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;		
+			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].friNotes;			
+			$scope.dayData.push($scope.n_timesheetData[j]);		
+			oldday.push($scope.n_timesheetData[j]);		
+			for(var i=0;i<$scope.projectLst.length;i++) {		
+						
+				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+					f++;		
+					if(f==1){		
+					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+					k++;		
+					}		
+				}		
+			   }		
+			  }		
+			};		
+		}			
+			if (day1=='sat')		
+			{		
+			 $scope.dayScope="sat";		
+			 $scope.headerData="Saturday Data";		
+			 console.log(" sat  called");		
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+				f=0;		
+				if(($scope.n_timesheetData[j].satTo!=null) && ($scope.n_timesheetData[j].satFrom!=null)){		
+				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;		
+				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;		
+				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].satNotes;			
+				$scope.dayData.push($scope.n_timesheetData[j]);		
+				oldday.push($scope.n_timesheetData[j]);		
+				for(var i=0;i<$scope.projectLst.length;i++) {		
+					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+						f++		
+						if(f==1){		
+						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+						k++;		
+						}		
+					}		
+			      }		
+				}		
+				};		
+			}		
+			if (day1=='sun')		
+			{		
+			 $scope.dayScope="sun";		
+			 $scope.headerData="Sunday Data";		
+			 console.log(" sun  called");		
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
+				f=0;		
+				if(($scope.n_timesheetData[j].sunTo!=null) && ($scope.n_timesheetData[j].sunFrom!=null)){		
+				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;		
+				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;		
+				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].sunNotes;		
+				$scope.dayData.push($scope.n_timesheetData[j]);		
+				oldday.push($scope.n_timesheetData[j]);		
+				for(var i=0;i<$scope.projectLst.length;i++) {		
+					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
+						f++;		
+						if(f==1){		
+						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;		
+						k++;		
+						}		
+					}		
+				  }		
+				}		
+				};		
+			}		
+	
 		$('#popupBtn6').click();
 	}
+	
 	
 	
 	$scope.removeRow = function() {
@@ -2615,8 +2853,18 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 					});
 					
 				}
+			$scope.dayData.splice($scope.deleteIndex,1);		
+			$scope.n_timesheetData.splice($scope.deleteIndex1,1);
+			$scope.timesheetData.splice($scope.deleteIndex1,1);
+			
+			console.log($scope.timesheetData);
+			$scope.taskListArray.splice($scope.deleteIndex1,1);
+			$scope.taskLstArray.splice($scope.deleteIndex,1);
+			
 			$('#deleteClose').click();
-			$scope.timesheetData.splice($scope.deleteIndex,1);
+			angular.forEach($scope.timesheetData, function(value, key){
+				 oldData.push(value);
+				    })
 		
 	}
 	
@@ -2854,11 +3102,162 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		
 	};
+	$scope.taskLstArray = [];
+	$scope.setTaskOfPrj = function(projectId,index) {
+		
+		for(var i=0;i<$scope.projectLst.length;i++) {
+			if($scope.projectLst[i].id == projectId) {
+				$scope.taskLstArray[index] = $scope.projectLst[i].tasklist;
+			}
+		}
+	}
 	
+	/*update rows*/
+
+	$scope.updateRows = function() {
+		var flg = 0;
+		var len = oldday.length;
+		var newlen= $scope.dayData.length - oldday.length;	
+		console.log("new day data ");
+		console.log($scope.dayData);
+		console.log("old day data ");
+		console.log(oldday);
+		console.log("old db data ");
+		console.log(oldData);
+		
+		for(var i=0;i<newlen;i++){
+			if($scope.dayScope=='mon'){
+				 $scope.dayData[len+i].monSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].monCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].monNotes=$scope.dayData[len+i].note ;
+			}
+			
+			if($scope.dayScope=='tue'){
+				 $scope.dayData[len+i].tueSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].tueCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].tueNotes=$scope.dayData[len+i].note ;
+			}
+			if($scope.dayScope=='wed'){
+				 $scope.dayData[len+i].wedSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].wedCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].wedNotes=$scope.dayData[len+i].note ;
+			}
+			if($scope.dayScope=='thu'){
+				 $scope.dayData[len+i].thuSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].thuCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].thuNotes=$scope.dayData[len+i].note ;
+			}
+			if($scope.dayScope=='fri'){
+				 $scope.dayData[len+i].friSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].friCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].friNotes=$scope.dayData[len+i].note ;
+			}
+			if($scope.dayScope=='sat'){
+				 $scope.dayData[len+i].satSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].satCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].satNotes=$scope.dayData[len+i].note ;
+			}
+			if($scope.dayScope=='sun'){
+				 $scope.dayData[len+i].sunSupplier=$scope.dayData[len+i].supplier ;
+				 $scope.dayData[len+i].sunCustomer=$scope.dayData[len+i].customer ;
+				 $scope.dayData[len+i].sunNotes=$scope.dayData[len+i].note ;
+			}
+		}
+		
+		
+		for(var i=0;i<newlen;i++){
+			flg=0;
+				for(var j=0;j<oldData.length;j++) {		
+				if(($scope.dayData[len+i].projectCode==oldData[j].projectCode) && ($scope.dayData[len+i].taskCode==oldData[j].taskCode)){
+					flg++;
+					if($scope.dayScope=='mon'){
+					oldData[j].monTo = $scope.dayData[len+i].monTo;
+					oldData[j].monFrom = $scope.dayData[len+i].monFrom;
+					oldData[j].monSupplier = $scope.dayData[len+i].supplier;
+					oldData[j].monCustomer = $scope.dayData[len+i].customer;
+					oldData[j].monNotes = $scope.dayData[len+i].note;
+					console.log(" mon updated....");
+					
+					}
+					if($scope.dayScope=='tue'){
+					oldData[j].tueTo = $scope.dayData[len+i].tueTo;
+					oldData[j].tueFrom = $scope.dayData[len+i].tueFrom;
+					oldData[j].tueSupplier = $scope.dayData[len+i].supplier;
+					oldData[j].tueCustomer = $scope.dayData[len+i].customer;
+					oldData[j].tueNotes = $scope.dayData[len+i].note;
+					console.log(" tue updated....");
+					
+					}
+					if($scope.dayScope=='wed'){
+						oldData[j].wedTo = $scope.dayData[len+i].wedTo;
+						oldData[j].wedFrom = $scope.dayData[len+i].wedFrom;
+						oldData[j].wedSupplier = $scope.dayData[len+i].supplier;
+						oldData[j].wedCustomer = $scope.dayData[len+i].customer;
+						oldData[j].wedNotes = $scope.dayData[len+i].note;
+						console.log(" wed updated....");
+					
+					}
+					if($scope.dayScope=='thu'){
+						oldData[j].thuTo = $scope.dayData[len+i].thuTo;
+						oldData[j].thuFrom = $scope.dayData[len+i].thuFrom;
+						oldData[j].thuSupplier = $scope.dayData[len+i].supplier;
+						oldData[j].thuCustomer = $scope.dayData[len+i].customer;
+						oldData[j].thuNotes = $scope.dayData[len+i].note;
+						console.log(" thu updated....");
+					
+					}
+					if($scope.dayScope=='fri'){
+						oldData[j].friTo = $scope.dayData[len+i].friTo;
+						oldData[j].friFrom = $scope.dayData[len+i].friFrom;
+						oldData[j].friSupplier = $scope.dayData[len+i].supplier;
+						oldData[j].friCustomer = $scope.dayData[len+i].customer;
+						oldData[j].friNotes = $scope.dayData[len+i].note;
+						console.log(" fri updated....");
+					
+					}
+					if($scope.dayScope=='sat'){
+						oldData[j].satTo = $scope.dayData[len+i].satTo;
+						oldData[j].satFrom = $scope.dayData[len+i].satFrom;
+						oldData[j].satSupplier = $scope.dayData[len+i].supplier;
+						oldData[j].satCustomer = $scope.dayData[len+i].customer;
+						oldData[j].satNotes = $scope.dayData[len+i].note;
+						console.log(" sat updated....");
+					
+					}
+					if($scope.dayScope=='sun'){
+						oldData[j].sunTo = $scope.dayData[len+i].sunTo;
+						oldData[j].sunFrom = $scope.dayData[len+i].sunFrom;
+						oldData[j].sunSupplier = $scope.dayData[len+i].supplier;
+						oldData[j].sunCustomer = $scope.dayData[len+i].customer;
+						oldData[j].sunNotes = $scope.dayData[len+i].note;
+						console.log(" sun updated....");
+						
+					}
+				}	
+			}	
+				if(flg==0){
+					$scope.timesheetData.push($scope.dayData[len+i]);
+					console.log("not updated added");
+					}				
+		}
+			
+		if(flg>0){
+			$scope.timesheetData = oldData;
+			flg=0;
+			}
+		
+		$('#popupBtn6').click();
+		popupClose= true;
+			$scope.saveTimesheet('Draft');
+			
+	};
+	
+	
+	/*=============================================*/
 	
 	
 	$scope.saveTimesheet = function(status) {
-		
+		oldData=[];
 		if($scope.isCopyFromLastweek == true) {
 			$http({method:'GET',url:contextPath+'/deleteActualTimesheet',params:{timesheetId:$scope.timesheetId}})
 			.success(function(data) {
@@ -2974,6 +3373,17 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			    type:'success',
 			    text: $scope.msg,
 			});
+			
+			
+			$scope.n_timesheetData=[];
+			console.log("after save ");
+			console.log($scope.timesheetData);
+			angular.forEach($scope.timesheetData, function(value, key){
+				 oldData.push(value);
+				 $scope.n_timesheetData.push(value);
+				    });
+			if(popupClose==false)
+			$('#popupBtn6').click();
 		});
 		
 	}

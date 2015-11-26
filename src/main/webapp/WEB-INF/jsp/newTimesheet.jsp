@@ -96,31 +96,43 @@
 							<div class="largeInputLabel clearfix">Task Codes</div>
 						</div>
 					<div class="innerDaysDiv">
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('monday')" id="monLabel">
-							<a href="" style="text-decoration: none; color:inherit">Mon<br> <span id="dayLabel_0"></span></a>
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="monLabel">
+							<a href="" style="text-decoration: none; color:inherit" ng-click="getWeekDayData('monday')" >Mon  <span id="dayLabel_0"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('mon')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('tuesday')" id="tueLabel">
-							<a href="" style="text-decoration: none; color:inherit">Tue<br> <span id="dayLabel_1"></span></a>
+					
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="tueLabel">
+							<a href="" style="text-decoration: none; color:inherit" ng-click="getWeekDayData('tuesday')">Tue <span id="dayLabel_1"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('tue')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('wednesday')" id="wedLabel">
-							<a href="" style="text-decoration: none; color:inherit">Wed<br> <span id="dayLabel_2"></span></a>
+						
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="wedLabel">
+							<a href="" style="text-decoration: none; color:inherit"  ng-click="getWeekDayData('wednesday')">Wed <span id="dayLabel_2"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('wed')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('thursday')" id="thuLabel">
-							<a href="" style="text-decoration: none; color:inherit">Thu<br> <span id="dayLabel_3"></span></a>
+		
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="thuLabel">
+							<a href="" style="text-decoration: none; color:inherit" ng-click="getWeekDayData('thursday')">Thu <span id="dayLabel_3"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('thu')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('friday')" id="friLabel">
-							<a href="" style="text-decoration: none; color:inherit">Fri<br> <span id="dayLabel_4"></span></a>
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="friLabel">
+							<a href="" style="text-decoration: none; color:inherit" ng-click="getWeekDayData('friday')">Fri <span id="dayLabel_4"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('fri')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('saturday')" id="satLabel">
-							<a href="" style="text-decoration: none; color:inherit">Sat<br> <span id="dayLabel_5"></span></a>
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="satLabel">
+							<a href="" style="text-decoration: none; color:inherit"  ng-click="getWeekDayData('saturday')">Sat <span id="dayLabel_5"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('sat')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
-						<div class="smallInputLabel clearfix" style="cursor:pointer;" ng-click="getWeekDayData('sunday')" id="sunLabel">
-							<a href="" style="text-decoration: none; color:inherit">Sun<br> <span id="dayLabel_6"></span></a>
+						<div class="smallInputLabel clearfix" style="cursor:pointer;" id="sunLabel">
+							<a href="" style="text-decoration: none; color:inherit"  ng-click="getWeekDayData('sunday')">Sun <span id="dayLabel_6"></span></a>
+							<img src="/time/resources/images/plus.png" ng-click="addDataOnPlus('sun')" style="height:10px;margin-left: 8px; cursor: pointer; cursor: hand; ">
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
 						<a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
 					</div>
+					
+						
 				</div>
 				
 			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
@@ -140,7 +152,7 @@
 						<div class="clearfix"
 							id="timesheetRows_1__taskCode_field">
 							<label for="timesheetRows_1__taskCode"></label>
-							<div class="input">
+							<div class="input" ng-init="setTaskOfProject(row.projectCode,$index)">
 										<select id="timesheetRows_1__taskCode"
 											name="timesheetRows[1].taskCode"
 											class="largeInput taskInput" ng-model="row.taskCode">
@@ -404,6 +416,9 @@
 </button>
 <button id="popupBtn5" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal5" style="display: none;">
 </button>
+<button id="popupBtn6" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal6" style="display: none;">
+</button>
+
 </body>
 </html>
 
@@ -457,7 +472,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index:10000">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -513,6 +528,294 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none; width: 1162px; left: 26%; ">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" id="modal6Close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      	<h4 class="modal-title">{{headerData}}</h4>
+      	
+      	 <a class="btn" id="addMore1" style="margin-left: 20px; float: left;" ng-click="addMore1()"><b>+</b></a>
+     <input type="button"
+				id="saveTimesheetForm" class="btn btn-warning" style="margin-left: 10px;" ng-click="updateRows()" value="Save">
+      	</div>
+      	
+      	    <div class="modal-body" style="padding: 20px">
+      	  
+        <div class="form-inline">
+       
+         <div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in dayData track by $index" on-finish-render="ngRepeatFinished"> 
+		  <div class="form-group" >
+		   
+		   	    <div class="innerInputDiv" style="margin-top:30px;">
+		   
+		   		     <div class="clearfix"
+							id="timesheetRows_1__projectCode_field">
+							<label for="timesheetRows_1__projectCode"></label>
+							<div class="input">
+								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
+									<option class="blank" value="">-select-</option>
+									<option  ng-repeat="project in projectLst" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
+								</select> <span class="help-inline"></span> <span class="help-block"></span>
+							</div>
+						</div>
+						<div class="clearfix"
+							id="timesheetRows_1__taskCode_field">
+							<label for="timesheetRows_1__taskCode"></label>
+							<div class="input" ng-init="setTaskOfPrj(row.projectCode,$index)">
+										<select id="timesheetRows_1__taskCode"
+											name="timesheetRows[1].taskCode"
+											class="largeInput taskInput" ng-model="row.taskCode">
+											<option class="blank" value="">-select-</option>
+											<option ng-repeat="task in taskLstArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
+										</select>
+								<span class="help-inline"></span> <span class="help-block"></span>
+							</div>
+						</div>
+				</div>		
+								  <div style="margin-left:20px;"class="innerHrsDiv">
+									<div class="clearfix" ng-if="dayScope=='mon'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.monTime">{{row.monTime}}</div>
+										<label></label> 
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'mon')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%> 
+										 <div style="margin-top: 8%;" class="input" ng-init="initFTTime(row,'mon')"> 
+										    <input type="text"
+										    ng-model="row.monFromTo"
+										    ng-blur="splitToFTTime(row,'mon')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.monFrom"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;margin-bottom:-18px;margin-top:10px;">
+											<input type="hidden" 
+											    placeholder="To" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.monTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='tue'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.tueTime">{{row.tueTime}}</div>
+										<label></label>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'tue')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'tue')">
+										    <input type="text"
+										    ng-model="row.tueFromTo"
+										    ng-blur="splitToFTTime(row,'tue')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.tueFrom"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.tueTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='wed'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.wedTime">{{row.wedTime}}</div>
+										<label></label>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'wed')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'wed')">
+										    <input type="text"
+										    ng-model="row.wedFromTo"
+										    ng-blur="splitToFTTime(row,'wed')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.wedFrom"
+												ng-blur="checkTime(row.wedFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.wedTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.wedTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='thu'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.thuTime">{{row.thuTime}}</div>
+										<label></label>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'thu')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'thu')">
+										    <input type="text"
+										    ng-model="row.thuFromTo"
+										    ng-blur="splitToFTTime(row,'thu')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.thuFrom"
+												ng-blur="checkTime(row.thuFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.thuTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.thuTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='fri'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.friTime">{{row.friTime}}</div>
+										<label></label>
+									<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'fri')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'fri')">
+										    <input type="text"
+										    ng-model="row.friFromTo"
+										    ng-blur="splitToFTTime(row,'fri')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.friFrom"
+												ng-blur="checkTime(row.friFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.friTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.friTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='sat'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.satTime">{{row.satTime}}</div>
+										<label></label>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sat')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'sat')">
+										    <input type="text"
+										    ng-model="row.satFromTo"
+										    ng-blur="splitToFTTime(row,'sat')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.satFrom"
+												ng-blur="checkTime(row.satFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.satTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.satTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+									
+									<div class="clearfix" ng-if="dayScope=='sun'">
+										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.sunTime">{{row.sunTime}}</div>
+										<label></label>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sun')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
+										<div class="input" ng-init="initFTTime(row,'sun')">
+										    <input type="text"
+										    ng-model="row.sunFromTo"
+										    ng-blur="splitToFTTime(row,'sun')"
+										    mask="29:59-29:59" restrict="reject" clean="false"
+										    ng-pattern="ftTimeRegexp"
+										    class="smallInput dayName" style="margin-top:20%;width:65px;"
+										    placeholder="From-To"
+										    >
+											
+											<input type="hidden"
+												ng-model="row.sunFrom"
+												ng-blur="checkTime(row.sunFrom)"
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												placeholder="From" class="smallInput dayName" style="margin-top:22%;width:30px;">
+											<input type="hidden" 
+											    placeholder="To" ng-blur="checkTime(row.sunTo)" 
+												mask="29:59" restrict="reject"" clean="false" ng-pattern="timeRegexp"
+												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> 
+												<spanclass="help-inline"></span> <span class="help-block"></span>
+										</div>
+									</div>
+				
+		
+										
+																			
+						</div>
+					</div>			
+								 <div class="form-group">
+								 <div style="margin-top:48px;">
+									<div class="clearfix" style="margin-left:7px;">
+									 <select id="scode" class="form-control" ng-model="row.supplier" style="width:182px;">
+		    							<option value="">--Select Supplier--</option>
+		    							<option ng-repeat="supplier in supplierList | orderBy: 'name'" ng-selected="row.supplier == supplier.id" value="{{supplier.id}}">{{supplier.name}}</option>
+		   							 </select>
+									</div>	
+								</div>	
+								</div>
+								 <div class="form-group">
+								<div style="margin-top:48px;">	
+									<div class="clearfix" style="margin-left:7px;">
+									<select id="cust" class="form-control" ng-model="row.customer" ng-init="cus" style="width:182px;">
+		    							<option value="">--Select Customer--</option>
+		    							<option ng-repeat="cust in customerList | orderBy:'name'" ng-selected="row.customer == cust.id" value="{{cust.id}}">{{cust.name}}</option>
+		  						    </select>
+									</div>	
+								</div>
+							</div>
+							
+						<div class="form-group">
+							<div style="margin-top:28px;">
+				     		<div class="clearfix" style="margin-left:7px;">
+				     			<div class="form-inline" Style="margin-top:6%;">
+			    			 	<textarea ng-model="row.note" class="form-group"></textarea>
+			 				 	</div>
+			 				 </div>
+		 					 </div>
+				  		</div>
+				  	 <!--ng if form group close  -->	
+						<div class="form-group">
+							<div style="margin-top:28px;">
+				     		<div class="clearfix" style="margin-left:7px;">
+				     		<!-- <a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a> -->
+				     		<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:20px;margin-right:3%;">X</a>
+				         </div>
+				         </div>
+				         </div>         
+		   	</div>
+		   	
+		</div>
+		</div>
+      </div>
+      </div>
+    
+</div>
+
+
 
 <style>
 .largeInputLabel_First {
