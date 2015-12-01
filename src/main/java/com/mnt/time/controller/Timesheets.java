@@ -1435,7 +1435,9 @@ public class Timesheets{
 	@RequestMapping(value="/addSupplierCustomer", method = RequestMethod.GET)
 	public @ResponseBody void addSupplierCustomer(ModelMap model,@RequestParam("dayId") String dayId,@RequestParam("supplierCode") String supplierCode,@RequestParam("customerCode") String customerCode,@RequestParam("notes") String notes) {
 		TimesheetDays day = TimesheetDays.findById(Long.parseLong(dayId));
+		if(supplierCode!="0")
 		day.setSupplierId(supplierCode);
+		if(customerCode!="0")
 		day.setCustomerId(customerCode);
 		day.setNotes(notes);
 		day.update();
@@ -1444,7 +1446,9 @@ public class Timesheets{
 	@RequestMapping(value="/addSupplierCustomerToActual", method = RequestMethod.GET)
 	public @ResponseBody void addSupplierCustomerToActual(ModelMap model,@RequestParam("dayId") String dayId,@RequestParam("supplierCode") String supplierCode,@RequestParam("customerCode") String customerCode,@RequestParam("notes") String notes) {
 		TimesheetDaysActual day = TimesheetDaysActual.findById(Long.parseLong(dayId));
+		if(supplierCode!="0")
 		day.setSupplierId(supplierCode);
+		if(customerCode!="0")
 		day.setCustomerId(customerCode);
 		day.setNotes(notes);
 		day.update();
@@ -1928,6 +1932,7 @@ public class Timesheets{
 				String monTo[] = rowVM.monTo.split(":");
 				int to = ((Integer.parseInt(monTo[0]) * 60) + Integer.parseInt(monTo[1]));
 				monday.setWorkMinutes(to - from);
+				
 			}
 			monday.setSupplierId(rowVM.monSupplier);
 			monday.setCustomerId(rowVM.monCustomer);

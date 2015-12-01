@@ -518,11 +518,12 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.addData = function() {
+		
 		if($scope.dayVal == 'mon') {
 			$scope.timesheetData[$scope.rowIndex].monSupplier = $scope.supplierCode;
 			$scope.timesheetData[$scope.rowIndex].monCustomer = $scope.customerCode;
 			$scope.timesheetData[$scope.rowIndex].monNotes = $scope.notes;
-			console.log($scope.timesheetData[$scope.rowIndex]);
+			console.log( $scope.supplierCode);
 		}
 		if($scope.dayVal == 'tue') {
 			$scope.timesheetData[$scope.rowIndex].tueSupplier = $scope.supplierCode;
@@ -555,6 +556,16 @@ app.controller("TimeSheetController", function($scope,$http) {
 			$scope.timesheetData[$scope.rowIndex].sunNotes = $scope.notes;
 		}
 		
+		if($scope.supplierCode==null)
+			{
+			$scope.supplierCode=0;
+			
+			}
+		if( $scope.customerCode==null )
+			{
+			$scope.customerCode=0;
+			}
+		
 		if($scope.timesheetData[$scope.rowIndex].rowId != 0 || !angular.isUndefined($scope.timesheetData[$scope.rowIndex].rowId)) {
 			if($scope.dayVal == 'mon') {
 				$scope.dayId = $scope.timesheetData[$scope.rowIndex].mondayId;
@@ -577,7 +588,6 @@ app.controller("TimeSheetController", function($scope,$http) {
 			if($scope.dayVal == 'sun') {
 				$scope.dayId = $scope.timesheetData[$scope.rowIndex].sundayId;
 			}
-			
 			$http({method:'GET',url:contextPath+'/addSupplierCustomer',params:{dayId:$scope.dayId,supplierCode:$scope.supplierCode,customerCode:$scope.customerCode,notes:$scope.notes}})
 			.success(function(data) {
 				console.log('success');
@@ -1047,42 +1057,43 @@ app.controller("TimeSheetController", function($scope,$http) {
 		console.log("old db data ");
 		console.log(oldData);
 		
-		for(var i=0;i<newlen;i++){
+		
+		for(var i=0;i<$scope.dayData.length;i++){
 			if($scope.dayScope=='mon'){
-				 $scope.dayData[len+i].monSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].monCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].monNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
+				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
 			}
 			
 			if($scope.dayScope=='tue'){
-				 $scope.dayData[len+i].tueSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].tueCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].tueNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
+				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
 			}
 			if($scope.dayScope=='wed'){
-				 $scope.dayData[len+i].wedSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].wedCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].wedNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='thu'){
-				 $scope.dayData[len+i].thuSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].thuCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].thuNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='fri'){
-				 $scope.dayData[len+i].friSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].friCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].friNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='sat'){
-				 $scope.dayData[len+i].satSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].satCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].satNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='sun'){
-				 $scope.dayData[len+i].sunSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].sunCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].sunNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
 			}
 		}
 		
@@ -1182,7 +1193,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 	console.log($scope.timesheetData);
 	$scope.saveTimesheet = function(status) {
 		//popupClose=false;
-		oldData=[];
+	
 		
 		if($scope.isCopyFromLastweek == true) {
 			$http({method:'GET',url:contextPath+'/deleteTimesheet',params:{timesheetId:$scope.timesheetId}})
@@ -1308,7 +1319,8 @@ app.controller("TimeSheetController", function($scope,$http) {
 			    type:'success',
 			    text: $scope.msg,
 			});
-			 $scope.n_timesheetData=[];
+			oldData=[];
+			$scope.n_timesheetData=[];
 			console.log("after save ");
 			console.log($scope.timesheetData);
 			angular.forEach($scope.timesheetData, function(value, key){
@@ -2542,8 +2554,6 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	}
 	
 	$scope.addData = function() {
-		console.log($scope.supplierCode);
-		
 		if($scope.dayVal == 'mon') {
 			$scope.timesheetData[$scope.rowIndex].monSupplier = $scope.supplierCode;
 			$scope.timesheetData[$scope.rowIndex].monCustomer = $scope.customerCode;
@@ -2602,6 +2612,17 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 			if($scope.dayVal == 'sun') {
 				$scope.dayId = $scope.timesheetData[$scope.rowIndex].sundayId;
 			}
+			
+			if($scope.supplierCode==null)
+			{
+			$scope.supplierCode=0;
+			
+			}
+			if( $scope.customerCode==null )
+			{
+			$scope.customerCode=0;
+			}
+		
 			
 			$http({method:'GET',url:contextPath+'/addSupplierCustomerToActual',params:{dayId:$scope.dayId,supplierCode:$scope.supplierCode,customerCode:$scope.customerCode,notes:$scope.notes}})
 			.success(function(data) {
@@ -3125,42 +3146,42 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		console.log("old db data ");
 		console.log(oldData);
 		
-		for(var i=0;i<newlen;i++){
+		for(var i=0;i<$scope.dayData.length;i++){
 			if($scope.dayScope=='mon'){
-				 $scope.dayData[len+i].monSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].monCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].monNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
+				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
 			}
 			
 			if($scope.dayScope=='tue'){
-				 $scope.dayData[len+i].tueSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].tueCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].tueNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
+				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
 			}
 			if($scope.dayScope=='wed'){
-				 $scope.dayData[len+i].wedSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].wedCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].wedNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='thu'){
-				 $scope.dayData[len+i].thuSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].thuCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].thuNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='fri'){
-				 $scope.dayData[len+i].friSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].friCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].friNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='sat'){
-				 $scope.dayData[len+i].satSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].satCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].satNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
 			}
 			if($scope.dayScope=='sun'){
-				 $scope.dayData[len+i].sunSupplier=$scope.dayData[len+i].supplier ;
-				 $scope.dayData[len+i].sunCustomer=$scope.dayData[len+i].customer ;
-				 $scope.dayData[len+i].sunNotes=$scope.dayData[len+i].note ;
+				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
+				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
 			}
 		}
 		
