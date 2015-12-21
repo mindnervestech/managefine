@@ -113,7 +113,7 @@
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
-						<a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
+						<a type="button" disabled class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click=""><b>+</b></a>
 					</div>
 				</div>
 				
@@ -374,7 +374,7 @@
 				id="saveTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Draft')" value="Save">
 			<input type="button" id="submitTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Submitted')"
 				value="Submit"> <input type="button"
-				id="retractTimesheetForm" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
+				id="retractTimesheetForm" style="display:none" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>

@@ -129,7 +129,7 @@
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
-						<a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a>
+						<a type="button" disabled class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click=""><b>+</b></a>
 					</div>
 					
 						

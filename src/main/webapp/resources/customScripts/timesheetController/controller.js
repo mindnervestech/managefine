@@ -279,7 +279,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				
 			} else {
 				$scope.timesheetData =[];
-				$scope.addMore();
+				//$scope.addMore();
 				$scope.timesheetStatus = "";
 				$scope.timesheetId = null;
 				$("#addMore").show();
@@ -389,7 +389,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 					$scope.setTaskOfPrj($scope.n_timesheetData[i].projectCode,i);
 				}
 			} else {
-				$scope.addMore();
+				//$scope.addMore();
 				if(data.holidayList[0] == true) {
 					$('#sunLabel').css("color","red");
 				} else{
@@ -1273,6 +1273,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 			}
 			
 		}
+		console.log($scope.timesheetData);
 		$scope.weekOfYear = $('#weekValue').val();
 		$scope.year = $('#yearValue').val();
 		$scope.timesheet = {
@@ -1285,7 +1286,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 	
 		console.log("btwn save fun ");
-		console.log($scope.timesheet);
+		console.log($scope.timesheetData);
 		$http({method:'POST',url:contextPath+'/saveTimesheet',data:$scope.timesheet}).success(function(data) {	
 			console.log('success');
 			console.log(data);
@@ -2313,7 +2314,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				
 			} else {
 				$scope.timesheetData =[];
-				$scope.addMore();
+				//$scope.addMore();
 				$scope.timesheetStatus = "";
 				$scope.timesheetId = null;
 				$("#addMore").show();
@@ -2420,7 +2421,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				
 				
 			} else {
-				$scope.addMore();
+				//$scope.addMore();
 				
 				if(data.holidayList[0] == true) {
 					$('#sunLabel').css("color","red");

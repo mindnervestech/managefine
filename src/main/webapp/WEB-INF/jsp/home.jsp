@@ -153,7 +153,6 @@ angular.module('app')
 </script>
 
 <style>
-
 	.container{
 		padding-left: 0px !important;
   		padding-right: 0px !important;
