@@ -321,6 +321,7 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			projectinstance.setProjectid(Long.parseLong(form.data().get("projectTypeId")));
 			Projectclass projectclass = Projectclass.getProjectById(Long.parseLong(form.data().get("projectTypeId")));
 			projectinstance.setProjectTypeName(projectclass.getProjectTypes());
+			projectinstance.setStatus(ProjectStatus.NotStarted);
 			projectinstance.setProjectDescription(form.data().get("projectDescription"));
 			if(form.data().get("client") != null){
 				Client client = Client.findById(Long.parseLong(form.data().get("client")));

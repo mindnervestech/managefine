@@ -393,7 +393,7 @@
 				id="saveTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Draft')" value="Save">
 			<input type="button" id="submitTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Submitted')"
 				value="Submit"> <input type="button"
-				id="retractTimesheetForm" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
+				id="retractTimesheetForm" style="display:none"class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>
