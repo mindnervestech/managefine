@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html ng-app="app">
 <head>
@@ -73,9 +74,8 @@ angular.module('app')
 	  {
 	    name: '${project.name}',
 	    directive: 'wt-gauge',
-	    title: 'Health',
+	    title: '${fn:substring(project.name, 0, 18)}',
 	    attrs: {
-	      label:"${project.name}", 	
 	      value: '${project.percent}',
 	      size: '100'
 	    },

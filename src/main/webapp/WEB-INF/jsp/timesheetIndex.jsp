@@ -362,7 +362,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:51px;margin-right:3%;">X</a>
+								<a type="button" disabled class="remove btn danger pull-right" ng-show="isShow" ng-click="" style="margin-top:51px;margin-right:3%;">X</a>
 							
 							</div>
 			
@@ -465,7 +465,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" ng-click="removeRow($index,row.rowId)">Yes</button>
+        <button type="button" class="btn btn-primary" ng-click="confirmDelete1($index,row.rowId)">Yes</button>
       </div>
      <!--   <div class="modal-footer" ng-if="flag1=='true'">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
@@ -749,6 +749,7 @@
 												class="smallInput dayName" style="margin-top:22%;width:30px;" ng-model="row.sunTo"> 
 												<spanclass="help-inline"></span> <span class="help-block"></span>
 										</div>
+												
 									</div>
 				
 		
@@ -791,7 +792,7 @@
 							<div style="margin-top:28px;">
 				     		<div class="clearfix" style="margin-left:7px;">
 				     		<!-- <a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a> -->
-				     		<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:20px;margin-right:3%;">X</a>
+				     		<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDlt($index,row.rowId)" style="margin-top:20px;margin-right:3%;">X</a>
 				         </div>
 				         </div>
 				         </div>         

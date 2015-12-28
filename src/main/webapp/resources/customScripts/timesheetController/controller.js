@@ -464,6 +464,15 @@ app.controller("TimeSheetController", function($scope,$http) {
 						$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
 						$scope.timesheetData[i].rowId = 0;
 					}
+
+					/*for(var i=0;i<$scope.timesheetData.length;i++) {
+						$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
+					}
+					*/
+					for(var i=0;i<$scope.n_timesheetData.length;i++) {
+						$scope.setTaskOfPrj($scope.n_timesheetData[i].projectCode,i);
+						$scope.n_timesheetData[i].rowId = 0;
+					}
 					
 				} else {
 					$('#popupBtn3').click();
@@ -804,6 +813,135 @@ app.controller("TimeSheetController", function($scope,$http) {
 		$('#popupBtn6').click();
 	}	
 	
+	$scope.confirmDelete1 = function() {
+		$('#popupBtn6').click();
+		$('#deleteClose').click();
+		if($scope.dayScope=='mon'){
+			if($scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].monTo="";
+				$scope.timesheetData[$scope.deleteIndex1].monFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].monFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].monNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].monSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].monCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='tue'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].tueTo="";
+				$scope.timesheetData[$scope.deleteIndex1].tueFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].tueFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].tueNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].tueSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].tueCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='wed'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].wedTo="";
+				$scope.timesheetData[$scope.deleteIndex1].wedFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].wedFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].wedNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].wedSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].wedCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='thu'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].thuTo="";
+				$scope.timesheetData[$scope.deleteIndex1].thuFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].thuFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].thuNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].thuSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].thuCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='fri'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].friTo="";
+				$scope.timesheetData[$scope.deleteIndex1].friFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].friFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].friNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].friSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].friCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='sat'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].satTo="";
+				$scope.timesheetData[$scope.deleteIndex1].satFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].satFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].satNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].satSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].satCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='sun'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null){
+				$scope.removeRow();
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].sunTo="";
+				$scope.timesheetData[$scope.deleteIndex1].sunFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].sunFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].sunNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].sunSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].sunCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+			}
+		}
+	}
+	
 	$scope.confirmDelete = function(index,rowId) {
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
@@ -817,6 +955,10 @@ app.controller("TimeSheetController", function($scope,$http) {
 	$scope.confirmDlt = function(index,rowId) {
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
+		for(var i=0;i<$scope.timesheetData.length;i++)
+			if($scope.timesheetData[i].rowId==$scope.deleteRowId)
+				$scope.deleteIndex1 = i;
+
 		$('#popupBtn4').click();
 	}
 	
@@ -1045,12 +1187,12 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 
 	/*update rows*/
-
 	$scope.updateRows = function() {
 		var flg = 0;
+		var isPresent;
 		var len = oldday.length;
 		var newlen= $scope.dayData.length - oldday.length;	
-		console.log("new day data ");
+		console.log("new day data");
 		console.log($scope.dayData);
 		console.log("old day data ");
 		console.log(oldday);
@@ -1097,88 +1239,109 @@ app.controller("TimeSheetController", function($scope,$http) {
 			}
 		}
 		
-		
 		for(var i=0;i<newlen;i++){
 			flg=0;
+			isPresent=true;
 				for(var j=0;j<oldData.length;j++) {		
-				if(($scope.dayData[len+i].projectCode==oldData[j].projectCode) && ($scope.dayData[len+i].taskCode==oldData[j].taskCode)){
-					flg++;
+				if(($scope.dayData[len+i].projectCode == oldData[j].projectCode) && ($scope.dayData[len+i].taskCode==oldData[j].taskCode)){
 					if($scope.dayScope=='mon'){
-					oldData[j].monTo = $scope.dayData[len+i].monTo;
-					oldData[j].monFrom = $scope.dayData[len+i].monFrom;
-					oldData[j].monSupplier = $scope.dayData[len+i].supplier;
-					oldData[j].monCustomer = $scope.dayData[len+i].customer;
-					oldData[j].monNotes = $scope.dayData[len+i].note;
-					console.log(" mon updated....");
+						if((oldData[j].monTo == null) && (oldData[j].monFrom==null) && isPresent==true){
+							flg++;
+							oldData[j].monTo = $scope.dayData[len+i].monTo;
+							oldData[j].monFrom = $scope.dayData[len+i].monFrom;
+							oldData[j].monSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].monCustomer = $scope.dayData[len+i].customer;
+							oldData[j].monNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" mon updated....");
+						}
 					
 					}
 					if($scope.dayScope=='tue'){
-					oldData[j].tueTo = $scope.dayData[len+i].tueTo;
-					oldData[j].tueFrom = $scope.dayData[len+i].tueFrom;
-					oldData[j].tueSupplier = $scope.dayData[len+i].supplier;
-					oldData[j].tueCustomer = $scope.dayData[len+i].customer;
-					oldData[j].tueNotes = $scope.dayData[len+i].note;
-					console.log(" tue updated....");
-					
+						if((oldData[j].tueTo == null) && (oldData[j].tueFrom == null) && isPresent==true){
+							flg++;
+							oldData[j].tueTo = $scope.dayData[len+i].tueTo;
+							oldData[j].tueFrom = $scope.dayData[len+i].tueFrom;
+							oldData[j].tueSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].tueCustomer = $scope.dayData[len+i].customer;
+							oldData[j].tueNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" tue updated....");
+						}
 					}
 					if($scope.dayScope=='wed'){
+						if((oldData[j].wedTo == null) && (oldData[j].wedFrom == null) && isPresent==true){
+						flg++;
 						oldData[j].wedTo = $scope.dayData[len+i].wedTo;
 						oldData[j].wedFrom = $scope.dayData[len+i].wedFrom;
 						oldData[j].wedSupplier = $scope.dayData[len+i].supplier;
 						oldData[j].wedCustomer = $scope.dayData[len+i].customer;
 						oldData[j].wedNotes = $scope.dayData[len+i].note;
+						isPresent=false;
 						console.log(" wed updated....");
-					
+						}
 					}
 					if($scope.dayScope=='thu'){
+						if((oldData[j].thuTo == null) && (oldData[j].thuFrom == null) && isPresent==true){
+						flg++;
 						oldData[j].thuTo = $scope.dayData[len+i].thuTo;
 						oldData[j].thuFrom = $scope.dayData[len+i].thuFrom;
 						oldData[j].thuSupplier = $scope.dayData[len+i].supplier;
 						oldData[j].thuCustomer = $scope.dayData[len+i].customer;
 						oldData[j].thuNotes = $scope.dayData[len+i].note;
+						isPresent=false;
 						console.log(" thu updated....");
-					
+						}
 					}
 					if($scope.dayScope=='fri'){
+						if((oldData[j].friTo == null) && (oldData[j].friFrom == null) && isPresent==true){
+						flg++;
 						oldData[j].friTo = $scope.dayData[len+i].friTo;
 						oldData[j].friFrom = $scope.dayData[len+i].friFrom;
 						oldData[j].friSupplier = $scope.dayData[len+i].supplier;
 						oldData[j].friCustomer = $scope.dayData[len+i].customer;
 						oldData[j].friNotes = $scope.dayData[len+i].note;
+						isPresent=false;
 						console.log(" fri updated....");
-					
+						}
 					}
 					if($scope.dayScope=='sat'){
+						if((oldData[j].satTo == null) && (oldData[j].satFrom == null) && isPresent==true){
+						flg++;
 						oldData[j].satTo = $scope.dayData[len+i].satTo;
 						oldData[j].satFrom = $scope.dayData[len+i].satFrom;
 						oldData[j].satSupplier = $scope.dayData[len+i].supplier;
 						oldData[j].satCustomer = $scope.dayData[len+i].customer;
 						oldData[j].satNotes = $scope.dayData[len+i].note;
+						isPresent=false;
 						console.log(" sat updated....");
-					
+						}
 					}
 					if($scope.dayScope=='sun'){
+						if((oldData[j].sunTo == null) && (oldData[j].sunFrom == null) && isPresent==true){
+						flg++;
 						oldData[j].sunTo = $scope.dayData[len+i].sunTo;
 						oldData[j].sunFrom = $scope.dayData[len+i].sunFrom;
 						oldData[j].sunSupplier = $scope.dayData[len+i].supplier;
 						oldData[j].sunCustomer = $scope.dayData[len+i].customer;
 						oldData[j].sunNotes = $scope.dayData[len+i].note;
+						isPresent=false;
 						console.log(" sun updated....");
-						
+						}
 					}
 				}	
 			}	
 				if(flg==0){
 					$scope.timesheetData.push($scope.dayData[len+i]);
 					console.log("not updated added");
-					}				
+					}			
 		}
 			
 		if(flg>0){
 			$scope.timesheetData = oldData;
 			flg=0;
 			}
-		
+
 		$('#popupBtn6').click();
 		popupClose= true;
 			$scope.saveTimesheet('Draft');
@@ -2636,6 +2799,138 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	}
 	
 	
+$scope.confirmDelete1 = function() {
+		$('#popupBtn6').click();
+		$('#deleteClose').click();
+		if($scope.dayScope=='mon'){
+			if($scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].monTo="";
+				$scope.timesheetData[$scope.deleteIndex1].monFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].monFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].monNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].monSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].monCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='tue'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].tueTo="";
+				$scope.timesheetData[$scope.deleteIndex1].tueFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].tueFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].tueNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].tueSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].tueCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='wed'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].wedTo="";
+				$scope.timesheetData[$scope.deleteIndex1].wedFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].wedFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].wedNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].wedSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].wedCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='thu'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].thuTo="";
+				$scope.timesheetData[$scope.deleteIndex1].thuFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].thuFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].thuNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].thuSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].thuCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='fri'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].friTo="";
+				$scope.timesheetData[$scope.deleteIndex1].friFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].friFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].friNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].friSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].friCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='sat'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].sunFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].satTo="";
+				$scope.timesheetData[$scope.deleteIndex1].satFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].satFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].satNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].satSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].satCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+		if($scope.dayScope=='sun'){
+			if($scope.timesheetData[$scope.deleteIndex1].monFromTo==null && $scope.timesheetData[$scope.deleteIndex1].tueFromTo==null && $scope.timesheetData[$scope.deleteIndex1].thuFromTo==null && $scope.timesheetData[$scope.deleteIndex1].friFromTo==null && $scope.timesheetData[$scope.deleteIndex1].satFromTo==null  && $scope.timesheetData[$scope.deleteIndex1].wedFromTo==null){
+				$scope.removeRow();
+				console.log("delete row...");
+			}
+			else{
+				$scope.timesheetData[$scope.deleteIndex1].sunTo="";
+				$scope.timesheetData[$scope.deleteIndex1].sunFrom="";
+				$scope.timesheetData[$scope.deleteIndex1].sunFromTo="";
+				$scope.timesheetData[$scope.deleteIndex1].sunNotes="";
+				$scope.timesheetData[$scope.deleteIndex1].sunSupplier="";
+				$scope.timesheetData[$scope.deleteIndex1].sunCustomer="";
+				$scope.dayData.splice($scope.deleteIndex,1);
+				$scope.taskLstArray.splice($scope.deleteIndex,1);
+				$scope.saveTimesheet('Draft');
+				console.log("delte update...");
+			}
+		}
+
+		
+	}
 	
 	
 	
@@ -2652,7 +2947,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		/*$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
 		$('#popupBtn4').click();*/
-		
+
 		$scope.deleteIndex = index;
 		$scope.deleteRowId = rowId;
 		console.log($scope.deleteRowId);
@@ -3138,6 +3433,7 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 
 	$scope.updateRows = function() {
 		var flg = 0;
+		var isPresent;
 		var len = oldday.length;
 		var newlen= $scope.dayData.length - oldday.length;	
 		console.log("new day data ");
@@ -3189,85 +3485,106 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 		
 		for(var i=0;i<newlen;i++){
 			flg=0;
-				for(var j=0;j<oldData.length;j++) {		
+			isPresent=true;
+			for(var j=0;j<oldData.length;j++) {		
 				if(($scope.dayData[len+i].projectCode==oldData[j].projectCode) && ($scope.dayData[len+i].taskCode==oldData[j].taskCode)){
-					flg++;
 					if($scope.dayScope=='mon'){
-					oldData[j].monTo = $scope.dayData[len+i].monTo;
-					oldData[j].monFrom = $scope.dayData[len+i].monFrom;
-					oldData[j].monSupplier = $scope.dayData[len+i].supplier;
-					oldData[j].monCustomer = $scope.dayData[len+i].customer;
-					oldData[j].monNotes = $scope.dayData[len+i].note;
-					console.log(" mon updated....");
-					
+						if((oldData[j].monTo == null) && (oldData[j].monFrom==null) && isPresent==true){
+							flg++;
+							oldData[j].monTo = $scope.dayData[len+i].monTo;
+							oldData[j].monFrom = $scope.dayData[len+i].monFrom;
+							oldData[j].monSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].monCustomer = $scope.dayData[len+i].customer;
+							oldData[j].monNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" mon updated....");
+						}
 					}
 					if($scope.dayScope=='tue'){
-					oldData[j].tueTo = $scope.dayData[len+i].tueTo;
-					oldData[j].tueFrom = $scope.dayData[len+i].tueFrom;
-					oldData[j].tueSupplier = $scope.dayData[len+i].supplier;
-					oldData[j].tueCustomer = $scope.dayData[len+i].customer;
-					oldData[j].tueNotes = $scope.dayData[len+i].note;
-					console.log(" tue updated....");
-					
+						if((oldData[j].tueTo == null) && (oldData[j].tueFrom==null) && isPresent==true){
+							flg++;
+							oldData[j].tueTo = $scope.dayData[len+i].tueTo;
+							oldData[j].tueFrom = $scope.dayData[len+i].tueFrom;
+							oldData[j].tueSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].tueCustomer = $scope.dayData[len+i].customer;
+							oldData[j].tueNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" tue updated....");
+						}
 					}
 					if($scope.dayScope=='wed'){
-						oldData[j].wedTo = $scope.dayData[len+i].wedTo;
-						oldData[j].wedFrom = $scope.dayData[len+i].wedFrom;
-						oldData[j].wedSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].wedCustomer = $scope.dayData[len+i].customer;
-						oldData[j].wedNotes = $scope.dayData[len+i].note;
-						console.log(" wed updated....");
-					
+						if((oldData[j].wedTo == null) && (oldData[j].wedFrom==null) && isPresent==true){
+							flg++;	
+							oldData[j].wedTo = $scope.dayData[len+i].wedTo;
+							oldData[j].wedFrom = $scope.dayData[len+i].wedFrom;
+							oldData[j].wedSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].wedCustomer = $scope.dayData[len+i].customer;
+							oldData[j].wedNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" wed updated....");
+						}
 					}
 					if($scope.dayScope=='thu'){
-						oldData[j].thuTo = $scope.dayData[len+i].thuTo;
-						oldData[j].thuFrom = $scope.dayData[len+i].thuFrom;
-						oldData[j].thuSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].thuCustomer = $scope.dayData[len+i].customer;
-						oldData[j].thuNotes = $scope.dayData[len+i].note;
-						console.log(" thu updated....");
-					
+						if((oldData[j].thuTo == null) && (oldData[j].thuFrom==null) && isPresent==true){
+							flg++;	
+							oldData[j].thuTo = $scope.dayData[len+i].thuTo;
+							oldData[j].thuFrom = $scope.dayData[len+i].thuFrom;
+							oldData[j].thuSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].thuCustomer = $scope.dayData[len+i].customer;
+							oldData[j].thuNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" thu updated....");
+						}
 					}
 					if($scope.dayScope=='fri'){
-						oldData[j].friTo = $scope.dayData[len+i].friTo;
-						oldData[j].friFrom = $scope.dayData[len+i].friFrom;
-						oldData[j].friSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].friCustomer = $scope.dayData[len+i].customer;
-						oldData[j].friNotes = $scope.dayData[len+i].note;
-						console.log(" fri updated....");
-					
+						if((oldData[j].friTo == null) && (oldData[j].friFrom==null) && isPresent==true){
+							flg++;
+							oldData[j].friTo = $scope.dayData[len+i].friTo;
+							oldData[j].friFrom = $scope.dayData[len+i].friFrom;
+							oldData[j].friSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].friCustomer = $scope.dayData[len+i].customer;
+							oldData[j].friNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" fri updated....");
+						}
 					}
 					if($scope.dayScope=='sat'){
-						oldData[j].satTo = $scope.dayData[len+i].satTo;
-						oldData[j].satFrom = $scope.dayData[len+i].satFrom;
-						oldData[j].satSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].satCustomer = $scope.dayData[len+i].customer;
-						oldData[j].satNotes = $scope.dayData[len+i].note;
-						console.log(" sat updated....");
-					
+						if((oldData[j].satTo == null) && (oldData[j].satFrom == null) && isPresent==true){
+							flg++;
+							oldData[j].satTo = $scope.dayData[len+i].satTo;
+							oldData[j].satFrom = $scope.dayData[len+i].satFrom;
+							oldData[j].satSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].satCustomer = $scope.dayData[len+i].customer;
+							oldData[j].satNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" sat updated....");
+						}
 					}
 					if($scope.dayScope=='sun'){
-						oldData[j].sunTo = $scope.dayData[len+i].sunTo;
-						oldData[j].sunFrom = $scope.dayData[len+i].sunFrom;
-						oldData[j].sunSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].sunCustomer = $scope.dayData[len+i].customer;
-						oldData[j].sunNotes = $scope.dayData[len+i].note;
-						console.log(" sun updated....");
-						
+						if((oldData[j].sunTo == null) && (oldData[j].sunFrom==null) && isPresent==true){
+							flg++;
+							oldData[j].sunTo = $scope.dayData[len+i].sunTo;
+							oldData[j].sunFrom = $scope.dayData[len+i].sunFrom;
+							oldData[j].sunSupplier = $scope.dayData[len+i].supplier;
+							oldData[j].sunCustomer = $scope.dayData[len+i].customer;
+							oldData[j].sunNotes = $scope.dayData[len+i].note;
+							isPresent=false;
+							console.log(" sun updated....");
+						}
 					}
 				}	
 			}	
-				if(flg==0){
-					$scope.timesheetData.push($scope.dayData[len+i]);
-					console.log("not updated added");
-					}				
+			if(flg==0){
+				$scope.timesheetData.push($scope.dayData[len+i]);
+				console.log("not updated added");
+			}				
 		}
-			
+
 		if(flg>0){
 			$scope.timesheetData = oldData;
 			flg=0;
-			}
-		
+		}
+
 		$('#popupBtn6').click();
 		popupClose= true;
 			$scope.saveTimesheet('Draft');

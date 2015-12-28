@@ -381,7 +381,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDelete($index,row.rowId)" style="margin-top:22px;margin-right:3%;">X</a>
+								<a  type="button" disabled  class="remove btn danger pull-right" ng-show="isShow" ng-click="" style="margin-top:22px;margin-right:3%;">X</a>
 							
 							</div>
 				
@@ -483,7 +483,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" ng-click="removeRow($index,row.rowId)">Yes</button>
+        <button type="button" class="btn btn-primary" ng-click="confirmDelete1()">Yes</button>
       </div>
     </div>
   </div>

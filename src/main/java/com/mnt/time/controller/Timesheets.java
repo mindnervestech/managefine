@@ -2132,6 +2132,13 @@ public class Timesheets{
 				
 				
 				TimesheetDaysActual monday = TimesheetDaysActual.findById(row.mondayId);
+				if(row.monFrom.equals("") && row.monTo.equals("")) {
+					monday.setTimeFrom(null);
+					monday.setTimeTo(null);
+					monday.setSupplierId(null);
+					monday.setCustomerId(null);
+					monday.setNotes(null);
+				}
 				if(!row.monFrom.equals("") && !row.monTo.equals("")) {
 					monday.setTimeFrom(row.monFrom);
 					monday.setTimeTo(row.monTo);
@@ -2154,6 +2161,13 @@ public class Timesheets{
 				monday.update();
 				
 				TimesheetDaysActual tuesday = TimesheetDaysActual.findById(row.tuesdayId);
+				if(row.tueFrom.equals("") && row.tueTo.equals("")) {
+					tuesday.setTimeFrom(null);
+					tuesday.setTimeTo(null);
+					tuesday.setSupplierId(null);
+					tuesday.setCustomerId(null);
+					tuesday.setNotes(null);
+				}
 				if(!row.tueFrom.equals("") || !row.tueTo.equals("")) {
 					tuesday.setTimeFrom(row.tueFrom);
 					tuesday.setTimeTo(row.tueTo);
@@ -2176,6 +2190,13 @@ public class Timesheets{
 				tuesday.update();
 				
 				TimesheetDaysActual wednesday = TimesheetDaysActual.findById(row.wednesdayId);
+				if(row.wedFrom.equals("") && row.wedTo.equals("")) {
+					wednesday.setTimeFrom(null);
+					wednesday.setTimeTo(null);
+					wednesday.setSupplierId(null);
+					wednesday.setCustomerId(null);
+					wednesday.setNotes(null);
+				}
 				if(!row.wedFrom.equals("") || !row.wedTo.equals("")) {
 					wednesday.setTimeFrom(row.wedFrom);
 					wednesday.setTimeTo(row.wedTo);
@@ -2198,6 +2219,13 @@ public class Timesheets{
 				wednesday.update();
 				
 				TimesheetDaysActual thursday = TimesheetDaysActual.findById(row.thursdayId);
+				if(row.thuFrom.equals("") && row.thuTo.equals("")) {
+					thursday.setTimeFrom(null);
+					thursday.setTimeTo(null);
+					thursday.setSupplierId(null);
+					thursday.setCustomerId(null);
+					thursday.setNotes(null);
+				}
 				if(!row.thuFrom.equals("") || !row.thuTo.equals("")) {
 					thursday.setTimeFrom(row.thuFrom);
 					thursday.setTimeTo(row.thuTo);
@@ -2220,6 +2248,13 @@ public class Timesheets{
 				thursday.update();
 				
 				TimesheetDaysActual friday = TimesheetDaysActual.findById(row.fridayId);
+				if(row.friFrom.equals("") && row.friTo.equals("")) {
+					friday.setTimeFrom(null);
+					friday.setTimeTo(null);
+					friday.setSupplierId(null);
+					friday.setCustomerId(null);
+					friday.setNotes(null);
+				}
 				if(!row.friFrom.equals("") || !row.friTo.equals("")) {
 					friday.setTimeFrom(row.friFrom);
 					friday.setTimeTo(row.friTo);
@@ -2242,6 +2277,13 @@ public class Timesheets{
 				friday.update();
 				
 				TimesheetDaysActual saturday = TimesheetDaysActual.findById(row.saturdayId);
+				if(row.satFrom.equals("") && row.satTo.equals("")) {
+					saturday.setTimeFrom(null);
+					saturday.setTimeTo(null);
+					saturday.setSupplierId(null);
+					saturday.setCustomerId(null);
+					saturday.setNotes(null);
+				}
 				if(!row.satFrom.equals("") || !row.satTo.equals("")) {
 					saturday.setTimeFrom(row.satFrom);
 					saturday.setTimeTo(row.satTo);
@@ -2264,6 +2306,13 @@ public class Timesheets{
 				saturday.update();
 				
 				TimesheetDaysActual sunday = TimesheetDaysActual.findById(row.sundayId);
+				if(row.sunFrom.equals("") && row.sunTo.equals("")) {
+					sunday.setTimeFrom(null);
+					sunday.setTimeTo(null);
+					sunday.setSupplierId(null);
+					sunday.setCustomerId(null);
+					sunday.setNotes(null);
+				}
 				if(!row.sunFrom.equals("") || !row.sunTo.equals("")) {
 					sunday.setTimeFrom(row.sunFrom);
 					sunday.setTimeTo(row.sunTo);
@@ -2697,17 +2746,13 @@ public class Timesheets{
 				classNode = Projectclassnode.getProjectById(classNode.getParentId());
 			}
 			
-			
-			
 			timesheetRow.save();
-			
-			
-			
 			cal.set(Calendar.WEEK_OF_YEAR,timesheet.weekOfYear);
 			TimesheetDays monday = new TimesheetDays();
 			cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 			monday.setTimesheetDate(cal.getTime());
 			monday.setDay("monday");
+			
 			if(!rowVM.monFrom.equals("") && !rowVM.monTo.equals("")) {
 				monday.setTimeFrom(rowVM.monFrom);
 				monday.setTimeTo(rowVM.monTo);
@@ -2911,8 +2956,14 @@ public class Timesheets{
 				
 				timesheetRow.update();
 				
-				
 				TimesheetDays monday = TimesheetDays.findById(row.mondayId);
+				if(row.monFrom.equals("") && row.monTo.equals("")) {
+					monday.setTimeFrom(null);
+					monday.setTimeTo(null);
+					monday.setSupplierId(null);
+					monday.setCustomerId(null);
+					monday.setNotes(null);
+				}
 				if(!row.monFrom.equals("") && !row.monTo.equals("")) {
 					monday.setTimeFrom(row.monFrom);
 					monday.setTimeTo(row.monTo);
@@ -2935,6 +2986,13 @@ public class Timesheets{
 				monday.update();
 				
 				TimesheetDays tuesday = TimesheetDays.findById(row.tuesdayId);
+				if(row.tueFrom.equals("") && row.tueTo.equals("")) {
+					tuesday.setTimeFrom(null);
+					tuesday.setTimeTo(null);
+					tuesday.setSupplierId(null);
+					tuesday.setCustomerId(null);
+					tuesday.setNotes(null);
+				}
 				if(!row.tueFrom.equals("") || !row.tueTo.equals("")) {
 					tuesday.setTimeFrom(row.tueFrom);
 					tuesday.setTimeTo(row.tueTo);
@@ -2957,6 +3015,13 @@ public class Timesheets{
 				tuesday.update();
 				
 				TimesheetDays wednesday = TimesheetDays.findById(row.wednesdayId);
+				if(row.wedFrom.equals("") && row.wedTo.equals("")) {
+					wednesday.setTimeFrom(null);
+					wednesday.setTimeTo(null);
+					wednesday.setSupplierId(null);
+					wednesday.setCustomerId(null);
+					wednesday.setNotes(null);
+				}
 				if(!row.wedFrom.equals("") || !row.wedTo.equals("")) {
 					wednesday.setTimeFrom(row.wedFrom);
 					wednesday.setTimeTo(row.wedTo);
@@ -2979,6 +3044,13 @@ public class Timesheets{
 				wednesday.update();
 				
 				TimesheetDays thursday = TimesheetDays.findById(row.thursdayId);
+				if(row.thuFrom.equals("") && row.thuTo.equals("")) {
+					thursday.setTimeFrom(null);
+					thursday.setTimeTo(null);
+					thursday.setSupplierId(null);
+					thursday.setCustomerId(null);
+					thursday.setNotes(null);
+				}
 				if(!row.thuFrom.equals("") || !row.thuTo.equals("")) {
 					thursday.setTimeFrom(row.thuFrom);
 					thursday.setTimeTo(row.thuTo);
@@ -3001,6 +3073,13 @@ public class Timesheets{
 				thursday.update();
 				
 				TimesheetDays friday = TimesheetDays.findById(row.fridayId);
+				if(row.friFrom.equals("") && row.friTo.equals("")) {
+					friday.setTimeFrom(null);
+					friday.setTimeTo(null);
+					friday.setSupplierId(null);
+					friday.setCustomerId(null);
+					friday.setNotes(null);
+				}
 				if(!row.friFrom.equals("") || !row.friTo.equals("")) {
 					friday.setTimeFrom(row.friFrom);
 					friday.setTimeTo(row.friTo);
@@ -3023,6 +3102,13 @@ public class Timesheets{
 				friday.update();
 				
 				TimesheetDays saturday = TimesheetDays.findById(row.saturdayId);
+				if(row.satFrom.equals("") && row.satTo.equals("")) {
+					saturday.setTimeFrom(null);
+					saturday.setTimeTo(null);
+					saturday.setSupplierId(null);
+					saturday.setCustomerId(null);
+					saturday.setNotes(null);
+				}
 				if(!row.satFrom.equals("") || !row.satTo.equals("")) {
 					saturday.setTimeFrom(row.satFrom);
 					saturday.setTimeTo(row.satTo);
@@ -3045,6 +3131,13 @@ public class Timesheets{
 				saturday.update();
 				
 				TimesheetDays sunday = TimesheetDays.findById(row.sundayId);
+				if(row.sunFrom.equals("") && row.sunTo.equals("")) {
+					sunday.setTimeFrom(null);
+					sunday.setTimeTo(null);
+					sunday.setSupplierId(null);
+					sunday.setCustomerId(null);
+					sunday.setNotes(null);
+				}
 				if(!row.sunFrom.equals("") || !row.sunTo.equals("")) {
 					sunday.setTimeFrom(row.sunFrom);
 					sunday.setTimeTo(row.sunTo);
