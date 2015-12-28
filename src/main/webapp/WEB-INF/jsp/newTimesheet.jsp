@@ -129,7 +129,7 @@
 						</div>
 						<div class="smallInputLabel totalHRSLabel clearfix">T</div>
 						<!-- <div class="smallInputLabel clearfix" style="width:0px;margin-left:-55px;display: none;">Overtime</div> -->
-						<a type="button" disabled class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click=""><b>+</b></a>
+						<!-- <a type="button" disabled class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click=""><b>+</b></a> -->
 					</div>
 					
 						
@@ -137,7 +137,7 @@
 				
 			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
-				 <div class="innerInputDiv" style="margin-top:47px;">
+				 <div class="innerInputDiv" style="margin-top:23px;">
 					<div class="innerChainSelect">
 						<div class="clearfix"
 							id="timesheetRows_1__projectCode_field">
@@ -169,7 +169,7 @@
 									<div class="clearfix">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.monTime">{{row.monTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'mon')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'mon')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div style="margin-top: 8%;" class="input" ng-init="initFTTime(row,'mon')">
 										    <input type="text"
 										    ng-model="row.monFromTo"
@@ -196,7 +196,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.tueTime">{{row.tueTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'tue')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'tue')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'tue')">
 										    <input type="text"
 										    ng-model="row.tueFromTo"
@@ -223,7 +223,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.wedTime">{{row.wedTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'wed')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'wed')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'wed')">
 										    <input type="text"
 										    ng-model="row.wedFromTo"
@@ -250,7 +250,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.thuTime">{{row.thuTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'thu')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'thu')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'thu')">
 										    <input type="text"
 										    ng-model="row.thuFromTo"
@@ -277,7 +277,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.friTime">{{row.friTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'fri')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'fri')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'fri')">
 										    <input type="text"
 										    ng-model="row.friFromTo"
@@ -304,7 +304,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.satTime">{{row.satTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sat')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sat')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'sat')">
 										    <input type="text"
 										    ng-model="row.satFromTo"
@@ -331,7 +331,7 @@
 									<div class="clearfix" style="margin-left:10px;">
 										<div style="font-size:9px;margin-bottom:-20px;display:none;" ng-model="row.sunTime">{{row.sunTime}}</div>
 										<label></label>
-										<img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sun')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/>
+										<%-- <img src='<c:url value="/resources/images/plus.png"/>' ng-click="addCustomerAndSupplier($index,'sun')" style="height:12px;margin-left:35px;margin-bottom:-18px;margin-top:10px;"/> --%>
 										<div class="input" ng-init="initFTTime(row,'sun')">
 										    <input type="text"
 										    ng-model="row.sunFromTo"
@@ -381,7 +381,7 @@
 											class="help-inline"></span> <span class="help-block"></span>
 									</div>
 								</div> -->
-								<a  type="button" disabled  class="remove btn danger pull-right" ng-show="isShow" ng-click="" style="margin-top:22px;margin-right:3%;">X</a>
+								<!-- <a  type="button" disabled  class="remove btn danger pull-right" ng-show="isShow" ng-click="" style="margin-top:22px;margin-right:3%;">X</a> -->
 							
 							</div>
 				

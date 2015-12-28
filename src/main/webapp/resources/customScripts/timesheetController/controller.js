@@ -1463,7 +1463,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$("input:checkbox").attr("disabled","disabled");
 				$("#copyFromLastWeek").attr("disabled","disabled");
 				$("#saveTimesheetForm").attr("disabled","disabled");
-				$("#submitTimesheetForm").attr("disabled","disabled");
+				//$("#submitTimesheetForm").attr("disabled","disabled");
 				$("#retractTimesheetForm").removeAttr("disabled","disabled");
 				$("#addMore").hide();
 				$scope.isShow = false;
