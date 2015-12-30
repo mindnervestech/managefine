@@ -373,7 +373,10 @@
 				Value="Copy last week"> <input type="button"
 				id="saveTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Draft')" value="Save">
 			<input type="button" id="submitTimesheetForm" class="btn btn-warning" ng-click="saveTimesheet('Submitted')"
-				value="Submit"> <input type="button"
+				value="Submit" style="margin-left:827px">
+				<label style="margin-left:170px;margin-top:-25px;color: red"><b>(Note :Please save daily.)</b></label>
+				<label style="margin-left:712px;margin-top:-25px;color: red"><b>(Note :Please submit only on weekends.)</b></label>
+				 <input type="button"
 				id="retractTimesheetForm" style="display:none" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
