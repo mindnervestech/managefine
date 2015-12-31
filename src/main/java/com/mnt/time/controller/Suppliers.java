@@ -147,7 +147,6 @@ public class Suppliers {
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results = transform(State.findByCountryId(query, countryId), toAutoCompleteFormatForState());
 		result.put("results", Json.toJson(results));
-		System.out.println(Json.toJson(results));
 		return Json.toJson(result).toString();
 	}	
 	
@@ -1519,7 +1518,6 @@ public class Suppliers {
           FileOutputStream out = new FileOutputStream(new File("supplier.xlsx"));
           workbook.write(out);
           out.close();
-          System.out.println("data.xlsx written successfully on disk.");
       }
       catch (Exception e)
       {

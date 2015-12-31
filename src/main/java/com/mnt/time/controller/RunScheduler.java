@@ -68,7 +68,6 @@ public class RunScheduler {
 				 if(user.companyobject == null || user.role == null) break;
 				  LeaveLevel lv = LeaveLevel.find.where().eq("id", leaveBalance.getLeaveLevel().getId()).findUnique() ;
                  
-				 // System.out.println("chk :"+lv.getCarry_forward(). equals("NO"));
 				  LeavesCredit lc = LeavesCredit.findByCompany(user.getCompanyobject());
 				if(lc.getPolicyName().equals("Annual Credit Policy")){
 					if(lv.getCarry_forward(). equals("NO"))
@@ -80,14 +79,12 @@ public class RunScheduler {
 	                 }else{
 					  Float toBeAccrued ;
 					 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
-					 System.out.println("chk val "+toBeAccrued);
 					 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
 					 leaveBalance.update();
 	                }
 				}
 				
 			 }
-			 System.out.println("status :"+user);
 		 }
 
 		 
@@ -142,7 +139,6 @@ public class RunScheduler {
 					}
 				/* Float toBeAccrued ;
 				 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
-				 System.out.println("chk val "+toBeAccrued);
 				 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
 				 leaveBalance.update();*/
 			 }

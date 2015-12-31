@@ -34,7 +34,6 @@ public class Wdgets {
     @ResponseBody
 	public List<TaskForWidgetVM> tasksForWidget(ModelMap model, @CookieValue("username") String username) {
 		User user = User.findByEmail(username);
-		System.out.println("=====tasksForWidget=======");
 		List<TaskForWidgetVM> list = new ArrayList<>();
 		//TODO Look into Projectinstancenode 
 		
@@ -317,7 +316,6 @@ public class Wdgets {
 		Long projectTypeId = Long.parseLong(String.valueOf(projectType));
 		List<Projectinstance> pList1 = new ArrayList<>();
 		List<List> funnelMap = new ArrayList<List>();
-		System.out.println(username);
 		User user = User.findByEmail(username);
 		List<Projectclassnode> pList = Projectclassnode.getProjectAndLevel(projectTypeId,1);
 		int a = 0;

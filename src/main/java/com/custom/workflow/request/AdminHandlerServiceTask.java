@@ -17,16 +17,13 @@ public class AdminHandlerServiceTask implements JavaDelegate {
 		User admin = User.find.where().eq("designation", "SuperAdmin").findUnique();
 		User user = User.find.byId(Long.parseLong(reqId));
 		MailWfObject mailWfObject = new MailWfObject();
-		System.out.println(admin.firstName);
 		if(admin != null){
-			System.out.println("In handler");
 			mailWfObject = createMailObject(admin,user);
 			user.processInstanceId = execution.getProcessInstanceId();
 			user.update();
 		}
 		
 		execution.setVariable("mailWfObject", mailWfObject);
-		System.out.println("After mailWfObject");
 	}
 	
 	public MailWfObject createMailObject(User admin,User user){

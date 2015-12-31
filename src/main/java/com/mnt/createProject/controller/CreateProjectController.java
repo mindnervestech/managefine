@@ -197,6 +197,7 @@ public class CreateProjectController {
 	public String showEditProject(@PathVariable("projectId")Long projectId,@CookieValue("username")String username,Model model){
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", User.findByEmail(username));
+    //	model.addAttribute("usertype", User.findByUserType());
 		model.addAttribute("createProject",createProjectService.editprojectTypeandName(projectId));
 		return "createProject";
 		
@@ -318,14 +319,10 @@ public class CreateProjectController {
 				if(attr.getType().equalsIgnoreCase("Checkbox")) {
 
 					String values[] = request.getParameterValues(attr.getName());
-					System.out.println(values);
 					for(String s:values){
-						System.out.println(s);
 						checkboxValue = checkboxValue + s +",";
-						System.out.println(checkboxValue);
 					}
 
-					System.out.println(checkboxValue);
 					saveattri.setAttributValue(checkboxValue);
 				} else {
 					saveattri.setAttributValue(form.data().get(attr.getName()));
@@ -443,7 +440,6 @@ public class CreateProjectController {
 					if(attr.getType().equalsIgnoreCase("Checkbox")) {
 
 						String values[] = request.getParameterValues(attr.getName());
-						System.out.println(values);
 						for(String s:values){
 							checkboxValue = checkboxValue + s +",";
 						}
@@ -496,6 +492,15 @@ public class CreateProjectController {
 		
 	}
 	
+	//delete attachement
+	@RequestMapping(value = "/deleteStatusFile", method=RequestMethod.GET)
+	public @ResponseBody String deleteAttachFile(@RequestParam("id") String  id) {
+		ProjectAttachment attachment= ProjectAttachment.getById(Long.parseLong(id));
+		File file = new File(attachment.getDocPath());
+		file.delete();
+		attachment.delete();
+		return "";
+	}
 	@RequestMapping(value="/saveTask",method=RequestMethod.GET)
 	public @ResponseBody List saveTask(@RequestParam("id")Long id,@RequestParam("mainInstance")Long mainInstance, @RequestParam("task")Long task) {
 		
@@ -509,9 +514,6 @@ public class CreateProjectController {
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		Date dt = new Date();
 		Diff diff = javers.compare(o, n);
-
-		System.out.println("===" + diff.getChanges().size());
-		System.out.println("diff= " + diff);
 		List<changeValueVM> list = new ArrayList<changeValueVM>();
 		
 		Map map = new java.util.HashMap<>();

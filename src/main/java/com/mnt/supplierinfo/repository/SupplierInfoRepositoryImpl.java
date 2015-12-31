@@ -14,17 +14,13 @@ for(SqlRow row: sqlRows){
 	DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
 	
 	List<SqlRow> aLog = null;
-		System.out.println("&&&&");
-		System.out.println(row.getString("date"));
 			aLog = AduitLog.getDateHistory(row.getString("date"));
 		
 	dHistoryVM.setChangeDate(row.getString("date"));
 	
 	List<ValueListVM> vms = new ArrayList<>();
 	for(SqlRow sRow: aLog){
-		System.out.println(sRow.toString());
 		AduitLog aduitLog = AduitLog.getById(sRow.getLong("id"));
-		System.out.println(aduitLog.getJsonData());
 		List<HistoryAllLogVM> hAllList = new ArrayList<>();
 		ValueListVM vListVM = new ValueListVM();
 		 JSONArray array = new JSONArray(aduitLog.getJsonData());

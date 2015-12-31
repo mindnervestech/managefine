@@ -99,7 +99,6 @@ public class ProjectReports {
 	@RequestMapping(value="/projViewGraphHrs" ,method=RequestMethod.GET)
 	public @ResponseBody String viewUsageByHrs(String id){
 		Project project = Project.find.byId(Long.parseLong(id));
-		System.out.println(id);
 		String query = "";
 		query = "Select u.first_name firstname , sum(ts_r.total_hrs) total_hrs, sum(ts_r.total_hrs * u.hourlyrate) total_billed from timesheet ts , " +
 				"timesheet_row ts_r , user u " +
@@ -154,7 +153,6 @@ public class ProjectReports {
 		billJSON.put("values", billJSONArray);
 		mainJsonArray.put(hrsJSON);
 		mainJsonArray.put(billJSON);
-		System.out.println(mainJsonArray);
 		return mainJsonArray.toString();
 	}
 }

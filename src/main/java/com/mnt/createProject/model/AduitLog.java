@@ -103,9 +103,6 @@ public class AduitLog extends Model{
 		String[] gvalue = date.split("/");
 		String mainDate = gvalue[2]+"-"+gvalue[1]+"-"+gvalue[0];
 		
-		System.out.println(mainDate);
-		
-		
 		String sql = "select id from aduit_log where change_date= :mainDate and projectinstance = '"+mainInstance+"'";
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		sqlQuery.setParameter("mainDate", mainDate);

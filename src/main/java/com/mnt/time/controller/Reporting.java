@@ -326,7 +326,6 @@ public class Reporting {
            sql = sql.replaceFirst("[*]", newSql);
          }
          
-         System.out.println("===============" + sql); 
          PreparedStatement st = conn.prepareStatement(sql);
          if (args != null) {
              for (int i = 0; i < args.length; i++) {

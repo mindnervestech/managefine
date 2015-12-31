@@ -77,12 +77,10 @@ public class State extends Model {
 	
 	public static List<State> getStateList() {
 		
-		System.out.println("In State List ");
 		return find.all();
 	}
 	public static List<State> getStateListByCountry(Long id) {
 		
-		System.out.println("In StateByCountry List ");
 		List<State> sList = State.find.where().eq("country.id", id).findList();
 		return sList;
 	}

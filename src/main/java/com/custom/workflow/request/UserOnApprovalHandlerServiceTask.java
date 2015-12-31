@@ -27,7 +27,6 @@ public class UserOnApprovalHandlerServiceTask implements JavaDelegate {
 		mailWfObject.body = "You Approval Request Has Been Sanctioned By "+admin.firstName;
 		mailWfObject.body = String.format(mailWfObject.body);
 		execution.setVariable("mailWfObject", mailWfObject);
-		System.out.println("After Approval");
 	}
 
 }

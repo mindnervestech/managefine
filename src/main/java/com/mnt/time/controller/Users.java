@@ -294,7 +294,6 @@ public class Users {
 		User user = User.findByEmail(username);
 		Long projectId = Long.parseLong(form.get("ajaxDependantField"));
 		String query = form.get("query");
-		System.out.println(query);
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results = transform(User.findByManagerBycompny(user, query , projectId), toAutoCompleteFormatForPM());
 		result.put("results", Json.toJson(results));
@@ -306,11 +305,8 @@ public class Users {
 	public @ResponseBody String findOrganizations(@CookieValue("username") String username,HttpServletRequest requset){
 		DynamicForm form = DynamicForm.form().bindFromRequest(requset);
 		String query = form.get("query");
-		System.out.println(query);
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results = transform(OrgHierarchyController.findOrgByName(query, username), toAutoCompleteFormatForOrganization());
-		System.out.println("resultsssssssss==="+Json.toJson(results));
-		System.out.println("resultsssssssss===11"+results);
 		result.put("results", Json.toJson(results));
 		return Json.toJson(result).toString();
 	}
@@ -450,7 +446,6 @@ public class Users {
 		
 			DynamicForm form = DynamicForm.form().bindFromRequest(request);
 			String userName = form.get("email");
-			System.out.println("join date----"+form.get("hireDate"));
 			User user = User.findByEmail(username);
 			
 		/*	email = user.email;
@@ -479,7 +474,6 @@ public class Users {
 			extra.put("designation", role.getRole_name());
 			extra.put("department", deptr.getName());
 			extra.put("permissions",roleLevel.getPermissions());
-			System.out.println("join date=="+user.getHireDate());
 			List<LeaveBalance> lb = LeaveBalance.findByUser(user);
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 			//Date date = formatter.parse(form.get("hireDate"));
@@ -497,7 +491,6 @@ public class Users {
 						l.update();
 					}
 				}else{
-					System.out.println("leaves --"+0);
 				}
 				if(lc.getPolicyName().equals("Annual Credit Policy")){
 					Calendar c = Calendar.getInstance();
@@ -517,7 +510,6 @@ public class Users {
 						l.update();
 					}
 				}else{
-					System.out.println("leaves --"+9);
 				}
 			}*/
 			

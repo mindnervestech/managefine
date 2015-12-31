@@ -719,7 +719,6 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 		List<SearchColumn> list = new ArrayList<SearchColumn>();
 		list.addAll(searchColumns);
 		List<String> resultStr = newArrayList();
-		System.out.println(o);
 			for(SearchColumn col :list){
 				if(ctx.getField(col.name()).get(o) != null){
 					if(ctx.getField(col.name()).get(o) instanceof DomainEnum){
@@ -742,7 +741,6 @@ public abstract class ASearchContext<M extends Model> implements SearchContext {
 		List<SearchColumn> list = new ArrayList<SearchColumn>();
 		list.addAll(searchColumns);
 		List<String> resultStr = newArrayList();
-		System.out.println(o);
 			for(SearchColumn col :list){
 				if(ctx.getField(col.name()).get(o) != null){
 					if(ctx.getField(col.name()).get(o) instanceof DomainEnum){

@@ -184,8 +184,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					List<String> lines = new ArrayList<String>();
 					for(int i=0; i < gvalue.length; i++){
 						lines.add(gvalue[i]);
-						System.out.println("%^%^%^%%^%");
-					 	System.out.println(gvalue[i]);
 						}
 					projectclassnodeattributVM.setCheckBoxValue(lines);*/
 
@@ -221,7 +219,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					}
 
 					lines.add(pSelect);
-					System.out.println(gvalue[i]);
 				}
 				projectclassnodeattributVM.setValueSlice(lines);
 			}
@@ -242,7 +239,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//System.out.println(format.parse(sdf.format(dt)));
 		
 		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
 		
@@ -404,7 +400,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			e.printStackTrace();
 		}
         
-		System.out.println(dt);
 		List<UserVM> result = new ArrayList<UserVM>();
 	  
 		List<User> uList = User.getUserList();
@@ -747,7 +742,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 			
 			dPart.save();
 			
-			System.out.println(pvm.partNo);
 		}
 		
 		Projectinstance projectinstance = Projectinstance.findById(Long.parseLong(dpVm.projectId));
@@ -841,7 +835,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 	@Override
 	public AttributDataVM findattributes(Long mainInstance) {
 		AttributDataVM aDataVM = new AttributDataVM();
-		System.out.println(mainInstance);
 		List<AttributVM> aList = new ArrayList<>();
 		List<AttributesProject> aProject = AttributesProject.getAttributByProject(mainInstance);
 		for(AttributesProject aProject2:aProject){
@@ -942,7 +935,6 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//System.out.println(format.parse(sdf.format(dt)));
 		
 		List<ProjectclassnodeVM> result = new ArrayList<ProjectclassnodeVM>();
 		Projectinstance projectinstance = Projectinstance.getById(mainInstance);
@@ -1014,16 +1006,12 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 				DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
 				
 				List<SqlRow> aLog = null;
-					System.out.println("&&&&");
-					System.out.println(row.getString("date"));
 						aLog = AduitLog.getDateHistory(row.getString("date"), mainInstance);
 					
 				dHistoryVM.setChangeDate(row.getString("date"));
 				List<HistoryAllLogVM> hAllList = new ArrayList<>();
 				for(SqlRow sRow: aLog){
-					System.out.println(sRow.toString());
 					AduitLog aduitLog = AduitLog.getById(sRow.getLong("id"));
-					System.out.println(aduitLog.getJsonData());
 					
 					 JSONArray array = new JSONArray(aduitLog.getJsonData());
 					 for(int i=0; i<array.length(); i++){
@@ -1080,17 +1068,13 @@ for(SqlRow row: sqlRows){
 	DateWiseHistoryVM dHistoryVM=new DateWiseHistoryVM();
 	
 	List<SqlRow> aLog = null;
-		System.out.println("&&&&");
-		System.out.println(row.getString("date"));
 			aLog = AduitLog.getDateHistory(row.getString("date"));
 		
 	dHistoryVM.setChangeDate(row.getString("date"));
 	
 	List<ValueListVM> vms = new ArrayList<>();
 	for(SqlRow sRow: aLog){
-		System.out.println(sRow.toString());
 		AduitLog aduitLog = AduitLog.getById(sRow.getLong("id"));
-		System.out.println(aduitLog.getJsonData());
 		List<HistoryAllLogVM> hAllList = new ArrayList<>();
 		ValueListVM vListVM = new ValueListVM();
 		 JSONArray array = new JSONArray(aduitLog.getJsonData());

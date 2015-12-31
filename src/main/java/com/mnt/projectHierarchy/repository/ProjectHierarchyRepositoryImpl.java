@@ -92,7 +92,6 @@ public class ProjectHierarchyRepositoryImpl implements ProjectHierarchyRepositor
 	@Override
 	public Long saveProjectChild(ProjectsupportattributVM projectsupportattributVM) {
 
-		System.out.println(projectsupportattributVM.getProjectColor());
 		Projectclassnode projectnode=Projectclassnode.getProjectById(projectsupportattributVM.getParentId());
 		Projectclassnode projectclassnode=new Projectclassnode();
 		projectclassnode.setProjectTypes(projectsupportattributVM.getProjectTypes());

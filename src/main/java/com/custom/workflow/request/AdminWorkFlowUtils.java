@@ -10,7 +10,6 @@ public final class AdminWorkFlowUtils {
 	public final static String USER_REQUEST_ID = "USER_REQUEST_ID";
 	public static String startUserRequestWF(String userReqId){
 		Map<String,Object> inputMap = new HashMap<String,Object>();
-		System.out.println(userReqId);
 		inputMap.put(USER_REQUEST_ID, userReqId);
 		return ActivitiHelper.me().startProcessInstanceByKey(WorkMap.USER_REQUEST_APPROVAL, inputMap);
 		

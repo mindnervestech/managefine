@@ -340,14 +340,16 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 		});
     }
    
-    $scope.viewHierarchy = function(id,rootId,pName,cName,sDate,eDate){
+    $scope.viewHierarchy = function(id,rootId,pName,cName,sDate,eDate,desg){
     	console.log(id);
     	console.log(rootId);
+    	console.log(desg);
     	$scope.cName = cName;
     	$scope.sDate = sDate;
     	$scope.eDate = eDate;
     	$rootScope.MainInstance = rootId;
     	$scope.selectRootNode = id;
+    	$scope.userDesignation = desg;
     	var className = 'showDataPnotify';
     	
     	//if(data[0].day == 'sunday') {
@@ -625,7 +627,6 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
     }*/
     
    $scope.downloadfile = function(id){
-	   
 	   $.fileDownload('/time/downloadStatusFile',
 		{	   	
 			   httpMethod : "POST",
@@ -641,6 +642,30 @@ app.controller("createProjectController",function($scope,$http,$rootScope,ngDial
 					// failure
 				});
     
+   }
+   
+   $scope.deletefile = function(id){
+	  console.log("in delete"+id);
+    
+	  $http({method:'GET',url:'/time/deleteStatusFile',params:{id:id}}).success(function(data) {
+		  
+		  $http({method:'GET',url:'/time/findAttachFile',params:{id:$rootScope.currentParentId,mainInstance:$rootScope.MainInstance}}).success(function(data) {
+				console.log("Ok----");
+				console.log(data);
+				$scope.fileAttachData = data;
+				
+				angular.forEach($scope.fileAttachData.projectAttachment, function(obj, index){
+					
+					$scope.fileAttachData.projectAttachment[index].docDate = $filter('date')($scope.fileAttachData.projectAttachment[index].docDate, "dd-MM-yyyy");
+					return;
+				});
+				angular.forEach($scope.fileAttachData.projectcomments, function(obj, index){
+					$scope.fileAttachData.projectcomments[index].commetDate = $filter('date')($scope.fileAttachData.projectcomments[index].commetDate, "dd-MM-yyyy");
+					return;
+				});
+          });
+	    });
+	 
    }
    
     $scope.saveComment = function(comment){

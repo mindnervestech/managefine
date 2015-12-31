@@ -11,7 +11,6 @@ public final class TimesheetWorkflowUtils {
 	public static String startTimeSheetWF(String timesheetId){
 		Map<String,Object> inputMap = new HashMap<String,Object>();
 		inputMap.put(TIMESHEET_ID, timesheetId);
-	//	System.out.println("inside timesheetflowutils starttimesheet");
 		return ActivitiHelper.me().startProcessInstanceByKey(WorkMap.TIMESHEET_APPROVAL, inputMap);
 		
 	}

@@ -39,7 +39,6 @@ public class ClientInfoController {
 	public @ResponseBody List clientdatabase() {
 		List<Client>result=Client.getClientList();
 		List<clientinfoVm>finalinfo=new ArrayList<clientinfoVm>();
-		System.out.println("list size="+result.size());
 		List<String>x=new ArrayList<String>();
 		
 		
@@ -47,7 +46,6 @@ public class ClientInfoController {
 	      SimpleDateFormat ft = new SimpleDateFormat (" dd.MM.yyyy ");
 	     String s1=ft.format(dNow);
         s1=s1.replace(".","-");
-        System.out.println("date="+s1);
         String s2[]=s1.split("-");
         int i=(Integer.parseInt(s2[1]));
         i=i-1;
@@ -70,7 +68,6 @@ public class ClientInfoController {
 			vm.setFromdate(s3);
 			finalinfo.add(vm);
 		
-			//System.out.println("x="+s.getClientName());
 			x.add(s.getClientName());
 		}
 		//return x;*/
@@ -80,9 +77,7 @@ public class ClientInfoController {
 	
 	@RequestMapping(value="/selectedclientinfo",method=RequestMethod.GET)
 	public @ResponseBody clientinfoVm showclientdatabase(@RequestParam("id")Long id) {
-		System.out.println("idxxxxxxxxxxxxxxxxxxxxxxx="+id);
 		Client s=Client.findById(id);
-          System.out.println("result="+s.getCountry().toString());		
      
 		
 			clientinfoVm vm=new clientinfoVm();

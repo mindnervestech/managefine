@@ -62,6 +62,7 @@
                             <th style="text-align: center;"><a style="color: white;">DateTime</a></th>
                             <th style="text-align: center;"><a style="color: white;">Documents</a></th>
                             <th style="width:81px;text-align: center;color: white;">Download</th>
+                            <th style="width:81px;text-align: center;color: white;" ng-if="userDesignation=='Admin'" >Delete</th>
                         </tr>
                     </thead>
                 	<tbody>
@@ -71,7 +72,7 @@
           					 <td style="text-align: center;">{{doc.docDate}}</td>
                            <td style="text-align: center;">{{doc.docName}}</td>
                              <td style="text-align: center;"><a ng-click="downloadfile(doc.id)">download</a></td>
-                           
+                           <td style="text-align: center;" ng-if="userDesignation=='Admin'"><a ng-click="deletefile(doc.id)">delete</a></td>
                             </tr>
                            
                     	</tbody>

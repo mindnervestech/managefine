@@ -11,7 +11,7 @@
 <div ng-app="ProjectHierarchyApp" ng-controller="createProjectController">
 <%-- <span style="font-size: large;margin-left: 19px;margin-top: 12px;"><u><b>${createProject.projectName} </b></u>  (Client Name :${createProject.clientName}, Start Date : ${createProject.startDate} / End Date : ${createProject.endDate})</span> --%>
 
-<div class="container" ng-init='viewHierarchy(${createProject.projectid},${createProject.id},"${createProject.projectName}","${createProject.clientName}","${createProject.startDate}","${createProject.endDate}")'><!--  viewHierarchy -->
+<div class="container" ng-init='viewHierarchy(${createProject.projectid},${createProject.id},"${createProject.projectName}","${createProject.clientName}","${createProject.startDate}","${createProject.endDate}","${user.designation}")'><!--  viewHierarchy -->
 	<div class="form-group">
 						</div>
 			

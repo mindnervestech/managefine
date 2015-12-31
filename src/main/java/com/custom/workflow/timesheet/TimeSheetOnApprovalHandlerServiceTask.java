@@ -31,7 +31,6 @@ public class TimeSheetOnApprovalHandlerServiceTask implements JavaDelegate {
 			ts.setStatus(TimesheetStatus.Approved);
 			ts.update();
 			timesheet_id = ts.getTid();
-		//	System.out.println("in if::"+timesheet_id);
 			//Create mail subject and body
 			mailWfObject.setTo(ts.getUser().getEmail());
 			mailWfObject.setSubject(String.format("You got Approval For Time Sheet for Week %s from %s has been Approved from all levels",
@@ -63,7 +62,6 @@ public class TimeSheetOnApprovalHandlerServiceTask implements JavaDelegate {
 		ts.setTimesheetWith(ts.getUser());
 		ts.update();
 		timesheet_id = ts.getTid();
-//		System.out.println("in if::"+timesheet_id);
 		//Create mail subject and body
 		mailWfObject.setTo(ts.getUser().getEmail());
 

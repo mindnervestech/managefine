@@ -55,6 +55,7 @@ import com.google.common.base.Function;
 import com.mnt.core.domain.DomainEnum;
 import com.mnt.core.domain.FileAttachmentMeta;
 import com.mnt.core.ui.component.AutoComplete;
+import com.mnt.createProject.model.ProjectAttachment;
 import com.mnt.createProject.model.Projectinstance;
 import com.mnt.createProject.vm.CaseDateVM;
 import com.mnt.createProject.vm.Case_flexiVM;
@@ -468,6 +469,16 @@ public class Cases {
 		
 	}
 	
+	@RequestMapping(value = "/deleteCaseFile", method=RequestMethod.GET)
+	public @ResponseBody String deleteAttachFile(@RequestParam("id") String  id) {
+		Attachment attachment =Attachment.getById(Long.parseLong(id));
+		CaseNotes notes =attachment.getCaseNotes();
+		CaseData data=notes.getCasedata();
+		File file = new File(rootDir + File.separator+ attachment.getType() +File.separator+data.getId()+File.separator+attachment.getFileName());
+		file.delete();
+		attachment.delete();
+		return "";
+	}
 
 	@RequestMapping(value="/caseToIndex", method = RequestMethod.GET)
 	public String toIndex(ModelMap model,@CookieValue("username") String username) {
@@ -491,7 +502,6 @@ public class Cases {
 	@RequestMapping(value="/caseToCreate", method = RequestMethod.POST)
 	public @ResponseBody String createTo(HttpServletRequest request,@CookieValue("username") String username) throws Exception{
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
-		System.out.println("case too");
 		User currentuser = User.findByEmail(username);
 		Date notedate = new Date(); 
 		String status = form.get("caseStatus");

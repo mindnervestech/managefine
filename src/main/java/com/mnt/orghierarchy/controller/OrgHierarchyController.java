@@ -101,7 +101,6 @@ public class OrgHierarchyController {
 	
 	public static List<Organization> findOrgByName(String query, String username) {
 		User user = User.findByEmail(username);
-		System.out.println("queary ---"+query);
 		List<Organization> orgs =  Organization.find.where().and(Expr.eq("companyId", user.companyobject.getId()),Expr.or(Expr.ilike("organizationName", query+"%"),Expr.ilike("organizationType", query+"%")))
 	       		.findList();
 		return orgs;

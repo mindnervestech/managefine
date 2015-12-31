@@ -9,6 +9,7 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 	            }});
 				$scope.fileAttachData = data.caseFlexi;
 				$scope.comment = data.comment;
+				console.log($scope.comment);
 					angular.forEach($scope.comment, function(obj, index){
 						$scope.comment[index].commetDate = $filter('date')($scope.comment[index].commetDate, "dd-MM-yyyy");
 					return;
@@ -59,7 +60,21 @@ app.controller("casesController",function($scope,$http,$rootScope,ngDialog,$uplo
 						});
 		    
 		   }
-		
+		  $scope.deletefile = function(id){
+			  $http({method:'GET',url:'deleteCaseFile',params:{id:id}}).success(function(data) {
+				  $.pnotify({
+                      title: "Success",
+                      type:'Success',
+                      text: "Attachment deleted Successfully",
+                  });
+			  });
+			  
+		   }
+		  $scope.getCaseId = function(id){
+			 $scope.userid = id;
+			  console.log(id);
+			  
+		   }
 		  
 		    var file = null;
 		    $scope.selectFile = function(files) {

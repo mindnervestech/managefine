@@ -19,7 +19,7 @@
 <div class="form-group">
  <div class="col-md-12">
  <div id="dialog" title="Assigned By Me" style="background: white;height: 311px;">
- <div class="form-group" ng-init='getCaseId()'>
+ <div class="form-group" ng-init='getCaseId(${user.id})'>
      <form name="myForm" method="post" >   <!-- action="${pageContext.request.contextPath}/caseToCreate"  // modelAttribute="pVm" action="/saveprojectTypeandName" -->
         <div>
      
@@ -77,7 +77,6 @@
           					 
                            <td style="text-align: center;">{{doc.value}}</td>
                              <td style="text-align: center;"><a ng-click="downloadfile(doc.id)">download</a></td>
-                           
                             </tr>
                            
                     	</tbody>
@@ -126,7 +125,7 @@
 					
 					 <div class="col-md-11" ng-repeat="doc in note.projectAtt">
 					 <a ng-click="downloadNotesfile(doc.id)" style="color:blue;"><u><span>{{doc.docName}}</span></u></a>
-				
+				     <a ng-if="userid == note.userId" ng-click="deletefile(doc.id)" style="color:blue;"><u><span style="margin-left:6px;">delete</span></u></a>
 					</div>
 					
 		    	</div> 

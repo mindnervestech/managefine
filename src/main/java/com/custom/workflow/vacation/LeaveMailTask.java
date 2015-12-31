@@ -24,9 +24,6 @@ public class LeaveMailTask implements JavaDelegate {
 		Company company = user.getCompanyobject();
 		
 		MailSetting mailSetting = MailSetting.find();
-	//	System.out.println(mailSetting.hostName);
-	//	System.out.println(mailWfObject.to);
-	//	System.out.println(mailWfObject.body);
 		
 		Email.sendOnlyMail(mailSetting, mailWfObject.getTo(), mailWfObject.getSubject(), mailWfObject.getBody());
 //		String timesheet_id = (String) execution.getVariable(TimesheetWorkflowUtils.TIMESHEET_ID);

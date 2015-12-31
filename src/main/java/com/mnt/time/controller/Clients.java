@@ -1545,15 +1545,12 @@ public class Clients {
          FileOutputStream out = new FileOutputStream(new File("client.xlsx"));
          workbook.write(out);
          out.close();
-         System.out.println("data.xlsx written successfully on disk.");
      }
      catch (Exception e)
      {
          e.printStackTrace();
      }
-		
 		return null;
-
 	}
 	
 	public static List<Client> findClients(String query,String username) {

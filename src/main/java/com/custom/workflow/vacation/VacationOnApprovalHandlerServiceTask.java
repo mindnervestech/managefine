@@ -19,7 +19,6 @@ public class VacationOnApprovalHandlerServiceTask implements JavaDelegate {
 
 	Map<String, Object> map =new HashMap<String, Object>();
 	String vacation_id = (String) execution.getVariable(VacationWorkflowUtils.VACATION_ID);
-	System.out.println(vacation_id);
 	ApplyLeave leave = ApplyLeave.find.where().eq("leaveGuid", vacation_id).findUnique();
 	
 	RoleLevel roleLevel = leave.getUser().getRole();

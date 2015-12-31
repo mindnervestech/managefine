@@ -140,7 +140,6 @@ public class RoleHierarchyRepositoryImpl implements RoleHierarchyRepository {
 				Rleave.total_leave = 0l;
 				Rleave.save();
 			}else{
-				System.out.println("empty");
 			}
 			}
 		}	

@@ -38,7 +38,6 @@ public class FlexiAttributes {
 	 public String defineFlexiAttribute(ModelMap model, @CookieValue("username") String username)
 	 {	
 			User user = User.findByEmail(username);
-			System.out.println("user ----"+user);
 			model.addAttribute("user",user);
 			model.addAttribute("_menuContext",MenuBarFixture.build(username));
 			return "defineFlexiAttribute";
@@ -93,7 +92,6 @@ public class FlexiAttributes {
 	 @RequestMapping(value="/getUserFlexiAttribute",method=RequestMethod.POST)
 		public @ResponseBody  List<FlexiattributeVM> getFlexiAttribute(@RequestParam("userId") String userid,HttpServletRequest request) {
 		 	
-		 System.out.println("user-----"+userid);
 		 List<FlexiattributeVM> flist = new ArrayList<FlexiattributeVM>();
 		 List<FlexiAttribute> fl = new ArrayList<FlexiAttribute>();;
 		 if(userid.equals("User")){

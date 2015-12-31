@@ -116,7 +116,6 @@ public class Tasks{
 	public @ResponseBody String findProjectByName(@CookieValue("username")String username,HttpServletRequest request){
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		String query = form.get("query");
-		System.out.println(query);
 		ObjectNode result = Json.newObject();
 		List<AutoComplete> results = transform(Projects.findProjectByName(query,username), toAutoCompleteFormatForProject());
 		result.put("results", Json.toJson(results));

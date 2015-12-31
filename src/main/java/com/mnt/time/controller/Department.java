@@ -48,7 +48,6 @@ public class Department {
 	
 	@RequestMapping(value="/deleteDepartments",method=RequestMethod.POST)
 	public @ResponseBody void deleteDepartments(@RequestParam("dId") Long deptId) {
-		System.out.println("depet id = "+deptId);
 		models.Department dept = models.Department.departmentById(deptId);
 		dept.delete();
 	}

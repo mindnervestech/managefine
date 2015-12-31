@@ -204,7 +204,6 @@ public abstract class SearchUIHelper implements SearchUI {
 		List<SearchColumn> list = new ArrayList<SearchColumn>();
 		list.addAll(searchColumns);
 		List<String> resultStr = newArrayList();
-		System.out.println(o);
 		Class ctx = o.getClass();
 		for(SearchColumn col :list){
 			if(ctx.getField(col.name()).get(o) != null){

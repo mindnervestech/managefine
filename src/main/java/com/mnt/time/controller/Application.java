@@ -589,7 +589,6 @@ public class Application  {
 		if(q.length()>=6)
 		{
 			if (q.matches("[0-9][0-9]*[A-Za-z][A-Za-z]*")) {
-			    System.out.println("Alphanumeric");
 			    for (int n=0 ; n< q.length() ; n++)
 			    {
 			    Character c = q.charAt(n);

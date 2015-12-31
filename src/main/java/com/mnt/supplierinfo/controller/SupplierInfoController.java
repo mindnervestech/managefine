@@ -40,7 +40,6 @@ public class SupplierInfoController {
 	public @ResponseBody List supplierdatabase() {
 		List<Supplier>result=Supplier.getSupplierList();
 		List<supplierinfoVm>finalinfo=new ArrayList<supplierinfoVm>();
-		System.out.println("list size="+result.size());
 		List<String>x=new ArrayList<String>();
 		
 		
@@ -48,7 +47,6 @@ public class SupplierInfoController {
 	      SimpleDateFormat ft = new SimpleDateFormat (" dd.MM.yyyy ");
 	     String s1=ft.format(dNow);
         s1=s1.replace(".","-");
-        System.out.println("date="+s1);
         String s2[]=s1.split("-");
         int i=(Integer.parseInt(s2[1]));
         i=i-1;
@@ -71,7 +69,6 @@ public class SupplierInfoController {
 			vm.setFromdate(s3);
 			finalinfo.add(vm);
 		
-			//System.out.println("x="+s.getClientName());
 			//x.add(s.getClientName());
 		}
 		//return x;*/
@@ -81,11 +78,7 @@ public class SupplierInfoController {
 	
 	@RequestMapping(value="/selectedsupplierinfo",method=RequestMethod.GET)
 	public @ResponseBody supplierinfoVm showclientdatabase(@RequestParam("id")Long id) {
-		System.out.println("idxxxxxxxxxxxxxxxxxxxxxxx="+id);
 		Supplier s=Supplier.findById(id);
-          System.out.println("result="+s.getCountry().toString());		
-     
-		
 			supplierinfoVm vm=new supplierinfoVm();
 			
 			vm.setId(s.getId());

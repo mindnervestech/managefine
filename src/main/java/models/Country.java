@@ -58,7 +58,6 @@ public class Country extends Model {
 	
 	public static List<Country> getCountryList() {
 		
-		System.out.println("In Country List ");
 		return find.all();
 	}
 	

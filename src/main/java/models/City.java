@@ -62,7 +62,6 @@ public class City extends Model {
 	
 	public static List<City> getCityList() {
 		
-		System.out.println("In City List ");
 		return find.all();
 	}
 	public static List<City> getCityListByState(Long id) {

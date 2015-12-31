@@ -196,8 +196,6 @@ public class ProjectHierarchyController {
 									break;
 								}
 								
-									System.out.println("storeExcelFile"
-											+ pp);
 									pp.save();
 							}
 							

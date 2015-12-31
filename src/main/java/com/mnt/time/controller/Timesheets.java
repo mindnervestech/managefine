@@ -3460,7 +3460,6 @@ public class Timesheets{
 					}
 					
 										
-					System.out.println( day.getSupplierId());
 					
 					timesheetRowVM.totalmins = day.getWorkMinutes();
 				}
@@ -3584,12 +3583,10 @@ public class Timesheets{
 			}else{
 				timesheetForm.get().timesheetWith = user;
 			}
-		//	System.out.println("id"+timesheetForm.get().id);
 		//	timesheetForm.get().update(timesheetForm.get().getId());
 			timesheetForm.get().update();
 			newTimesheetForm = form(Timesheet.class).fill(Timesheet.find.byId(timesheetForm.get().id));
 			if(timesheetForm.get().status == TimesheetStatus.Submitted){
-				//System.out.println(newTimesheetForm.get().tid);
 				try{
 					TimesheetWorkflowUtils.startTimeSheetWF(newTimesheetForm.get().getTid());
 				}
@@ -3615,11 +3612,9 @@ public class Timesheets{
 			}
 			timesheetForm.get().tid = UUID.randomUUID().toString();
 			timesheetForm.get().save();
-			//System.out.println(timesheetForm.get().id);
 			newTimesheetForm = timesheetForm.fill(Timesheet.find.byId(timesheetForm.get().id));
 			
 			if(timesheetForm.get().status == TimesheetStatus.Submitted){
-				//System.out.println(newTimesheetForm.get().tid);
 				try{
 					TimesheetWorkflowUtils.startTimeSheetWF(newTimesheetForm.get().getTid());
 				}

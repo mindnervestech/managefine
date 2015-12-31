@@ -443,7 +443,6 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 		cal.setTime(date);
 		int week = cal.get(Calendar.WEEK_OF_YEAR);
 		DateTime date2 = new DateTime().withWeekOfWeekyear(week);
-		System.out.println("Date : "+date2);
 		return week;
 	}
 }

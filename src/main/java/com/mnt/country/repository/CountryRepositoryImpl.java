@@ -119,7 +119,6 @@ public class CountryRepositoryImpl implements CountryRepository {
 	public Long saveCountry(CountryVM countryVM) {
 		// TODO Auto-generated method stub
 		Country country = new Country();
-		System.out.println("Country name : " + countryVM.getName());
 		country.setCountryName(countryVM.getName());
 		country.save();
 		return 0L;
@@ -131,10 +130,7 @@ public class CountryRepositoryImpl implements CountryRepository {
 		// TODO Auto-generated method stub
 		
 		State state = new State();
-		System.out.println("State Name : " + stateVM.getName());
-		System.out.println("Country Name :" + stateVM.getCountry());
 		state.setStateName(stateVM.getName());
-		
 		state.setCountry(Country.findById(Long.parseLong(stateVM.getCountry())));
 		state.save();
 		return 0L;
@@ -145,8 +141,6 @@ public class CountryRepositoryImpl implements CountryRepository {
 		// TODO Auto-generated method stub
 		
 		City city = new City();
-		System.out.println("City Name :" + cityVM.getName());
-		System.out.println("State name :" + cityVM.getState());
 		city.setCityName(cityVM.getName());
 		city.setState(State.findById(Long.parseLong(cityVM.getState())));
 		city.save();

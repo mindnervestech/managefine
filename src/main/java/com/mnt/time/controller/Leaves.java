@@ -75,7 +75,6 @@ public class Leaves {
 		 long diff = dateStart.getTime() - hiredate.getTime() ;
 
 		 long diffDays = diff / (24 * 60 * 60 * 1000);
-		 System.out.println("diffrence  ----==="+diffDays); 
 		 if(diffDays < 180){
 			flag1 = true;
 		 }else{
@@ -91,11 +90,9 @@ public class Leaves {
 		
 		//leavebal.get(0).getId();
 		List<LeaveBalance> leavebal1 = LeaveBalance.find.where().eq("leaveLevel", user.getLevel()).findList();
-	//	System.out.println("hhhh"+leavebal.get(0).getId());
 		//leavebal1.getEmployee().getId();
 		//LeaveBalance lv=LeaveBalance.findById();
 		//User user1=User.findById(leavebal1.getEmployee().getId());
-		//System.out.println("User:"+user1.getFirstName()+" "+user1.getLastName());
 		model.addAttribute("context",LeaveApplyContext.getInstance().build());
 		model.addAttribute("_menuContext", MenuBarFixture.build(username));
     	model.addAttribute("user", user);
@@ -170,7 +167,6 @@ public class Leaves {
 		//User user = User.findByEmail(username);
 		//ApplyLeave apLeave = ApplyLeave.findById(id);
 		
-		System.out.println("gg"+form.get("leave_domain").toString());
 		 Form<ApplyLeave> leaveForm = form(ApplyLeave.class).bindFromRequest(request);
 		LeaveLevel l1 = LeaveLevel.find.where().eq("id", form.get("leave_domain")).findUnique();
 		 User user = User.findByEmail(username);
@@ -188,7 +184,6 @@ public class Leaves {
 			if( nl < ll.getBalance()){
 				leaveForm.get().save();
 			}else{
-				System.out.println("hello");
 			}
 			
 		}
@@ -408,8 +403,6 @@ public class Leaves {
 			LeaveX leaveX = LeaveX.find.where(Expr.eq("company", user.getCompanyobject())).findUnique();
 			  RoleX rx = RoleX.findByCompany(user.getCompanyobject().getId());
               List<RoleLevel> rolelevel = RoleLevel.findListByCompany(rx);
-			System.out.println("form leavesss==="+leaveXForm.get().getLeaveLevels().get(0).getLeave_type());
-			System.out.println("form ==="+leaveXForm);
 			if(leaveX == null){
 				leaveXForm.get().setCompany(user.getCompanyobject());
 				leaveXForm.get().save();
@@ -502,7 +495,6 @@ public class Leaves {
 		 Date dateStart = new Date();
 		 long diff = dateStart.getTime() - hiredate.getTime() ;
 		 long diffDays = diff / (24 * 60 * 60 * 1000);
-		 System.out.println("diffrence  ----==="+diffDays); 
 		 if(diffDays > 180){
 				LeavesCredit lc = new LeavesCredit();
 				lc.setPolicyName(form.data().get("policy"));
@@ -525,7 +517,6 @@ public class Leaves {
 		DynamicForm form = DynamicForm.form().bindFromRequest(request);
 		User user = User.findByEmail(username);
 	
-		System.out.println("comny---"+user.getCompanyobject().getId());
 		LeavesCredit lvc = LeavesCredit.findByCompany(user.getCompanyobject());	
 		return lvc;
 	}	
@@ -642,7 +633,6 @@ public class Leaves {
 				 if(user.companyobject == null || user.role == null) break;
 				 Float toBeAccrued ;
 				 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
-				 System.out.println("chk val "+toBeAccrued);
 				 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
 				 Ebean.update(leaveBalance,Sets.newHashSet("balance"));//leaveBalance.update();
 			 }
@@ -690,7 +680,6 @@ public class Leaves {
 				// if(user.companyobject == null || user.role == null) break;
 				  LeaveLevel lv = LeaveLevel.find.where().eq("id", leaveBalance.getLeaveLevel().getId()).findUnique() ;
                   
-				  System.out.println("chk :"+lv.getCarry_forward(). equals("NO"));
 				  
 				 if(lv.getCarry_forward(). equals("NO"))
                   {
@@ -699,7 +688,6 @@ public class Leaves {
                   }else{
 				  /*Float toBeAccrued ;
 				 toBeAccrued =map.get(user.companyobject.getId()).get(user.role.getId()).get(leaveBalance.getLeaveLevel().getId());
-				 System.out.println("chk val "+toBeAccrued);
 				 leaveBalance.setBalance(leaveBalance.balance + toBeAccrued);
 				 leaveBalance.update();*/
                   }
