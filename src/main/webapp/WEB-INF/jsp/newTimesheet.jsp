@@ -395,7 +395,7 @@
 				value="Submit" style="margin-left:827px">
 				<label style="margin-left:170px;margin-top:-25px;color: red"><b>(Note :Please save daily.)</b></label>
 				<label style="margin-left:712px;margin-top:-25px;color: red"><b>(Note :Please submit only on weekends.)</b></label> <input type="button"
-				id="retractTimesheetForm" style="display:none"class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
+				id="retractTimesheetForm" style="display:none" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>
@@ -558,7 +558,7 @@
 							<div class="input">
 								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
-									<option  ng-repeat="project in projectLst" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
+									<option  ng-repeat="project in projectLst  | orderBy:'projectCode'" ng-selected="row.projectCode == project.id " value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
 							</div>
 						</div>

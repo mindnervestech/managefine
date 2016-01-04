@@ -548,7 +548,7 @@
 							<div class="input">
 								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
-									<option  ng-repeat="project in projectLst" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
+									<option  ng-repeat="project in projectLst | orderBy:'projectCode'" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
 							</div>
 						</div>

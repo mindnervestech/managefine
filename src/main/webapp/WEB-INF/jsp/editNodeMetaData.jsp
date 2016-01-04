@@ -87,12 +87,11 @@
 											<div class="col-md-12">
 												<select name="status" 
 													 style="width: 100%;" required>
-													  <option value="NotStarted">Not Started</option>
-													  <option value="Inprogress">In Progress</option>
-													  <option value="won">won</option>
-													  <option value="lost">lost</option>
 													  <option value="closed">Closed</option>
-													
+													  <option value="Inprogress">In Progress</option>
+													  <option value="NotStarted">Not Started</option>
+													  <option value="lost">lost</option>
+													  <option value="won">won</option>
 												</select>
 											</div>
 										</div>
@@ -196,7 +195,7 @@
 									<div class="col-md-12">
 										<select name="projectManager" 
 											 style="width: 100%;" required>
-											<option ng-repeat="projectMinfo in findUser"
+											<option ng-repeat="projectMinfo in findUser | orderBy: 'firstName'"
 												value="{{projectMinfo.id}}" 
 												ng-selected="${editNodeMetaData.projectManager} == projectMinfo.id">{{projectMinfo.firstName}} {{projectMinfo.middleName}} {{projectMinfo.lastName}}</option>
 										</select>
@@ -231,7 +230,7 @@
 										<select style="width: 100%;" name="customer"
 											placeholder="Select Customer." required>
 											<option value="">-select-</option>
-											<option ng-repeat="clientinfo in findCliect"
+											<option ng-repeat="clientinfo in findCliect | orderBy:'clientName' "
 												value="{{clientinfo.id}}" ng-selected="${editNodeMetaData.customer} == clientinfo.id">{{clientinfo.clientName}}</option>
 										</select>
 									</div>
@@ -243,7 +242,7 @@
 										<select style="width: 100%;" name="endCustomer" 
 											placeholder="Select Customer." required>
 											<option value="">-select-</option>
-											<option ng-repeat="clientinfo in findCliect"
+											<option ng-repeat="clientinfo in findCliect | orderBy:'clientName'"
 												value="{{clientinfo.id}}" ng-selected="${editNodeMetaData.endCustomer} == clientinfo.id">{{clientinfo.clientName}}</option>
 										</select>
 									</div>
@@ -257,7 +256,7 @@
 									<div class="col-md-12">
 										<select name="supplier" multiple="multiple" ui-select2
 											ng-model="findSelectedSupplier" style="width: 100%;" required>
-											<option ng-repeat="supplierinfo in findSupplier"
+											<option ng-repeat="supplierinfo in findSupplier | orderBy:'supplierName'"
 												value="{{supplierinfo.id}}">{{supplierinfo.supplierName}}</option>
 										</select>
 									</div>
@@ -268,7 +267,7 @@
 										<select name="member" multiple="multiple"
 											ng-model="findSelectedUser" ui-select2 style="width: 100%;"
 											required>
-											<option ng-repeat="memberinfo in findUser"
+											<option ng-repeat="memberinfo in findUser | orderBy:'firstName'"
 												value="{{memberinfo.id}}">{{memberinfo.firstName}} {{memberinfo.middleName}} {{memberinfo.lastName}}</option>
 										</select>
 									</div>
