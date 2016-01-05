@@ -522,8 +522,13 @@ public class CreateProjectController {
 			 changeValueVM chVm = new changeValueVM();
 			 if(c.getProperty().getName() != "beanLoaderIndex"){
 			 chVm.property = c.getProperty().getName();
-			 chVm.oldVal = c.getLeft().toString(); 
-			 chVm.newVal = c.getRight().toString();
+			 if(c.getLeft() != null){
+				 chVm.oldVal = c.getLeft().toString();
+			 }
+			 if(c.getRight() != null){
+				 chVm.newVal = c.getRight().toString();
+			 }
+			 
 			 list.add(chVm);
 			 }	
     	 }

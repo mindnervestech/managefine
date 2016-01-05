@@ -1040,7 +1040,9 @@ public class CreateProjectRepositoryImpl implements CreateProjectRepository {
 					        	// hVm.setOldVal(format.format(jsonObj.getString("oldVal")));
 							    // hVm.setNewVal(format.format(jsonObj.getString("newVal")));
 					        }else{
-					        	 hVm.setOldVal(jsonObj.getString("oldVal"));
+					       if(jsonObj.getString("oldVal")!=null)
+					        	hVm.setOldVal(jsonObj.getString("oldVal"));
+					       if(jsonObj.getString("newVal")!=null)
 							     hVm.setNewVal(jsonObj.getString("newVal"));
 					        }
 					       
