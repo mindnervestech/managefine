@@ -595,7 +595,7 @@
 								  <div class="col-md-2">
 				  				      <label class="col-md-12">Part No</label>
 							          <select class="col-md-12" name="partNo{{$index}}" data-ng-model="find.partNo" ng-change="selectValue(find.partNo)" placeholder="Select Part No.">
-										<option ng-repeat="parts in partNos"
+										<option ng-repeat="parts in partNos | orderBy: 'partNo' "
 												value="{{parts.id}}" ng-selected="parts.id == find.partNo">{{parts.partNo}}</option>
 										
 					      			  </select>	
@@ -647,7 +647,7 @@
 								         <label>Supplier </label>
 				    				  </div>
 				       				  <select class="col-md-12" name="supplier{{$index}}" data-ng-model="find.supplier" placeholder="Select Supplier" style="padding: 0px;">
-										<option ng-repeat="supplierinfo in findSupplier"
+										<option ng-repeat="supplierinfo in findSupplier | orderBy: 'supplierName'"
 												value="{{supplierinfo.id}}" ng-selected="supplierinfo.id == find.supplier">{{supplierinfo.supplierName}}</option>
 										
 					      			  </select>	
@@ -685,7 +685,7 @@
 								         <label>PITS</label>
 				    				  </div>
 				       				  <select class="col-md-12" name="supplier{{$index}}" data-ng-model="find.pits" placeholder="Select Supplier" style="padding: 0px;">
-										<option ng-repeat="pitsinfo in findPits"
+										<option ng-repeat="pitsinfo in findPits | orderBy: 'pitsName'"
 												value="{{pitsinfo.id}}" ng-selected="pitsinfo.id == find.pits">{{pitsinfo.pitsName}}</option>
 										
 					      			  </select>	

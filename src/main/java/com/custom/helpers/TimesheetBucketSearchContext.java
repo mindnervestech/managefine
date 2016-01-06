@@ -238,16 +238,6 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				myBucket.setId(timesheets.get(i).getId());
 				myBucket.setWeekOfYear(timesheets.get(i).getWeekOfYear());
 				myBucket.setYear(timesheets.get(i).getYear());
-//				if(timesheets.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
-				results.add(i, myBucket);
 			}
 		if(timesheetsDelegate != null){
 			for(int i =0; i<timesheetsDelegate.size(); i++){
@@ -258,16 +248,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				myBucket.setId(timesheetsDelegate.get(i).getId());
 				myBucket.setWeekOfYear(timesheetsDelegate.get(i).getWeekOfYear());
 				myBucket.setYear(timesheetsDelegate.get(i).getYear());
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
-				results.add(i, myBucket);
+			results.add(i, myBucket);
 			}
 		}
 			
@@ -279,30 +260,22 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 		}
 		return null;
 	}
-
+	
 	public GridViewModel doSearch(DynamicForm form) {
-		//List<Timesheet> timesheets = null;
-		//List<Timesheet> timesheetsDelegate = null;
-		
+			
 		List<TimesheetActual> timesheets = null;
 		List<TimesheetActual> timesheetsDelegate = null;
 		
+		System.out.println("first name: "+form.data().get("firstName"));
 		User user = User.findByEmail(form.data().get("userEmail"));
 		Long id = null;
 		if(form.data().get("status") != null ){
-			/*timesheets = Timesheet.find.where()
-					.and(Expr.eq("status", TimesheetStatus.valueOf(form.data().get("status")).ordinal()),
-							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
-								.findList();*/
+			
 			timesheets = TimesheetActual.find.where()
 					.and(Expr.eq("status", TimesheetStatus.valueOf(form.data().get("status")).ordinal()),
 							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
 								.findList();
 		}else{
-			/*timesheets = Timesheet.find.where()
-					.and(Expr.eq("status", TimesheetStatus.Submitted),
-							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
-								.findList();*/
 			timesheets = TimesheetActual.find.where()
 					.and(Expr.eq("status", TimesheetStatus.Submitted),
 							Expr.eq("timesheetWith", User.findByEmail(form.data().get("userEmail"))))
@@ -313,10 +286,8 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 		if(delegate != null && (today.isAfter(delegate.fromDate.getTime()) && today.isBefore(delegate.toDate.getTime())))
 		{
 			id = delegate.delegator.id;
-			//timesheetsDelegate = Timesheet.find.where().eq("timesheetWith",User.find.byId(id)).findList();
 			timesheetsDelegate = TimesheetActual.find.where().eq("timesheetWith",User.find.byId(id)).findList();
 		}
-		
 		
 		List<TimeSheetBucket> results = new ArrayList<TimeSheetBucket>();
 		if(timesheets!= null){
@@ -328,6 +299,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				myBucket.setId(timesheets.get(i).getId());
 				myBucket.setWeekOfYear(timesheets.get(i).getWeekOfYear());
 				myBucket.setYear(timesheets.get(i).getYear());
+				
 				int count = 0;
 				for(TimesheetRowActual row :timesheets.get(i).timesheetRowsActual) {
 					List<TimesheetDaysActual> dayList = TimesheetDaysActual.getByTimesheetRow(row);
@@ -337,45 +309,28 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 							count = count+day.getWorkMinutes();
 						}
 					}
-					
 				}
 				int hrs = count/60;
 				myBucket.setTotalHrs(hrs);
-				/*
-				myBucket.firstName = timesheets.get(i).user.firstName;
-				myBucket.lastName = timesheets.get(i).user.lastName;
-				myBucket.projectName = Project.findByProjectCode(timesheets.get(i).timesheetRows.get(0).projectCode).projectName;
-				myBucket.id = timesheets.get(i).id;
-				myBucket.weekOfYear = timesheets.get(i).weekOfYear;
-				myBucket.year = timesheets.get(i).year;*/
-//				if(timesheets.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
 				results.add(i, myBucket);
 			}
 		}
-		
+	
 		int page = Integer.parseInt(form.get("page"));
 		int limit = Integer.parseInt(form.get("rows"));
 		GridViewModel.PageData pageData = new PageData(limit,page);
-		int count = 0;
+		int count1 = 0;
 		
 		if(results != null ){
-			count = results.size();
+			count1 = results.size();
 		}
 		String sidx = form.get("sidx");
 		String sord = form.get("sord");
 		double min = Double.parseDouble(form.get("rows"));
 		int total_pages=0;
-		
-		if(count > 0){
-			total_pages = (int) Math.ceil(count/min);
+
+		if(count1 > 0){
+			total_pages = (int) Math.ceil(count1/min);
 		}
 		else{
 			total_pages = 0;
@@ -385,39 +340,48 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 			page = total_pages;
 		}
 		
+		int start = limit*page - limit;//orderBy(sidx+" "+sord)
+		limit = limit + start;
+		
+		if(results.size() > start && results.size() < limit){
+			limit = results.size(); 
+		}
+
+
+		/*List<Projectinstance> results = null;
+		List<Projectinstance> pList2 = new ArrayList<>();
+		if(form.data().get("clientName") != null && form.data().get("clientName") != ""){
+			
+			for(Projectinstance projList:pList){
+				
+				if(projList.clientName.toUpperCase().startsWith(form.data().get("clientName").toUpperCase())){
+					pList2.add(projList);
+				}
+			}
+			results = pList2;
+			
+			count = pList2.size(); 
+					
+			 start = limit*page - limit;
+			limit = limit + start;
+		*/
+		
+		
 		if(timesheetsDelegate != null){
-			count = count + timesheetsDelegate.size();
+			count1 = count1 + timesheetsDelegate.size();
 			for(int i =0; i<timesheetsDelegate.size(); i++){
 				TimeSheetBucket myBucket = new TimeSheetBucket();
-				myBucket.setFirstName(timesheetsDelegate.get(i).getUser().getFirstName());
+			    myBucket.setFirstName(timesheetsDelegate.get(i).getUser().getFirstName());
 				myBucket.setLastName(timesheetsDelegate.get(i).user.getLastName());
 				myBucket.setProjectName(Project.findByProjectCode(timesheetsDelegate.get(i).timesheetRowsActual.get(0).getProjectCode()).getProjectName());
 				myBucket.setId(timesheetsDelegate.get(i).getId());
 				myBucket.setWeekOfYear(timesheetsDelegate.get(i).getWeekOfYear());
 				myBucket.setYear(timesheetsDelegate.get(i).getYear());
-				
-/*				myBucket.firstName = timesheets.get(i).user.getFirstName();
-				myBucket.lastName = timesheets.get(i).user.getLastName();
-				myBucket.projectName = Project.findByProjectCode(timesheets.get(i).timesheetRows.get(0).projectCode).projectName;
-				myBucket.id = timesheets.get(i).id;
-				myBucket.weekOfYear = timesheets.get(i).weekOfYear;
-				myBucket.year = timesheets.get(i).year;
-*///				if(timesheetsDelegate.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
 				results.add(i, myBucket);
 			}
 		}
-		
-		int start = limit*page - limit;//orderBy(sidx+" "+sord)
-		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
-		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
+		List<GridViewModel.RowViewModel> rows = transform(results.subList(start, limit), toJqGridFormat()) ;
+		GridViewModel gridViewModel = new GridViewModel(pageData, count1, rows);
 		return gridViewModel;
 	}
 	
