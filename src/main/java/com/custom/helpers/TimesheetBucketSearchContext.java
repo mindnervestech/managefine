@@ -36,6 +36,7 @@ import com.mnt.core.utils.GridViewModel;
 import com.mnt.core.utils.GridViewModel.PageData;
 import com.mnt.core.utils.GridViewModel.RowViewModel;
 import com.mnt.createProject.model.Projectinstance;
+import com.mnt.time.controller.TimesheetBuckets;
 import com.mnt.time.controller.routes;
 
 import dto.TimeSheetBucket;
@@ -265,8 +266,6 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 			
 		List<TimesheetActual> timesheets = null;
 		List<TimesheetActual> timesheetsDelegate = null;
-		
-		System.out.println("first name: "+form.data().get("firstName"));
 		User user = User.findByEmail(form.data().get("userEmail"));
 		Long id = null;
 		if(form.data().get("status") != null ){
@@ -347,25 +346,51 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 			limit = results.size(); 
 		}
 
-
-		/*List<Projectinstance> results = null;
-		List<Projectinstance> pList2 = new ArrayList<>();
-		if(form.data().get("clientName") != null && form.data().get("clientName") != ""){
-			
-			for(Projectinstance projList:pList){
-				
-				if(projList.clientName.toUpperCase().startsWith(form.data().get("clientName").toUpperCase())){
-					pList2.add(projList);
+		List<TimeSheetBucket> finalResults= null;
+		List<TimeSheetBucket> buckList= new ArrayList<>();
+		if(form.data().get("firstName") != null && form.data().get("firstName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.firstName.toUpperCase().startsWith(form.data().get("firstName").toUpperCase())){
+					buckList.add(buckets);
 				}
 			}
-			results = pList2;
-			
-			count = pList2.size(); 
-					
-			 start = limit*page - limit;
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
 			limit = limit + start;
-		*/
-		
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}
+		else if(form.data().get("lastName") != null && form.data().get("lastName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.lastName.toUpperCase().startsWith(form.data().get("lastName").toUpperCase())){
+					buckList.add(buckets);
+				}
+			}
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
+			limit = limit + start;
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}else if(form.data().get("projectName") != null && form.data().get("projectName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.projectName.toUpperCase().startsWith(form.data().get("projectName").toUpperCase())){
+					buckList.add(buckets);
+				}
+			}
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
+			limit = limit + start;
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}else{
+			finalResults = results;
+		}
 		
 		if(timesheetsDelegate != null){
 			count1 = count1 + timesheetsDelegate.size();
@@ -380,7 +405,7 @@ public class TimesheetBucketSearchContext extends ASearchContext<TimeSheetBucket
 				results.add(i, myBucket);
 			}
 		}
-		List<GridViewModel.RowViewModel> rows = transform(results.subList(start, limit), toJqGridFormat()) ;
+		List<GridViewModel.RowViewModel> rows = transform(finalResults.subList(start, limit), toJqGridFormat()) ;
 		GridViewModel gridViewModel = new GridViewModel(pageData, count1, rows);
 		return gridViewModel;
 	}

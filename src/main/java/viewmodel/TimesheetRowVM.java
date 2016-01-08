@@ -65,6 +65,7 @@ public class TimesheetRowVM {
 	public String supplier;
 	public String customer;
 	public String note;
+	public Boolean isdisabled=true;
 	
 	public List<TimesheetDaysVM> timesheetRowDays;
 	

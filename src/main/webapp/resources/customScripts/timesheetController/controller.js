@@ -11,7 +11,6 @@ app.controller("TimeSheetController", function($scope,$http) {
 	var oldday = [];
 	$scope.dayScope="day";
 	$scope.dayData= [];
-	$scope.dayData = [];
 	$scope.taskList = [];
 	$scope.supplierCode=null;
 	$scope.isCopyFromLastweek = false;
@@ -150,15 +149,11 @@ app.controller("TimeSheetController", function($scope,$http) {
 				$("#submitTimesheetForm").attr("disabled","disabled");
 				$("#retractTimesheetForm").attr("disabled","disabled");
 				$("#addMore").hide();
-			} else {
+			} else if($scope.timesheetData.status == "Draft") {
 				$("#timeSheetTable :input").removeAttr("readonly","readonly");
 				$("#timeSheetTable select").removeAttr("disabled","disabled");
-				$("input:checkbox").removeAttr("disabled","disabled");
-				$("#copyFromLastWeek").removeAttr("disabled","disabled");
-				$("#saveTimesheetForm").removeAttr("disabled","disabled");
-				$("#submitTimesheetForm").removeAttr("disabled","disabled");
-				$("#retractTimesheetForm").attr("disabled","disabled");
-				$("#addMore").show();
+				$("#timesheetRowsfield :input").attr("readonly","readonly");
+				$("#timesheetRowsfield select").attr("disabled","disabled");
 			}
 		}
 	});
@@ -183,14 +178,14 @@ app.controller("TimeSheetController", function($scope,$http) {
 	}
 	
 	$scope.getByWeek = function(week,year) {
-		
+		/*
 		$("#timeSheetTable :input").removeAttr("readonly","readonly");
 		$("#timeSheetTable select").removeAttr("disabled","disabled");
 		$("input:checkbox").removeAttr("disabled","disabled");
 		$("#copyFromLastWeek").removeAttr("disabled","disabled");
 		$("#saveTimesheetForm").removeAttr("disabled","disabled");
 		$("#submitTimesheetForm").removeAttr("disabled","disabled");
-		
+		*/
 		$http({method:'GET',url:contextPath+'/getTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
 			oldData=[];
@@ -247,16 +242,17 @@ app.controller("TimeSheetController", function($scope,$http) {
 				
 				for(var i=0;i<$scope.timesheetData.length;i++) {
 					$scope.setTaskOfProject($scope.timesheetData[i].projectCode,i);
+					//$scope.timesheetData[i].isdisabled=true;
 				}
 				if(data.timesheetData.status == "Submitted") {
 					$scope.isShow = false;
 					$("#timeSheetTable :input").attr("readonly","readonly");
 					$("#timeSheetTable select").attr("disabled","disabled");
 					$("input:checkbox").attr("disabled","disabled");
-					$("#copyFromLastWeek").attr("disabled","disabled");
+					//$("#copyFromLastWeek").attr("disabled","disabled");
 					$("#saveTimesheetForm").attr("disabled","disabled");
 					$("#submitTimesheetForm").attr("disabled","disabled");
-					$("#retractTimesheetForm").removeAttr("disabled","disabled");
+					//$("#retractTimesheetForm").removeAttr("disabled","disabled");
 					$("#addMore").hide();
 				} else {
 					if(data.timesheetData.status == "Approved") {
@@ -264,14 +260,20 @@ app.controller("TimeSheetController", function($scope,$http) {
 						$("#timeSheetTable :input").attr("readonly","readonly");
 						$("#timeSheetTable select").attr("disabled","disabled");
 						$("input:checkbox").attr("disabled","disabled");
-						$("#copyFromLastWeek").attr("disabled","disabled");
+						//$("#copyFromLastWeek").attr("disabled","disabled");
 						$("#saveTimesheetForm").attr("disabled","disabled");
 						$("#submitTimesheetForm").attr("disabled","disabled");
-						$("#retractTimesheetForm").attr("disabled","disabled");
+						//$("#retractTimesheetForm").attr("disabled","disabled");
 						$("#addMore").hide();
-					} else {
+					}else if(data.timesheetData.status == "Draft") {
+						$("#timeSheetTable :input").removeAttr("readonly","readonly");
+						$("#timeSheetTable select").removeAttr("disabled","disabled");
+						$("#saveTimesheetForm").removeAttr("disabled","disabled");
+						$("#timesheetRowsfield :input").attr("readonly","readonly");
+						$("#timesheetRowsfield select").attr("disabled","disabled");
+					}else {
 						$scope.isShow = true;
-						$("#retractTimesheetForm").attr("disabled","disabled");
+						//$("#retractTimesheetForm").attr("disabled","disabled");
 						$("#addMore").show();
 					}
 				}
@@ -627,189 +629,187 @@ app.controller("TimeSheetController", function($scope,$http) {
 		var f=0;
 		if (day1=='mon'){
 			k = 0;
-			 $scope.dayScope="mon";
-			 $scope.headerData="Monday Data";
+			$scope.dayScope="mon";
+			$scope.headerData="Monday Data";
 			for(var j=0; j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].monTo!=null) && ($scope.n_timesheetData[j].monFrom!=null)){			
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].monSupplier;
-				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].monNotes;
-				$scope.dayData.push($scope.n_timesheetData[j]);
-				oldday.push($scope.n_timesheetData[j]);
-				
-			 for(var i=0;i<$scope.projectLst.length;i++) {
-					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-						f++;
-						if(f==1)
-						{
-						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-						k++;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].monSupplier;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].monNotes;
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+
+					for(var i=0;i<$scope.projectLst.length;i++) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1)
+							{
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
 						}
-						
 					}
 				}
-			  }
-				
+
 			};
-			
 		}
-		
+
 		if (day1=='tue')
-			{
+		{
 			k = 0;
-			 $scope.dayScope="tue";
-			 $scope.headerData="Tuesday Data";
+			$scope.dayScope="tue";
+			$scope.headerData="Tuesday Data";
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
-					f=0;
-					if(($scope.n_timesheetData[j].tueTo!=null) && ($scope.n_timesheetData[j].tueFrom!=null)){
+				f=0;
+				if(($scope.n_timesheetData[j].tueTo!=null) && ($scope.n_timesheetData[j].tueFrom!=null)){
 					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;
 					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].tueCustomer;
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].tueNotes;	
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
 					for(var i=0;i<$scope.projectLst.length;i++) {		
-							if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
 							if(f==1)
 							{
-							$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-							k++;
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
 							}
 						}
 					}
-					}
-				
-				};
-			}
+				}
+
+			};
+		}
 		if (day1=='wed')
 		{
 			k=0;
-		 $scope.dayScope="wed";
-		 $scope.headerData="Wednesday Data";
-		for(var j=0;j<$scope.n_timesheetData.length;j++) {
-			f=0;
-			if(($scope.n_timesheetData[j].wedTo!=null) && ($scope.n_timesheetData[j].wedFrom!=null))
-			{
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;
-			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].wedNotes;		
-			$scope.dayData.push($scope.n_timesheetData[j]);
-			oldday.push($scope.n_timesheetData[j]);
-			for(var i=0;i<$scope.projectLst.length;i++) {
-				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-					f++;
-					if(f==1){
-					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-					k++;
+			$scope.dayScope="wed";
+			$scope.headerData="Wednesday Data";
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {
+				f=0;
+				if(($scope.n_timesheetData[j].wedTo!=null) && ($scope.n_timesheetData[j].wedFrom!=null))
+				{
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].wedNotes;		
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.projectLst.length;i++) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1){
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
+						}
 					}
 				}
-			  }
-			}
 			};
 		}
 		if (day1=='thu')
 		{
 			k=0;
-		 $scope.dayScope="thu";
-		 $scope.headerData="Thursday Data";
-		for(var j=0;j<$scope.n_timesheetData.length;j++) {
-			f=0;
-			if(($scope.n_timesheetData[j].thuTo!=null) && ($scope.n_timesheetData[j].thuFrom!=null)){
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;
-			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].thuNotes;
-			$scope.dayData.push($scope.n_timesheetData[j]);
-			oldday.push($scope.n_timesheetData[j]);
-			for(var i=0;i<$scope.projectLst.length;i++) {
-				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-					f++;
-					if(f==1){
-					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-					k++;
+			$scope.dayScope="thu";
+			$scope.headerData="Thursday Data";
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {
+				f=0;
+				if(($scope.n_timesheetData[j].thuTo!=null) && ($scope.n_timesheetData[j].thuFrom!=null)){
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].thuNotes;
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.projectLst.length;i++) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1){
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
+						}
 					}
 				}
-		   	 }
-			}
 			};
 		}
 		if (day1=='fri')
 		{
-		 $scope.dayScope="fri";
-		 $scope.headerData="Friday Data";
-		for(var j=0;j<$scope.n_timesheetData.length;j++) {
-			f=0;
-			if(($scope.n_timesheetData[j].friTo!=null) && ($scope.n_timesheetData[j].friFrom!=null)){
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;
-			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].friNotes;	
-			$scope.dayData.push($scope.n_timesheetData[j]);
-			oldday.push($scope.n_timesheetData[j]);
-			for(var i=0;i<$scope.projectLst.length;i++) {
-				
-				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-					f++;
-					if(f==1){
-					$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-					k++;
+			$scope.dayScope="fri";
+			$scope.headerData="Friday Data";
+			for(var j=0;j<$scope.n_timesheetData.length;j++) {
+				f=0;
+				if(($scope.n_timesheetData[j].friTo!=null) && ($scope.n_timesheetData[j].friFrom!=null)){
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].friNotes;	
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.projectLst.length;i++) {
+
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1){
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
+						}
 					}
 				}
-			   }
-			  }
 			};
 		}	
-			if (day1=='sat')
-			{
-			 $scope.dayScope="sat";
-			 $scope.headerData="Saturday Data";
+		if (day1=='sat')
+		{
+			$scope.dayScope="sat";
+			$scope.headerData="Saturday Data";
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].satTo!=null) && ($scope.n_timesheetData[j].satFrom!=null)){
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;
-				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].satNotes;	
-				$scope.dayData.push($scope.n_timesheetData[j]);
-				oldday.push($scope.n_timesheetData[j]);
-				for(var i=0;i<$scope.projectLst.length;i++) {
-					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-						f++;
-						if(f==1){
-						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-						k++;
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].satNotes;	
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.projectLst.length;i++) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1){
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
 						}
 					}
-			      }
 				}
-				};
-			}
-			if (day1=='sun')
-			{
-			 $scope.dayScope="sun";
-			 $scope.headerData="Sunday Data";
+			};
+		}
+		if (day1=='sun')
+		{
+			$scope.dayScope="sun";
+			$scope.headerData="Sunday Data";
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].sunTo!=null) && ($scope.n_timesheetData[j].sunFrom!=null)){
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;
-				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].sunNotes;
-				$scope.dayData.push($scope.n_timesheetData[j]);
-				oldday.push($scope.n_timesheetData[j]);
-				for(var i=0;i<$scope.projectLst.length;i++) {
-					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
-						f++;
-						if(f==1){
-						$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
-						k++;
+					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;
+					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;
+					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].sunNotes;
+					$scope.dayData.push($scope.n_timesheetData[j]);
+					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.projectLst.length;i++) {
+						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
+							f++;
+							if(f==1){
+								$scope.taskLstArray[k] = $scope.projectLst[i].tasklist;
+								k++;
+							}
 						}
 					}
-				  }
 				}
-				};
-			}
-		
+			};
+		}
+
 		$('#popupBtn6').click();
 	}	
-	
+
 	$scope.confirmDelete1 = function() {
 		$('#popupBtn6').click();
 		$('#deleteClose').click();
@@ -1188,36 +1188,43 @@ app.controller("TimeSheetController", function($scope,$http) {
 				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
 				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
 				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='tue'){
 				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
 				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
 				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='wed'){
 				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='thu'){
 				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='fri'){
 				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sat'){
 				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sun'){
 				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 		}
 		
@@ -2316,15 +2323,11 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 				$("#submitTimesheetForm").attr("disabled","disabled");
 				$("#retractTimesheetForm").attr("disabled","disabled");
 				$("#addMore").hide();
-			} else {
+			} else if($scope.timesheetData.status == "Draft") {
 				$("#timeSheetTable :input").removeAttr("readonly","readonly");
 				$("#timeSheetTable select").removeAttr("disabled","disabled");
-				$("input:checkbox").removeAttr("disabled","disabled");
-				$("#copyFromLastWeek").removeAttr("disabled","disabled");
-				$("#saveTimesheetForm").removeAttr("disabled","disabled");
-				$("#submitTimesheetForm").removeAttr("disabled","disabled");
-				$("#retractTimesheetForm").attr("disabled","disabled");
-				$("#addMore").show();
+				$("#timesheetRowsfield :input").attr("readonly","readonly");
+				$("#timesheetRowsfield select").attr("disabled","disabled");
 			}
 		}
 	});
@@ -2349,13 +2352,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 	
 	$scope.getByWeek = function(week,year) {
 		
-		$("#timeSheetTable :input").removeAttr("readonly","readonly");
+	/*	$("#timeSheetTable :input").removeAttr("readonly","readonly");
 		$("#timeSheetTable select").removeAttr("disabled","disabled");
 		$("input:checkbox").removeAttr("disabled","disabled");
 		$("#copyFromLastWeek").removeAttr("disabled","disabled");
 		$("#saveTimesheetForm").removeAttr("disabled","disabled");
 		$("#submitTimesheetForm").removeAttr("disabled","disabled");
-		
+		*/
 		
 		$http({method:'GET',url:contextPath+'/getActualTimesheetBySelectedWeek',params:{userId:$scope.userId,week:week,year:year}})
 		.success(function(data) {
@@ -2437,7 +2440,13 @@ app.controller("NewTimeSheetController", function($scope,$http,$compile) {
 						$("#submitTimesheetForm").attr("disabled","disabled");
 						$("#retractTimesheetForm").attr("disabled","disabled");
 						$("#addMore").hide();
-					} else {
+					} else if(data.timesheetData.status == "Draft") {
+						$("#timeSheetTable :input").removeAttr("readonly","readonly");
+						$("#timeSheetTable select").removeAttr("disabled","disabled");
+						$("#saveTimesheetForm").removeAttr("disabled","disabled");
+						$("#timesheetRowsfield :input").attr("readonly","readonly");
+						$("#timesheetRowsfield select").attr("disabled","disabled");
+					}else {
 						$scope.isShow = true;
 						$("#retractTimesheetForm").attr("disabled","disabled");
 						$("#addMore").show();
@@ -3406,37 +3415,44 @@ $scope.confirmDelete1 = function() {
 				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
 				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
 				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			
 			if($scope.dayScope=='tue'){
 				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
 				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
 				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='wed'){
 				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='thu'){
 				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='fri'){
 				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sat'){
 				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sun'){
 				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
 				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
 				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
+				 $scope.dayData[i].isdisabled=false;
 			}
 		}
 		for(var i=0;i<newlen;i++){

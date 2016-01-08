@@ -528,7 +528,6 @@ public class CreateProjectController {
 			 if(c.getRight() != null){
 				 chVm.newVal = c.getRight().toString();
 			 }
-			 
 			 list.add(chVm);
 			 }	
     	 }

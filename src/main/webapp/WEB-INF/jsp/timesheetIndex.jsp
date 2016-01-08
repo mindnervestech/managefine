@@ -20,6 +20,7 @@
 <script type="text/javascript" src='<c:url value="/resources/customScripts/timesheetController/controller.js"/>'></script>
 </head>
 <body ng-controller="TimeSheetController" ng-init='getTimesheetData(${asJson})'>
+
 <jsp:include page="menuContext.jsp" />
 
 	<div class="tsMainDiv">
@@ -119,13 +120,13 @@
 				
 			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
-				 <div class="innerInputDiv" style="margin-top:23px;">
+				 <div id="timesheetRowsfield" class="innerInputDiv" style="margin-top:23px;">
 					<div class="innerChainSelect">
 						<div class="clearfix"
 							id="timesheetRows_1__projectCode_field">
 							<label for="timesheetRows_1__projectCode"></label>
 							<div class="input">
-								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode,$index)">
+								<select class="largeInput largeInputFirst required" ng-disabled="row.isdisabled" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode,$index)" disabled>
 									<option class="blank" value="">-select-</option>
 									<option ng-repeat="project in projectList" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
@@ -136,7 +137,7 @@
 							<label for="timesheetRows_1__taskCode"></label>
 							<div class="input" ng-init="setTaskOfProject(row.projectCode,$index)">
 										<select id="timesheetRows_1__taskCode"
-											name="timesheetRows[1].taskCode"
+											name="timesheetRows[1].taskCode" ng-disabled="row.isdisabled"
 											class="largeInput taskInput" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
 											<option ng-repeat="task in taskListArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
@@ -377,13 +378,10 @@
 				<label style="margin-left:60px;margin-top:-25px;color: red"><b>(Note :Please save daily.)</b></label>
 				<label style="margin-left:712px;margin-top:-25px;color: red"><b>(Note :Please submit only on weekends.)</b></label>
 				 <input type="button"
-				id="retractTimesheetForm" style="display:none" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
+				id="retractTimesheetForm" style="display:none;" class="btn btn-warning" ng-click="confirmRetract()" value="Retract">
 			<input type="hidden" id="cancelTimesheetForm" class="btn btn-warning"
 				Value="Cancel">
 		</div>
-				
-				
-				
 				</div>
 				
 			</div>	
@@ -398,14 +396,11 @@
 </button>
 <button id="popupBtn4" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal4" style="display: none; ">
 </button>
-<button id="popupBtn5" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal5" style="display: none;">
-</button>
 <button id="popupBtn6" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal6" style="display: none;">
 </button>
 <button id="popupBtn7" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal7" style="display: none;">
 </button>
 </body>
-
 </html>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -470,56 +465,9 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary" ng-click="confirmDelete1($index,row.rowId)">Yes</button>
       </div>
-     <!--   <div class="modal-footer" ng-if="flag1=='true'">
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" ng-click="removeRow1($index,row.rowId)">Yes</button>
-      </div> -->
-    </div>
-  
-  </div>
-</div>
-
-<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" id="modal5Close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      	<h4 class="modal-title">Add Supplier and Customer</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-inline">
-		  <div class="form-group">
-		    <label>Supplier</label>
-		    <select class="form-control" ng-model="supplierCode" style="width:182px;">
-		    	<option value="">--Select Supplier--</option>
-		    	<option ng-repeat="supplier in supplierList | orderBy: 'name'" value="{{supplier.id}}">{{supplier.name}}</option>
-		    </select>
-		  </div>
-		  <div class="form-group">
-		    <label>Customer</label>
-		     <select class="form-control" ng-model="customerCode" style="width:182px;">
-		    	<option value="">--Select Customer--</option>
-		    	<option ng-repeat="cust in customerList | orderBy:'name'" value="{{cust.id}}">{{cust.name}}</option>
-		    </select>
-		  </div>
-		  
-		</div>
-		<div class="form-inline" Style="margin-top:6%;margin-left:13px;">
-			<div class="form-group">
-			    <label>Notes</label>
-			     <textarea ng-model="notes" class="form-group"></textarea>
-			  </div>
-		  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" ng-click="addData()">Save</button>
-      </div>
     </div>
   </div>
 </div>
-
-
 
 <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none; width: 1162px; left: 26%; ">
   <div class="modal-dialog">
@@ -540,13 +488,13 @@
          <div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in dayData track by $index" on-finish-render="ngRepeatFinished"> 
 		  <div class="form-group" >
 		   
-		   	    <div class="innerInputDiv" style="margin-top:30px;">
+		   	    <div id="timesheetSelectfield" class="innerInputDiv" style="margin-top:30px;">
 		   
 		   		     <div class="clearfix"
-							id="timesheetRows_1__projectCode_field">
+							id="timesheetRows_1__projectCode_field" >
 							<label for="timesheetRows_1__projectCode"></label>
 							<div class="input">
-								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
+								<select class="largeInput largeInputFirst required"  ng-disabled="row.isdisabled" ng-model="row.projectCode"  ng-change="setTaskOfPrj(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
 									<option  ng-repeat="project in projectLst | orderBy:'projectCode'" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
@@ -557,7 +505,7 @@
 							<label for="timesheetRows_1__taskCode"></label>
 							<div class="input" ng-init="setTaskOfPrj(row.projectCode,$index)">
 										<select id="timesheetRows_1__taskCode"
-											name="timesheetRows[1].taskCode"
+											name="timesheetRows[1].taskCode"  ng-disabled="row.isdisabled"
 											class="largeInput taskInput" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
 											<option ng-repeat="task in taskLstArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
@@ -754,13 +702,10 @@
 										</div>
 												
 									</div>
-				
-		
-										
-																			
+														
 						</div>
 					</div>			
-								 <div class="form-group">
+								  <div class="form-group">
 								 <div style="margin-top:48px;">
 									<div class="clearfix" style="margin-left:7px;">
 									 <select id="scode" class="form-control" ng-model="row.supplier" style="width:182px;">

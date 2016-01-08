@@ -138,12 +138,12 @@
 			<div style="margin-left:50%;"><b>Enter time in 24 hrs format e.g. (09:30-14:30)</b></div>
 			<div class="twipsies well timesheetRow" style="width: 100%;margin-left: 0%;" ng-repeat="row in timesheetData track by $index" on-finish-render="ngRepeatFinished">
 				 <div class="innerInputDiv" style="margin-top:23px;">
-					<div class="innerChainSelect">
+					<div id="timesheetRowsfield" class="innerChainSelect">
 						<div class="clearfix"
 							id="timesheetRows_1__projectCode_field">
 							<label for="timesheetRows_1__projectCode"></label>
 							<div class="input">
-								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode,$index)">
+								<select class="largeInput largeInputFirst required" ng-disabled="row.isdisabled" ng-model="row.projectCode" ng-change="setTaskOfProject(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
 									<option ng-repeat="project in projectList" ng-selected="row.projectCode == project.id" value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
@@ -154,7 +154,7 @@
 							<label for="timesheetRows_1__taskCode"></label>
 							<div class="input" ng-init="setTaskOfProject(row.projectCode,$index)">
 										<select id="timesheetRows_1__taskCode"
-											name="timesheetRows[1].taskCode"
+											name="timesheetRows[1].taskCode" ng-disabled="row.isdisabled"
 											class="largeInput taskInput" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
 											<option ng-repeat="task in taskListArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
@@ -400,15 +400,13 @@
 				Value="Cancel">
 		</div>
 				
-				
-				
 				</div>
 				
 			</div>	
 		
 		</div>
 	</div>
-	<button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
+<button id="popupBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
 </button>
 <button id="popupBtn2" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2" style="display: none;">
 </button>
@@ -556,7 +554,7 @@
 							id="timesheetRows_1__projectCode_field">
 							<label for="timesheetRows_1__projectCode"></label>
 							<div class="input">
-								<select class="largeInput largeInputFirst required" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
+								<select class="largeInput largeInputFirst required" ng-disabled="row.isdisabled" ng-model="row.projectCode" ng-change="setTaskOfPrj(row.projectCode,$index)">
 									<option class="blank" value="">-select-</option>
 									<option  ng-repeat="project in projectLst  | orderBy:'projectCode'" ng-selected="row.projectCode == project.id " value="{{project.id}}">{{project.projectCode}}</option>
 								</select> <span class="help-inline"></span> <span class="help-block"></span>
@@ -568,7 +566,7 @@
 							<div class="input" ng-init="setTaskOfPrj(row.projectCode,$index)">
 										<select id="timesheetRows_1__taskCode"
 											name="timesheetRows[1].taskCode"
-											class="largeInput taskInput" ng-model="row.taskCode">
+											class="largeInput taskInput" ng-disabled="row.isdisabled" ng-model="row.taskCode">
 											<option class="blank" value="">-select-</option>
 											<option ng-repeat="task in taskLstArray[$index] | orderBy: 'taskCode'" ng-selected="row.taskCode == task.id" value="{{task.id}}">{{task.taskCode}}</option>
 										</select>

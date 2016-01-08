@@ -284,7 +284,6 @@ public class CalendarBucketSearchContext extends ASearchContext<TimeSheetBucket>
 	public GridViewModel doSearch(DynamicForm form) {
 		List<Timesheet> timesheets = null;
 		List<Timesheet> timesheetsDelegate = null;
-		
 		User user = User.findByEmail(form.data().get("userEmail"));
 		Long id = null;
 		if(form.data().get("status") != null ){
@@ -306,7 +305,6 @@ public class CalendarBucketSearchContext extends ASearchContext<TimeSheetBucket>
 			timesheetsDelegate = Timesheet.find.where().eq("timesheetWith",User.find.byId(id)).findList();
 		}
 		
-		
 		List<TimeSheetBucket> results = new ArrayList<TimeSheetBucket>();
 		if(timesheets!= null){
 			for(int i=0 ; i<= timesheets.size()-1; i++){
@@ -326,45 +324,28 @@ public class CalendarBucketSearchContext extends ASearchContext<TimeSheetBucket>
 							count = count+day.getWorkMinutes();
 						}
 					}
-					
 				}
 				int hrs = count/60;
 				myBucket.setTotalHrs(hrs);
-				/*
-				myBucket.firstName = timesheets.get(i).user.firstName;
-				myBucket.lastName = timesheets.get(i).user.lastName;
-				myBucket.projectName = Project.findByProjectCode(timesheets.get(i).timesheetRows.get(0).projectCode).projectName;
-				myBucket.id = timesheets.get(i).id;
-				myBucket.weekOfYear = timesheets.get(i).weekOfYear;
-				myBucket.year = timesheets.get(i).year;*/
-//				if(timesheets.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheets.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
 				results.add(i, myBucket);
 			}
 		}
-		
+
 		int page = Integer.parseInt(form.get("page"));
 		int limit = Integer.parseInt(form.get("rows"));
 		GridViewModel.PageData pageData = new PageData(limit,page);
-		int count = 0;
+		int count1 = 0;
 		
 		if(results != null ){
-			count = results.size();
+			count1 = results.size();
 		}
 		String sidx = form.get("sidx");
 		String sord = form.get("sord");
 		double min = Double.parseDouble(form.get("rows"));
 		int total_pages=0;
-		
-		if(count > 0){
-			total_pages = (int) Math.ceil(count/min);
+
+		if(count1 > 0){
+			total_pages = (int) Math.ceil(count1/min);
 		}
 		else{
 			total_pages = 0;
@@ -374,8 +355,62 @@ public class CalendarBucketSearchContext extends ASearchContext<TimeSheetBucket>
 			page = total_pages;
 		}
 		
+		int start = limit*page - limit;//orderBy(sidx+" "+sord)
+		limit = limit + start;
+		
+		if(results.size() > start && results.size() < limit){
+			limit = results.size(); 
+		}
+
+		List<TimeSheetBucket> finalResults= null;
+		List<TimeSheetBucket> buckList= new ArrayList<>();
+		if(form.data().get("firstName") != null && form.data().get("firstName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.firstName.toUpperCase().startsWith(form.data().get("firstName").toUpperCase())){
+					buckList.add(buckets);
+				}
+			}
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
+			limit = limit + start;
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}
+		else if(form.data().get("lastName") != null && form.data().get("lastName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.lastName.toUpperCase().startsWith(form.data().get("lastName").toUpperCase())){
+					buckList.add(buckets);
+				}
+			}
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
+			limit = limit + start;
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}else if(form.data().get("projectName") != null && form.data().get("projectName") != ""){
+			for(TimeSheetBucket buckets: results){
+				if(buckets.projectName.toUpperCase().startsWith(form.data().get("projectName").toUpperCase())){
+					buckList.add(buckets);
+				}
+			}
+			finalResults = buckList;
+			count1 = buckList.size(); 
+			start = limit*page - limit;
+			limit = limit + start;
+			if(buckList.size() > start && buckList.size() < limit){
+				limit = buckList.size(); 
+			}
+		}else{
+			finalResults = results;
+		}
+
+		
 		if(timesheetsDelegate != null){
-			count = count + timesheetsDelegate.size();
+			count1 = count1 + timesheetsDelegate.size();
 			for(int i =0; i<timesheetsDelegate.size(); i++){
 				TimeSheetBucket myBucket = new TimeSheetBucket();
 				myBucket.setFirstName(timesheetsDelegate.get(i).getUser().getFirstName());
@@ -384,29 +419,14 @@ public class CalendarBucketSearchContext extends ASearchContext<TimeSheetBucket>
 				myBucket.setId(timesheetsDelegate.get(i).getId());
 				myBucket.setWeekOfYear(timesheetsDelegate.get(i).getWeekOfYear());
 				myBucket.setYear(timesheetsDelegate.get(i).getYear());
-				
-/*				myBucket.firstName = timesheets.get(i).user.getFirstName();
-				myBucket.lastName = timesheets.get(i).user.getLastName();
-				myBucket.projectName = Project.findByProjectCode(timesheets.get(i).timesheetRows.get(0).projectCode).projectName;
-				myBucket.id = timesheets.get(i).id;
-				myBucket.weekOfYear = timesheets.get(i).weekOfYear;
-				myBucket.year = timesheets.get(i).year;
-*///				if(timesheetsDelegate.get(i).status == TimesheetStatus.Approved){
-//					myBucket.status = myBucket.status.Approved;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Rejected){
-//					myBucket.status = myBucket.status.Rejected;
-//				}
-//				if(timesheetsDelegate.get(i).status == TimesheetStatus.Submitted){
-//					myBucket.status = myBucket.status.Submitted;
-//				}
+
 				results.add(i, myBucket);
 			}
 		}
 		
-		int start = limit*page - limit;//orderBy(sidx+" "+sord)
-		List<GridViewModel.RowViewModel> rows = transform(results, toJqGridFormat()) ;
-		GridViewModel gridViewModel = new GridViewModel(pageData, count, rows);
+		//int start = limit*page - limit;//orderBy(sidx+" "+sord)
+		List<GridViewModel.RowViewModel> rows = transform(finalResults.subList(start, limit), toJqGridFormat()) ;
+		GridViewModel gridViewModel = new GridViewModel(pageData, count1, rows);
 		return gridViewModel;
 	}
 	

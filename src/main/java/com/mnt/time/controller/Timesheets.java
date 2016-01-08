@@ -2532,7 +2532,7 @@ public class Timesheets{
 			}
 			
 		}
-			if(timesheet.status.equals("Submitted")) {
+			/*if(timesheet.status.equals("Submitted")) {
 				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
 		    	String subject = "";
@@ -2544,7 +2544,7 @@ public class Timesheets{
 		    	body += "\nPassword  :";
 		    	Email.sendOnlyMail(smtpSetting,recipients, subject, body);
 			}
-		
+		*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -3380,7 +3380,7 @@ public class Timesheets{
 			}
 			
 		}
-			if(timesheet.status.equals("Submitted")) {
+			/*if(timesheet.status.equals("Submitted")) {
 				//MailSetting smtpSetting = MailSetting.find.where().eq("companyObject", user.companyobject).findUnique();
 				MailSetting smtpSetting = MailSetting.find();
 				String recipients = "";
@@ -3392,7 +3392,7 @@ public class Timesheets{
 		    	body += "\nUser Name :";
 		    	body += "\nPassword  :";
 		    	Email.sendOnlyMail(smtpSetting,recipients, subject, body);
-			}
+			}*/
 			
 		} catch(Exception e) {
 			e.printStackTrace();
