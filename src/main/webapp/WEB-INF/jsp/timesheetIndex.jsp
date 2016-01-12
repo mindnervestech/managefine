@@ -6,8 +6,9 @@
 <head>
 <link rel="stylesheet" media="screen"
 	href='<c:url value="/resources/customCSS/customTimesheet.css"/>'>
-<%-- <script src='<c:url value="/resources/customScripts/timesheet.js"/>'
-	type="text/javascript"></script> --%>
+	
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>
 <script src='<c:url value="/resources/customScripts/jquery.plugin.js"/>'
 	type="text/javascript"></script>			
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
@@ -351,20 +352,7 @@
 												class="help-block"></span>
 										</div>
 									</div>
-								</div>
-								<!-- <div class="clearfix">
-									<label></label>
-									<div class="input" style="margin-top:-44%;">
-				
-										<input type="checkbox"
-										 	value="true"
-										 	ng-model="row.isOverTime"
-											class="checkBox checkBoxInput" style="display: none;"> <span></span> <span
-											class="help-inline"></span> <span class="help-block"></span>
-									</div>
-								</div> -->
-								<!-- <a type="button" disabled class="remove btn danger pull-right" ng-show="isShow" ng-click="" style="margin-top:51px;margin-right:3%;">X</a> -->
-							
+								</div>				
 							</div>
 			
 					</div>
@@ -708,39 +696,33 @@
 								  <div class="form-group">
 								 <div style="margin-top:48px;">
 									<div class="clearfix" style="margin-left:7px;">
-									 <select id="scode" class="form-control" ng-model="row.supplier" style="width:182px;">
-		    							<option value="">--Select Supplier--</option>
-		    							<option ng-repeat="supplier in supplierList | orderBy: 'name'" ng-selected="row.supplier == supplier.id" value="{{supplier.id}}">{{supplier.name}}</option>
-		   							 </select>
+		   							 <div class="form-control" multiple="false"
+										 ui-select2="{query: selectSupplier};"  ng-model="row.supplier"
+									     style="width:182px;" required></div>
 									</div>	
 								</div>	
 								</div>
 								 <div class="form-group">
 								<div style="margin-top:48px;">	
 									<div class="clearfix" style="margin-left:7px;">
-									<select id="cust" class="form-control" ng-model="row.customer" ng-init="cus" style="width:182px;">
-		    							<option value="">--Select Customer--</option>
-		    							<option ng-repeat="cust in customerList | orderBy:'name'" ng-selected="row.customer == cust.id" value="{{cust.id}}">{{cust.name}}</option>
-		  						    </select>
+									  <div class="form-control" multiple="false"
+										 ui-select2="{query: selectCustomer};"  ng-model="row.customer"
+									     style="width:182px;" required></div>
+		  						   
 									</div>	
 								</div>
 							</div>
-							
-						<div class="form-group">
-							<div style="margin-top:28px;">
+								
+							<div style="margin-top:28px; dispaly:block">
 				     		<div class="clearfix" style="margin-left:7px;">
-				     			<div class="form-inline" Style="margin-top:6%;">
+				     			<div class="form-inline" Style="margin-top:0px;">
 			    			 	<textarea ng-model="row.note" class="form-group"></textarea>
 			 				 	</div>
 			 				 </div>
 		 					 </div>
-				  		</div>
-				  	 <!--ng if form group close  -->	
-						<div class="form-group">
-							<div style="margin-top:28px;">
 				     		<div class="clearfix" style="margin-left:7px;">
 				     		<!-- <a class="btn" id="addMore" style="margin-left: 11px; float: left;" ng-click="addMore()"><b>+</b></a> -->
-				     		<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDlt($index,row.rowId)" style="margin-top:20px;margin-right:3%;">X</a>
+				     		<a class="remove btn danger pull-right" ng-show="isShow" ng-click="confirmDlt($index,row.rowId)" style="margin-top:0px;margin-right:3%;">X</a>
 				         </div>
 				         </div>
 				         </div>         
@@ -750,8 +732,7 @@
 		</div>
       </div>
       </div>
-    
-</div>
+
 
 
 <style>
@@ -801,6 +782,13 @@ top: -130.3125px;
 
 .well {
  margin-top:-20px;
+}
+.form-inline .form-group {
+    display: block !important;
+   
+}
+.select2-drop {
+z-index:10000;
 }
 
 </style>

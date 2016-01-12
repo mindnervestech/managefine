@@ -528,6 +528,38 @@ public class Timesheets{
 		return "schedularMonth";
     }
 	
+	@RequestMapping(value="/getCustomerList", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getCustomerList(ModelMap model,@RequestParam("str") String searchString) {
+	    Map map = new HashMap();
+		List<Client> clientList1 = Client.find.where().like("clientName", "%"+searchString+"%").findList();//
+		//List<Client> clientList = Client.getClientList();
+		List<SupplierVM> customerVMList = new ArrayList<>();
+		for(Client client: clientList1) {
+			SupplierVM vm = new SupplierVM();
+			vm.id = client.getId();
+			vm.name = client.getClientName();
+			customerVMList.add(vm);
+		}
+		map.put("customerList", customerVMList);
+		return Json.toJson(map);
+	}
+	
+	@RequestMapping(value="/getSupplierList", method = RequestMethod.GET)
+	public @ResponseBody JsonNode getSupplierList(ModelMap model,@RequestParam("str") String searchString) {
+	    Map map = new HashMap();
+		List<Supplier> supplierList = Supplier.find.where().like("supplierName", "%"+searchString+"%").findList();//
+		List<SupplierVM> supplierVMList = new ArrayList<>();
+		for(Supplier sup: supplierList) {
+			SupplierVM vm = new SupplierVM();
+			vm.id = sup.getId();
+			vm.name = sup.getSupplierName();
+			supplierVMList.add(vm);
+		}
+		map.put("customerList", supplierVMList);
+		return Json.toJson(map);
+		
+	}
+	
 	@RequestMapping(value="/getProjectCodes", method = RequestMethod.GET)
 	public @ResponseBody JsonNode getProjectCodes(ModelMap model,@RequestParam("userId") String userId) {
 		Map map = new HashMap();

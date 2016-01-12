@@ -1,7 +1,7 @@
 
 
 app.controller("TimeSheetController", function($scope,$http) {
-  
+  $scope.queryParam = ""
 	$scope.timesheetData = [];
 	$scope.projectList = [];
 	$scope.newtimesheetData = [];
@@ -634,12 +634,28 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0; j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].monTo!=null) && ($scope.n_timesheetData[j].monFrom!=null)){			
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].monSupplier;
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].monNotes;
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
-
+				 
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].monCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].monSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
+					
 					for(var i=0;i<$scope.projectLst.length;i++) {
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -663,11 +679,29 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].tueTo!=null) && ($scope.n_timesheetData[j].tueFrom!=null)){
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].tueCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;
+					//$scope.n_timesheetData[j].customer = JSON.parse($scope.n_timesheetData[j].tueCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].tueNotes;	
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].tueCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].tueSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
+					
 					for(var i=0;i<$scope.projectLst.length;i++) {		
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -691,11 +725,28 @@ app.controller("TimeSheetController", function($scope,$http) {
 				f=0;
 				if(($scope.n_timesheetData[j].wedTo!=null) && ($scope.n_timesheetData[j].wedFrom!=null))
 				{
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;
+					//$scope.n_timesheetData[j].customer = JSON.parse($scope.n_timesheetData[j].wedCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].wedNotes;		
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].wedCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].wedSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -716,11 +767,27 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].thuTo!=null) && ($scope.n_timesheetData[j].thuFrom!=null)){
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;
+					//$scope.n_timesheetData[j].customer =JSON.parse($scope.n_timesheetData[j].thuCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].thuNotes;
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].thuCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].thuSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -740,13 +807,28 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].friTo!=null) && ($scope.n_timesheetData[j].friFrom!=null)){
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;
+					//$scope.n_timesheetData[j].customer = JSON.parse($scope.n_timesheetData[j].friCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].friNotes;	
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].friCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].friSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {
-
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
 							if(f==1){
@@ -765,11 +847,27 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].satTo!=null) && ($scope.n_timesheetData[j].satFrom!=null)){
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;
+					//$scope.n_timesheetData[j].customer =JSON.parse($scope.n_timesheetData[j].satCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].satNotes;	
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].satCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].satSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -789,11 +887,27 @@ app.controller("TimeSheetController", function($scope,$http) {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {
 				f=0;
 				if(($scope.n_timesheetData[j].sunTo!=null) && ($scope.n_timesheetData[j].sunFrom!=null)){
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;
+					//$scope.n_timesheetData[j].customer =JSON.parse($scope.n_timesheetData[j].sunCustomer);
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].sunNotes;
 					$scope.dayData.push($scope.n_timesheetData[j]);
 					oldday.push($scope.n_timesheetData[j]);
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].sunCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].sunSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {
 						if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {
 							f++;
@@ -1185,47 +1299,49 @@ app.controller("TimeSheetController", function($scope,$http) {
 		
 		for(var i=0;i<$scope.dayData.length;i++){
 			if($scope.dayScope=='mon'){
-				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
-				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='tue'){
-				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
-				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='wed'){
-				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='thu'){
-				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='fri'){
-				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sat'){
-				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sun'){
-				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
+			$scope.dayData[i].customer = $scope.dayData[i].customer[0].id;
+			$scope.dayData[i].supplier = $scope.dayData[i].supplier[0].id;
 		}
 		
 		for(var i=0;i<newlen;i++){
@@ -1273,7 +1389,7 @@ app.controller("TimeSheetController", function($scope,$http) {
 						oldData[j].thuTo = $scope.dayData[len+i].thuTo;
 						oldData[j].thuFrom = $scope.dayData[len+i].thuFrom;
 						oldData[j].thuSupplier = $scope.dayData[len+i].supplier;
-						oldData[j].thuCustomer = $scope.dayData[len+i].customer;
+						oldData[j].thuCustomer =  $scope.dayData[len+i].customer;
 						oldData[j].thuNotes = $scope.dayData[len+i].note;
 						isPresent=false;
 						}
@@ -1471,11 +1587,75 @@ app.controller("TimeSheetController", function($scope,$http) {
 			if(popupClose==false)
 			$('#popupBtn6').click();
 		});
-	}
+	};
+	
+	/*$("#customer").select2({
+	    placeholder : "Search for a customer",
+	    multiple : true,
+	    minimumInputLength : 3
+	});
+	*/
+	
+/*	console.log("data res :",$scope.customerList );
+	$scope.custList = { results: [] };
+	angular.forEach($scope.customerList, function (cname, key) {
+		$scope.custList.results.push({
+			text: cname.name,
+			id: cname.id
+		});
+	});
+	*/
+	$scope.selectCustomer = function (str) {
+		 
+		if(str!=null){
+			//console.log("customer", str.term);
+			$http.get(contextPath+'/getCustomerList', {
+				params: {
+					str : str.term,
+					minimumInputLength: 3
+				}
+			}).then(function(res){
+				$scope.custList = { results: [] };
+				angular.forEach(res.data.customerList, function (cname, key) {
+					$scope.custList.results.push({
+						text: cname.name,
+						id: cname.id
+					});
+				});
+				//console.log($scope.custList);
+				str.callback($scope.custList);
+			});
+		};
+	};
 	
 	
+	$scope.selectSupplier = function (str) {
+		//multiple: false;
+		if(str!=null){
+			$http.get(contextPath+'/getSupplierList', {
+				params: {
+					str : str.term,
+					minimumInputLength: 4
+					//multiple: false
+				}
+			}).then(function(res){
+				$scope.supList = { results: [] };
+				angular.forEach(res.data.customerList, function (sname, key) {
+					$scope.supList.results.push({
+						text: sname.name,
+						id: sname.id,
+					});
+				});
+				console.log($scope.supList);
+				str.callback($scope.supList);
+			});
+		};
+	};
 	
-	
+	/*$scope.select2options = {
+			query: $scope.selectSupplier, 
+			multiple:true
+	};*/
 });
 
 
@@ -2943,14 +3123,27 @@ $scope.confirmDelete1 = function() {
 				f=0;		
 				if(($scope.n_timesheetData[j].monTo!=null) && ($scope.n_timesheetData[j].monFrom!=null)){					
 				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;		
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].monSupplier;		
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].monCustomer;		
 				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].monNotes;		
-
-				
 				$scope.dayData.push($scope.n_timesheetData[j]);		
-				oldday.push($scope.n_timesheetData[j]);		
-						
+				oldday.push($scope.n_timesheetData[j]);	
+				
+				for(var i=0;i<$scope.customerList.length;i++) {
+					if($scope.customerList[i].id == $scope.n_timesheetData[j].monCustomer) {
+						$scope.n_timesheetData[j].customer=[{
+							text : $scope.customerList[i].name,
+							id : $scope.customerList[i].id
+							}];
+					}
+				}
+				
+				for(var i=0;i<$scope.supplierList.length;i++) {
+					if($scope.supplierList[i].id == $scope.n_timesheetData[j].monSupplier) {
+						$scope.n_timesheetData[j].supplier=[{
+							text : $scope.supplierList[i].name,
+							id : $scope.supplierList[i].id
+							}];
+					}
+				}						
 			 for(var i=0;i<$scope.projectLst.length;i++) {		
 					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 						f++;		
@@ -2974,11 +3167,28 @@ $scope.confirmDelete1 = function() {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
 					f=0;		
 					if(($scope.n_timesheetData[j].tueTo!=null) && ($scope.n_timesheetData[j].tueFrom!=null)){		
-					$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;		
-					$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].tueCustomer;		
+					//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].tueSupplier;		
+					//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].tueCustomer;		
 					$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].tueNotes;			
 					$scope.dayData.push($scope.n_timesheetData[j]);		
-					oldday.push($scope.n_timesheetData[j]);		
+					oldday.push($scope.n_timesheetData[j]);	
+					for(var i=0;i<$scope.customerList.length;i++) {
+						if($scope.customerList[i].id == $scope.n_timesheetData[j].tueCustomer) {
+							$scope.n_timesheetData[j].customer=[{
+								text : $scope.customerList[i].name,
+								id : $scope.customerList[i].id
+								}];
+						}
+					}
+					
+					for(var i=0;i<$scope.supplierList.length;i++) {
+						if($scope.supplierList[i].id == $scope.n_timesheetData[j].tueSupplier) {
+							$scope.n_timesheetData[j].supplier=[{
+								text : $scope.supplierList[i].name,
+								id : $scope.supplierList[i].id
+								}];
+						}
+					}
 					for(var i=0;i<$scope.projectLst.length;i++) {				
 							if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 							f++		
@@ -3001,11 +3211,28 @@ $scope.confirmDelete1 = function() {
 			f=0;		
 			if(($scope.n_timesheetData[j].wedTo!=null) && ($scope.n_timesheetData[j].wedFrom!=null))		
 			{		
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;		
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;		
+			//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].wedSupplier;		
+			//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].wedCustomer;		
 			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].wedNotes;				
 			$scope.dayData.push($scope.n_timesheetData[j]);		
 			oldday.push($scope.n_timesheetData[j]);		
+			for(var i=0;i<$scope.customerList.length;i++) {
+				if($scope.customerList[i].id == $scope.n_timesheetData[j].wedCustomer) {
+					$scope.n_timesheetData[j].customer=[{
+						text : $scope.customerList[i].name,
+						id : $scope.customerList[i].id
+						}];
+				}
+			}
+			
+			for(var i=0;i<$scope.supplierList.length;i++) {
+				if($scope.supplierList[i].id == $scope.n_timesheetData[j].wedSupplier) {
+					$scope.n_timesheetData[j].supplier=[{
+						text : $scope.supplierList[i].name,
+						id : $scope.supplierList[i].id
+						}];
+				}
+			}
 			for(var i=0;i<$scope.projectLst.length;i++) {		
 				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 					f++;		
@@ -3026,11 +3253,28 @@ $scope.confirmDelete1 = function() {
 		for(var j=0;j<$scope.n_timesheetData.length;j++) {		
 			f=0;		
 			if(($scope.n_timesheetData[j].thuTo!=null) && ($scope.n_timesheetData[j].thuFrom!=null)){		
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;		
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;		
+			//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].thuSupplier;		
+			//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].thuCustomer;		
 			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].thuNotes;		
 			$scope.dayData.push($scope.n_timesheetData[j]);		
 			oldday.push($scope.n_timesheetData[j]);		
+			for(var i=0;i<$scope.customerList.length;i++) {
+				if($scope.customerList[i].id == $scope.n_timesheetData[j].thuCustomer) {
+					$scope.n_timesheetData[j].customer=[{
+						text : $scope.customerList[i].name,
+						id : $scope.customerList[i].id
+						}];
+				}
+			}
+			
+			for(var i=0;i<$scope.supplierList.length;i++) {
+				if($scope.supplierList[i].id == $scope.n_timesheetData[j].thuSupplier) {
+					$scope.n_timesheetData[j].supplier=[{
+						text : $scope.supplierList[i].name,
+						id : $scope.supplierList[i].id
+						}];
+				}
+			}
 			for(var i=0;i<$scope.projectLst.length;i++) {		
 				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 					f++;		
@@ -3050,11 +3294,28 @@ $scope.confirmDelete1 = function() {
 		for(var j=0;j<$scope.n_timesheetData.length;j++) {		
 			f=0;		
 			if(($scope.n_timesheetData[j].friTo!=null) && ($scope.n_timesheetData[j].friFrom!=null)){		
-			$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;		
-			$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;		
+			//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].friSupplier;		
+			//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].friCustomer;		
 			$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].friNotes;			
 			$scope.dayData.push($scope.n_timesheetData[j]);		
-			oldday.push($scope.n_timesheetData[j]);		
+			oldday.push($scope.n_timesheetData[j]);
+			for(var i=0;i<$scope.customerList.length;i++) {
+				if($scope.customerList[i].id == $scope.n_timesheetData[j].friCustomer) {
+					$scope.n_timesheetData[j].customer=[{
+						text : $scope.customerList[i].name,
+						id : $scope.customerList[i].id
+						}];
+				}
+			}
+			
+			for(var i=0;i<$scope.supplierList.length;i++) {
+				if($scope.supplierList[i].id == $scope.n_timesheetData[j].friSupplier) {
+					$scope.n_timesheetData[j].supplier=[{
+						text : $scope.supplierList[i].name,
+						id : $scope.supplierList[i].id
+						}];
+				}
+			}
 			for(var i=0;i<$scope.projectLst.length;i++) {		
 						
 				if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
@@ -3075,11 +3336,28 @@ $scope.confirmDelete1 = function() {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
 				f=0;		
 				if(($scope.n_timesheetData[j].satTo!=null) && ($scope.n_timesheetData[j].satFrom!=null)){		
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;		
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;		
+				//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].satSupplier;		
+				//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].satCustomer;		
 				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].satNotes;			
 				$scope.dayData.push($scope.n_timesheetData[j]);		
-				oldday.push($scope.n_timesheetData[j]);		
+				oldday.push($scope.n_timesheetData[j]);
+				for(var i=0;i<$scope.customerList.length;i++) {
+					if($scope.customerList[i].id == $scope.n_timesheetData[j].satCustomer) {
+						$scope.n_timesheetData[j].customer=[{
+							text : $scope.customerList[i].name,
+							id : $scope.customerList[i].id
+							}];
+					}
+				}
+				
+				for(var i=0;i<$scope.supplierList.length;i++) {
+					if($scope.supplierList[i].id == $scope.n_timesheetData[j].satSupplier) {
+						$scope.n_timesheetData[j].supplier=[{
+							text : $scope.supplierList[i].name,
+							id : $scope.supplierList[i].id
+							}];
+					}
+				}
 				for(var i=0;i<$scope.projectLst.length;i++) {		
 					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 						f++		
@@ -3099,11 +3377,28 @@ $scope.confirmDelete1 = function() {
 			for(var j=0;j<$scope.n_timesheetData.length;j++) {		
 				f=0;		
 				if(($scope.n_timesheetData[j].sunTo!=null) && ($scope.n_timesheetData[j].sunFrom!=null)){		
-				$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;		
-				$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;		
+				//$scope.n_timesheetData[j].supplier=$scope.n_timesheetData[j].sunSupplier;		
+				//$scope.n_timesheetData[j].customer = $scope.n_timesheetData[j].sunCustomer;		
 				$scope.n_timesheetData[j].note = $scope.n_timesheetData[j].sunNotes;		
 				$scope.dayData.push($scope.n_timesheetData[j]);		
 				oldday.push($scope.n_timesheetData[j]);		
+				for(var i=0;i<$scope.customerList.length;i++) {
+					if($scope.customerList[i].id == $scope.n_timesheetData[j].sunCustomer) {
+						$scope.n_timesheetData[j].customer=[{
+							text : $scope.customerList[i].name,
+							id : $scope.customerList[i].id
+							}];
+					}
+				}
+				
+				for(var i=0;i<$scope.supplierList.length;i++) {
+					if($scope.supplierList[i].id == $scope.n_timesheetData[j].sunSupplier) {
+						$scope.n_timesheetData[j].supplier=[{
+							text : $scope.supplierList[i].name,
+							id : $scope.supplierList[i].id
+							}];
+					}
+				}
 				for(var i=0;i<$scope.projectLst.length;i++) {		
 					if($scope.projectLst[i].id == $scope.n_timesheetData[j].projectCode) {		
 						f++;		
@@ -3180,7 +3475,6 @@ $scope.confirmDelete1 = function() {
 	
 	$scope.taskListArray = [];
 	$scope.setTaskOfProject = function(projectId,index) {
-		console.log(projectId);
 		for(var i=0;i<$scope.projectList.length;i++) {
 			if($scope.projectList[i].id == projectId) {
 				$scope.taskListArray[index] = $scope.projectList[i].tasklist;
@@ -3412,48 +3706,50 @@ $scope.confirmDelete1 = function() {
 		
 		for(var i=0;i<$scope.dayData.length;i++){
 			if($scope.dayScope=='mon'){
-				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier;
-				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].monSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].monCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].monNotes=$scope.dayData[i].note;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			
 			if($scope.dayScope=='tue'){
-				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier;
-				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer;
+				 $scope.dayData[i].tueSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].tueCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].tueNotes=$scope.dayData[i].note;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='wed'){
-				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].wedSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].wedCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].wedNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='thu'){
-				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].thuSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].thuCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].thuNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='fri'){
-				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].friSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].friCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].friNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sat'){
-				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].satSupplier=$scope.dayData[i].supplier[0].id;
+				 $scope.dayData[i].satCustomer=$scope.dayData[i].customer[0].id;
 				 $scope.dayData[i].satNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
 			if($scope.dayScope=='sun'){
-				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier ;
-				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer ;
+				 $scope.dayData[i].sunSupplier=$scope.dayData[i].supplier[0];
+				 $scope.dayData[i].sunCustomer=$scope.dayData[i].customer[0];
 				 $scope.dayData[i].sunNotes=$scope.dayData[i].note ;
 				 $scope.dayData[i].isdisabled=false;
 			}
+			$scope.dayData[i].supplier=$scope.dayData[i].supplier[0].id;
+			$scope.dayData[i].customer=$scope.dayData[i].customer[0].id;
 		}
 		for(var i=0;i<newlen;i++){
 			flg=0;
@@ -3694,6 +3990,50 @@ $scope.confirmDelete1 = function() {
 			$('#popupBtn6').click();
 		});
 		
+	}
+	
+	$scope.selectCustomer = function (str) {
+		 
+		if(str!=null){
+			console.log("customer", str.term);
+			$http.get(contextPath+'/getCustomerList', {
+				params: {
+					str : str.term,
+					minimumInputLength: 3
+				}
+			}).then(function(res){
+				$scope.custList = { results: [] };
+				angular.forEach(res.data.customerList, function (cname, key) {
+					$scope.custList.results.push({
+						text: cname.name,
+						id: cname.id
+					});
+				});
+				//console.log($scope.custList);
+				str.callback($scope.custList);
+			});
+		};
+	};
+	
+	$scope.selectSupplier = function (str) {
+		if(str!=null){
+			console.log("supplier", str.term);
+			$http.get(contextPath+'/getSupplierList', {
+				params: {
+					str : str.term,
+					minimumInputLength: 3
+				}
+			}).then(function(res){
+				$scope.supList = { results: [] };
+				angular.forEach(res.data.customerList, function (sname, key) {
+					$scope.supList.results.push({
+						text: sname.name,
+						id: sname.id
+					});
+				});
+				str.callback($scope.supList);
+			});
+		};
 	}
 	
 });

@@ -13,7 +13,9 @@
 <script src='<c:url value="/resources/customScripts/jquery.plugin.js"/>'
 	type="text/javascript"></script>		
 <script src='<c:url value="/resources/customScripts/jquery.timeentry.js"/>'
-	type="text/javascript"></script>	
+	type="text/javascript"></script>
+	<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/select2.js"/>'></script>
+<script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular-ui-select2/src/select2.js"/>'></script>	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/pnotify/pnotify.custom.min.js"/>'></script>	
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/angular.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/javascripts/app/bower_components/angular/ngDialog.min.js"/>'></script>
@@ -489,46 +491,6 @@
   </div>
 </div>
 
-<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" id="modal5Close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      	<h4 class="modal-title">Add Supplier and Customer</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-inline">
-		  <div class="form-group"> 
-		    <label>Supplier</label>
-		    <select class="form-control" ng-model="supplierCode" style="width:182px;">
-		    	<option value="">--Select Supplier--</option>
-		    	<option ng-repeat="supplier in supplierList | orderBy:'name'" value="{{supplier.id}}">{{supplier.name}}</option>
-		    </select>
-		  </div>
-		  <div class="form-group">
-		    <label>Customer</label>
-		     <select class="form-control" ng-model="customerCode" style="width:182px;">
-		    	<option value="">--Select Customer--</option>
-		    	<option ng-repeat="cust in customerList | orderBy:'name'" value="{{cust.id}}">{{cust.name}}</option>
-		    </select>
-		  </div>
-		  
-		</div>
-		<div class="form-inline" Style="margin-top:6%;margin-left:13px;">
-			<div class="form-group">
-			    <label>Notes</label>
-			     <textarea ng-model="notes" class="form-group"></textarea>
-			  </div>
-		  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" ng-click="addData()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none; width: 1162px; left: 26%; ">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -770,20 +732,18 @@
 								 <div class="form-group">
 								 <div style="margin-top:48px;">
 									<div class="clearfix" style="margin-left:7px;">
-									 <select id="scode" class="form-control" ng-model="row.supplier" style="width:182px;">
-		    							<option value="">--Select Supplier--</option>
-		    							<option ng-repeat="supplier in supplierList | orderBy: 'name'" ng-selected="row.supplier == supplier.id" value="{{supplier.id}}">{{supplier.name}}</option>
-		   							 </select>
+		   							  <div class="form-control" multiple="false"
+										 ui-select2="{query: selectSupplier};"  ng-model="row.supplier"
+									     style="width:182px;" required></div>
 									</div>	
 								</div>	
 								</div>
 								 <div class="form-group">
 								<div style="margin-top:48px;">	
 									<div class="clearfix" style="margin-left:7px;">
-									<select id="cust" class="form-control" ng-model="row.customer" ng-init="cus" style="width:182px;">
-		    							<option value="">--Select Customer--</option>
-		    							<option ng-repeat="cust in customerList | orderBy:'name'" ng-selected="row.customer == cust.id" value="{{cust.id}}">{{cust.name}}</option>
-		  						    </select>
+		  						    <div class="form-control" multiple="false"
+										 ui-select2="{query: selectCustomer};"  ng-model="row.customer"
+									     style="width:182px;" required></div>
 									</div>	
 								</div>
 							</div>
